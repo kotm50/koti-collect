@@ -21,7 +21,7 @@ function CollectIndex() {
   return (
     <>
       <div className="fixed left-1/2 top-1/2 w-fit h-fit -translate-x-1/2 -translate-y-1/2">
-        <div className="text-6xl">코리아티엠 수금전산</div>
+        <div className="text-6xl">코리아티엠 수금전산!</div>
         <div className="mt-48">
           <Link
             to="/collect"
