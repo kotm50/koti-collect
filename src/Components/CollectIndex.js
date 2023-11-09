@@ -19,6 +19,7 @@ function CollectIndex() {
         params: data,
       })
       .then(async res => {
+        console.log(res);
         console.log(res.data);
       })
       .catch(e => {
