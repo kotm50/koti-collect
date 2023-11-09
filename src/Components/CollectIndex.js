@@ -8,19 +8,11 @@ function CollectIndex() {
     getGoods();
     //eslint-next-line
   }, []);
-  const getGoods = async (c, b, p) => {
-    let listUrl = "/api/v1/shop/goods/list";
-    const data = {
-      page: p,
-      size: 1,
-    };
+  const getGoods = async () => {
     await axios
-      .get(listUrl, {
-        params: data,
-      })
+      .get(`/api/v1/shop/goods/detail/G00001851831`)
       .then(async res => {
         console.log(res);
-        console.log(res.data);
       })
       .catch(e => {
         console.log(e);
