@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { clearUser } from "../Reducer/userSlice";
+import { clearUser } from "../../Reducer/userSlice";
 
 import axios from "axios";
 
