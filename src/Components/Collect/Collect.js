@@ -35,9 +35,9 @@ function Collect() {
           <div className="p-4">월별 내역보기</div>
           <div className="p-4">기프티콘 충전현황</div>
         </div>
-        <div className="flex flex-con justify-end">
+        <div className="flex flex-col justify-end">
           <button
-            className="bg-gray-500 hover:bg-gray-700 text-white p-2"
+            className="bg-gray-500 hover:bg-gray-700 text-white p-2 w-full"
             onClick={logout}
           >
             로그아웃
