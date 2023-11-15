@@ -191,6 +191,7 @@ function Company(props) {
     if (k !== "") {
       data.searchKeyword = k;
     }
+    console.log(data);
     await axios
       .get("/api/v1/comp/list", {
         params: data,
@@ -199,6 +200,7 @@ function Company(props) {
         },
       })
       .then(async res => {
+        console.log(res);
         if (res.data.code === "E999") {
           await logout();
         }

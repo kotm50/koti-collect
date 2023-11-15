@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import axios from "axios";
 import { loginUser } from "../Reducer/userSlice";
 
 function CollectIndex() {
   const inputPwdRef = useRef();
-  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
-  useEffect(() => {
-    console.log(user);
-    //eslint-disable-next-line
-  }, []);
 
   const login = async () => {
     const data = {
