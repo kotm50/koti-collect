@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { FaSearch } from "react-icons/fa";
 
@@ -9,12 +9,15 @@ import queryString from "query-string";
 import axios from "axios";
 
 import Pagenate from "../Layout/Pagenate";
+import ComList from "./ComList";
+import { clearUser } from "../../Reducer/userSlice";
 
 function Company(props) {
   const navi = useNavigate();
   const thisLocation = useLocation();
   const pathName = thisLocation.pathname;
   const parsed = queryString.parse(thisLocation.search);
+  const dispatch = useDispatch();
   const page = parsed.page || 1;
   const keyword = parsed.keyword || "";
   const user = useSelector(state => state.user);
@@ -37,6 +40,21 @@ function Company(props) {
   const channelRef = useRef();
   const manager1Ref = useRef();
   const manager2Ref = useRef();
+
+  const logout = async () => {
+    await axios
+      .post("/api/v1/user/logout", null, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        dispatch(clearUser());
+        navi("/");
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   useEffect(() => {
     setTitle("고객사 리스트");
     setTotalPage(1);
@@ -120,6 +138,15 @@ function Company(props) {
         })
         .then(res => {
           console.log(res);
+          if (res.data.code === "C000") {
+            alert("등록되었습니다");
+            setInputGubun("");
+            setInputCompanyName("");
+            setInputCompanyBranch("");
+            setInputChannel("");
+            setInputManager1("");
+            setInputManager2("");
+          }
           getCompanyList(page, keyword);
         })
         .catch(e => console.log(e));
@@ -173,7 +200,7 @@ function Company(props) {
       })
       .then(async res => {
         if (res.data.code === "E999") {
-          await props.logout();
+          await logout();
         }
         if (res.data.code === "C000") {
           const totalP = res.data.totalPages;
@@ -230,18 +257,13 @@ function Company(props) {
     }
   };
 
-  const getDate = d => {
-    const date = new Date(d);
-    const formattedDate = date.toISOString().split("T")[0];
-    return formattedDate;
-  };
   return (
     <div className="mx-4" data={title}>
       <div className="flex flex-row justify-start mb-2 gap-x-1">
         <input
           value={searchKeyword}
           className="border border-gray-300 p-2 w-80 block rounded font-neo"
-          placeholder="고객사명/담당자명 으로 검색"
+          placeholder="지점명/담당자명 으로 검색"
           onChange={e => setSearchKeyword(e.currentTarget.value)}
           onKeyDown={handleKeyDown}
         />
@@ -263,7 +285,7 @@ function Company(props) {
               <td className="py-2">채널</td>
               <td className="py-2">담당자1</td>
               <td className="py-2">담당자2</td>
-              <td className="py-2">등록일시</td>
+              <td className="py-2">수정/삭제</td>
             </tr>
           </thead>
           <tbody>
@@ -274,8 +296,8 @@ function Company(props) {
                   type="text"
                   ref={gubunRef}
                   value={inputGubun}
-                  className="p-1 border bg-white uppercase"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500 uppercase"
+                  placeholder="구분값 입력"
                   onChange={e => setInputGubun(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
@@ -285,8 +307,8 @@ function Company(props) {
                   type="text"
                   ref={nameRef}
                   value={inputCompanyName}
-                  className="p-1 border bg-white"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500"
+                  placeholder="고객사명 입력"
                   onChange={e => setInputCompanyName(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
@@ -296,8 +318,8 @@ function Company(props) {
                   type="text"
                   ref={branchRef}
                   value={inputCompanyBranch}
-                  className="p-1 border bg-white"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500"
+                  placeholder="지점명 입력"
                   onChange={e => setInputCompanyBranch(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
@@ -307,8 +329,8 @@ function Company(props) {
                   type="text"
                   ref={channelRef}
                   value={inputChannel}
-                  className="p-1 border bg-white uppercase"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500 uppercase"
+                  placeholder="채널 입력"
                   onChange={e => setInputChannel(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
@@ -318,8 +340,8 @@ function Company(props) {
                   type="text"
                   ref={manager1Ref}
                   value={inputManager1}
-                  className="p-1 border bg-white"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500"
+                  placeholder="담당자 1 입력"
                   onChange={e => setInputManager1(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
@@ -329,15 +351,15 @@ function Company(props) {
                   type="text"
                   ref={manager2Ref}
                   value={inputMananger2}
-                  className="p-1 border bg-white"
-                  placeholder
+                  className="p-1 border bg-white focus:border-gray-500"
+                  placeholder="담당자 2 입력"
                   onChange={e => setInputManager2(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
               </td>
               <td className="p-1">
                 <button
-                  className="text-white bg-green-600 py-1 px-2"
+                  className="text-white bg-green-600 py-1 px-2 block min-w-[200px] w-full"
                   onClick={e => inputCompany()}
                 >
                   등록
@@ -351,14 +373,14 @@ function Company(props) {
                     className={`${idx % 2 === 0 ? "bg-blue-50" : "bg-gray-50"}`}
                     key={idx}
                   >
-                    <td className="p-2">{idx + 1 + (Number(page) - 1) * 20}</td>
-                    <td className="p-2">{com.gubun}</td>
-                    <td className="p-2">{com.companyName}</td>
-                    <td className="p-2">{com.companyBranch}</td>
-                    <td className="p-2">{com.channel}</td>
-                    <td className="p-2">{com.manager1}</td>
-                    <td className="p-2">{com.manager2}</td>
-                    <td className="p-2">{getDate(com.regDate)}</td>
+                    <ComList
+                      com={com}
+                      num={idx + 1 + (Number(page) - 1) * 20}
+                      getCompanyList={getCompanyList}
+                      page={page}
+                      keyword={keyword}
+                      user={user}
+                    />
                   </tr>
                 ))}
               </>
