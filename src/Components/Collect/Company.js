@@ -193,8 +193,7 @@ function Company(props) {
     }
     console.log(data);
     await axios
-      .get("/api/v1/comp/list", {
-        params: data,
+      .post("/api/v1/comp/list", data, {
         headers: {
           Authorization: user.accessToken,
         },
