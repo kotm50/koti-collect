@@ -87,7 +87,7 @@ function CollectIndex() {
   return (
     <>
       <div className="fixed left-1/2 top-1/2 w-fit h-fit -translate-x-1/2 -translate-y-1/2">
-        <div className="text-6xl">코리아티엠 수금전산!</div>
+        <div className="text-6xl">코리아티엠 수금전산</div>
         <form onSubmit={handleSubmit}>
           <div className="mt-48 p-4 rounded border boder-gray-200 bg-gray-50 shadow-lg grid grid-cols-1 gap-y-3">
             <div>
@@ -102,7 +102,7 @@ function CollectIndex() {
                 name="userName"
                 id="userName"
                 value={id}
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 focus:border-gray-500 text-gray-900 sm:text-sm focus:rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-300 rounded"
                 placeholder="아이디를 입력하세요"
                 onChange={e => setId(e.currentTarget.value)}
                 onBlur={e => setId(e.currentTarget.value)}
@@ -120,7 +120,7 @@ function CollectIndex() {
                 name="inputPwd"
                 id="inputPwd"
                 placeholder="비밀번호를 입력하세요"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 focus:border-gray-500 text-gray-900 sm:text-sm focus:rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-300 rounded"
                 required=""
                 onChange={e => setPwd(e.currentTarget.value)}
                 onBlur={e => setPwd(e.currentTarget.value)}
@@ -133,7 +133,7 @@ function CollectIndex() {
               </div>
             )}
             <button
-              className="w-full px-2 py-4 text-center bg-blue-500 hover:bg-blue-700 text-white rounded"
+              className="w-full p-2 text-center bg-blue-500 hover:bg-blue-700 text-white hover:rounded-lg transition-all duration-300 rounded"
               type="submit"
             >
               로그인

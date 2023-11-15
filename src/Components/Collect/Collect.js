@@ -1,11 +1,12 @@
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
 
 import axios from "axios";
 
 function Collect() {
+  const [title, setTitle] = useState("코리아티엠 수금전산 페이지");
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
@@ -30,22 +31,50 @@ function Collect() {
             수금전산 테스트페이지
           </h2>
           <div className="flex flex-col justify-start divide-y border-y">
-            <div className="p-4">메인</div>
-            <div className="p-4">미수금 입력</div>
-            <div className="p-4">수금 입력</div>
-            <div className="p-4">월별 내역보기</div>
-            <div className="p-4">기프티콘 충전현황</div>
+            <Link
+              to="/collect"
+              className="p-4 hover:bg-gray-100 transition-all duration-300"
+            >
+              메인
+            </Link>
+            <Link
+              to="/collect/ur"
+              className="p-4 hover:bg-gray-100 transition-all duration-300"
+            >
+              미수금 입력
+            </Link>
+            <Link
+              to="/collect/ar"
+              className="p-4 hover:bg-gray-100 transition-all duration-300"
+            >
+              수금 입력
+            </Link>
+            <div className="p-4 hover:bg-gray-100 transition-all duration-300">
+              월별 내역보기
+            </div>
+            <div className="p-4 hover:bg-gray-100 transition-all duration-300">
+              기프티콘 충전현황
+            </div>
+            <Link
+              to="/collect/company"
+              className="p-4 hover:bg-gray-100 transition-all duration-300"
+            >
+              고객사 리스트
+            </Link>
           </div>
         </div>
-        <button
-          className="bg-gray-500 hover:bg-gray-700 text-white p-2 w-full"
-          onClick={logout}
-        >
-          로그아웃
-        </button>
+        <div className="p-2">
+          <button
+            className="bg-gray-500 hover:bg-gray-700 text-white p-2 w-full hover:rounded-lg transition-all duration-300"
+            onClick={logout}
+          >
+            로그아웃
+          </button>
+        </div>
       </div>
       <div className="pl-[250px]">
-        <Outlet />
+        <h1 className="my-8 mx-4 text-3xl">{title}</h1>
+        <Outlet context={[title, setTitle]} logout={logout} />
       </div>
     </>
   );

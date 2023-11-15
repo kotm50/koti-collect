@@ -2,6 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Collect from "./Components/Collect/Collect";
 import CollectMain from "./Components/Collect/Main";
 import CollectIndex from "./Components/CollectIndex";
+import Receive from "./Components/Collect/Receive";
+import UnReceive from "./Components/Collect/UnReceive";
+import Company from "./Components/Collect/Company";
 
 function App() {
   return (
@@ -10,6 +13,9 @@ function App() {
         <Route path="/" element={<CollectIndex />} />
         <Route path="/collect" element={<Collect />}>
           <Route path="" element={<CollectMain />} />
+          <Route path="ar" element={<Receive />} />
+          <Route path="ur" element={<UnReceive />} />
+          <Route path="company" element={<Company />} />
         </Route>
       </Routes>
     </>
