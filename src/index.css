@@ -11,5 +11,24 @@ body {
   background: #fafbfc;
 	background-size: 400% 400%;
 	animation: gradient 30s ease-in-out infinite;
-	min-height: 100vh;
+	min-height: 70vh;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ql-container {
+  height:100px!important;
+  background-color:white;
+}
+
+.ql-editor {
+  height:100px!important;
+}
+
+.memo-nowrap br {
+  display:none;
 }

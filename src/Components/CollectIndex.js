@@ -21,6 +21,7 @@ function CollectIndex() {
     await axios
       .post("/api/v1/user/login", data)
       .then(async res => {
+        console.log(res);
         const token = res.headers.authorization;
 
         if (res.data.code === "C000") {
@@ -34,6 +35,7 @@ function CollectIndex() {
         }
       })
       .catch(e => {
+        setPwd("");
         console.log(e);
       });
   };
@@ -110,12 +112,13 @@ function CollectIndex() {
                 비밀번호
               </label>
               <input
+                ref={inputPwdRef}
                 type="password"
                 name="inputPwd"
                 id="inputPwd"
                 placeholder="비밀번호를 입력하세요"
                 className="bg-gray-50 border border-gray-300 focus:border-gray-500 text-gray-900 sm:text-sm focus:rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-300 rounded"
-                required=""
+                value={pwd}
                 onChange={e => setPwd(e.currentTarget.value)}
                 onBlur={e => setPwd(e.currentTarget.value)}
                 autoComplete="off"

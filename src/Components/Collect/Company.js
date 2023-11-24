@@ -12,7 +12,7 @@ import Pagenate from "../Layout/Pagenate";
 import ComList from "./ComList";
 import { clearUser } from "../../Reducer/userSlice";
 
-function Company(props) {
+function Company() {
   const navi = useNavigate();
   const thisLocation = useLocation();
   const pathName = thisLocation.pathname;
@@ -20,13 +20,22 @@ function Company(props) {
   const dispatch = useDispatch();
   const page = parsed.page || 1;
   const keyword = parsed.keyword || "";
+  const gubun = parsed.gubun || "";
+  const channel = parsed.channel || "";
+  const usable = parsed.usable || "";
   const user = useSelector(state => state.user);
   const [companyList, setCompanyList] = useState([]);
   const [title, setTitle] = useOutletContext();
+  const [selectGubun, setSelectGubun] = useState("");
+  const [selectChannel, setSelectChannel] = useState("");
   const [totalPage, setTotalPage] = useState(1);
   const [pagenate, setPagenate] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [channelList, setChannelList] = useState([]);
+  const [inputChannelList, setInputChannelList] = useState([]);
 
   const [inputGubun, setInputGubun] = useState("");
   const [inputCompanyName, setInputCompanyName] = useState("");
@@ -52,6 +61,7 @@ function Company(props) {
       })
       .catch(e => {
         console.log(e);
+        navi("/");
       });
   };
 
@@ -62,9 +72,112 @@ function Company(props) {
     if (keyword !== "") {
       setSearchKeyword(keyword);
     }
-    getCompanyList(page, keyword);
+    if (gubun !== "") {
+      setInputChannelList([]);
+      setSelectGubun(gubun);
+      setInputGubun(gubun);
+      getChannelList(gubun, "B");
+    } else {
+      setSelectGubun("");
+      setInputGubun("");
+    }
+    getCategory();
+    getCompanyList(page, keyword, gubun, channel);
     //eslint-disable-next-line
   }, [thisLocation]);
+
+  const getChannelList = async (category, type) => {
+    if (type === "B") {
+      setChannelList([]);
+    }
+    setInputChannelList([]);
+    const data = {
+      category: category,
+      useYn: "Y",
+    };
+    await axios
+      .post("/api/v1/comp/get/comlist", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        console.log(res);
+        if (type === "B") {
+          setChannelList(res.data.commList);
+          setInputChannelList(res.data.commList);
+          if (channel !== "") {
+            setSelectChannel(channel);
+            setInputChannel(channel);
+          } else {
+            setSelectChannel("");
+            setInputChannel("");
+          }
+        } else if (type === "I") {
+          setInputChannelList(res.data.commList);
+        }
+      })
+      .catch(e => console.log(e));
+  };
+
+  const getCategory = async () => {
+    const data = {
+      category: "GU",
+      useYn: "Y",
+    };
+    await axios
+      .post("/api/v1/comp/get/comlist", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          alert(res.data.message);
+          logout();
+          return false;
+        }
+        setCategoryList(res.data.commList);
+      })
+      .catch(e => console.log(e));
+  };
+
+  //구분 셀렉박스 핸들링
+  const handleGubunSelect = e => {
+    setSelectGubun(e.currentTarget.value);
+    if (e.currentTarget.value === selectGubun) {
+      return false;
+    } else {
+      if (e.currentTarget.value !== "") {
+        navi(`/collect/company?page=1&gubun=${e.currentTarget.value}`);
+      } else {
+        navi("/collect/company");
+      }
+    }
+  };
+
+  //구분 셀렉박스 핸들링(입력창)
+  const handleInputGubunSelect = e => {
+    setInputGubun(e.currentTarget.value);
+    getChannelList(e.currentTarget.value, "I");
+  };
+
+  //채널 셀렉박스 핸들링(입력창)
+  const handleInputChannelSelect = e => {
+    setInputChannel(e.currentTarget.value);
+  };
+
+  //채널 셀렉박스 핸들링
+  const handleChannelSelect = e => {
+    setSelectChannel(e.currentTarget.value);
+    if (e.currentTarget.value === selectChannel) {
+      return false;
+    } else {
+      if (e.currentTarget.value !== "") {
+        navi(
+          `/collect/company?page=1&gubun=${gubun}&channel=${e.currentTarget.value}`
+        );
+      } else {
+        navi(`/collect/company?page=1&gubun=${gubun}`);
+      }
+    }
+  };
 
   const handleKeyDown = e => {
     if (e.key === "Enter") {
@@ -74,12 +187,21 @@ function Company(props) {
   };
 
   const inputKeyDown = e => {
+    e.preventDefault();
     if (e.key === "Enter") {
       inputCompany();
     }
     if (e.target === gubunRef.current) {
       if (e.key === "ArrowRight") {
+        channelRef.current.focus();
+      }
+    }
+
+    if (e.target === channelRef.current) {
+      if (e.key === "ArrowRight") {
         nameRef.current.focus();
+      } else if (e.key === "ArrowLeft") {
+        gubunRef.current.focus();
       }
     }
 
@@ -87,29 +209,21 @@ function Company(props) {
       if (e.key === "ArrowRight") {
         branchRef.current.focus();
       } else if (e.key === "ArrowLeft") {
-        gubunRef.current.focus();
-      }
-    }
-
-    if (e.target === branchRef.current) {
-      if (e.key === "ArrowRight") {
         channelRef.current.focus();
-      } else if (e.key === "ArrowLeft") {
-        nameRef.current.focus();
       }
     }
-    if (e.target === channelRef.current) {
+    if (e.target === branchRef.current) {
       if (e.key === "ArrowRight") {
         manager1Ref.current.focus();
       } else if (e.key === "ArrowLeft") {
-        branchRef.current.focus();
+        nameRef.current.focus();
       }
     }
     if (e.target === manager1Ref.current) {
       if (e.key === "ArrowRight") {
         manager2Ref.current.focus();
       } else if (e.key === "ArrowLeft") {
-        channelRef.current.focus();
+        branchRef.current.focus();
       }
     }
     if (e.target === manager2Ref.current) {
@@ -137,7 +251,6 @@ function Company(props) {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           if (res.data.code === "C000") {
             alert("등록되었습니다");
             setInputGubun("");
@@ -147,7 +260,7 @@ function Company(props) {
             setInputManager1("");
             setInputManager2("");
           }
-          getCompanyList(page, keyword);
+          getCompanyList(page, keyword, gubun, channel);
         })
         .catch(e => console.log(e));
     }
@@ -178,30 +291,43 @@ function Company(props) {
 
   const searchIt = () => {
     const keyword = searchKeyword.trim();
-    let domain = `${pathName}${keyword !== "" ? `?keyword=${keyword}` : ""}`;
+    let domain = `${pathName}?page=1${gubun !== "" ? `&gubun=${gubun}` : ""}${
+      channel !== "" ? `&channel=${channel}` : ""
+    }${keyword !== "" ? `&keyword=${keyword}` : ""}`;
     navi(domain);
   };
 
-  const getCompanyList = async (p, k) => {
+  const getCompanyList = async (p, k, g, c) => {
     setCompanyList([]);
-    let data = {
+    const paging = {
       page: p,
       size: 20,
     };
+    let comp = {};
+
     if (k !== "") {
-      data.searchKeyword = k;
+      paging.searchKeyword = k;
     }
-    console.log(data);
+    if (g !== "") {
+      comp.gubun = g;
+    }
+    if (c !== "") {
+      comp.channel = c;
+    }
     await axios
-      .post("/api/v1/comp/list", data, {
-        headers: {
-          Authorization: user.accessToken,
-        },
-      })
+      .post(
+        "/api/v1/comp/list",
+        { paging, comp },
+        {
+          headers: {
+            Authorization: user.accessToken,
+          },
+        }
+      )
       .then(async res => {
-        console.log(res);
-        if (res.data.code === "E999") {
-          await logout();
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
         }
         if (res.data.code === "C000") {
           const totalP = res.data.totalPages;
@@ -279,11 +405,52 @@ function Company(props) {
         <table>
           <thead>
             <tr className="bg-blue-400 text-white">
+              <td className="py-2">신규</td>
               <td className="py-2">번호</td>
-              <td className="py-2">구분</td>
+              <td className="p-1 w-28">
+                <select
+                  className="p-1 bg-blue-600 font-medium w-full"
+                  onChange={handleGubunSelect}
+                  value={selectGubun}
+                >
+                  <option value="">구분</option>
+                  {categoryList && categoryList.length > 0 ? (
+                    <>
+                      {categoryList.map((cat, idx) => (
+                        <option key={idx} value={cat.value}>
+                          {cat.value}
+                        </option>
+                      ))}
+                    </>
+                  ) : null}
+                </select>
+              </td>
+              <td className="p-1">
+                <select
+                  className="p-1 bg-blue-600 font-medium"
+                  onChange={handleChannelSelect}
+                  value={selectChannel}
+                >
+                  {gubun === "" ? (
+                    <option value="">먼저 구분값을 정해 주세요</option>
+                  ) : (
+                    <>
+                      <option value="">채널 선택</option>
+                      {channelList && channelList.length > 0 && (
+                        <>
+                          {channelList.map((chn, idx) => (
+                            <option key={idx} value={chn.value}>
+                              {chn.value}
+                            </option>
+                          ))}
+                        </>
+                      )}
+                    </>
+                  )}
+                </select>
+              </td>
               <td className="py-2">고객사</td>
               <td className="py-2">지점</td>
-              <td className="py-2">채널</td>
               <td className="py-2">담당자1</td>
               <td className="py-2">담당자2</td>
               <td className="py-2">수정/삭제</td>
@@ -291,17 +458,47 @@ function Company(props) {
           </thead>
           <tbody>
             <tr className="bg-gray-50">
-              <td className="p-2">new</td>
-              <td className="p-1">
-                <input
-                  type="text"
+              <td className="p-2 truncate">신규</td>
+              <td className="p-2 truncate">입력</td>
+              <td className="p-1 w-28">
+                <select
+                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
                   ref={gubunRef}
+                  onChange={handleInputGubunSelect}
                   value={inputGubun}
-                  className="p-1 border bg-white focus:border-gray-500 uppercase"
-                  placeholder="구분값 입력"
-                  onChange={e => setInputGubun(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
-                />
+                >
+                  <option value="">구분 선택</option>
+                  {categoryList && categoryList.length > 0 ? (
+                    <>
+                      {categoryList.map((cat, idx) => (
+                        <option key={idx} value={cat.value}>
+                          {cat.value}
+                        </option>
+                      ))}
+                    </>
+                  ) : null}
+                </select>
+              </td>
+              <td className="p-1">
+                <select
+                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+                  ref={channelRef}
+                  onChange={handleInputChannelSelect}
+                  value={inputChannel}
+                  onKeyDown={inputKeyDown}
+                >
+                  <option value="">채널 선택</option>
+                  {inputChannelList && inputChannelList.length > 0 ? (
+                    <>
+                      {inputChannelList.map((chn, idx) => (
+                        <option key={idx} value={chn.value}>
+                          {chn.value}
+                        </option>
+                      ))}
+                    </>
+                  ) : null}
+                </select>
               </td>
               <td className="p-1">
                 <input
@@ -322,17 +519,6 @@ function Company(props) {
                   className="p-1 border bg-white focus:border-gray-500"
                   placeholder="지점명 입력"
                   onChange={e => setInputCompanyBranch(e.currentTarget.value)}
-                  onKeyDown={inputKeyDown}
-                />
-              </td>
-              <td className="p-1">
-                <input
-                  type="text"
-                  ref={channelRef}
-                  value={inputChannel}
-                  className="p-1 border bg-white focus:border-gray-500 uppercase"
-                  placeholder="채널 입력"
-                  onChange={e => setInputChannel(e.currentTarget.value)}
                   onKeyDown={inputKeyDown}
                 />
               </td>
@@ -367,7 +553,7 @@ function Company(props) {
                 </button>
               </td>
             </tr>
-            {companyList.length > 0 ? (
+            {companyList && companyList.length > 0 ? (
               <>
                 {companyList.map((com, idx) => (
                   <tr
@@ -381,6 +567,7 @@ function Company(props) {
                       page={page}
                       keyword={keyword}
                       user={user}
+                      logout={logout}
                     />
                   </tr>
                 ))}
@@ -401,6 +588,9 @@ function Company(props) {
         totalPage={Number(totalPage)}
         pathName={pathName}
         keyword={keyword}
+        gubun={gubun}
+        channel={channel}
+        usable={usable}
       />
     </div>
   );

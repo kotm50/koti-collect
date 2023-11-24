@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 import axios from "axios";
+import Menu from "../Layout/Menu";
 
 function Collect() {
   const [title, setTitle] = useState("코리아티엠 수금전산 페이지");
+  const [open, setOpen] = useState(true);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
@@ -25,43 +28,25 @@ function Collect() {
   };
   return (
     <>
-      <div className="fixed top-0 left-0 w-[240px] h-screen py-4 border-r bg-white shadow-lg flex flex-col justify-between">
+      <div
+        className="fixed top-0 left-0 h-screen w-[240px] pb-4 border-r bg-white shadow-lg flex flex-col justify-between transition-all duration-300"
+        style={{ marginLeft: `${open ? 0 : -240}px` }}
+      >
+        <button
+          className={`transition-all font-bold duration-300 bg-indigo-100 hover:bg-indigo-50 p-2 absolute top-0 right-0 ${
+            !open && "translate-x-[48px] border"
+          } w-[48px] h-[48px]`}
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {!open ? <FaCaretRight size={32} /> : <FaCaretLeft size={32} />}
+        </button>
         <div>
-          <h2 className="font-bold p-4 text-xl text-center">
-            수금전산 테스트페이지
+          <h2 className="font-bold px-4 text-xl h-[48px] flex flex-col justify-center">
+            코티 수금전산
           </h2>
-          <div className="flex flex-col justify-start divide-y border-y">
-            <Link
-              to="/collect"
-              className="p-4 hover:bg-gray-100 transition-all duration-300"
-            >
-              메인
-            </Link>
-            <Link
-              to="/collect/ur"
-              className="p-4 hover:bg-gray-100 transition-all duration-300"
-            >
-              미수금 입력
-            </Link>
-            <Link
-              to="/collect/ar"
-              className="p-4 hover:bg-gray-100 transition-all duration-300"
-            >
-              수금 입력
-            </Link>
-            <div className="p-4 hover:bg-gray-100 transition-all duration-300">
-              월별 내역보기
-            </div>
-            <div className="p-4 hover:bg-gray-100 transition-all duration-300">
-              기프티콘 충전현황
-            </div>
-            <Link
-              to="/collect/company"
-              className="p-4 hover:bg-gray-100 transition-all duration-300"
-            >
-              고객사 리스트
-            </Link>
-          </div>
+          <Menu />
         </div>
         <div className="p-2">
           <button
@@ -72,7 +57,10 @@ function Collect() {
           </button>
         </div>
       </div>
-      <div className="pl-[250px]">
+      <div
+        className="duration-300 transition-all"
+        style={{ paddingLeft: `${open ? 250 : 50}px` }}
+      >
         <h1 className="my-8 mx-4 text-3xl">{title}</h1>
         <Outlet context={[title, setTitle]} logout={logout} />
       </div>

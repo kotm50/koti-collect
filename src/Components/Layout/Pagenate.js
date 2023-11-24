@@ -9,11 +9,11 @@ import {
 
 function Pagenate(props) {
   const [isSearching, setIsSearching] = useState(false);
-  const [isStartDate, setIsStartDate] = useState(false);
-  const [isEndDate, setIsEndDate] = useState(false);
+  const [isGubun, setIsGubun] = useState(false);
+  const [isChannel, setIsChannel] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
-  const [isUserId, setIsUserId] = useState(false);
+  const [isUsable, setIsUsable] = useState(false);
   const [isSearchType, setIsSearchType] = useState(false);
   useEffect(() => {
     if (props.keyword && props.keyword !== "") {
@@ -22,22 +22,20 @@ function Pagenate(props) {
       setIsSearching(false);
     }
 
-    if (props.userId && props.userId !== "") {
-      setIsUserId(true);
+    if (props.usable && props.usable !== "") {
+      setIsUsable(true);
     } else {
-      setIsUserId(false);
+      setIsUsable(false);
     }
-    if (props.startDate && props.startDate !== "") {
-      if (props.endDate && props.endDate !== "") {
-        setIsStartDate(true);
-        setIsEndDate(true);
-      } else {
-        setIsStartDate(true);
-        setIsEndDate(false);
-      }
+    if (props.gubun && props.gubun !== "") {
+      setIsGubun(true);
     } else {
-      setIsStartDate(false);
-      setIsEndDate(false);
+      setIsGubun(false);
+    }
+    if (props.channel && props.channel !== "") {
+      setIsChannel(true);
+    } else {
+      setIsChannel(false);
     }
     if (props.select && props.select !== "") {
       setIsSelect(true);
@@ -66,11 +64,11 @@ function Pagenate(props) {
               to={`${props.pathName}?page=1${
                 isSearching ? `&keyword=${props.keyword}` : ""
               }${isSelect ? `&select=${props.select}` : ""}${
-                isStartDate ? `&startDate=${props.startDate}` : ""
-              }${isEndDate ? `&endDate=${props.endDate}` : ""}${
+                isGubun ? `&gubun=${props.gubun}` : ""
+              }${isChannel ? `&channel=${props.channel}` : ""}${
                 isAgree ? `&agree=${props.agree}` : ""
               }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUserId ? `&userId=${props.userId}` : ""
+                isUsable ? `&usable=${props.usable}` : ""
               }`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110 hidden xl:block"
@@ -84,11 +82,11 @@ function Pagenate(props) {
               to={`${props.pathName}?page=${props.page - 1}${
                 isSearching ? `&keyword=${props.keyword}` : ""
               }${isSelect ? `&select=${props.select}` : ""}${
-                isStartDate ? `&startDate=${props.startDate}` : ""
-              }${isEndDate ? `&endDate=${props.endDate}` : ""}${
+                isGubun ? `&gubun=${props.gubun}` : ""
+              }${isChannel ? `&endDate=${props.endDate}` : ""}${
                 isAgree ? `&agree=${props.agree}` : ""
               }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUserId ? `&userId=${props.userId}` : ""
+                isUsable ? `&usable=${props.usable}` : ""
               }`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110"
@@ -102,11 +100,11 @@ function Pagenate(props) {
                 to={`${props.pathName}?page=${pageNum}${
                   isSearching ? `&keyword=${props.keyword}` : ""
                 }${isSelect ? `&select=${props.select}` : ""}${
-                  isStartDate ? `&startDate=${props.startDate}` : ""
-                }${isEndDate ? `&endDate=${props.endDate}` : ""}${
+                  isGubun ? `&gubun=${props.gubun}` : ""
+                }${isChannel ? `&endDate=${props.endDate}` : ""}${
                   isAgree ? `&agree=${props.agree}` : ""
                 }${isSearchType ? `&sType=${props.sType}` : ""}${
-                  isUserId ? `&userId=${props.userId}` : ""
+                  isUsable ? `&usable=${props.usable}` : ""
                 }`}
                 state={{ log: props.log }}
                 key={idx}
@@ -123,11 +121,11 @@ function Pagenate(props) {
               to={`${props.pathName}?page=${props.page + 1}${
                 isSearching ? `&keyword=${props.keyword}` : ""
               }${isSelect ? `&select=${props.select}` : ""}${
-                isStartDate ? `&startDate=${props.startDate}` : ""
-              }${isEndDate ? `&endDate=${props.endDate}` : ""}${
+                isGubun ? `&gubun=${props.gubun}` : ""
+              }${isChannel ? `&endDate=${props.endDate}` : ""}${
                 isAgree ? `&agree=${props.agree}` : ""
               }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUserId ? `&userId=${props.userId}` : ""
+                isUsable ? `&usable=${props.usable}` : ""
               }`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110"
@@ -140,11 +138,11 @@ function Pagenate(props) {
               to={`${props.pathName}?page=${props.totalPage}${
                 isSearching ? `&keyword=${props.keyword}` : ""
               }${isSelect ? `&select=${props.select}` : ""}${
-                isStartDate ? `&startDate=${props.startDate}` : ""
-              }${isEndDate ? `&endDate=${props.endDate}` : ""}${
+                isGubun ? `&gubun=${props.gubun}` : ""
+              }${isChannel ? `&endDate=${props.endDate}` : ""}${
                 isAgree ? `&agree=${props.agree}` : ""
               }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUserId ? `&userId=${props.userId}` : ""
+                isUsable ? `&usable=${props.usable}` : ""
               }`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110 hidden xl:block"
