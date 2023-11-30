@@ -62,7 +62,6 @@ function InputChargeBack(props) {
       })
       .then(res => {
         if (res.data.code === "E999" || res.data.code === "E403") {
-          alert(res.data.message);
           logout();
           return false;
         }

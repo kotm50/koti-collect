@@ -47,7 +47,7 @@ function InputCompanyList(props) {
   return (
     <div
       id="searchCompany"
-      className="absolute top-[40px] border bg-white min-w-[360px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-2"
+      className="absolute top-0 left-0 translate-x-full border bg-white min-w-[380px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-2 rounded-lg"
     >
       <div className="flex justify-between mb-2">
         <h3 className="text-center text-lg font-bold">고객사 검색결과</h3>
@@ -67,7 +67,7 @@ function InputCompanyList(props) {
                 <td className="p-2 text-center truncate">지점</td>
                 <td className="p-2 text-center truncate">담당자 1</td>
                 <td className="p-2 text-center truncate">담당자 2</td>
-                <td className="p-1 text-center">등록</td>
+                <td className="p-1 text-center">조회</td>
               </tr>
             </thead>
             <tbody>
@@ -91,7 +91,7 @@ function InputCompanyList(props) {
                         props.setCompanyListOn(false);
                       }}
                     >
-                      등록
+                      조회
                     </button>
                   </td>
                 </tr>

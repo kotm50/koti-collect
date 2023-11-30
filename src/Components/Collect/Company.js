@@ -78,6 +78,7 @@ function Company() {
       setInputGubun(gubun);
       getChannelList(gubun, "B");
     } else {
+      setInputChannelList([]);
       setSelectGubun("");
       setInputGubun("");
     }
@@ -100,7 +101,6 @@ function Company() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (type === "B") {
           setChannelList(res.data.commList);
           setInputChannelList(res.data.commList);
@@ -129,7 +129,6 @@ function Company() {
       })
       .then(res => {
         if (res.data.code === "E999" || res.data.code === "E403") {
-          alert(res.data.message);
           logout();
           return false;
         }
@@ -154,6 +153,7 @@ function Company() {
 
   //구분 셀렉박스 핸들링(입력창)
   const handleInputGubunSelect = e => {
+    setInputChannel([]);
     setInputGubun(e.currentTarget.value);
     getChannelList(e.currentTarget.value, "I");
   };
@@ -417,8 +417,8 @@ function Company() {
                   {categoryList && categoryList.length > 0 ? (
                     <>
                       {categoryList.map((cat, idx) => (
-                        <option key={idx} value={cat.value}>
-                          {cat.value}
+                        <option key={idx} value={cat.useValue}>
+                          {cat.useValue}
                         </option>
                       ))}
                     </>
@@ -439,8 +439,8 @@ function Company() {
                       {channelList && channelList.length > 0 && (
                         <>
                           {channelList.map((chn, idx) => (
-                            <option key={idx} value={chn.value}>
-                              {chn.value}
+                            <option key={idx} value={chn.useValue}>
+                              {chn.useValue}
                             </option>
                           ))}
                         </>
@@ -472,8 +472,8 @@ function Company() {
                   {categoryList && categoryList.length > 0 ? (
                     <>
                       {categoryList.map((cat, idx) => (
-                        <option key={idx} value={cat.value}>
-                          {cat.value}
+                        <option key={idx} value={cat.useValue}>
+                          {cat.useValue}
                         </option>
                       ))}
                     </>
@@ -492,8 +492,8 @@ function Company() {
                   {inputChannelList && inputChannelList.length > 0 ? (
                     <>
                       {inputChannelList.map((chn, idx) => (
-                        <option key={idx} value={chn.value}>
-                          {chn.value}
+                        <option key={idx} value={chn.useValue}>
+                          {chn.useValue}
                         </option>
                       ))}
                     </>

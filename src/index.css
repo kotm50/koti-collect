@@ -21,14 +21,34 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .ql-container {
-  height:100px!important;
+  height:72px!important;
   background-color:white;
 }
 
 .ql-editor {
-  height:100px!important;
+  height:72px!important;
 }
+
+
+#quillCustom .ql-container {
+  height:110px!important;
+  background-color:white;
+}
+
+#quillCustom .ql-editor {
+  height:110px!important;
+}
+
 
 .memo-nowrap br {
   display:none;
+}
+
+#searchCompany {
+  z-index:99999!important;
+}
+
+#mainTable > thead > tr > td {
+ position:sticky;
+ top:0;
 }

@@ -17,10 +17,10 @@ function Menu() {
         광고일정 등록
       </Link>
       <Link
-        to="/collect/ar"
+        to="/collect/card"
         className="p-4 hover:bg-gray-100 transition-all duration-300"
       >
-        수금 입력
+        결제카드 관리
       </Link>
       <div className="p-4 hover:bg-gray-100 transition-all duration-300">
         월별 내역보기

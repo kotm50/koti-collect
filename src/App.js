@@ -8,6 +8,7 @@ import UnReceiveBack from "./Components/Collect/UnReceiveBack";
 import Company from "./Components/Collect/Company";
 import Channel from "./Components/Collect/Channel";
 import Test from "./Components/Test";
+import CardList from "./Components/Collect/CardList";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="" element={<CollectMain />} />
           <Route path="ar" element={<Receive />} />
           <Route path="ur" element={<UnReceive />} />
+          <Route path="card" element={<CardList />} />
           <Route path="urback" element={<UnReceiveBack />} />
           <Route path="company" element={<Company />} />
           <Route path="channel" element={<Channel />} />
