@@ -373,16 +373,16 @@ function InputCharge(props) {
   };
   const escapeHTML = text => {
     return text
-      .replace(/;/g, "&#59;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/=/g, "&#61;")
-      .replace(/\(/g, "&#40;")
-      .replace(/\)/g, "&#41;")
-      .replace(/,/g, "&#44;")
-      .replace(/"/g, "&#34;")
-      .replace(/:/g, "&#58;")
-      .replace(/\//g, "&#47;");
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#61;/g, "=")
+      .replace(/&#40;/g, "(")
+      .replace(/&#41;/g, ")")
+      .replace(/&#44;/g, ",")
+      .replace(/&#34;/g, '"')
+      .replace(/&#58;/g, ":")
+      .replace(/&amp;#59;/g, ";")
+      .replace(/&#47;/g, "/");
   };
   const unescapeHTML = text => {
     return text
