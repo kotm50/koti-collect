@@ -202,7 +202,7 @@ function InputDeposit(props) {
   const escapeHTML = text => {
     return text
       .replace(/</g, "_여는꺾쇠_")
-      .replace(/>/g, "_닫는꺾쇠")
+      .replace(/>/g, "_닫는꺾쇠_")
       .replace(/=/g, "_등호_")
       .replace(/\(/g, "_여는괄호_")
       .replace(/\)/g, "_닫는괄호_")
