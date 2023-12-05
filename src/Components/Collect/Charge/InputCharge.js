@@ -372,6 +372,10 @@ function InputCharge(props) {
     }
   };
 
+  const escapeHTML = text => {
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  };
+
   const saveIt = async () => {
     const result = await test();
     if (result !== "완료") {
@@ -382,6 +386,8 @@ function InputCharge(props) {
       let commCareYn;
       let commYn;
       let intvCareYn;
+
+      const escapeMemo = await escapeHTML(memo);
 
       if (paidAdYn === null) {
         if (Number(realUnpaidAd) > 0) {
@@ -420,7 +426,6 @@ function InputCharge(props) {
       } else {
         dual = dualType;
       }
-      console.log(memo);
       const data = {
         commCode: commCode,
         companyCode: companyCode,
@@ -438,7 +443,7 @@ function InputCharge(props) {
         dualType: dual,
         week: week,
         day: day,
-        memo: memo,
+        memo: escapeMemo,
         taxBillYn: tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };

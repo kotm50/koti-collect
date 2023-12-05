@@ -198,11 +198,17 @@ function InputDeposit(props) {
       return String(num);
     }
   };
+
+  const escapeHTML = text => {
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  };
   const submit = async () => {
     const result = await tester();
     if (result !== "완료") {
       return alert(result);
     } else {
+      const escapeBigo = await escapeHTML(bigo);
+
       let data = {
         commCode: commCode,
         cardCode: cardCode === "" ? null : cardCode,
@@ -216,7 +222,7 @@ function InputDeposit(props) {
         resNo: resNo,
         authNo: authNo,
         payerName: payerName,
-        bigo: bigo,
+        bigo: escapeBigo,
       };
       await axios
         .post("/api/v1/comp/add/pay", data, {

@@ -12,12 +12,16 @@ function CommisionMemo(props) {
     setHovered(false);
   };
 
+  const unescapeHTML = text => {
+    return text.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+  };
+
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
         className="flex flex-row flex-nowrap w-full truncate memo-nowrap"
         dangerouslySetInnerHTML={{
-          __html: sanitizer(props.memo),
+          __html: sanitizer(unescapeHTML(props.memo)),
         }}
       />
       {hovered && (
