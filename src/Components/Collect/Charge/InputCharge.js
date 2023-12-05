@@ -112,7 +112,7 @@ function InputCharge(props) {
         setStartDate(commission.hireStartDate);
         setEndDate(commission.hireEndDate);
         getWeek(commission.hireStartDate, commission.hireEndDate);
-        setMemo(commission.memo);
+        setMemo(unescapeHTML(commission.memo));
         setPaidAdYn(commission.paidAdYn);
         setPaidCommCareYn(commission.paidCommCareYn);
         setPaidCommYn(commission.paidCommYn);
