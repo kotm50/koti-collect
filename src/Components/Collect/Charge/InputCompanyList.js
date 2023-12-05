@@ -25,8 +25,7 @@ function InputCompanyList(props) {
       searchKeyword: c,
     };
     await axios
-      .get("/api/v1/comp/search/list", {
-        params: data,
+      .post("/api/v1/comp/search/list", data, {
         headers: {
           Authorization: user.accessToken,
         },

@@ -26,8 +26,7 @@ function InputCompanyList(props) {
     };
     console.log(data);
     await axios
-      .get("/api/v1/comp/search/list", {
-        params: data,
+      .post("/api/v1/comp/search/list", data, {
         headers: {
           Authorization: user.accessToken,
         },
