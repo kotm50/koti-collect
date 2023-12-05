@@ -7,32 +7,28 @@ import Deposit from "./Deposit";
 
 function CommissionDetail(props) {
   const [detailOn, setDetailOn] = useState(false);
-  const handleList = async () => {
-    await resetEdit();
+  const handleList = () => {
     if (!detailOn) {
-      let com = props.comm;
-      com.idNum = props.idx;
-      props.setEdit(com);
+      props.setCommCode(props.comm.commCode);
+      props.setIdNum(props.idx);
+    } else {
+      props.setCommCode(null);
+      props.setPayCode(null);
+      props.setIdNum(null);
     }
-  };
-
-  const resetEdit = () => {
-    props.setEdit(null);
+    setDetailOn(!detailOn);
   };
 
   useEffect(() => {
-    console.log(props.comm);
-    if (props.edit) {
-      if (props.edit.idNum === props.idx) {
-        setDetailOn(true);
-      } else {
-        setDetailOn(false);
-      }
+    if (props.idx === props.idNum) {
+      props.setInputOn(true);
+      setDetailOn(true);
     } else {
       setDetailOn(false);
     }
     //eslint-disable-next-line
-  }, [props.edit]);
+  }, [props.idNum]);
+
   return (
     <>
       <tr
@@ -42,80 +38,102 @@ function CommissionDetail(props) {
           handleList();
         }}
       >
-        <td className="p-1 border">{props.comm.channel}</td>
-        <td className="p-1 border">{props.comm.companyName}</td>
-        <td className="p-1 border">{props.comm.companyBranch}</td>
-        <td className="p-1 border">{props.comm.manager1}</td>
-        <td className="p-1 border">{props.comm.manager2}</td>
-        <td className="p-1 border">
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.channel}
+        </td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.companyName}
+        </td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.companyBranch}
+        </td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.manager1}
+        </td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.manager2}
+        </td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
           {dayjs(props.comm.hireStartDate).format("YY-MM-DD")}
         </td>
-        <td className="p-1 border">
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
           {dayjs(props.comm.hireEndDate).format("YY-MM-DD")}
         </td>
-        <td className="p-1 border">
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
           {props.comm.week}주 {props.comm.day}일
         </td>
-        <td className="p-1 border">{props.comm.dualType}</td>
+        <td
+          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+        >
+          {props.comm.dualType}
+        </td>
         <td
           className={`p-1 border ${
-            props.comm.paidAdYn === "N"
-              ? "text-rose-500"
-              : props.comm.paidAdYn === "Y"
-              ? "text-green-500"
-              : ""
-          }`}
+            props.comm.paidAdYn === "N" ? "text-rose-500" : ""
+          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
         >
           {Number(props.comm.unpaidAd).toLocaleString()}
         </td>
 
         <td
           className={`p-1 border ${
-            props.comm.paidCommYn === "N"
-              ? "text-rose-500"
-              : props.comm.paidCommYn === "Y"
-              ? "text-green-500"
-              : ""
-          }`}
+            props.comm.paidCommYn === "N" ? "text-rose-500" : ""
+          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
         >
           {Number(props.comm.unpaidComm).toLocaleString()}
         </td>
 
         <td
           className={`p-1 border ${
-            props.comm.paidIntvCareYn === "N"
-              ? "text-rose-500"
-              : props.comm.paidIntvCareYn === "Y"
-              ? "text-green-500"
-              : ""
-          }`}
+            props.comm.paidIntvCareYn === "N" ? "text-rose-500" : ""
+          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
         >
           {Number(props.comm.unpaidIntvCare).toLocaleString()}
         </td>
 
         <td
           className={`p-1 border ${
-            props.comm.paidCommCareYn === "N"
-              ? "text-rose-500"
-              : props.comm.paidCommCareYn === "Y"
-              ? "text-green-500"
-              : ""
-          }`}
+            props.comm.paidCommCareYn === "N" ? "text-rose-500" : ""
+          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
         >
           {Number(props.comm.unpaidCommCare).toLocaleString()}
         </td>
-        <td className="p-1 border max-w-[150px] relative">
+        <td
+          className={`p-1 border w-[150px] relative ${
+            detailOn ? "bg-blue-100 font-medium" : ""
+          }`}
+        >
           <CommisionMemo memo={props.comm.memo} />
         </td>
       </tr>
       {detailOn ? (
         <tr>
-          <td colSpan="14" className="bg-gray-100 text-center p-0 border-x">
+          <td colSpan="14" className="bg-blue-100 text-center p-1 border-x">
             <Deposit
+              accessToken={props.user.accessToken}
               commCode={props.comm.commCode}
               branch={props.comm.companyBranch}
               company={props.comm.companyName}
-              setEdit={props.setEdit}
+              payList={props.payList}
+              getPayList={props.getPayList}
+              setPayCode={props.setPayCode}
+              detailOn={detailOn}
             />
           </td>
         </tr>

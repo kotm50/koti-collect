@@ -1,0 +1,18 @@
+setCommCode(props.payEdit.commCode || "");
+setCardCode(props.payEdit.cardCode || "");
+setTransactionType(props.payEdit.transactionType || "P");
+setPayType(props.payEdit.payType || "");
+setRealPaidAd(props.payEdit.paidAd || "");
+setRealPaidComm(props.payEdit.paidComm || "");
+setRealPaidIntvCare(props.payEdit.paidIntvCare || "");
+setRealPaidCommCare(props.payEdit.paidCommCare || "");
+setPaidAd(getPaid(props.payEdit.paidAd) || "");
+setPaidComm(getPaid(props.payEdit.paidComm) || "");
+setPaidIntvCare(getPaid(props.payEdit.paidIntvCare) || "");
+setPaidCommCare(getPaid(props.payEdit.paidCommCare) || "");
+setPaidDate(props.payEdit.paidDate);
+setResNo(props.payEdit.resNo || "");
+setAuthNo(props.payEdit.authNo || "");
+setPayerName(props.payEdit.payerName || "");
+setBigo(props.payEdit.bigo || "");
+setPayCode(props.payEdit.payCode || "");

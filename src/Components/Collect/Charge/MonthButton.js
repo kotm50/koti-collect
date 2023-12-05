@@ -8,11 +8,14 @@ function MonthButton(props) {
         <button
           key={mon}
           className={`border p-2 rounded-lg ${
-            Number(props.month) === mon
+            props.isUnpaid === "N" && Number(props.month) === mon
               ? "bg-indigo-700 text-white hover:bg-indigo-500 font-bold"
               : "hover:bg-gray-100"
           }`}
-          onClick={e => props.setMonth(mon)}
+          onClick={e => {
+            props.setMonth(mon);
+            props.setIsUnpaid("N");
+          }}
         >
           {mon}월
         </button>

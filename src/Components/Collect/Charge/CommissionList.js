@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
+import sorry from "../../../Asset/sorry.png";
 
 import CommissionDetail from "./CommissionDetail";
 
 function CommissionList(props) {
   const [commisionList, setCommissionList] = useState([]);
+  const [idNum, setIdNum] = useState(null);
   useEffect(() => {
+    if (props.feeList.length === 0) {
+      setIdNum(null);
+    }
     setCommissionList(props.feeList);
   }, [props]);
   return (
@@ -33,16 +38,36 @@ function CommissionList(props) {
             {commisionList.map((comm, idx) => (
               <React.Fragment key={idx}>
                 <CommissionDetail
+                  user={props.user}
                   comm={comm}
-                  edit={props.edit}
-                  setEdit={props.setEdit}
                   idx={idx}
+                  idNum={idNum}
+                  setIdNum={setIdNum}
+                  payList={props.payList}
+                  getPayList={props.getPayList}
+                  commisionList={props.feeList}
+                  setCommCode={props.setCommCode}
+                  setPayCode={props.setPayCode}
+                  setInputOn={props.setInputOn}
                 />
               </React.Fragment>
             ))}
           </tbody>
         </table>
-      ) : null}
+      ) : props.loading ? (
+        <div className="text-2xl text-bold text-center">
+          <img
+            src={sorry}
+            className="mx-auto w-[240px] h-auto mb-5 mt-20"
+            alt="오류"
+          />
+          조회 된 내용이 없습니다
+        </div>
+      ) : (
+        <div className="text-2xl text-center text-bold">
+          잠시만 기다려 주세요
+        </div>
+      )}
     </>
   );
 }

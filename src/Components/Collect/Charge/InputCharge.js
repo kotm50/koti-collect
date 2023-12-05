@@ -51,27 +51,8 @@ function InputCharge(props) {
   const comNameRef = useRef(null);
 
   useEffect(() => {
-    if (props.edit !== null) {
-      setCommCode(props.edit.commCode);
-      setCompanyName(props.edit.companyBranch);
-      setCompanyCode(props.edit.companyCode);
-      setDualType(props.edit.dualType);
-      setDualEtc(props.edit.dualEtc);
-      setTax(props.edit.taxBillYn);
-      setTaxDate(props.edit.taxBillIssueDate || "");
-      setAdNumber(props.edit.adId);
-      setStartDate(props.edit.hireStartDate);
-      setEndDate(props.edit.hireEndDate);
-      getWeek(props.edit.hireStartDate, props.edit.hireEndDate);
-      setMemo(props.edit.memo);
-      setPaidAdYn(props.edit.paidAdYn);
-      setPaidCommCareYn(props.edit.paidCommCareYn);
-      setPaidCommYn(props.edit.paidCommYn);
-      setPaidIntvCareYn(props.edit.paidIntvCareYn);
-      editPaidNumber(props.edit.unpaidAd, "unpaidAd");
-      editPaidNumber(props.edit.unpaidComm, "unpaidComm");
-      editPaidNumber(props.edit.unpaidIntvCare, "unpaidIntvCare");
-      editPaidNumber(props.edit.unpaidCommCare, "unpaidCommCare");
+    if (props.commCode !== null) {
+      getCharge(props.commCode);
     } else {
       setSearchKeyword("");
       setCommCode(null);
@@ -104,7 +85,45 @@ function InputCharge(props) {
       setMemo("");
     }
     //eslint-disable-next-line
-  }, [props.edit]);
+  }, [props.commCode]);
+
+  const getCharge = async cCode => {
+    const data = {
+      commCode: cCode,
+    };
+    await axios
+      .post("/api/v1/comp/ad/data", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+        const commission = res.data.commission;
+        setCommCode(commission.commCode);
+        setCompanyName(commission.companyBranch);
+        setCompanyCode(commission.companyCode);
+        setDualType(commission.dualType);
+        setDualEtc(commission.dualEtc);
+        setTax(commission.taxBillYn);
+        setTaxDate(commission.taxBillIssueDate || "");
+        setAdNumber(commission.adId);
+        setStartDate(commission.hireStartDate);
+        setEndDate(commission.hireEndDate);
+        getWeek(commission.hireStartDate, commission.hireEndDate);
+        setMemo(commission.memo);
+        setPaidAdYn(commission.paidAdYn);
+        setPaidCommCareYn(commission.paidCommCareYn);
+        setPaidCommYn(commission.paidCommYn);
+        setPaidIntvCareYn(commission.paidIntvCareYn);
+        editPaidNumber(commission.unpaidAd, "unpaidAd");
+        editPaidNumber(commission.unpaidComm, "unpaidComm");
+        editPaidNumber(commission.unpaidIntvCare, "unpaidIntvCare");
+        editPaidNumber(commission.unpaidCommCare, "unpaidCommCare");
+      })
+      .catch(e => console.log(e));
+  };
 
   useEffect(() => {
     getDualTypeList();
@@ -261,7 +280,6 @@ function InputCharge(props) {
   const cancelInput = () => {
     const confirm = window.confirm("입력한 모든 내용을 초기화 합니다");
     if (confirm) {
-      props.setEdit(null);
       setSearchKeyword("");
       setCommCode(null);
       setCompanyName("");
@@ -277,6 +295,11 @@ function InputCharge(props) {
       setDay("");
       setTax("N");
       setTaxDate("");
+
+      setRealUnpaidAd("");
+      setRealUnpaidComm("");
+      setRealUnpaidIntvCare("");
+      setRealUnpaidCommCare("");
 
       setUnpaidAd("0");
       setUnpaidComm("0");
@@ -309,7 +332,6 @@ function InputCharge(props) {
         })
         .then(res => {
           alert(res.data.message);
-          props.setEdit(null);
           setSearchKeyword("");
           setCommCode(null);
           setCompanyName("");
@@ -340,7 +362,7 @@ function InputCharge(props) {
           setEndDate("");
           setMemo("");
 
-          props.getFeeList();
+          props.getFeeList(props.month, props.searchKeyword);
         })
         .catch(e => {
           console.log(e);
@@ -431,7 +453,6 @@ function InputCharge(props) {
             return false;
           }
           if (res.data.code === "C000") {
-            props.setEdit(null);
             setSearchKeyword("");
             setCommCode(null);
             setCompanyName("");
@@ -827,7 +848,7 @@ function InputCharge(props) {
             className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
             onClick={() => saveIt()}
           >
-            저장하기
+            {commCode ? "수정하기" : "저장하기"}
           </button>
           <button
             className="w-[100px] transition-all duration-300 p-1 border border-gray-700 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 text-gray-700 hover:text-gray-500 rounded-lg"

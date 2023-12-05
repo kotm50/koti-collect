@@ -28,22 +28,20 @@ function UnReceive() {
   const [keyword, setKeyword] = useState("");
 
   const [feeList, setFeeList] = useState([]);
+  const [payList, setPayList] = useState([]);
 
-  const [edit, setEdit] = useState(null);
+  const [commCode, setCommCode] = useState(null);
+  const [payCode, setPayCode] = useState(null);
+
+  const [loaded, setLoaded] = useState(false);
 
   const handleSearch = e => {
     if (e.key === "Enter") {
       setSearchKeyword(e.target.value);
-      setEdit(null);
+      setCommCode(null);
+      setPayCode(null);
     }
   };
-
-  useEffect(() => {
-    if (edit !== null) {
-      setInputOn(true);
-    }
-    //eslint-disable-next-line
-  }, [edit]);
 
   useEffect(() => {
     setTitle("수수료 관리");
@@ -58,6 +56,11 @@ function UnReceive() {
       setBottom(bottomY);
     }
   }, [inputOn]);
+
+  useEffect(() => {
+    getFeeList(month, searchKeyword);
+    //eslint-disable-next-line
+  }, [isUnpaid]);
 
   const logout = async () => {
     await axios
@@ -74,10 +77,20 @@ function UnReceive() {
       });
   };
 
+  const loadReset = () => {
+    setLoaded(false);
+  };
+
+  const feeReset = () => {
+    setFeeList([]);
+  };
+
   const getFeeList = async (month, keyword) => {
+    await loadReset();
+    await feeReset();
     let commission = {
       hireStartMonth: String(month),
-      unpaidYn: isUnpaid,
+      commStatus: isUnpaid,
     };
     let reqData;
     let paging;
@@ -93,7 +106,6 @@ function UnReceive() {
     }
 
     reqData = { paging, commission };
-    console.log(reqData);
     await axios
       .post("/api/v1/comp/get/ad", reqData, {
         headers: { Authorization: user.accessToken },
@@ -103,15 +115,39 @@ function UnReceive() {
           logout();
           return false;
         }
-        console.log(res.data.commissionList);
         setFeeList(res.data.commissionList);
+        setLoaded(true);
       })
       .catch(e => console.log(e));
   };
-  const handleUnpaidChk = () => {
-    setFeeList([]);
-    setIsUnpaid(isUnpaid === "Y" ? "N" : "Y");
+  const handleUnpaidChk = e => {
+    setIsUnpaid(e.target.value);
   };
+
+  const resetPayList = () => {
+    setPayList([]);
+  };
+
+  const getPayList = async commCode => {
+    await resetPayList();
+    const data = {
+      commCode: commCode,
+    };
+    console.log(data);
+    await axios
+      .post("/api/v1/comp/get/pay/list", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          navi("/");
+          return false;
+        }
+        setPayList(res.data.payList);
+      })
+      .catch(e => console.log(e));
+  };
+
   return (
     <div className="mx-4" data={title}>
       <div
@@ -144,8 +180,8 @@ function UnReceive() {
           >
             <InputCharge
               getFeeList={getFeeList}
-              edit={edit}
-              setEdit={setEdit}
+              commCode={commCode}
+              setCommCode={setCommCode}
               month={month}
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
@@ -179,12 +215,15 @@ function UnReceive() {
             <InputDeposit
               user={user}
               getFeeList={getFeeList}
-              edit={edit}
-              setEdit={setEdit}
+              commCode={commCode}
+              setCommCode={setCommCode}
+              payCode={payCode}
+              setPayCode={setPayCode}
               month={month}
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
               logout={logout}
+              getPayList={getPayList}
             />
           </div>
         </div>
@@ -215,30 +254,40 @@ function UnReceive() {
           <div className="flex flex-row justify-start gap-x-1">
             <div className="p-2 font-bold">월별보기</div>
             <div className="grid grid-cols-12 gap-x-1">
-              <MonthButton month={month} setMonth={setMonth} />
+              <MonthButton
+                month={month}
+                setMonth={setMonth}
+                isUnpaid={isUnpaid}
+                setIsUnpaid={setIsUnpaid}
+              />
             </div>
           </div>
           <div className="flex flex-row justify-start gap-x-1">
-            <label htmlFor="unpaidChk" className="p-2">
-              미수금 항목만 보기
-            </label>
-            <input
-              id="unpaidChk"
-              type="checkbox"
-              checked={isUnpaid !== "N"}
-              className="p-1 border"
-              placeholder="지점명/담당자명으로 검색"
+            <select
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              value={isUnpaid}
               onChange={handleUnpaidChk}
-            />
+            >
+              <option value="N">월별 조회</option>
+              <option value="Y">미수금만 조회</option>
+              <option value="S">시작 7일 전까지 조회</option>
+              <option value="T">시작 3일 전까지 조회</option>
+              <option value="O">시작 1일 전까지 조회</option>
+            </select>
           </div>
         </div>
       </div>
       <div className="w-full mt-2 mb-[100px]">
         <CommissionList
+          user={user}
           feeList={feeList}
-          edit={edit}
-          setEdit={setEdit}
           bottom={bottom}
+          payList={payList}
+          getPayList={getPayList}
+          setCommCode={setCommCode}
+          setPayCode={setPayCode}
+          loading={loaded}
+          setInputOn={setInputOn}
         />
       </div>
     </div>

@@ -1,20 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
+import { clearUser } from "../../../Reducer/userSlice";
 
 function InputDeposit(props) {
   const navi = useNavigate();
+  const dispatch = useDispatch();
   const [companyCode, setCompanyCode] = useState("");
   const [commCode, setCommCode] = useState(null);
   const [payCode, setPayCode] = useState(null);
 
-  const [payType, setPayType] = useState("D");
+  const [transactionType, setTransactionType] = useState("P");
 
-  const [memo, setMemo] = useState("");
+  const [bigo, setBigo] = useState("");
 
   const [resNo, setResNo] = useState("");
   const [authNo, setAuthNo] = useState("");
@@ -30,22 +33,181 @@ function InputDeposit(props) {
   const [realPaidIntvCare, setRealPaidIntvCare] = useState("");
   const [realPaidCommCare, setRealPaidCommCare] = useState("");
 
-  const [depositType, setDepositType] = useState("");
+  const [payType, setPayType] = useState("");
   const [cardCode, setCardCode] = useState("");
 
   const [paidDate, setPaidDate] = useState("");
 
   const [cardList, setCardList] = useState([]);
 
+  useEffect(() => {
+    if (props.commCode !== null) {
+      setCommCode(props.commCode);
+      getCompanyCode(props.commCode);
+    } else {
+      setCommCode(null);
+      setCardCode("");
+      setTransactionType("P");
+      setPayType("");
+      setRealPaidAd("");
+      setRealPaidComm("");
+      setRealPaidIntvCare("");
+      setRealPaidCommCare("");
+      setPaidAd("");
+      setPaidComm("");
+      setPaidIntvCare("");
+      setPaidCommCare("");
+      setPaidDate("");
+      setResNo("");
+      setAuthNo("");
+      setPayerName("");
+      setBigo("");
+      setPayCode(null);
+    }
+    //eslint-disable-next-line
+  }, [props.commCode]);
+
+  useEffect(() => {
+    if (props.payCode !== null) {
+      setPayCode(props.payCode);
+      getPayed(props.payCode);
+    } else {
+      setCommCode(null);
+      setCardCode("");
+      setTransactionType("P");
+      setPayType("");
+      setRealPaidAd("");
+      setRealPaidComm("");
+      setRealPaidIntvCare("");
+      setRealPaidCommCare("");
+      setPaidAd("");
+      setPaidComm("");
+      setPaidIntvCare("");
+      setPaidCommCare("");
+      setPaidDate("");
+      setResNo("");
+      setAuthNo("");
+      setPayerName("");
+      setBigo("");
+      setPayCode(null);
+    }
+    //eslint-disable-next-line
+  }, [props.payCode]);
+
+  const getCompanyCode = async cCode => {
+    const data = {
+      commCode: cCode,
+    };
+    await axios
+      .post("/api/v1/comp/ad/data", data, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(res => {
+        if (res.data.code === "C000") {
+          setCompanyCode(res.data.commission.companyCode);
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const getPayed = async pCode => {
+    const data = {
+      payCode: pCode,
+    };
+
+    await axios
+      .post("/api/v1/comp/get/detail/pay", data, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(async res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+
+        const pay = res.data.pay;
+        setCommCode(pay.commCode || null);
+        getCompanyCode(pay.commCode);
+        setCardCode(pay.cardCode || "");
+        setTransactionType(pay.transactionType || "");
+        setPayType(pay.payType || "");
+        setRealPaidAd(pay.paidAd || "");
+        setRealPaidComm(pay.paidComm || "");
+        setRealPaidIntvCare(pay.paidIntvCare || "");
+        setRealPaidCommCare(pay.paidCommCare || "");
+        setPaidAd(await getPaid(pay.paidAd));
+        setPaidComm(await getPaid(pay.paidComm));
+        setPaidIntvCare(await getPaid(pay.paidIntvCare));
+        setPaidCommCare(await getPaid(pay.paidCommCare));
+        setPaidDate(pay.paidDate || "");
+        setResNo(pay.resNo || "");
+        setAuthNo(pay.authNo || "");
+        setPayerName(pay.companyCode || "");
+        setBigo(pay.bigo || "");
+        setPayerName(pay.payerName || "");
+      })
+      .catch(e => console.log(e));
+  };
+
+  const logout = async () => {
+    await axios
+      .post("/api/v1/user/logout", null, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(res => {
+        dispatch(clearUser());
+        navi("/");
+      })
+      .catch(e => {
+        console.log(e);
+        navi("/");
+      });
+  };
+
+  const cancelInput = () => {
+    const confirm = window.confirm("내용을 초기화 하시겠습니까?");
+    if (!confirm) {
+      return false;
+    }
+    setCardCode("");
+    setTransactionType("P");
+    setPayType("");
+    setRealPaidAd("");
+    setRealPaidComm("");
+    setRealPaidIntvCare("");
+    setRealPaidCommCare("");
+    setPaidAd("");
+    setPaidComm("");
+    setPaidIntvCare("");
+    setPaidCommCare("");
+    setPaidDate("");
+    setResNo("");
+    setAuthNo("");
+    setPayerName("");
+    setBigo("");
+    setPayCode(null);
+  };
+
+  const getPaid = num => {
+    if (String(num).length > 3) {
+      const formattedValue = String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return formattedValue;
+    } else {
+      return String(num);
+    }
+  };
   const submit = async () => {
     const result = await tester();
     if (result !== "완료") {
       return alert(result);
     } else {
-      const data = {
+      let data = {
         commCode: commCode,
-        cardCode: cardCode,
-        payType: depositType,
+        cardCode: cardCode === "" ? null : cardCode,
+        transactionType: transactionType,
+        payType: payType,
         paidAd: realPaidAd,
         paidComm: realPaidComm,
         paidIntvCare: realPaidIntvCare,
@@ -54,21 +216,23 @@ function InputDeposit(props) {
         resNo: resNo,
         authNo: authNo,
         payerName: payerName,
-        bigo: memo,
+        bigo: bigo,
       };
       await axios
         .post("/api/v1/comp/add/pay", data, {
           headers: { Authorization: props.user.accessToken },
         })
-        .then(res => {
+        .then(async res => {
           alert(res.data.message);
           if (res.data.code === "E999" || res.data.code === "E403") {
             props.logout();
             return false;
           }
           if (res.data.code === "C000") {
-            setMemo("");
+            setBigo("");
             props.getFeeList(props.month, props.searchKeyword);
+            props.getPayList(commCode);
+            await codeReset();
           }
         })
         .catch(e => {
@@ -76,19 +240,75 @@ function InputDeposit(props) {
         });
     }
   };
+
+  const modify = async () => {
+    const result = await tester();
+    if (result !== "완료") {
+      return alert(result);
+    } else {
+      let data = {
+        commCode: commCode,
+        cardCode: cardCode === "" ? null : cardCode,
+        transactionType: transactionType,
+        payType: payType,
+        paidAd: realPaidAd,
+        paidComm: realPaidComm,
+        paidIntvCare: realPaidIntvCare,
+        paidCommCare: realPaidCommCare,
+        paidDate: paidDate,
+        resNo: resNo,
+        authNo: authNo,
+        payerName: payerName,
+        bigo: bigo,
+        payCode: payCode,
+      };
+      await axios
+        .patch("/api/v1/comp/upt/pay", data, {
+          headers: { Authorization: props.user.accessToken },
+        })
+        .then(async res => {
+          alert(res.data.message);
+          if (res.data.code === "E999" || res.data.code === "E403") {
+            props.logout();
+            return false;
+          }
+          if (res.data.code === "C000") {
+            setBigo("");
+            props.getFeeList(props.month, props.searchKeyword);
+            props.getPayList(commCode);
+            await codeReset();
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  };
+
+  const codeReset = () => {
+    props.setCommCode(null);
+  };
+
+  useEffect(() => {
+    if (props.commCode === null && commCode !== "") {
+      props.setCommCode(commCode);
+    }
+    //eslint-disable-next-line
+  }, [props.commCode]);
+
   const tester = () => {
     if (paidDate === "") {
       return "결제일을 입력하세요";
     }
-    if (depositType === "") {
+    if (payType === "") {
       return "결제 방식을 선택하세요";
     }
-    if (depositType === "CA" || depositType === "CO") {
+    if (payType === "CA" || payType === "CO") {
       if (payerName === "") {
         return "입금자명을 입력하세요";
       }
     }
-    if (depositType === "PG" || depositType === "MO" || depositType === "HE") {
+    if (payType === "PG" || payType === "MO" || payType === "HE") {
       if (cardCode === "") {
         return "결제 카드를 선택하세요";
       }
@@ -97,29 +317,28 @@ function InputDeposit(props) {
   };
 
   useEffect(() => {
-    if (props.edit !== null) {
-      setCompanyCode(props.edit.companyCode || "");
-      setCommCode(props.edit.commCode || "");
-    }
-    setPayCode("");
-    //eslint-disable-next-line
-  }, [props.edit]);
-
-  useEffect(() => {
     if (companyCode !== "") {
-      getCardList();
+      getCardList(companyCode);
     } else {
       setCardList([]);
     }
     //eslint-disable-next-line
   }, [companyCode]);
 
-  const getCardList = async () => {
+  useEffect(() => {
+    if (payType === "PG" || payType === "MO" || payType === "HE") {
+      getCardList(companyCode);
+    } else {
+      setCardList([]);
+    }
+    //eslint-disable-next-line
+  }, [payType]);
+
+  const getCardList = async cCode => {
     setCardList([]);
     const data = {
-      companyCode: companyCode,
+      companyCode: cCode,
     };
-    console.log(data);
 
     await axios
       .post("/api/v1/comp/card/list", data, {
@@ -131,7 +350,6 @@ function InputDeposit(props) {
           return false;
         }
         if (res.data.code === "C000") {
-          console.log(res.data.cardList);
           setCardList(res.data.cardList);
         }
       })
@@ -173,6 +391,31 @@ function InputDeposit(props) {
       }
     }
   };
+
+  const deleteIt = async () => {
+    const confirm = window.confirm("입출금 내역을 삭제하시겠습니까?");
+    if (confirm) {
+      const data = {
+        payCode: payCode,
+      };
+      await axios
+        .delete("/api/v1/comp/del/pay", {
+          headers: { Authorization: props.user.accessToken },
+          data: data,
+        })
+        .then(async res => {
+          alert(res.data.message);
+          props.getFeeList(props.month, props.searchKeyword);
+          props.getPayList(commCode);
+          await codeReset();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    } else {
+      return false;
+    }
+  };
   return (
     <div className="flex flex-col justify-between h-[400px] text-sm">
       <div
@@ -198,15 +441,16 @@ function InputDeposit(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">입금/출금</div>
+          <div className="py-1 w-[128px]">입금/환급</div>
           <div className="w-full relative">
             <select
               className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-              value={payType}
-              onChange={e => setPayType(e.currentTarget.value)}
+              value={transactionType}
+              onChange={e => setTransactionType(e.currentTarget.value)}
+              disabled={payCode}
             >
-              <option value="D">입금</option>
-              <option value="W">출금</option>
+              <option value="P">입금</option>
+              <option value="D">환급</option>
             </select>
           </div>
         </div>
@@ -217,8 +461,8 @@ function InputDeposit(props) {
           <div className="w-full relative">
             <select
               className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-              value={depositType}
-              onChange={e => setDepositType(e.currentTarget.value)}
+              value={payType}
+              onChange={e => setPayType(e.currentTarget.value)}
             >
               <option value="">결제방식 선택</option>
               <option value="CA">현금</option>
@@ -229,9 +473,9 @@ function InputDeposit(props) {
             </select>
           </div>
         </div>
-        {depositType === "" ? (
+        {payType === "" ? (
           <div className="p-1">결제방식을 선택해 주세요</div>
-        ) : depositType !== "CA" && depositType !== "CO" ? (
+        ) : payType !== "CA" && payType !== "CO" ? (
           <>
             {cardList.length > 0 ? (
               <div className="flex justify-start gap-2">
@@ -246,8 +490,7 @@ function InputDeposit(props) {
                   >
                     <option value="">결제카드 선택</option>
                     {cardList.map((card, idx) => (
-                      <option value={card.cardCode}>
-                        {" "}
+                      <option value={card.cardCode} key={idx}>
                         {card.cardComp} | {card.cardOwner} | {card.cardNum}{" "}
                       </option>
                     ))}
@@ -431,29 +674,38 @@ function InputDeposit(props) {
             id="quillCustom"
             modules={modules}
             theme="snow"
-            value={memo}
-            onChange={setMemo}
+            value={bigo}
+            onChange={setBigo}
             className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full"
             placeholder="기타 메모할 내용을 입력하세요"
           />
         </div>
         <div className="flex justify-center gap-x-2 p-1">
-          <button
-            className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
-            onClick={() => submit()}
-          >
-            저장하기
-          </button>
+          {payCode ? (
+            <button
+              className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
+              onClick={() => modify()}
+            >
+              수정하기
+            </button>
+          ) : (
+            <button
+              className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
+              onClick={() => submit()}
+            >
+              저장하기
+            </button>
+          )}
           <button
             className="w-[100px] transition-all duration-300 p-1 border border-gray-700 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 text-gray-700 hover:text-gray-500 rounded-lg"
-            onClick={() => console.log("초기화")}
+            onClick={() => cancelInput()}
           >
             초기화
           </button>
           {payCode && (
             <button
               className="w-[100px] transition-all duration-300 p-1 bg-rose-500 hover:bg-rose-700 border-rose-500 hover:border-rose-700 text-white rounded-lg"
-              onClick={() => console.log("삭제")}
+              onClick={() => deleteIt()}
             >
               삭제
             </button>
