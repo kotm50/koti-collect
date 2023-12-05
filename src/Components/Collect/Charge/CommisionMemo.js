@@ -12,10 +12,19 @@ function CommisionMemo(props) {
   const handleMouseLeave = () => {
     setHovered(false);
   };
-
-  const unescapeHTML = text => {
-    return text.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-  };
+  function unescapeHTML(text) {
+    return text
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#61;/g, "=")
+      .replace(/&#40;/g, "(")
+      .replace(/&#41;/g, ")")
+      .replace(/&#44;/g, ",")
+      .replace(/&#34;/g, '"')
+      .replace(/&#58;/g, ":")
+      .replace(/&#59;/g, ";")
+      .replace(/&#47;/g, "/");
+  }
 
   useEffect(() => {
     console.log(props.memo);

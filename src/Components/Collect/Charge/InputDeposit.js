@@ -200,8 +200,19 @@ function InputDeposit(props) {
   };
 
   const escapeHTML = text => {
-    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return text
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/=/g, "&#61;")
+      .replace(/\(/g, "&#40;")
+      .replace(/\)/g, "&#41;")
+      .replace(/,/g, "&#44;")
+      .replace(/"/g, "&#34;")
+      .replace(/:/g, "&#58;")
+      .replace(/;/g, "&#59;")
+      .replace(/\//g, "&#47;");
   };
+
   const submit = async () => {
     const result = await tester();
     if (result !== "완료") {

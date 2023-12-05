@@ -371,9 +371,39 @@ function InputCharge(props) {
       return false;
     }
   };
+  function escapeHTML(text) {
+    return text
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/=/g, "&#61;")
+      .replace(/\(/g, "&#40;")
+      .replace(/\)/g, "&#41;")
+      .replace(/,/g, "&#44;")
+      .replace(/"/g, "&#34;")
+      .replace(/:/g, "&#58;")
+      .replace(/;/g, "&#59;")
+      .replace(/\//g, "&#47;");
+  }
+  function unescapeHTML(text) {
+    return text
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#61;/g, "=")
+      .replace(/&#40;/g, "(")
+      .replace(/&#41;/g, ")")
+      .replace(/&#44;/g, ",")
+      .replace(/&#34;/g, '"')
+      .replace(/&#58;/g, ":")
+      .replace(/&#59;/g, ";")
+      .replace(/&#47;/g, "/");
+  }
 
-  const escapeHTML = text => {
-    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const chkMemo = async () => {
+    const memo1 = await escapeHTML(memo);
+    const memo2 = await unescapeHTML(memo1);
+
+    console.log(memo1);
+    console.log(memo2);
   };
 
   const saveIt = async () => {
@@ -852,7 +882,7 @@ function InputCharge(props) {
         <div className="flex justify-center gap-x-2 p-1">
           <button
             className="bg-blue-500 text-white p-2"
-            onClick={() => console.log(memo)}
+            onClick={() => chkMemo()}
           >
             메모확인하기
           </button>
