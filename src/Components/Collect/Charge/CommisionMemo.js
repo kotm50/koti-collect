@@ -21,6 +21,7 @@ function CommisionMemo(props) {
       .replace(/&#41;/g, ")")
       .replace(/&#44;/g, ",")
       .replace(/&#34;/g, '"')
+      .replace(/&#58;/g, ":")
       .replace(/&#47;/g, "/");
   };
 
