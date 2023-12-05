@@ -398,14 +398,6 @@ function InputCharge(props) {
       .replace(/_슬래시_/g, "/");
   };
 
-  const chkMemo = async () => {
-    const memo1 = await escapeHTML(memo);
-    const memo2 = await unescapeHTML(memo1);
-
-    console.log(memo1);
-    console.log(memo2);
-  };
-
   const saveIt = async () => {
     const result = await test();
     if (result !== "완료") {
@@ -882,12 +874,6 @@ function InputCharge(props) {
           />
         </div>
         <div className="flex justify-center gap-x-2 p-1">
-          <button
-            className="bg-blue-500 text-white p-2"
-            onClick={() => chkMemo()}
-          >
-            메모확인하기
-          </button>
           <button
             className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
             onClick={() => saveIt()}

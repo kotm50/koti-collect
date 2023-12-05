@@ -505,7 +505,7 @@ function InputDeposit(props) {
               <option value="PG">PG카드</option>
               <option value="MO">몬카드</option>
               <option value="HE">천국카드</option>
-              <option value="PR">선입금(잔액 : {prePaid})</option>
+              <option value="PR">선입금</option>
             </select>
           </div>
         </div>
@@ -545,6 +545,11 @@ function InputDeposit(props) {
               </div>
             )}
           </>
+        ) : payType === "PR" ? (
+          <div className="flex justify-start gap-2">
+            <div className="py-1 w-[128px]">선입금 잔액</div>
+            <div className="w-full relative">{prePaid}</div>
+          </div>
         ) : (
           <div className="flex justify-start gap-2">
             <div className="py-1 w-[128px]">

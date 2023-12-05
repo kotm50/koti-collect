@@ -38,6 +38,7 @@ function CommisionMemo(props) {
 
   const handleModal = () => {
     setModalOn(true);
+    setHovered(false);
   };
 
   return (
