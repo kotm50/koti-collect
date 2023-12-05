@@ -371,7 +371,7 @@ function InputCharge(props) {
       return false;
     }
   };
-  function escapeHTML(text) {
+  const escapeHTML = text => {
     return text
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -380,11 +380,9 @@ function InputCharge(props) {
       .replace(/\)/g, "&#41;")
       .replace(/,/g, "&#44;")
       .replace(/"/g, "&#34;")
-      .replace(/:/g, "&#58;")
-      .replace(/;/g, "&#59;")
       .replace(/\//g, "&#47;");
-  }
-  function unescapeHTML(text) {
+  };
+  const unescapeHTML = text => {
     return text
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
@@ -393,10 +391,8 @@ function InputCharge(props) {
       .replace(/&#41;/g, ")")
       .replace(/&#44;/g, ",")
       .replace(/&#34;/g, '"')
-      .replace(/&#58;/g, ":")
-      .replace(/&#59;/g, ";")
       .replace(/&#47;/g, "/");
-  }
+  };
 
   const chkMemo = async () => {
     const memo1 = await escapeHTML(memo);
