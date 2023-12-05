@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dompurify from "dompurify";
 
 function CommisionMemo(props) {
   const sanitizer = dompurify.sanitize;
   const [hovered, setHovered] = useState(false);
+  const [memo, setMemo] = useState("");
   const handleMouseEnter = () => {
     setHovered(true);
   };
@@ -16,12 +17,20 @@ function CommisionMemo(props) {
     return text.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   };
 
+  useEffect(() => {
+    console.log(props.memo);
+    if (props.memo !== null && props.memo !== undefined && props.memo !== "") {
+      const memo = unescapeHTML(props.memo);
+      setMemo(memo);
+    }
+  }, [props.memo]);
+
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
         className="flex flex-row flex-nowrap w-full truncate memo-nowrap"
         dangerouslySetInnerHTML={{
-          __html: sanitizer(unescapeHTML(props.memo)),
+          __html: sanitizer(memo),
         }}
       />
       {hovered && (
