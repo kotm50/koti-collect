@@ -12,7 +12,7 @@ function CommisionMemo(props) {
   const handleMouseLeave = () => {
     setHovered(false);
   };
-  function unescapeHTML(text) {
+  const unescapeHTML = text => {
     return text
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
@@ -24,7 +24,7 @@ function CommisionMemo(props) {
       .replace(/&#58;/g, ":")
       .replace(/&#59;/g, ";")
       .replace(/&#47;/g, "/");
-  }
+  };
 
   useEffect(() => {
     console.log(props.memo);
@@ -37,7 +37,7 @@ function CommisionMemo(props) {
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
-        className="flex flex-row flex-nowrap w-full truncate memo-nowrap"
+        className="flex flex-row flex-nowrap w-full max-w-[150px] truncate memo-nowrap"
         dangerouslySetInnerHTML={{
           __html: sanitizer(memo),
         }}
