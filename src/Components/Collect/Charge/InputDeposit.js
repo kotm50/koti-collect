@@ -209,7 +209,6 @@ function InputDeposit(props) {
       .replace(/,/g, "&#44;")
       .replace(/"/g, "&#34;")
       .replace(/:/g, "&#58;")
-      .replace(/;/g, "&#59;")
       .replace(/\//g, "&#47;");
   };
 
