@@ -14,16 +14,16 @@ function CommisionMemo(props) {
   };
   const unescapeHTML = text => {
     return text
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&#61;/g, "=")
-      .replace(/&#40;/g, "(")
-      .replace(/&#41;/g, ")")
-      .replace(/&#44;/g, ",")
-      .replace(/&#34;/g, '"')
-      .replace(/&#58;/g, ":")
-      .replace(/&amp;#59;/g, ";")
-      .replace(/&#47;/g, "/");
+      .replace(/_여는꺾쇠_/g, "<")
+      .replace(/_닫는꺾쇠_/g, ">")
+      .replace(/_등호_/g, "=")
+      .replace(/_여는괄호_/g, "(")
+      .replace(/_닫는괄호_/g, ")")
+      .replace(/_쉼표_/g, ",")
+      .replace(/_마침표_/g, '"')
+      .replace(/_콜론_/g, ":")
+      .replace(/_세미콜론_/g, ";")
+      .replace(/_슬래시_/g, "/");
   };
 
   useEffect(() => {

@@ -373,16 +373,16 @@ function InputCharge(props) {
   };
   const escapeHTML = text => {
     return text
-      .replace(/;/g, "&#59;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/=/g, "&#61;")
-      .replace(/\(/g, "&#40;")
-      .replace(/\)/g, "&#41;")
-      .replace(/,/g, "&#44;")
-      .replace(/"/g, "&#34;")
-      .replace(/:/g, "&#58;")
-      .replace(/\//g, "&#47;");
+      .replace(/</g, "_여는꺾쇠_")
+      .replace(/>/g, "_닫는꺾쇠")
+      .replace(/=/g, "_등호_")
+      .replace(/\(/g, "_여는괄호_")
+      .replace(/\)/g, "_닫는괄호_")
+      .replace(/,/g, "_쉼표_")
+      .replace(/"/g, "_마침표_")
+      .replace(/:/g, "_콜론_")
+      .replace(/;/g, "_세미콜론_")
+      .replace(/\//g, "_슬래시_");
   };
   const unescapeHTML = text => {
     return text
