@@ -15,7 +15,7 @@ function InputDeposit(props) {
   const [commCode, setCommCode] = useState(null);
   const [payCode, setPayCode] = useState(null);
 
-  const [prePaid, setPrePaid] = useState(null);
+  const [prePaid, setPrePaid] = useState("");
 
   const [transactionType, setTransactionType] = useState("P");
 
@@ -64,7 +64,7 @@ function InputDeposit(props) {
       setAuthNo("");
       setPayerName("");
       setBigo("");
-      setPrePaid(null);
+      setPrePaid("");
       setPayCode(null);
     }
     //eslint-disable-next-line
@@ -92,7 +92,7 @@ function InputDeposit(props) {
       setAuthNo("");
       setPayerName("");
       setBigo("");
-      setPrePaid(null);
+      setPrePaid("");
       setPayCode(null);
     }
     //eslint-disable-next-line
@@ -281,6 +281,7 @@ function InputDeposit(props) {
     if (result !== "완료") {
       return alert(result);
     } else {
+      const escapeBigo = await escapeHTML(bigo);
       let data = {
         commCode: commCode,
         cardCode: cardCode === "" ? null : cardCode,
@@ -294,7 +295,7 @@ function InputDeposit(props) {
         resNo: resNo,
         authNo: authNo,
         payerName: payerName,
-        bigo: bigo,
+        bigo: escapeBigo,
         payCode: payCode,
       };
       await axios
@@ -451,6 +452,37 @@ function InputDeposit(props) {
       return false;
     }
   };
+
+  const handlePayType = e => {
+    setPayType(e.target.value);
+    if (e.target.value === "PR") {
+      getPrePaid();
+    } else {
+      setPrePaid("");
+    }
+  };
+
+  const getPrePaid = async () => {
+    const data = {
+      companyCode: companyCode,
+    };
+
+    await axios
+      .post("/api/v1/comp/prepay/detail", data, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(res => {
+        console.log(res);
+        if (res.data.code === "C000") {
+          setPrePaid(Number(res.data.prepayment).toLocaleString(), " 원");
+        } else {
+          setPrePaid("선입금 내역이 없습니다");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   return (
     <div className="flex flex-col justify-between h-[400px] text-sm">
       <div
@@ -497,7 +529,7 @@ function InputDeposit(props) {
             <select
               className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
               value={payType}
-              onChange={e => setPayType(e.currentTarget.value)}
+              onChange={handlePayType}
             >
               <option value="">결제방식 선택</option>
               <option value="CA">현금</option>
@@ -510,8 +542,8 @@ function InputDeposit(props) {
           </div>
         </div>
         {payType === "" ? (
-          <div className="p-1">결제방식을 선택해 주세요</div>
-        ) : payType !== "CA" && payType !== "CO" ? (
+          <div className="py-1">결제방식을 선택해 주세요</div>
+        ) : payType !== "CA" && payType !== "CO" && payType !== "PR" ? (
           <>
             {cardList.length > 0 ? (
               <div className="flex justify-start gap-2">
@@ -548,7 +580,7 @@ function InputDeposit(props) {
         ) : payType === "PR" ? (
           <div className="flex justify-start gap-2">
             <div className="py-1 w-[128px]">선입금 잔액</div>
-            <div className="w-full relative">{prePaid}</div>
+            <div className="w-full relative py-1">{prePaid}</div>
           </div>
         ) : (
           <div className="flex justify-start gap-2">
