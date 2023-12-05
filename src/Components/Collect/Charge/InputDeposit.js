@@ -201,6 +201,7 @@ function InputDeposit(props) {
 
   const escapeHTML = text => {
     return text
+      .replace(/;/g, "&#59;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/=/g, "&#61;")

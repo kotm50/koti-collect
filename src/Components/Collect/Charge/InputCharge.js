@@ -373,6 +373,7 @@ function InputCharge(props) {
   };
   const escapeHTML = text => {
     return text
+      .replace(/;/g, "&#59;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/=/g, "&#61;")
@@ -385,6 +386,7 @@ function InputCharge(props) {
   };
   const unescapeHTML = text => {
     return text
+      .replace(/&#59;/g, ";")
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
       .replace(/&#61;/g, "=")
