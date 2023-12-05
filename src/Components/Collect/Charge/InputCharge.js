@@ -420,6 +420,7 @@ function InputCharge(props) {
       } else {
         dual = dualType;
       }
+      console.log(memo);
       const data = {
         commCode: commCode,
         companyCode: companyCode,
@@ -844,6 +845,12 @@ function InputCharge(props) {
           />
         </div>
         <div className="flex justify-center gap-x-2 p-1">
+          <button
+            className="bg-blue-500 text-white p-2"
+            onClick={() => console.log(memo)}
+          >
+            메모확인하기
+          </button>
           <button
             className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"
             onClick={() => saveIt()}

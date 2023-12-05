@@ -114,6 +114,13 @@ function CardList() {
       });
   };
 
+  const cancelSearch = () => {
+    setCompanyCode("");
+    setCompanyName("");
+    setSearchKeyword("");
+    setCompanyListOn(false);
+  };
+
   return (
     <div className="mx-4" data={title}>
       <div className="sticky top-0 left-0 bg-gray-50 pb-2">
@@ -136,10 +143,7 @@ function CardList() {
             <button
               className="bg-gray-700 hover:bg-gray-500 text-white p-2 w-[100px]"
               onClick={() => {
-                setCompanyCode("");
-                setCompanyName("");
-                setSearchKeyword("");
-                setCompanyListOn(false);
+                cancelSearch();
               }}
             >
               초기화
@@ -176,6 +180,7 @@ function CardList() {
             }`}
           >
             <InputCard
+              cancelSearch={cancelSearch}
               companyName={companyName}
               companyCode={companyCode}
               getCardList={getCardList}

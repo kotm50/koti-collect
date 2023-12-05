@@ -292,6 +292,7 @@ function InputCard(props) {
       return false;
     }
     props.setEdit(null);
+    props.cancelSearch();
     setCardCom("");
     setCardCode("");
     setCardNum("");
