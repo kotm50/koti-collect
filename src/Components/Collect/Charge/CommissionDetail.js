@@ -34,52 +34,76 @@ function CommissionDetail(props) {
       <tr
         className="bg-white text-center hover:cursor-pointer"
         title="수정하려면 클릭하세요"
-        onClick={() => {
-          handleList();
-        }}
       >
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.channel}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.companyName}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.companyBranch}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.manager1}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.manager2}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {dayjs(props.comm.hireStartDate).format("YY-MM-DD")}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {dayjs(props.comm.hireEndDate).format("YY-MM-DD")}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.week}주 {props.comm.day}일
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {props.comm.dualType}
         </td>
@@ -87,6 +111,9 @@ function CommissionDetail(props) {
           className={`p-1 border ${
             props.comm.paidAdYn === "N" ? "text-rose-500" : ""
           } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {Number(props.comm.unpaidAd).toLocaleString()}
         </td>
@@ -95,6 +122,9 @@ function CommissionDetail(props) {
           className={`p-1 border ${
             props.comm.paidCommYn === "N" ? "text-rose-500" : ""
           } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {Number(props.comm.unpaidComm).toLocaleString()}
         </td>
@@ -103,6 +133,9 @@ function CommissionDetail(props) {
           className={`p-1 border ${
             props.comm.paidIntvCareYn === "N" ? "text-rose-500" : ""
           } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {Number(props.comm.unpaidIntvCare).toLocaleString()}
         </td>
@@ -111,11 +144,14 @@ function CommissionDetail(props) {
           className={`p-1 border ${
             props.comm.paidCommCareYn === "N" ? "text-rose-500" : ""
           } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
         >
           {Number(props.comm.unpaidCommCare).toLocaleString()}
         </td>
         <td
-          className={`p-1 border w-[150px] relative ${
+          className={`border w-[150px] relative ${
             detailOn ? "bg-blue-100 font-medium" : ""
           }`}
         >

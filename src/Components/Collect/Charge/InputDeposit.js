@@ -15,6 +15,8 @@ function InputDeposit(props) {
   const [commCode, setCommCode] = useState(null);
   const [payCode, setPayCode] = useState(null);
 
+  const [prePaid, setPrePaid] = useState(null);
+
   const [transactionType, setTransactionType] = useState("P");
 
   const [bigo, setBigo] = useState("");
@@ -62,6 +64,7 @@ function InputDeposit(props) {
       setAuthNo("");
       setPayerName("");
       setBigo("");
+      setPrePaid(null);
       setPayCode(null);
     }
     //eslint-disable-next-line
@@ -89,6 +92,7 @@ function InputDeposit(props) {
       setAuthNo("");
       setPayerName("");
       setBigo("");
+      setPrePaid(null);
       setPayCode(null);
     }
     //eslint-disable-next-line
@@ -501,6 +505,7 @@ function InputDeposit(props) {
               <option value="PG">PG카드</option>
               <option value="MO">몬카드</option>
               <option value="HE">천국카드</option>
+              <option value="PR">선입금(잔액 : {prePaid})</option>
             </select>
           </div>
         </div>

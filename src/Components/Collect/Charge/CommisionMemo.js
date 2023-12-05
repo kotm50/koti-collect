@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import dompurify from "dompurify";
+import MemoModal from "../../Layout/MemoModal";
 
 function CommisionMemo(props) {
   const sanitizer = dompurify.sanitize;
   const [hovered, setHovered] = useState(false);
+  const [modalOn, setModalOn] = useState(false);
   const [memo, setMemo] = useState("");
   const handleMouseEnter = () => {
     setHovered(true);
@@ -34,28 +36,29 @@ function CommisionMemo(props) {
     }
   }, [props.memo]);
 
+  const handleModal = () => {
+    setModalOn(true);
+  };
+
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
-        className="flex flex-row flex-nowrap w-full max-w-[150px] truncate memo-nowrap"
+        className="flex flex-row flex-nowrap w-full max-w-[150px] truncate memo-nowrap h-full"
         dangerouslySetInnerHTML={{
           __html: sanitizer(memo),
         }}
       />
       {hovered && (
-        <div
-          className="bg-white border drop-shadow h-fit w-fit absolute top-0 right-0 p-2 -translate-y-100 min-w-[240px] z-50"
-          style={{ marginTop: "30px" }}
-        >
-          <h4 className="text-center font-bold">메모 전체보기</h4>
-          <div
-            className="w-full text-left"
-            dangerouslySetInnerHTML={{
-              __html: sanitizer(props.memo),
-            }}
-          />
+        <div className="bg-black border drop-shadow absolute top-0 bottom-0 left-0 right-0 w-full z-10 bg-opacity-20 text-white p-[2px]">
+          <button
+            className="py-1 px-3 text-sm font-bold bg-green-600 hover:bg-green-800 text-white h-full rounded-lg"
+            onClick={handleModal}
+          >
+            메모 전체보기
+          </button>
         </div>
       )}
+      {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
 }
