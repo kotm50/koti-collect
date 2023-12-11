@@ -22,9 +22,12 @@ function Menu() {
       >
         결제카드 관리
       </Link>
-      <div className="p-4 hover:bg-gray-100 transition-all duration-300">
-        월별 내역보기
-      </div>
+      <Link
+        to="/collect/prepaid"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
+        선입금 추가/수정
+      </Link>
       <div className="p-4 hover:bg-gray-100 transition-all duration-300">
         기프티콘 충전현황
       </div>

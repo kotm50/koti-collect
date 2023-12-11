@@ -132,6 +132,7 @@ function Company() {
           logout();
           return false;
         }
+        console.log(res.data.commList);
         setCategoryList(res.data.commList);
       })
       .catch(e => console.log(e));
@@ -409,7 +410,7 @@ function Company() {
               <td className="py-2">번호</td>
               <td className="p-1 w-28">
                 <select
-                  className="p-1 bg-blue-600 font-medium w-full"
+                  className="p-1 bg-blue-600 font-medium w-full min-w-[100px]"
                   onChange={handleGubunSelect}
                   value={selectGubun}
                 >
@@ -462,7 +463,7 @@ function Company() {
               <td className="p-2 truncate">입력</td>
               <td className="p-1 w-28">
                 <select
-                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-[100px]"
                   ref={gubunRef}
                   onChange={handleInputGubunSelect}
                   value={inputGubun}

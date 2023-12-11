@@ -30,13 +30,13 @@ function Deposit(props) {
           <td className="p-1 border">입금/환급</td>
           <td className="p-1 border">결제방식</td>
           <td className="p-1 border">명의자(계좌/카드)</td>
-          <td className="p-1 border">카드사</td>
-          <td className="p-1 border">카드번호</td>
-          <td className="p-1 border">결제일</td>
+          <td className="p-1 border w-[100px]">카드사</td>
+          <td className="p-1 border w-[300px] truncate">카드번호</td>
           <td className="p-1 border">광고비 입금</td>
           <td className="p-1 border">위촉비 입금</td>
           <td className="p-1 border">면케 입금</td>
           <td className="p-1 border">위케 입금</td>
+          <td className="p-1 border">결제일</td>
           <td className="p-1 border">메모</td>
         </tr>
       </thead>
@@ -72,6 +72,8 @@ function Deposit(props) {
                     ? "알바몬카드"
                     : pay.payType === "HE"
                     ? "알바천국카드"
+                    : pay.payType === "PR"
+                    ? "선입금"
                     : "오류"}
                 </td>
                 <td className="p-1 border">
@@ -81,13 +83,8 @@ function Deposit(props) {
                     ? pay.payerName
                     : pay.cardOwner}
                 </td>
-                <td className="p-1 border">{pay.cardComp}</td>
-                <td className="p-1 border min-w-[200px] max-w-[200px]">
-                  {pay.cardNum}
-                </td>
-                <td className="p-1 border">
-                  {dayjs(pay.paidDate).format("YY-MM-DD")}
-                </td>
+                <td className="p-1 border w-[100px]">{pay.cardComp}</td>
+                <td className="p-1 border w-[300px] truncate">{pay.cardNum}</td>
                 <td
                   className={`p-1 border ${
                     Number(pay.paidAd) > 0 && pay.transactionType === "P"
@@ -156,8 +153,15 @@ function Deposit(props) {
                     : ""}
                   {Number(pay.paidCommCare).toLocaleString()}
                 </td>
+                <td className="p-1 border">
+                  {dayjs(pay.paidDate).format("YY-MM-DD")}
+                </td>
                 <td className="p-1 border  w-[150px] relative">
-                  <CommisionMemo memo={pay.bigo} />
+                  <CommisionMemo
+                    memo={pay.bigo}
+                    setMemo={props.setMemo}
+                    setModalOn={props.setModalOn}
+                  />
                 </td>
               </tr>
             ))}

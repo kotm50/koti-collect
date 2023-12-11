@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import dompurify from "dompurify";
-import MemoModal from "../../Layout/MemoModal";
 
 function CommisionMemo(props) {
   const sanitizer = dompurify.sanitize;
   const [hovered, setHovered] = useState(false);
-  const [modalOn, setModalOn] = useState(false);
   const [memo, setMemo] = useState("");
   const handleMouseEnter = () => {
     setHovered(true);
@@ -29,7 +27,6 @@ function CommisionMemo(props) {
   };
 
   useEffect(() => {
-    console.log(props.memo);
     if (props.memo !== null && props.memo !== undefined && props.memo !== "") {
       const memo = unescapeHTML(props.memo);
       setMemo(memo);
@@ -37,7 +34,8 @@ function CommisionMemo(props) {
   }, [props.memo]);
 
   const handleModal = () => {
-    setModalOn(true);
+    props.setMemo(memo);
+    props.setModalOn(true);
     setHovered(false);
   };
 
@@ -59,7 +57,6 @@ function CommisionMemo(props) {
           </button>
         </div>
       )}
-      {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
 }

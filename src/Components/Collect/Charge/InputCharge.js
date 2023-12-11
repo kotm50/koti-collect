@@ -44,6 +44,7 @@ function InputCharge(props) {
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [paymentDueDate, setPaymentDueDate] = useState("");
   const [week, setWeek] = useState("");
   const [day, setDay] = useState("");
   const [memo, setMemo] = useState("");
@@ -51,7 +52,7 @@ function InputCharge(props) {
   const comNameRef = useRef(null);
 
   useEffect(() => {
-    if (props.commCode !== null) {
+    if (props.commCode !== null && props.commCode !== undefined) {
       getCharge(props.commCode);
     } else {
       setSearchKeyword("");
@@ -82,6 +83,7 @@ function InputCharge(props) {
 
       setStartDate("");
       setEndDate("");
+      setPaymentDueDate("");
       setMemo("");
     }
     //eslint-disable-next-line
@@ -111,6 +113,7 @@ function InputCharge(props) {
         setAdNumber(commission.adId);
         setStartDate(commission.hireStartDate);
         setEndDate(commission.hireEndDate);
+        setPaymentDueDate(commission.paymentDueDate || "");
         getWeek(commission.hireStartDate, commission.hireEndDate);
         setMemo(unescapeHTML(commission.memo));
         setPaidAdYn(commission.paidAdYn);
@@ -127,7 +130,6 @@ function InputCharge(props) {
 
   useEffect(() => {
     getDualTypeList();
-    props.getFeeList(props.month, props.searchKeyword);
     //eslint-disable-next-line
   }, [thisLocation, props.month, props.searchKeyword, props.isUnpaid]);
 
@@ -313,6 +315,7 @@ function InputCharge(props) {
 
       setStartDate("");
       setEndDate("");
+      setPaymentDueDate("");
       setMemo("");
     } else {
       return false;
@@ -362,7 +365,7 @@ function InputCharge(props) {
           setEndDate("");
           setMemo("");
 
-          props.getFeeList(props.month, props.searchKeyword);
+          props.getFeeList(props.month, props.year, props.searchKeyword);
         })
         .catch(e => {
           console.log(e);
@@ -410,7 +413,6 @@ function InputCharge(props) {
       let intvCareYn;
 
       const escapeMemo = await escapeHTML(memo);
-      console.log(escapeMemo);
 
       if (paidAdYn === null) {
         if (Number(realUnpaidAd) > 0) {
@@ -463,6 +465,7 @@ function InputCharge(props) {
         paidIntvCareYn: intvCareYn,
         hireStartDate: startDate,
         hireEndDate: endDate,
+        paymentDueDate: paymentDueDate === "" ? null : paymentDueDate,
         dualType: dual,
         week: week,
         day: day,
@@ -470,13 +473,11 @@ function InputCharge(props) {
         taxBillYn: tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
-      console.log(data);
       await axios
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           alert(res.data.message);
           if (res.data.code === "E999" || res.data.code === "E403") {
             logout();
@@ -517,7 +518,8 @@ function InputCharge(props) {
             setStartDate("");
             setEndDate("");
             setMemo("");
-            props.getFeeList(props.month, props.searchKeyword);
+            props.setCommCode(null);
+            props.getFeeList(props.month, props.year, props.searchKeyword);
           }
         })
         .catch(e => {
@@ -643,38 +645,15 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">
-            진행기간<span className="text-rose-500">*</span>
-          </div>
-          <div className="w-full grid grid-cols-2 gap-x-1">
-            <div className="relative">
-              <input
-                type="text"
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                value={week}
-                placeholder="채용시작일/종료일을 지정해 주세요"
-                onChange={e => setWeek(e.currentTarget.value)}
-              />
-              {week !== "" && (
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
-                  주
-                </div>
-              )}
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                value={day}
-                placeholder="채용시작일/종료일을 지정해 주세요"
-                onChange={e => setDay(e.currentTarget.value)}
-              />
-              {week !== "" && (
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
-                  일
-                </div>
-              )}
-            </div>
+          <div className="py-1 w-[128px]">입금 예정일</div>
+          <div className="w-full relative">
+            <input
+              type="date"
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              id="paymentDueDate"
+              value={paymentDueDate}
+              onChange={e => setPaymentDueDate(e.currentTarget.value)}
+            />
           </div>
         </div>
         <div

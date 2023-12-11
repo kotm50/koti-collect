@@ -43,29 +43,28 @@ function InputDeposit(props) {
   const [cardList, setCardList] = useState([]);
 
   useEffect(() => {
+    setCommCode(null);
+    setCardCode("");
+    setTransactionType("P");
+    setPayType("");
+    setRealPaidAd("");
+    setRealPaidComm("");
+    setRealPaidIntvCare("");
+    setRealPaidCommCare("");
+    setPaidAd("");
+    setPaidComm("");
+    setPaidIntvCare("");
+    setPaidCommCare("");
+    setPaidDate("");
+    setResNo("");
+    setAuthNo("");
+    setPayerName("");
+    setBigo("");
+    setPrePaid("");
+    setPayCode(null);
     if (props.commCode !== null) {
       setCommCode(props.commCode);
       getCompanyCode(props.commCode);
-    } else {
-      setCommCode(null);
-      setCardCode("");
-      setTransactionType("P");
-      setPayType("");
-      setRealPaidAd("");
-      setRealPaidComm("");
-      setRealPaidIntvCare("");
-      setRealPaidCommCare("");
-      setPaidAd("");
-      setPaidComm("");
-      setPaidIntvCare("");
-      setPaidCommCare("");
-      setPaidDate("");
-      setResNo("");
-      setAuthNo("");
-      setPayerName("");
-      setBigo("");
-      setPrePaid("");
-      setPayCode(null);
     }
     //eslint-disable-next-line
   }, [props.commCode]);
@@ -265,7 +264,8 @@ function InputDeposit(props) {
           }
           if (res.data.code === "C000") {
             setBigo("");
-            props.getFeeList(props.month, props.searchKeyword);
+
+            props.getFeeList(props.month, props.year, props.searchKeyword);
             props.getPayList(commCode);
             await codeReset();
           }
@@ -310,7 +310,8 @@ function InputDeposit(props) {
           }
           if (res.data.code === "C000") {
             setBigo("");
-            props.getFeeList(props.month, props.searchKeyword);
+            props.setCommCode(null);
+            props.getFeeList(props.month, props.year, props.searchKeyword);
             props.getPayList(commCode);
             await codeReset();
           }
@@ -323,14 +324,24 @@ function InputDeposit(props) {
 
   const codeReset = () => {
     props.setCommCode(null);
+    setCardCode("");
+    setTransactionType("P");
+    setPayType("");
+    setRealPaidAd("");
+    setRealPaidComm("");
+    setRealPaidIntvCare("");
+    setRealPaidCommCare("");
+    setPaidAd("");
+    setPaidComm("");
+    setPaidIntvCare("");
+    setPaidCommCare("");
+    setPaidDate("");
+    setResNo("");
+    setAuthNo("");
+    setPayerName("");
+    setBigo("");
+    setPayCode(null);
   };
-
-  useEffect(() => {
-    if (props.commCode === null && commCode !== "") {
-      props.setCommCode(commCode);
-    }
-    //eslint-disable-next-line
-  }, [props.commCode]);
 
   const tester = () => {
     if (paidDate === "") {
@@ -365,6 +376,11 @@ function InputDeposit(props) {
     if (payType === "PG" || payType === "MO" || payType === "HE") {
       getCardList(companyCode);
     } else {
+      if (payType === "PR") {
+        getPrePaid();
+      } else {
+        setPrePaid("");
+      }
       setCardList([]);
     }
     //eslint-disable-next-line
@@ -441,7 +457,7 @@ function InputDeposit(props) {
         })
         .then(async res => {
           alert(res.data.message);
-          props.getFeeList(props.month, props.searchKeyword);
+          props.getFeeList(props.month, props.year, props.searchKeyword);
           props.getPayList(commCode);
           await codeReset();
         })
@@ -455,11 +471,6 @@ function InputDeposit(props) {
 
   const handlePayType = e => {
     setPayType(e.target.value);
-    if (e.target.value === "PR") {
-      getPrePaid();
-    } else {
-      setPrePaid("");
-    }
   };
 
   const getPrePaid = async () => {
@@ -468,13 +479,16 @@ function InputDeposit(props) {
     };
 
     await axios
-      .post("/api/v1/comp/prepay/detail", data, {
+      .post("/api/v1/comp/prepay/balance", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(res => {
         console.log(res);
         if (res.data.code === "C000") {
-          setPrePaid(Number(res.data.prepayment).toLocaleString(), " 원");
+          setPrePaid(
+            Number(res.data.prepay.prepayment).toLocaleString(),
+            " 원"
+          );
         } else {
           setPrePaid("선입금 내역이 없습니다");
         }

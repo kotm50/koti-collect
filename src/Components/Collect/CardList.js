@@ -92,7 +92,6 @@ function CardList() {
     let data = {
       companyCode: c === "" ? null : c,
     };
-    console.log(data);
     await axios
       .post("/api/v1/comp/card/list", data, {
         headers: { Authorization: user.accessToken },
@@ -104,7 +103,6 @@ function CardList() {
           return false;
         }
         if (res.data.code === "C000") {
-          console.log(res.data.cardList);
           setCardList(res.data.cardList);
         }
         setLoaded(true);

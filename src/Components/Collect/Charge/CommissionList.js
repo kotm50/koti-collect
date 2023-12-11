@@ -6,17 +6,29 @@ import CommissionDetail from "./CommissionDetail";
 function CommissionList(props) {
   const [commisionList, setCommissionList] = useState([]);
   const [idNum, setIdNum] = useState(null);
+  const [height, setHeight] = useState(680);
+  useEffect(() => {
+    if (props.inputOn) {
+      setHeight(280);
+    } else {
+      setHeight(680);
+    }
+  }, [props.inputOn]);
   useEffect(() => {
     if (props.feeList.length === 0) {
       setIdNum(null);
     }
     setCommissionList(props.feeList);
   }, [props]);
+
+  useEffect(() => {
+    //elint-disable-next-line
+  }, [props.inputOn]);
   return (
-    <>
+    <div className="relative overflow-auto" style={{ height: `${height}px` }}>
       {commisionList.length > 0 ? (
         <table id="mainTable" className="w-full">
-          <thead>
+          <thead className="sticky top-0 left-0 z-50">
             <tr className="text-white bg-blue-500 text-center">
               <td className="p-1 border">채널</td>
               <td className="p-1 border">고객사</td>
@@ -31,6 +43,7 @@ function CommissionList(props) {
               <td className="p-1 border">위촉비 미수금</td>
               <td className="p-1 border">면케 미수금</td>
               <td className="p-1 border">위케 미수금</td>
+              <td className="p-1 border">입금 예정일</td>
               <td className="p-1 border">메모</td>
             </tr>
           </thead>
@@ -68,7 +81,7 @@ function CommissionList(props) {
           잠시만 기다려 주세요
         </div>
       )}
-    </>
+    </div>
   );
 }
 

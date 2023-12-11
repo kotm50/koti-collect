@@ -31,7 +31,6 @@ function InputCompanyList(props) {
         },
       })
       .then(async res => {
-        console.log(res);
         if (!res.data.compList || res.data.compList.length === 0) {
           setLoadMsg("검색 실패");
         }
@@ -45,7 +44,7 @@ function InputCompanyList(props) {
   return (
     <div
       id="searchCompany"
-      className="absolute top-0 left-0 translate-x-full border bg-white min-w-[380px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-2 rounded-lg"
+      className="absolute top-[40px] border bg-white min-w-[360px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-2"
     >
       <div className="flex justify-between mb-2">
         <h3 className="text-center text-lg font-bold">고객사 검색결과</h3>
@@ -65,7 +64,7 @@ function InputCompanyList(props) {
                 <td className="p-2 text-center truncate">지점</td>
                 <td className="p-2 text-center truncate">담당자 1</td>
                 <td className="p-2 text-center truncate">담당자 2</td>
-                <td className="p-1 text-center">조회</td>
+                <td className="p-1 text-center">등록</td>
               </tr>
             </thead>
             <tbody>
@@ -85,11 +84,13 @@ function InputCompanyList(props) {
                       value={com.companyCode}
                       onClick={e => {
                         props.setCompanyCode(e.currentTarget.value);
-                        props.setCompanyName(com.companyBranch);
+                        props.setCompanyName(
+                          `${com.companyName} ${com.companyBranch}`
+                        );
                         props.setCompanyListOn(false);
                       }}
                     >
-                      조회
+                      등록
                     </button>
                   </td>
                 </tr>

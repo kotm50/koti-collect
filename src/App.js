@@ -9,6 +9,7 @@ import Company from "./Components/Collect/Company";
 import Channel from "./Components/Collect/Channel";
 import Test from "./Components/Test";
 import CardList from "./Components/Collect/CardList";
+import PrePaid from "./Components/Collect/PrePaid";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="" element={<CollectMain />} />
           <Route path="ar" element={<Receive />} />
           <Route path="ur" element={<UnReceive />} />
+          <Route path="prepaid" element={<PrePaid />} />
           <Route path="card" element={<CardList />} />
           <Route path="urback" element={<UnReceiveBack />} />
           <Route path="company" element={<Company />} />

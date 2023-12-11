@@ -8,6 +8,8 @@ import axios from "axios";
 import { clearUser } from "../../Reducer/userSlice";
 import MonthButton from "./Charge/MonthButton";
 import InputDeposit from "./Charge/InputDeposit";
+import dayjs from "dayjs";
+import "dayjs/locale/ko"; // 한국어 로케일 import
 
 function UnReceive() {
   const stickyRef = useRef(null);
@@ -18,8 +20,7 @@ function UnReceive() {
   const [title, setTitle] = useOutletContext();
   const [inputOn, setInputOn] = useState(false);
 
-  const [bottom, setBottom] = useState(0);
-
+  const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   const [isUnpaid, setIsUnpaid] = useState("N");
@@ -35,6 +36,9 @@ function UnReceive() {
 
   const [loaded, setLoaded] = useState(false);
 
+  const [paid, setPaid] = useState(null);
+  const [unPaid, setUnPaid] = useState(null);
+
   const handleSearch = e => {
     if (e.key === "Enter") {
       setSearchKeyword(e.target.value);
@@ -43,24 +47,20 @@ function UnReceive() {
     }
   };
 
+  const handleYear = e => {
+    setYear(e.target.value);
+    setIsUnpaid("N");
+  };
+
   useEffect(() => {
     setTitle("수수료 관리");
     //eslint-disable-next-line
   }, [thisLocation]);
 
   useEffect(() => {
-    if (stickyRef.current) {
-      const rect = stickyRef.current.getBoundingClientRect();
-      const bottomY = rect.bottom; // 뷰포트 상단으로부터의 div 하단의 Y 좌표
-      console.log(bottomY);
-      setBottom(bottomY);
-    }
-  }, [inputOn]);
-
-  useEffect(() => {
-    getFeeList(month, searchKeyword);
+    getFeeList(month, year, searchKeyword);
     //eslint-disable-next-line
-  }, [isUnpaid]);
+  }, [isUnpaid, month, year]);
 
   const logout = async () => {
     await axios
@@ -85,11 +85,12 @@ function UnReceive() {
     setFeeList([]);
   };
 
-  const getFeeList = async (month, keyword) => {
+  const getFeeList = async (month, year, keyword) => {
     await loadReset();
     await feeReset();
     let commission = {
       hireStartMonth: String(month),
+      hireStartYear: String(year),
       commStatus: isUnpaid,
     };
     let reqData;
@@ -110,16 +111,29 @@ function UnReceive() {
       .post("/api/v1/comp/get/ad", reqData, {
         headers: { Authorization: user.accessToken },
       })
-      .then(res => {
+      .then(async res => {
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
         }
-        setFeeList(res.data.commissionList);
+        let unPaid = res.data.commission;
+        if (
+          unPaid.unpaidAd === 0 &&
+          unPaid.unpaidComm === 0 &&
+          unPaid.unpaidCommCare === 0 &&
+          unPaid.unpaidIntvCare === 0
+        ) {
+          unPaid = null;
+        }
+        const commisionList = res.data.commissionList;
+        setPaid(res.data.pay || null);
+        setUnPaid(unPaid);
+        setFeeList(commisionList);
         setLoaded(true);
       })
       .catch(e => console.log(e));
   };
+
   const handleUnpaidChk = e => {
     setIsUnpaid(e.target.value);
   };
@@ -133,7 +147,6 @@ function UnReceive() {
     const data = {
       commCode: commCode,
     };
-    console.log(data);
     await axios
       .post("/api/v1/comp/get/pay/list", data, {
         headers: { Authorization: user.accessToken },
@@ -150,6 +163,93 @@ function UnReceive() {
 
   return (
     <div className="mx-4" data={title}>
+      <div className="w-[1280px] h-[72px] fixed top-4 right-4 grid grid-cols-2 z-10 gap-x-2 font-medium">
+        {unPaid !== null && (
+          <table className="w-full">
+            <thead>
+              <tr className="bg-rose-500 text-white">
+                <td className="p-1 border text-center">미수금 합계</td>
+                <td className="p-1 border text-center">광고비 미수금</td>
+                <td className="p-1 border text-center">위촉비 미수금</td>
+                <td className="p-1 border text-center">면케 미수금</td>
+                <td className="p-1 border text-center">위케 미수금</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white">
+                <td className="p-1 border bg-rose-50 text-right font-bold">
+                  {Number(
+                    unPaid.unpaidAd +
+                      unPaid.unpaidComm +
+                      unPaid.unpaidIntvCare +
+                      unPaid.unpaidCommCare
+                  ).toLocaleString()}{" "}
+                  원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(unPaid.unpaidAd).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(unPaid.unpaidComm).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(unPaid.unpaidIntvCare).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(unPaid.unpaidCommCare).toLocaleString()} 원
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+        {paid !== null && (
+          <table className="w-full">
+            <thead>
+              <tr className="bg-green-600 text-white">
+                <td className="p-1 border text-center">수금 합계</td>
+                <td className="p-1 border text-center">광고비 수금</td>
+                <td className="p-1 border text-center">위촉비 수금</td>
+                <td className="p-1 border text-center">면케 수금</td>
+                <td className="p-1 border text-center">위케 수금</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white">
+                <td className="p-1 border bg-rose-50 text-right font-bold">
+                  {Number(
+                    paid.paidAd +
+                      paid.paidComm +
+                      paid.paidIntvCare +
+                      paid.paidCommCare
+                  ).toLocaleString()}{" "}
+                  원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(paid.paidAd).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(paid.paidComm).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(paid.paidIntvCare).toLocaleString()} 원
+                </td>
+                <td className="p-1 border text-right">
+                  {Number(paid.paidCommCare).toLocaleString()} 원
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+        {unPaid === null && paid === null && (
+          <div className="w-full h-full border text-center col-span-2 flex flex-col justify-center text-xl">
+            <div>
+              <span className="font-bold">{year}</span>년{" "}
+              <span className="font-bold">{month}</span>월의 수금/미수금 내역이
+              없습니다. 다른 달을 선택하세요
+            </div>
+          </div>
+        )}
+      </div>
       <div
         ref={stickyRef}
         className="sticky top-0 left-0 z-50 bg-gray-50 pb-2 grid grid-cols-2 gap-x-2"
@@ -183,6 +283,7 @@ function UnReceive() {
               commCode={commCode}
               setCommCode={setCommCode}
               month={month}
+              year={year}
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
             />
@@ -220,6 +321,7 @@ function UnReceive() {
               payCode={payCode}
               setPayCode={setPayCode}
               month={month}
+              year={year}
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
               logout={logout}
@@ -253,6 +355,14 @@ function UnReceive() {
           </div>
           <div className="flex flex-row justify-start gap-x-1">
             <div className="p-2 font-bold">월별보기</div>
+            <select
+              className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-[100px] rounded"
+              value={year}
+              onChange={handleYear}
+            >
+              <option value="2023">2023년</option>
+              <option value="2024">2024년</option>
+            </select>
             <div className="grid grid-cols-12 gap-x-1">
               <MonthButton
                 month={month}
@@ -277,13 +387,14 @@ function UnReceive() {
           </div>
         </div>
       </div>
-      <div className="w-full mt-2 mb-[100px]">
+      <div className="w-full mt-2">
         <CommissionList
           user={user}
           feeList={feeList}
-          bottom={bottom}
+          inputOn={inputOn}
           payList={payList}
           getPayList={getPayList}
+          commCode={commCode}
           setCommCode={setCommCode}
           setPayCode={setPayCode}
           loading={loaded}

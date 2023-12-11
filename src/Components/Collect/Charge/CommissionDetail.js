@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MemoModal from "../../Layout/MemoModal";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
@@ -6,37 +7,57 @@ import CommisionMemo from "./CommisionMemo";
 import Deposit from "./Deposit";
 
 function CommissionDetail(props) {
+  const [modalOn, setModalOn] = useState(false);
   const [detailOn, setDetailOn] = useState(false);
+  const [period, setPeriod] = useState(10);
+  const [memo, setMemo] = useState("");
   const handleList = () => {
-    if (!detailOn) {
-      props.setCommCode(props.comm.commCode);
-      props.setIdNum(props.idx);
-    } else {
-      props.setCommCode(null);
-      props.setPayCode(null);
-      props.setIdNum(null);
-    }
     setDetailOn(!detailOn);
   };
 
   useEffect(() => {
-    if (props.idx === props.idNum) {
-      props.setInputOn(true);
-      setDetailOn(true);
-    } else {
-      setDetailOn(false);
+    if (
+      props.comm.paymentDueDate !== null &&
+      props.comm.paymentDueDate !== undefined &&
+      props.comm.paymentDueDate !== ""
+    ) {
+      chkDueDate(props.comm.paymentDueDate);
     }
     //eslint-disable-next-line
-  }, [props.idNum]);
+  }, [props.comm]);
+
+  const chkDueDate = date => {
+    const today = new Date();
+    const dueDate = new Date(date);
+    const timeDifference = Math.abs(dueDate - today);
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+    setPeriod(daysDifference);
+  };
+
+  useEffect(() => {
+    if (detailOn) {
+      props.setCommCode(props.comm.commCode);
+      props.setInputOn(true);
+    } else {
+      props.setCommCode(null);
+    }
+    //eslint-disable-next-line
+  }, [detailOn]);
 
   return (
     <>
       <tr
-        className="bg-white text-center hover:cursor-pointer"
+        className={`text-center hover:cursor-pointer ${
+          period <= 3 && period > 1
+            ? "bg-purple-100"
+            : period <= 1
+            ? "bg-violet-200"
+            : "bg-white"
+        }`}
         title="수정하려면 클릭하세요"
       >
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -44,7 +65,7 @@ function CommissionDetail(props) {
           {props.comm.channel}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -52,7 +73,7 @@ function CommissionDetail(props) {
           {props.comm.companyName}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -60,7 +81,7 @@ function CommissionDetail(props) {
           {props.comm.companyBranch}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -68,7 +89,7 @@ function CommissionDetail(props) {
           {props.comm.manager1}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -76,7 +97,7 @@ function CommissionDetail(props) {
           {props.comm.manager2}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -84,7 +105,7 @@ function CommissionDetail(props) {
           {dayjs(props.comm.hireStartDate).format("YY-MM-DD")}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -92,7 +113,7 @@ function CommissionDetail(props) {
           {dayjs(props.comm.hireEndDate).format("YY-MM-DD")}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -100,7 +121,7 @@ function CommissionDetail(props) {
           {props.comm.week}주 {props.comm.day}일
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -108,9 +129,9 @@ function CommissionDetail(props) {
           {props.comm.dualType}
         </td>
         <td
-          className={`p-1 border ${
+          className={`p-1 border font-medium ${
             props.comm.paidAdYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -119,9 +140,9 @@ function CommissionDetail(props) {
         </td>
 
         <td
-          className={`p-1 border ${
+          className={`p-1 border font-medium ${
             props.comm.paidCommYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -130,9 +151,9 @@ function CommissionDetail(props) {
         </td>
 
         <td
-          className={`p-1 border ${
+          className={`p-1 border font-medium ${
             props.comm.paidIntvCareYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -141,9 +162,9 @@ function CommissionDetail(props) {
         </td>
 
         <td
-          className={`p-1 border ${
+          className={`p-1 border font-medium ${
             props.comm.paidCommCareYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-medium" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -151,16 +172,33 @@ function CommissionDetail(props) {
           {Number(props.comm.unpaidCommCare).toLocaleString()}
         </td>
         <td
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""} ${
+            period <= 1 ? "font-bold" : ""
+          }`}
+          onClick={() => {
+            handleList();
+          }}
+        >
+          {props.comm.paymentDueDate
+            ? dayjs(props.comm.paymentDueDate).format("YY-MM-DD")
+            : ""}
+        </td>
+        <td
           className={`border w-[150px] relative ${
-            detailOn ? "bg-blue-100 font-medium" : ""
+            detailOn ? "bg-blue-100 font-bold" : ""
           }`}
         >
-          <CommisionMemo memo={props.comm.memo} />
+          <CommisionMemo
+            memo={props.comm.memo}
+            setMemo={setMemo}
+            setModalOn={setModalOn}
+          />
+          {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
         </td>
       </tr>
       {detailOn ? (
         <tr>
-          <td colSpan="14" className="bg-blue-100 text-center p-1 border-x">
+          <td colSpan="15" className="bg-blue-100 text-center p-1 border-x">
             <Deposit
               accessToken={props.user.accessToken}
               commCode={props.comm.commCode}
@@ -170,6 +208,8 @@ function CommissionDetail(props) {
               getPayList={props.getPayList}
               setPayCode={props.setPayCode}
               detailOn={detailOn}
+              setMemo={setMemo}
+              setModalOn={setModalOn}
             />
           </td>
         </tr>
