@@ -70,37 +70,47 @@ function CompanyPrepaidDetail(props) {
       >
         <td className="p-1 border text-sm">{payStat}</td>
         <td className="p-1 border text-sm">
-          {dayjs(props.pay.paidDate).format("YYYY-MM-DD")}
+          {dayjs(new Date(props.pay.paidDate)).format("YYYY-MM-DD")}
         </td>
         <td className="p-1 border text-sm">
           {Number(props.pay.prepayment).toLocaleString()}원
         </td>
-        <td className="p-1 border text-sm">{payResult}</td>
-        {props.pay.cardCode === null ? (
-          <td
-            className={`p-1 border max-w-[300px] w-[300px] min-w-[300px] relative ${
-              props.pay.transactionType === "B" ||
-              props.pay.transactionType === "C"
-                ? "text-xs"
-                : "text-sm"
-            }`}
-          >
-            <PrePaidMemo
-              memo={props.pay.bigo}
-              setMemo={props.setMemo}
-              setModalOn={props.setModalOn}
-            />
-          </td>
-        ) : (
-          <td
-            className="border max-w-[300px] w-[300px] min-w-[300px] text-sm"
-            title={`${props.pay.cardComp} | ${props.pay.cardOwner} | ${props.pay.cardNum}`}
-          >
-            <div className="w-[300px] overflow-x-hidden truncate">
-              {props.pay.cardComp} {props.pay.cardNum}
-            </div>
-          </td>
-        )}
+        <td className="p-1 border text-sm">
+          {Number(props.pay.actualPrepayment).toLocaleString()}원
+        </td>
+        <td className="p-1 border text-sm">
+          {payResult}
+          {props.pay.payType === "CA" || props.pay.payType === "CO" ? (
+            <span>{props.pay.taxBillYn === "Y" ? "(발행)" : "(미발행)"}</span>
+          ) : null}
+        </td>
+        <td className="p-1 border text-sm">
+          {payResult === "현금" || payResult === "법인"
+            ? props.pay.payerName
+            : props.pay.cardOwner}
+        </td>
+        <td
+          className="border max-w-[150px] w-[150px] min-w-[150px] text-sm px-2"
+          title={`${props.pay.cardComp} | ${props.pay.cardOwner} | ${props.pay.cardNum}`}
+        >
+          <div className="w-[142px] overflow-x-hidden truncate">
+            {props.pay.cardComp} {props.pay.cardNum}
+          </div>
+        </td>
+        <td
+          className={`p-1 border max-w-[150px] w-[150px] min-w-[150px] relative ${
+            props.pay.transactionType === "B" ||
+            props.pay.transactionType === "C"
+              ? "text-xs"
+              : "text-sm"
+          }`}
+        >
+          <PrePaidMemo
+            memo={props.pay.bigo}
+            setMemo={props.setMemo}
+            setModalOn={props.setModalOn}
+          />
+        </td>
       </tr>
     </>
   );

@@ -22,6 +22,8 @@ function PrepaidDetail(props) {
 
             props.setFocusedDetailIndex(props.idx);
           } else {
+            props.getCompanyPrepayList("cancel", props.transactionType);
+            props.setCCode(null);
             props.setCompanyCode(null);
             props.setCompanyName(null);
             props.setFocusedDetailIndex(null);

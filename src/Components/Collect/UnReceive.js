@@ -164,7 +164,7 @@ function UnReceive() {
 
   return (
     <div className="mx-4" data={title}>
-      <div className="w-[1280px] h-[104px] fixed top-0 right-0 p-4 grid grid-cols-2 z-10 gap-x-2 font-medium bg-white">
+      <div className="w-[1280px] h-[88px] fixed top-0 right-0 py-2 px-4 grid grid-cols-2 z-10 gap-x-2 font-medium bg-gray-50">
         {unPaid !== null ? (
           <table className="w-full">
             <thead>

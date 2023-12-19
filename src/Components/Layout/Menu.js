@@ -38,7 +38,7 @@ function Menu() {
         to="/collect/statistics"
         className="p-4 hover:bg-gray-100 transition-all duration-300"
       >
-        결제 내역
+        기간 별 조회
       </Link>
 
       <Link

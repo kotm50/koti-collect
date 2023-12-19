@@ -155,7 +155,7 @@ function Deposit(props) {
                 {Number(pay.paidCommCare).toLocaleString()}
               </td>
               <td className="p-1 border border-stone-400">
-                {dayjs(pay.paidDate).format("YY-MM-DD")}
+                {dayjs(new Date(pay.paidDate)).format("YY-MM-DD")}
               </td>
               <td className="p-1 border border-stone-400 w-[150px] relative">
                 <CommisionMemo

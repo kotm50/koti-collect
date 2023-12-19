@@ -52,12 +52,15 @@ function PrePaid() {
   }, [searchKeyword]);
 
   const getCompanyPrepayList = async (cCode, tType) => {
+    setTotalPrepay(0);
+    setCompanyPrepayList([]);
+    if (cCode === "cancel") {
+      return true;
+    }
     const data = {
       companyCode: cCode,
       transactionType: tType,
     };
-    console.log(data);
-
     await axios
       .post("/api/v1/comp/prepay/list", data, {
         headers: { Authorization: user.accessToken },
@@ -67,7 +70,7 @@ function PrePaid() {
         if (res.data.code === "E999" || res.data.code === "E403") {
           return false;
         }
-        setTotalPrepay(res.data.prepay.prepayment);
+        setTotalPrepay(res.data.prepay.actualPrepayment);
         setCompanyPrepayList(res.data.prepayList);
       })
       .catch(e => console.log(e));

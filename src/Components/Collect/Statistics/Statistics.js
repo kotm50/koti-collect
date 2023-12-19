@@ -4,38 +4,66 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 import sorry from "../../../Asset/sorry.png";
-import DailyDetail from "./DailyDetail";
+import StatisticsDetail from "./StatisticsDetail";
 
-function Daily(props) {
+function Statistics(props) {
   const navi = useNavigate();
-  const [dailyList, setDailyList] = useState([]);
+  const [statisticsList, setStatisticsList] = useState([]);
   const [payTitle, setPayTitle] = useState("");
   const [payType, setPayType] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
+  const [totalCost, setTotalCost] = useState(0);
+  const [deposit, setDeposit] = useState(0);
+  const [withdraw, setWithdraw] = useState(0);
 
   const handlePayType = e => {
     setPayType(e.target.value);
-    getDailyList(year, month, day, e.target.value);
   };
 
   useEffect(() => {
-    let now;
-    if (props.date === "") {
-      now = new Date();
+    if (props.date !== "") {
+      const year = dayjs(new Date(props.date)).format("YYYY");
+      const month = dayjs(new Date(props.date)).format("MM");
+      const day = dayjs(new Date(props.date)).format("DD");
+      setYear(year);
+      setMonth(month);
+      props.setYear("");
+      props.setMonth("");
+      setDay(day);
     } else {
-      now = props.date;
+      setYear(dayjs(new Date()).format("YYYY"));
+      setMonth("");
+      setDay("");
     }
-    const year = dayjs(now).format("YYYY");
-    const month = dayjs(now).format("MM");
-    const day = dayjs(now).format("DD");
-    setYear(year);
-    setMonth(month);
-    setDay(day);
-    getDailyList(year, month, day, payType);
     //eslint-disable-next-line
   }, [props.date]);
+
+  useEffect(() => {
+    setYear(props.year);
+    if (props.year !== "") {
+      props.setCalendarDate("");
+      setDay("");
+      setMonth("");
+    }
+    //eslint-disable-next-line
+  }, [props.year]);
+
+  useEffect(() => {
+    setMonth(props.month);
+    if (props.month !== "") {
+      props.setCalendarDate("");
+      setDay("");
+    }
+    //eslint-disable-next-line
+  }, [props.month]);
+
+  useEffect(() => {
+    console.log(year, month, day, payType);
+    getStatisticsList(year, month, day, payType);
+    //eslint-disable-next-line
+  }, [year, month, day, payType]);
 
   useEffect(() => {
     setPayTitle(getPayTitle(payType));
@@ -57,8 +85,8 @@ function Daily(props) {
     }
   };
 
-  const getDailyList = async (year, month, day, payType) => {
-    await setDailyList([]);
+  const getStatisticsList = async (year, month, day, payType) => {
+    await setStatisticsList([]);
     let pType = payType;
     if (payType === "") {
       pType = null;
@@ -66,35 +94,86 @@ function Daily(props) {
     let data = {
       payType: pType,
       searchYear: year,
-      searchMonth: month,
-      searchDay: day,
+      searchMonth: month === "" ? null : month,
+      searchDay: day === "" ? null : day,
     };
-    console.log("일간 리퀘", data);
+    console.log("통합 리퀘", data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        console.log("일간", res);
+        console.log("통합", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
-        await setDailyList(res.data.statisticsList);
+        await getTotal(res.data.statisticsList);
+        await setStatisticsList(res.data.statisticsList);
       })
       .catch(e => console.log(e));
   };
+
+  const getTotal = list => {
+    let depositCost = 0;
+    let withdrawCost = 0;
+    list.forEach(doc => {
+      let cost = doc.payment;
+      if (doc.payType === "CA" || doc.payType === "CO") {
+        if (doc.taxBillYn === "Y") {
+          Math.round(cost / 1.1);
+        }
+        if (doc.transactionType === "P") {
+          depositCost = depositCost + cost;
+        } else {
+          withdrawCost = withdrawCost + cost;
+        }
+      } else {
+        Math.round(cost / 1.1);
+        if (doc.transactionType === "P") {
+          depositCost = depositCost + cost;
+        } else {
+          withdrawCost = withdrawCost + cost;
+        }
+      }
+    });
+    let total = depositCost - withdrawCost;
+    console.log("환급액", withdrawCost);
+    console.log("수금액", depositCost);
+    setDeposit(depositCost);
+    setWithdraw(withdrawCost);
+    setTotalCost(total);
+  };
   return (
     <>
-      {dailyList.length > 0 ? (
+      {statisticsList.length > 0 ? (
         <table className="w-full">
           <thead className="sticky top-0 bg-white">
             <tr>
               <td colSpan="14" className="border border-white">
                 <div className="flex justify-between py-2 pr-2">
                   <h3 className="font-bold text-xl">
-                    {year}년 {month}월 {day}일 {payTitle} 결제내역
+                    {payTitle} 결제 내역 | 기간 -{year}년{" "}
+                    {month !== "" ? month + "월 " : null}
+                    {day !== "" ? day + "일 " : null}
                   </h3>
+                  {totalCost > 0 ? (
+                    <span className="text-base font-medium">
+                      수금액 :{" "}
+                      <span className="text-green-600 font-bold">
+                        {deposit.toLocaleString()}
+                      </span>
+                      원 | 환급액 :{" "}
+                      <span className="text-rose-600 font-bold">
+                        {withdraw.toLocaleString()}
+                      </span>
+                      원 | 합계 :{" "}
+                      <span className="text-stone-900 font-bold">
+                        {totalCost.toLocaleString()}
+                      </span>
+                      원
+                    </span>
+                  ) : null}
                   <select
                     className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-[144px] rounded"
                     value={payType}
@@ -128,9 +207,16 @@ function Daily(props) {
             </tr>
           </thead>
           <tbody>
-            {dailyList.map((daily, idx) => (
+            {statisticsList.map((statistics, idx) => (
               <React.Fragment key={idx}>
-                <DailyDetail user={props.user} daily={daily} idx={idx} />
+                <StatisticsDetail
+                  user={props.user}
+                  statistics={statistics}
+                  idx={idx}
+                  memo={props.memo}
+                  setMemo={props.setMemo}
+                  setModalOn={props.setModalOn}
+                />
               </React.Fragment>
             ))}
           </tbody>
@@ -149,4 +235,4 @@ function Daily(props) {
   );
 }
 
-export default Daily;
+export default Statistics;

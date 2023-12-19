@@ -7,6 +7,7 @@ import { clearUser } from "../../../Reducer/userSlice";
 import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
+import dayjs from "dayjs";
 
 function InputPrePaid(props) {
   const navi = useNavigate();
@@ -191,27 +192,45 @@ function InputPrePaid(props) {
       if (payType === "CA" || payType === "CO") {
         data.payerName = payerName;
         data.taxBillYn = tax;
+        data.cardCode = null;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
+        } else {
+          data.taxBillIssueDate = null;
         }
       } else {
         data.cardCode = cardCode;
+        data.payerName = null;
+        data.taxBillYn = null;
+        data.taxBillIssueDate = null;
       }
-      console.log(data);
       await axios
         .post("/api/v1/comp/add/prepay", data, {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           alert(res.data.message);
           if (res.data.code === "E999" || res.data.code === "E403") {
             logout();
             return false;
           }
           if (res.data.code === "C000") {
+            setSearchKeyword("");
+            setCompanyListOn(false);
+
+            setTax("N");
+            setTaxDate("");
+            setTransactionType("");
+
+            setPayType("");
+            setPayerName("");
+            setPaidDate("");
+            setCost("0");
+            setRealCost("");
+            setCardCode("");
+            setCardList([]);
+            setBigo("");
             props.getCompanyPrepayList(companyCode, null);
-            props.getPrepayList(props.keyword);
           }
         })
         .catch(e => {
@@ -264,10 +283,12 @@ function InputPrePaid(props) {
 
       setPayType("");
       setPaidDate("");
+      setPayerName("");
       setCost("0");
       setRealCost("");
       setCardCode("");
       setCardList([]);
+      setBigo("");
     }
     //eslint-disable-next-line
   }, [props.prepayCode]);
@@ -297,8 +318,8 @@ function InputPrePaid(props) {
           return false;
         }
         if (res.data.code === "C000") {
-          console.log(res);
           const prepay = res.data.prepay;
+          console.log(prepay.paidDate);
           setCompanyName(`${prepay.companyName} ${prepay.companyBranch}`);
           setCompanyCode(prepay.companyCode);
           setRealCost(prepay.prepayment);
@@ -309,7 +330,17 @@ function InputPrePaid(props) {
           setCardCode(prepay.cardCode || "");
           setTransactionType(prepay.transactionType || "");
           setTax(prepay.taxBillYn || "N");
-          setTaxDate(prepay.taxBillIssueDate || "");
+          setPayerName(prepay.payerName || "");
+          setPaidDate(
+            prepay.paidDate
+              ? dayjs(new Date(prepay.paidDate)).format("YYYY-MM-DD")
+              : ""
+          );
+          setTaxDate(
+            prepay.taxBillIssueDate
+              ? dayjs(new Date(prepay.taxBillIssueDate)).format("YYYY-MM-DD")
+              : ""
+          );
         }
       })
       .catch(e => {
@@ -385,7 +416,6 @@ function InputPrePaid(props) {
             props.setPrepayCode(null);
 
             props.getCompanyPrepayList(companyCode, null);
-            props.getPrepayList(props.keyword);
           }
         })
         .catch(e => {
@@ -413,11 +443,17 @@ function InputPrePaid(props) {
       if (payType === "CA" || payType === "CO") {
         data.payerName = payerName;
         data.taxBillYn = tax;
+        data.cardCode = null;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
+        } else {
+          data.taxBillIssueDate = null;
         }
       } else {
         data.cardCode = cardCode;
+        data.payerName = null;
+        data.taxBillYn = null;
+        data.taxBillIssueDate = null;
       }
       console.log(data);
       await axios
@@ -433,7 +469,6 @@ function InputPrePaid(props) {
           }
           if (res.data.code === "C000") {
             props.getCompanyPrepayList(companyCode, null);
-            props.getPrepayList(props.keyword);
           }
         })
         .catch(e => {

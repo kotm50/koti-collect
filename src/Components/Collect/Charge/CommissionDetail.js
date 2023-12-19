@@ -115,7 +115,7 @@ function CommissionDetail(props) {
           }}
         >
           {props.comm.hireStartDate
-            ? dayjs(props.comm.hireStartDate).format("YY-MM-DD")
+            ? dayjs(new Date(props.comm.hireStartDate)).format("YY-MM-DD")
             : ""}
         </td>
         <td
@@ -125,7 +125,7 @@ function CommissionDetail(props) {
           }}
         >
           {props.comm.hireEndDate
-            ? dayjs(props.comm.hireEndDate).format("YY-MM-DD")
+            ? dayjs(new Date(props.comm.hireEndDate)).format("YY-MM-DD")
             : ""}
         </td>
         <td
@@ -202,7 +202,7 @@ function CommissionDetail(props) {
           }}
         >
           {props.comm.paymentDueDate
-            ? dayjs(props.comm.paymentDueDate).format("YY-MM-DD")
+            ? dayjs(new Date(props.comm.paymentDueDate)).format("YY-MM-DD")
             : ""}
         </td>
         <td

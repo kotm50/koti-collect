@@ -12,21 +12,25 @@ function YearMonth(props) {
   const [payType, setPayType] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
-
   const handlePayType = e => {
     setPayType(e.target.value);
+    getYearMonthList(year, month, null, e.target.value);
   };
 
   useEffect(() => {
-    setYear(props.year);
-    setMonth("");
-    getYearMonthList(props.year, null, null, payType);
+    if (props.year !== "") {
+      setYear(props.year);
+      setMonth("");
+      getYearMonthList(props.year, null, null, payType);
+    }
     //eslint-disable-next-line
   }, [props.year]);
 
   useEffect(() => {
-    setMonth(props.month);
-    getYearMonthList(props.year, props.month, null, payType);
+    if (props.month !== "") {
+      setMonth(props.month);
+      getYearMonthList(props.year, props.month, null, payType);
+    }
     //eslint-disable-next-line
   }, [props.month]);
 
@@ -60,12 +64,13 @@ function YearMonth(props) {
       searchYear: year,
       searchMonth: month === "" ? null : month,
     };
-    console.log(data);
+    console.log("월간 리퀘", data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
+        console.log("월간", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -80,7 +85,7 @@ function YearMonth(props) {
         <table className="w-full">
           <thead className="sticky top-0 bg-white">
             <tr>
-              <td colSpan="13" className="border border-white">
+              <td colSpan="14" className="border border-white">
                 <div className="flex justify-between py-2 pr-2">
                   <h3 className="font-bold text-xl">
                     {year}년 {month !== "" ? month + " 월" : null} {payTitle}{" "}
@@ -102,6 +107,7 @@ function YearMonth(props) {
               </td>
             </tr>
             <tr className="bg-blue-600 text-white text-center">
+              <td className="border p-2">구분</td>
               <td className="border p-2">날짜</td>
               <td className="border p-2">고객사</td>
               <td className="border p-2">지점</td>
@@ -109,9 +115,9 @@ function YearMonth(props) {
               <td className="border p-2">금액</td>
               <td className="border p-2">공급가액</td>
               <td className="border p-2">부가세</td>
+              <td className="border p-2">입금자명</td>
               <td className="border p-2">카드사</td>
               <td className="border p-2">카드번호</td>
-              <td className="border p-2">카드소유주</td>
               <td className="border p-2">유효기간</td>
               <td className="border p-2">비밀번호</td>
               <td className="border p-2">비고</td>

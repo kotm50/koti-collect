@@ -23,14 +23,14 @@ function DailyDetail(props) {
       props.daily.payType === "HE"
     ) {
       const camount = Math.round(cost / 1.1);
-      const cvat = cost - amount;
+      const cvat = cost - camount;
       setPayment(cost);
       setAmount(camount);
       setVat(cvat);
     } else {
       if (props.daily.taxBillYn === "Y") {
         const camount = Math.round(cost / 1.1);
-        const cvat = cost - amount;
+        const cvat = cost - camount;
         setPayment(cost);
         setAmount(camount);
         setVat(cvat);
@@ -60,9 +60,16 @@ function DailyDetail(props) {
   return (
     <tr
       className={`${
-        props.idx % 2 === 1 ? "bg-blue-100" : "bg-white"
+        props.daily.transactionType === "D"
+          ? "bg-red-100"
+          : props.idx % 2 === 1
+          ? "bg-green-100"
+          : "bg-white"
       } text-center`}
     >
+      <td className="p-1 border">
+        {props.daily.transactionType === "P" ? "입금" : "환급"}
+      </td>
       <td className="p-1 border">{props.daily.paidDate}</td>
       <td className="p-1 border">{props.daily.companyName}</td>
       <td className="p-1 border">{props.daily.companyBranch}</td>
@@ -76,9 +83,11 @@ function DailyDetail(props) {
       <td className="p-1 border text-right">
         {vat > 0 ? vat.toLocaleString() : null}
       </td>
+      <td className="p-1 border">
+        {props.daily.cardOwner ? props.daily.cardOwner : props.daily.payerName}
+      </td>
       <td className="p-1 border">{props.daily.cardComp}</td>
       <td className="p-1 border">{props.daily.cardNum}</td>
-      <td className="p-1 border">{props.daily.cardOwner}</td>
       <td className="p-1 border">{props.daily.cardExp}</td>
       <td className="p-1 border">{props.daily.cardPwd}</td>
       <td className="p-1 border">

@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { FaCalendarAlt } from "react-icons/fa";
 import MonthButton from "./Statistics/MonthButton";
 import List from "./Gifticon/List";
+import MemoModal from "../Layout/MemoModal";
 
 function Gifticon() {
   const user = useSelector(state => state.user);
@@ -19,6 +20,8 @@ function Gifticon() {
   const [date, setDate] = useState("");
   const [calendarDate, setCalendarDate] = useState("");
   const [calendarOn, setCalendarOn] = useState(false);
+  const [memo, setMemo] = useState("");
+  const [modalOn, setModalOn] = useState(false);
   useEffect(() => {
     setYear(new Date().getFullYear().toString());
     setTitle("기프티콘 충전현황");
@@ -36,6 +39,22 @@ function Gifticon() {
   return (
     <div className="mx-4" data={title}>
       <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10">
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">연도별 보기</span>
+          <select
+            className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+            value={year}
+            onChange={e => setYear(e.currentTarget.value)}
+          >
+            <option value="">연도 선택</option>
+            <option value="2023">2023년</option>
+            <option value="2024">2024년</option>
+          </select>
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
+          <MonthButton month={month} setMonth={setMonth} />
+        </div>
         <div className="flex justify-start gap-x-3">
           <span className="font-bold whitespace-nowrap py-2">날짜 선택</span>
           <div className="relative min-w-[350px]">
@@ -61,29 +80,25 @@ function Gifticon() {
             )}
           </div>
         </div>
-        <div className="flex justify-start gap-x-3">
-          <span className="font-bold whitespace-nowrap py-2">연도별 보기</span>
-          <select
-            className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-            value={year}
-            onChange={e => setYear(e.currentTarget.value)}
-          >
-            <option value="">연도 선택</option>
-            <option value="2023">2023년</option>
-            <option value="2024">2024년</option>
-          </select>
-        </div>
-        <div className="flex justify-start gap-x-3">
-          <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
-          <MonthButton month={month} setMonth={setMonth} />
-        </div>
       </div>
 
       <div className="p-4 bg-white drop-shadow-lg rounded-lg mt-4">
-        <div className="h-[400px] overflow-y-auto relative">
-          <List year={year} month={month} date={calendarDate} user={user} />
+        <div className="h-fit max-h-[680px] overflow-y-auto relative">
+          <List
+            year={year}
+            setYear={setYear}
+            month={month}
+            date={calendarDate}
+            user={user}
+            memo={memo}
+            setMemo={setMemo}
+            setModalOn={setModalOn}
+            setCalendarDate={setCalendarDate}
+          />
         </div>
       </div>
+
+      {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
 }

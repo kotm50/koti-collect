@@ -23,14 +23,14 @@ function YearMonthDetail(props) {
       props.yearMonth.payType === "HE"
     ) {
       const camount = Math.round(cost / 1.1);
-      const cvat = cost - amount;
+      const cvat = cost - camount;
       setPayment(cost);
       setAmount(camount);
       setVat(cvat);
     } else {
       if (props.yearMonth.taxBillYn === "Y") {
         const camount = Math.round(cost / 1.1);
-        const cvat = cost - amount;
+        const cvat = cost - camount;
         setPayment(cost);
         setAmount(camount);
         setVat(cvat);
@@ -60,9 +60,16 @@ function YearMonthDetail(props) {
   return (
     <tr
       className={`${
-        props.idx % 2 === 1 ? "bg-green-100" : "bg-white"
+        props.yearMonth.transactionType === "D"
+          ? "bg-red-100"
+          : props.idx % 2 === 1
+          ? "bg-green-100"
+          : "bg-white"
       } text-center`}
     >
+      <td className="p-1 border">
+        {props.yearMonth.transactionType === "P" ? "입금" : "환급"}
+      </td>
       <td className="p-1 border">{props.yearMonth.paidDate}</td>
       <td className="p-1 border">{props.yearMonth.companyName}</td>
       <td className="p-1 border">{props.yearMonth.companyBranch}</td>
@@ -76,9 +83,13 @@ function YearMonthDetail(props) {
       <td className="p-1 border text-right">
         {vat > 0 ? vat.toLocaleString() : null}
       </td>
+      <td className="p-1 border">
+        {props.yearMonth.cardOwner
+          ? props.yearMonth.cardOwner
+          : props.yearMonth.payerName}
+      </td>
       <td className="p-1 border">{props.yearMonth.cardComp}</td>
       <td className="p-1 border">{props.yearMonth.cardNum}</td>
-      <td className="p-1 border">{props.yearMonth.cardOwner}</td>
       <td className="p-1 border">{props.yearMonth.cardExp}</td>
       <td className="p-1 border">{props.yearMonth.cardPwd}</td>
       <td className="p-1 border">

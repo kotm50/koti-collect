@@ -9,65 +9,53 @@ import dayjs from "dayjs";
 function List(props) {
   const navi = useNavigate();
   const [list, setList] = useState([]);
-  const [payTitle, setPayTitle] = useState("");
-  const [payType, setPayType] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
 
-  const handlePayType = e => {
-    setPayType(e.target.value);
-  };
-
   useEffect(() => {
-    let now;
-    if (props.date === "") {
-      now = new Date();
+    if (props.date !== "") {
+      const year = dayjs(new Date(props.date)).format("YYYY");
+      const month = dayjs(new Date(props.date)).format("MM");
+      const day = dayjs(new Date(props.date)).format("DD");
+      setYear(year);
+      setMonth(month);
+      setDay(day);
     } else {
-      now = props.date;
+      setYear(dayjs(new Date()).format("YYYY"));
+      setMonth("");
+      setDay("");
     }
-    const year = dayjs(now).format("YYYY");
-    const month = dayjs(now).format("MM");
-    const day = dayjs(now).format("DD");
-    setYear(year);
-    setMonth(month);
-    setDay(day);
-    getGifticonList(year, month, day, payType);
     //eslint-disable-next-line
   }, [props.date]);
 
   useEffect(() => {
     setYear(props.year);
-    setMonth("");
-    getGifticonList(props.year, null, null, payType);
-    //eslint-disable-next-line
-  }, [props.year]);
-
-  useEffect(() => {
-    setMonth(props.month);
-    getGifticonList(props.year, props.month, null, payType);
-    //eslint-disable-next-line
-  }, [props.month]);
-
-  useEffect(() => {
-    setPayTitle(getPayTitle(payType));
-  }, [payType]);
-
-  const getPayTitle = payType => {
-    if (payType === "CA") {
-      return "현금(개인)";
-    } else if (payType === "CO") {
-      return "현금(법인)";
-    } else if (payType === "PG") {
-      return "PG카드";
-    } else if (payType === "MO") {
-      return "알바몬카드";
-    } else if (payType === "HE") {
-      return "현금(개인)";
-    } else {
-      return "전체";
+    if (props.year !== year) {
+      props.setCalendarDate("");
+      setDay("");
+      setMonth("");
     }
-  };
+    if (props.year === "") {
+      const now = new Date();
+      setYear(now.getFullYear().toString());
+      props.setYear(now.getFullYear().toString());
+    }
+
+    if (props.month !== "") {
+      setMonth(props.month);
+      props.setCalendarDate("");
+      setDay("");
+    }
+    //eslint-disable-next-line
+  }, [props.year, props.month]);
+
+  useEffect(() => {
+    if (year !== "") {
+      getGifticonList(year, month, day);
+    }
+    //eslint-disable-next-line
+  }, [year, month, day]);
 
   const getGifticonList = async (year, month, day) => {
     let data = {
@@ -85,7 +73,7 @@ function List(props) {
           navi("/");
           return false;
         }
-        console.log(res);
+        console.log("깊콘", res);
         setList(res.data.payList);
       })
       .catch(e => console.log(e));
@@ -96,28 +84,18 @@ function List(props) {
         <table className="w-full">
           <thead className="sticky top-0 bg-white">
             <tr>
-              <td colSpan="13" className="border border-white">
+              <td colSpan="14" className="border border-white">
                 <div className="flex justify-between py-2 pr-2">
                   <h3 className="font-bold text-xl">
-                    {year}년 {month !== "" ? month + " 월" : null}{" "}
-                    {day !== "" ? day + " 일" : null} {payTitle} 결제내역
+                    기프티콘 충전내역 | 기간 - {year}년{" "}
+                    {month !== "" ? month + "월" : null}{" "}
+                    {day !== "" ? day + "일" : null}
                   </h3>
-                  <select
-                    className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-[144px] rounded"
-                    value={payType}
-                    onChange={handlePayType}
-                  >
-                    <option value="">결제방식 선택</option>
-                    <option value="CA">현금</option>
-                    <option value="CO">법인</option>
-                    <option value="PG">PG카드</option>
-                    <option value="MO">몬카드</option>
-                    <option value="HE">천국카드</option>
-                  </select>
                 </div>
               </td>
             </tr>
             <tr className="bg-blue-600 text-white text-center">
+              <td className="border p-2">구분</td>
               <td className="border p-2">날짜</td>
               <td className="border p-2">고객사</td>
               <td className="border p-2">지점</td>
@@ -125,18 +103,25 @@ function List(props) {
               <td className="border p-2">금액</td>
               <td className="border p-2">공급가액</td>
               <td className="border p-2">부가세</td>
+              <td className="border p-2">입금자명</td>
               <td className="border p-2">카드사</td>
               <td className="border p-2">카드번호</td>
-              <td className="border p-2">카드소유주</td>
               <td className="border p-2">유효기간</td>
               <td className="border p-2">비밀번호</td>
               <td className="border p-2">비고</td>
             </tr>
           </thead>
           <tbody>
-            {list.map((yearMonth, idx) => (
+            {list.map((gifticon, idx) => (
               <React.Fragment key={idx}>
-                <ListDetail user={props.user} yearMonth={yearMonth} idx={idx} />
+                <ListDetail
+                  user={props.user}
+                  gifticon={gifticon}
+                  idx={idx}
+                  memo={props.memo}
+                  setMemo={props.setMemo}
+                  setModalOn={props.setModalOn}
+                />
               </React.Fragment>
             ))}
           </tbody>
