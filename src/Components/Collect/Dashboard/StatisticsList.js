@@ -12,13 +12,10 @@ function StatisticsList() {
   const [pgTotal, setPgTotal] = useState("");
   const [moTotal, setMoTotal] = useState("");
   const [heTotal, setHeTotal] = useState("");
-  const [payType, setPayType] = useState("");
   const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
   useEffect(() => {
     setYear(new Date().getFullYear().toString());
-    getStatisticsList(payType, year, month, day);
+    getStatisticsList(null, year, null, null);
     //eslint-disable-next-line
   }, [thisLocation]);
   const getStatisticsList = async payType => {
@@ -33,12 +30,6 @@ function StatisticsList() {
       data.searchYear = year;
     } else {
       data.searchYear = new Date().getFullYear().toString();
-    }
-    if (month !== "") {
-      data.searchMonth = month;
-    }
-    if (day !== "") {
-      data.searchDate = day;
     }
     console.log(data);
     await axios
