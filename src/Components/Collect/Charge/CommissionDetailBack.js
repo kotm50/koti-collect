@@ -4,30 +4,16 @@ import MemoModal from "../../Layout/MemoModal";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
 import CommisionMemo from "./CommisionMemo";
-import Deposit from "./Deposit";
+import DepositBack from "./DepositBack";
 
-function CommissionDetail(props) {
+function CommissionDetailBack(props) {
   const [modalOn, setModalOn] = useState(false);
   const [detailOn, setDetailOn] = useState(false);
   const [period, setPeriod] = useState(10);
   const [memo, setMemo] = useState("");
-
   const handleList = () => {
-    console.log(props.isActive);
-    if (props.isActive) {
-      props.setCommCode(null);
-      props.setActiveDetailId(null); // 현재 컴포넌트가 활성화되어 있다면 비활성화
-    } else {
-      props.setCommCode(props.comm.commCode);
-      props.setTestNum(props.idx);
-      props.setActiveDetailId(props.idx); // 다른 컴포넌트를 활성화
-    }
+    setDetailOn(!detailOn);
   };
-
-  useEffect(() => {
-    // 상위 컴포넌트로부터 받은 isActive prop에 따라 detailOn 상태를 설정
-    setDetailOn(props.isActive);
-  }, [props.isActive]);
 
   useEffect(() => {
     if (
@@ -52,6 +38,8 @@ function CommissionDetail(props) {
     if (detailOn) {
       props.setCommCode(props.comm.commCode);
       props.setInputOn(true);
+    } else {
+      props.setCommCode(null);
     }
     //eslint-disable-next-line
   }, [detailOn]);
@@ -69,7 +57,7 @@ function CommissionDetail(props) {
         title="수정하려면 클릭하세요"
       >
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -77,7 +65,7 @@ function CommissionDetail(props) {
           {props.comm.channel}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -85,7 +73,7 @@ function CommissionDetail(props) {
           {props.comm.companyName}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -93,7 +81,7 @@ function CommissionDetail(props) {
           {props.comm.companyBranch}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -101,7 +89,7 @@ function CommissionDetail(props) {
           {props.comm.manager1}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -109,7 +97,7 @@ function CommissionDetail(props) {
           {props.comm.manager2}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -119,7 +107,7 @@ function CommissionDetail(props) {
             : ""}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -129,21 +117,17 @@ function CommissionDetail(props) {
             : ""}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
         >
-          {props.comm.week !== null && props.comm.day !== null ? (
-            <>
-              {props.comm.week !== "" && props.comm.day !== ""
-                ? `${props.comm.week}주 ${props.comm.day}일`
-                : ""}
-            </>
-          ) : null}
+          {props.comm.week !== "" && props.comm.day !== ""
+            ? `${props.comm.week}주 ${props.comm.day}일`
+            : ""}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -153,7 +137,7 @@ function CommissionDetail(props) {
         <td
           className={`p-1 border font-medium ${
             props.comm.paidAdYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -164,7 +148,7 @@ function CommissionDetail(props) {
         <td
           className={`p-1 border font-medium ${
             props.comm.paidCommYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -175,7 +159,7 @@ function CommissionDetail(props) {
         <td
           className={`p-1 border font-medium ${
             props.comm.paidIntvCareYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -186,7 +170,7 @@ function CommissionDetail(props) {
         <td
           className={`p-1 border font-medium ${
             props.comm.paidCommCareYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          } ${detailOn ? "bg-blue-100" : ""}`}
           onClick={() => {
             handleList();
           }}
@@ -194,7 +178,7 @@ function CommissionDetail(props) {
           {Number(props.comm.unpaidCommCare).toLocaleString()}
         </td>
         <td
-          className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""} ${
+          className={`p-1 border ${detailOn ? "bg-blue-100" : ""} ${
             period <= 1 ? "font-bold" : ""
           }`}
           onClick={() => {
@@ -219,21 +203,25 @@ function CommissionDetail(props) {
         </td>
       </tr>
       {detailOn ? (
-        <Deposit
-          accessToken={props.user.accessToken}
-          commCode={props.comm.commCode}
-          branch={props.comm.companyBranch}
-          company={props.comm.companyName}
-          payList={props.payList}
-          getPayList={props.getPayList}
-          setPayCode={props.setPayCode}
-          detailOn={detailOn}
-          setMemo={setMemo}
-          setModalOn={setModalOn}
-        />
+        <tr>
+          <td colSpan="15" className="bg-blue-100 text-center p-1 border-x">
+            <DepositBack
+              accessToken={props.user.accessToken}
+              commCode={props.comm.commCode}
+              branch={props.comm.companyBranch}
+              company={props.comm.companyName}
+              payList={props.payList}
+              getPayList={props.getPayList}
+              setPayCode={props.setPayCode}
+              detailOn={detailOn}
+              setMemo={setMemo}
+              setModalOn={setModalOn}
+            />
+          </td>
+        </tr>
       ) : null}
     </>
   );
 }
 
-export default CommissionDetail;
+export default CommissionDetailBack;

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import sorry from "../../../Asset/sorry.png";
 
-import CommissionDetail from "./CommissionDetail";
+import CommissionDetailBack from "./CommissionDetailBack";
 
-function CommissionList(props) {
+function CommissionListBack(props) {
   const [commisionList, setCommissionList] = useState([]);
   const [idNum, setIdNum] = useState(null);
-  // 상태 추가: 현재 활성화된 CommissionDetail 컴포넌트 ID
-  const [activeDetailId, setActiveDetailId] = useState(null);
+  const [height, setHeight] = useState(640);
+  useEffect(() => {
+    if (props.inputOn) {
+      setHeight(240);
+    } else {
+      setHeight(640);
+    }
+  }, [props.inputOn]);
   useEffect(() => {
     if (props.feeList.length === 0) {
       setIdNum(null);
@@ -15,8 +21,11 @@ function CommissionList(props) {
     setCommissionList(props.feeList);
   }, [props]);
 
+  useEffect(() => {
+    //elint-disable-next-line
+  }, [props.inputOn]);
   return (
-    <>
+    <div className="relative overflow-auto" style={{ height: `${height}px` }}>
       {commisionList.length > 0 ? (
         <table id="mainTable" className="w-full mb-[50px]">
           <thead className="sticky top-0 left-0 z-50">
@@ -41,7 +50,7 @@ function CommissionList(props) {
           <tbody>
             {commisionList.map((comm, idx) => (
               <React.Fragment key={idx}>
-                <CommissionDetail
+                <CommissionDetailBack
                   user={props.user}
                   comm={comm}
                   idx={idx}
@@ -53,10 +62,6 @@ function CommissionList(props) {
                   setCommCode={props.setCommCode}
                   setPayCode={props.setPayCode}
                   setInputOn={props.setInputOn}
-                  setTestNum={props.setTestNum}
-                  // 추가된 props
-                  isActive={idx === activeDetailId} // 현재 활성화된 컴포넌트인지 체크
-                  setActiveDetailId={setActiveDetailId} // 상태 업데이트 함수 전달
                 />
               </React.Fragment>
             ))}
@@ -76,8 +81,8 @@ function CommissionList(props) {
           잠시만 기다려 주세요
         </div>
       )}
-    </>
+    </div>
   );
 }
 
-export default CommissionList;
+export default CommissionListBack;

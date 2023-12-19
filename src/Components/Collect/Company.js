@@ -458,7 +458,7 @@ function Company() {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-gray-50">
+            <tr className="bg-green-100">
               <td className="p-2 truncate">신규</td>
               <td className="p-2 truncate">입력</td>
               <td className="p-1 w-28">

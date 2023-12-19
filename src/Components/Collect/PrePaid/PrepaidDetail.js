@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-
 function PrepaidDetail(props) {
-  const [focus, setFocus] = useState(null);
   return (
     <>
       <tr
         className={`text-center hover:cursor-pointer ${
-          focus === props.idx ? "bg-blue-100" : "bg-white"
+          props.isFocused ? "bg-blue-100" : "bg-white"
         }`}
         title="수정하려면 클릭하세요"
         onClick={() => {
-          console.log(props);
-          if (focus !== props.idx) {
+          if (!props.isFocused) {
             props.setCompanyCode(props.pay.companyCode);
             props.setCompanyName(
               `${props.pay.companyName} ${props.pay.companyBranch}`
@@ -24,11 +20,11 @@ function PrepaidDetail(props) {
             props.setPrepayCode(null);
             props.setInputOn(true);
 
-            setFocus(props.idx);
+            props.setFocusedDetailIndex(props.idx);
           } else {
             props.setCompanyCode(null);
             props.setCompanyName(null);
-            setFocus(null);
+            props.setFocusedDetailIndex(null);
           }
         }}
       >

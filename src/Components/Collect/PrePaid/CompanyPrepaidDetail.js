@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
 
+import PrePaidMemo from "./PrePaidMemo";
+
 function CompanyPrepaidDetail(props) {
   const [payResult, setPayResult] = useState("");
   const [payBg, setPayBg] = useState("");
@@ -76,14 +78,18 @@ function CompanyPrepaidDetail(props) {
         <td className="p-1 border text-sm">{payResult}</td>
         {props.pay.cardCode === null ? (
           <td
-            className={`p-1 border max-w-[300px] w-[300px] min-w-[300px] ${
+            className={`p-1 border max-w-[300px] w-[300px] min-w-[300px] relative ${
               props.pay.transactionType === "B" ||
               props.pay.transactionType === "C"
                 ? "text-xs"
                 : "text-sm"
             }`}
           >
-            {props.pay.bigo || ""}
+            <PrePaidMemo
+              memo={props.pay.bigo}
+              setMemo={props.setMemo}
+              setModalOn={props.setModalOn}
+            />
           </td>
         ) : (
           <td

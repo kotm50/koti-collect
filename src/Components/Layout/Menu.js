@@ -17,6 +17,12 @@ function Menu() {
         광고일정 등록
       </Link>
       <Link
+        to="/collect/urback"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
+        광고일정 등록_백업
+      </Link>
+      <Link
         to="/collect/card"
         className="p-4 hover:bg-gray-100 transition-all duration-300"
       >
@@ -28,9 +34,19 @@ function Menu() {
       >
         선입금 추가/수정
       </Link>
-      <div className="p-4 hover:bg-gray-100 transition-all duration-300">
+      <Link
+        to="/collect/statistics"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
+        결제 내역
+      </Link>
+
+      <Link
+        to="/collect/gifticon"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
         기프티콘 충전현황
-      </div>
+      </Link>
       <Link
         to="/collect/company"
         className="p-4 hover:bg-gray-100 transition-all duration-300"

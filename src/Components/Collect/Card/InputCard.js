@@ -40,7 +40,6 @@ function InputCard(props) {
 
   const monthChk = event => {
     const value = event.target.value;
-    console.log(value);
     if (Number(value) > 12 || value === "00") {
       setExpM("");
       monthRef.current.focus();
@@ -212,19 +211,18 @@ function InputCard(props) {
     }
     const cardExp = `${expY}/${expM}`;
     let data = {
-      companyCode: companyCode,
-      cardComp: cardCom,
-      cardNum: cardNum,
-      cardExp: cardExp,
-      individual: individual,
-      corporation: corporation,
-      cardOwner: owner,
-      cardPwd: pwd,
+      companyCode: companyCode === "" ? null : companyCode,
+      cardComp: cardCom === "" ? null : cardCom,
+      cardNum: cardNum === "" ? null : cardNum,
+      cardExp: cardExp === "" ? null : cardExp,
+      individual: individual === "" ? null : individual,
+      corporation: corporation === "" ? null : corporation,
+      cardOwner: owner === "" ? null : owner,
+      cardPwd: pwd === "" ? null : pwd,
     };
     if (cardCode !== "") {
       data.cardCode = cardCode;
     }
-    console.log(data);
     if (cardCode === "") {
       await axios
         .post("/api/v1/comp/add/card", data, {

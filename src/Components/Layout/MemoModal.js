@@ -6,7 +6,7 @@ function MemoModal(props) {
   return (
     <>
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2 px-5 w-fit h-fit bg-white rounded-lg drop-shadow-xl modalWrap min-w-[240px] min-h-[100px] flex flex-col justify-start gap-y-5">
-        <h3 className="text-lg font-bold">메모 전체보기</h3>
+        <h3 className="text-lg font-bold select-none">메모 전체보기</h3>
         <div
           className="text-left"
           dangerouslySetInnerHTML={{
@@ -14,7 +14,7 @@ function MemoModal(props) {
           }}
         />
         <button
-          className="bg-gray-500 hover:bg-gray-700 text-white p-2 rounded-lg"
+          className="bg-gray-500 hover:bg-gray-700 text-white p-2 rounded-lg select-none"
           onClick={() => props.setModalOn(false)}
         >
           창닫기

@@ -88,7 +88,6 @@ function PrePaid() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
@@ -106,7 +105,6 @@ function PrePaid() {
     if (stickyRef.current) {
       const rect = stickyRef.current.getBoundingClientRect();
       const bottomY = rect.bottom; // 뷰포트 상단으로부터의 div 하단의 Y 좌표
-      console.log(bottomY);
       setBottom(bottomY);
     }
   }, [inputOn]);

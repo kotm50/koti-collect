@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import InputCompanyList from "./InputCompanyList";
 import axios from "axios";
 import { clearUser } from "../../../Reducer/userSlice";
+import ReactQuill from "react-quill";
+import { modules } from "../../Layout/QuillModule";
+import "react-quill/dist/quill.snow.css";
 
 function InputPrePaid(props) {
   const navi = useNavigate();
@@ -25,11 +28,18 @@ function InputPrePaid(props) {
   const [authNo, setAuthNo] = useState("");
 
   const [transactionType, setTransactionType] = useState("");
+  const [installment, setInstallment] = useState("N");
+
+  const [payerName, setPayerName] = useState("");
 
   const [paidDate, setPaidDate] = useState("");
   const [cardCode, setCardCode] = useState("");
   const [cardList, setCardList] = useState([]);
   const comNameRef = useRef(null);
+
+  const handleInstallment = e => {
+    setInstallment(e.target.value);
+  };
 
   const handleTax = e => {
     const value = e.target.value;
@@ -136,20 +146,50 @@ function InputPrePaid(props) {
     }
   };
 
+  const escapeHTML = text => {
+    return text
+      .replace(/</g, "_여는꺾쇠_")
+      .replace(/>/g, "_닫는꺾쇠_")
+      .replace(/=/g, "_등호_")
+      .replace(/\(/g, "_여는괄호_")
+      .replace(/\)/g, "_닫는괄호_")
+      .replace(/,/g, "_쉼표_")
+      .replace(/"/g, "_마침표_")
+      .replace(/:/g, "_콜론_")
+      .replace(/;/g, "_세미콜론_")
+      .replace(/\//g, "_슬래시_");
+  };
+
+  const unescapeHTML = text => {
+    return text
+      .replace(/_여는꺾쇠_/g, "<")
+      .replace(/_닫는꺾쇠_/g, ">")
+      .replace(/_등호_/g, "=")
+      .replace(/_여는괄호_/g, "(")
+      .replace(/_닫는괄호_/g, ")")
+      .replace(/_쉼표_/g, ",")
+      .replace(/_마침표_/g, '"')
+      .replace(/_콜론_/g, ":")
+      .replace(/_세미콜론_/g, ";")
+      .replace(/_슬래시_/g, "/");
+  };
+
   const saveIt = async () => {
     const result = await test();
     if (result !== "완료") {
       return alert(result);
     } else {
+      const escapeBigo = await escapeHTML(bigo);
       let data = {
-        companyCode: companyCode,
-        prepayment: realCost,
-        payType: payType,
-        transactionType: transactionType,
-        paidDate: paidDate,
+        companyCode: companyCode === "" ? null : companyCode,
+        prepayment: realCost === "" ? null : realCost,
+        payType: payType === "" ? null : payType,
+        transactionType: transactionType === "" ? null : transactionType,
+        paidDate: paidDate === "" ? null : paidDate,
+        bigo: bigo === "" ? null : escapeBigo,
       };
       if (payType === "CA" || payType === "CO") {
-        data.bigo = bigo;
+        data.payerName = payerName;
         data.taxBillYn = tax;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
@@ -195,6 +235,16 @@ function InputPrePaid(props) {
     }
     if (cost === "0") {
       return "입금 금액을 입력하세요";
+    }
+    if (payType === "CA" || payType === "CO") {
+      if (payerName === "") {
+        return "입금자명을 입력하세요";
+      }
+    }
+    if (payType === "PG" || payType === "MO" || payType === "HE") {
+      if (cardCode === "") {
+        return "결제 카드를 선택하세요";
+      }
     }
     return "완료";
   };
@@ -255,7 +305,7 @@ function InputPrePaid(props) {
           getFormatCost(prepay.prepayment);
           setPaidDate(prepay.paidDate.split(" ")[0]);
           setPayType(prepay.payType || "");
-          setBigo(prepay.bigo);
+          setBigo(bigo ? unescapeHTML(prepay.bigo) : "");
           setCardCode(prepay.cardCode || "");
           setTransactionType(prepay.transactionType || "");
           setTax(prepay.taxBillYn || "N");
@@ -350,16 +400,18 @@ function InputPrePaid(props) {
     if (result !== "완료") {
       return alert(result);
     } else {
+      const escapeBigo = await escapeHTML(bigo);
       let data = {
         prepayCode: props.prepayCode,
-        companyCode: companyCode,
-        prepayment: realCost,
-        payType: payType,
-        transactionType: transactionType,
-        paidDate: paidDate,
+        companyCode: companyCode === "" ? null : companyCode,
+        prepayment: realCost === "" ? null : realCost,
+        payType: payType === "" ? null : payType,
+        transactionType: transactionType === "" ? null : transactionType,
+        paidDate: paidDate === "" ? null : paidDate,
+        bigo: bigo === "" ? null : escapeBigo,
       };
       if (payType === "CA" || payType === "CO") {
-        data.bigo = bigo;
+        data.payerName = payerName;
         data.taxBillYn = tax;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
@@ -527,6 +579,40 @@ function InputPrePaid(props) {
                 </div>
 
                 <div className="flex justify-start gap-2">
+                  <div className="py-1 w-[144px] text-right">일시불/할부</div>
+                  <div className="w-full relative">
+                    <select
+                      className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+                      value={installment}
+                      onChange={handleInstallment}
+                    >
+                      <option value="N">일시불</option>
+                      <option value="2개월">2개월</option>
+                      <option value="3개월">3개월</option>
+                      <option value="4개월">4개월</option>
+                      <option value="5개월">5개월</option>
+                      <option value="6개월">6개월</option>
+                      <option value="7개월">7개월</option>
+                      <option value="8개월">8개월</option>
+                      <option value="9개월">9개월</option>
+                      <option value="10개월">10개월</option>
+                      <option value="11개월">11개월</option>
+                      <option value="12개월">12개월</option>
+                    </select>
+                  </div>
+                </div>
+                {installment === "N" ? (
+                  <div className="py-1">
+                    <span className="font-bold">일시불</span>로 결제합니다
+                  </div>
+                ) : (
+                  <div className="py-1">
+                    <span className="font-bold">{installment}</span> 할부로
+                    결제합니다
+                  </div>
+                )}
+
+                <div className="flex justify-start gap-2">
                   <div className="py-1 w-[144px] text-right">예약 번호</div>
                   <div className="w-full relative">
                     <input
@@ -578,14 +664,13 @@ function InputPrePaid(props) {
                 <input
                   type="text"
                   className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                  id="bigo"
-                  value={bigo}
+                  id="payerName"
+                  value={payerName}
                   placeholder="입금자명을 입력하세요"
-                  onChange={e => setBigo(e.currentTarget.value)}
+                  onChange={e => setPayerName(e.currentTarget.value)}
                 />
               </div>
             </div>
-
             <div className="flex justify-start gap-2">
               <div className="py-1 w-[144px] text-right">세금계산서</div>
               <div className="w-full relative">
@@ -618,7 +703,17 @@ function InputPrePaid(props) {
         )}
       </div>
 
-      <div className="flex justify-center gap-x-2 p-1">
+      <div className="w-full py-1 pl-10 mt-4">
+        <ReactQuill
+          modules={modules}
+          theme="snow"
+          value={bigo}
+          onChange={setBigo}
+          className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustom"
+          placeholder="기타 메모할 내용을 입력하세요"
+        />
+      </div>
+      <div className="flex justify-center gap-x-2 p-1 mt-4">
         {props.prepayCode ? (
           <button
             className="w-[100px] transition-all duration-300 p-1 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-white rounded-lg"

@@ -30,13 +30,20 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
-#quillCustom .ql-container {
+.quillCustom .ql-container {
   height:110px!important;
   background-color:white;
 }
 
-#quillCustom .ql-editor {
+.quillCustom .ql-editor {
   height:110px!important;
+}
+
+.calendarArea {
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:99999;
 }
 
 

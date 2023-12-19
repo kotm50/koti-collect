@@ -1,0 +1,96 @@
+import React, { useEffect, useState } from "react";
+import StatisticsMemo from "./StatisticsMemo";
+import MemoModal from "../../Layout/MemoModal";
+
+function DailyDetail(props) {
+  const [payTitle, setPayTitle] = useState("");
+  const [payment, setPayment] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [vat, setVat] = useState(0);
+  const [memo, setMemo] = useState("");
+  const [modalOn, setModalOn] = useState(false);
+
+  useEffect(() => {
+    setPayTitle(getPayTitle(props.daily.payType));
+    getTax(props.daily.payment);
+    //eslint-disable-next-line
+  }, [props.daily]);
+
+  const getTax = cost => {
+    if (
+      props.daily.payType === "PG" ||
+      props.daily.payType === "MO" ||
+      props.daily.payType === "HE"
+    ) {
+      const camount = Math.round(cost / 1.1);
+      const cvat = cost - amount;
+      setPayment(cost);
+      setAmount(camount);
+      setVat(cvat);
+    } else {
+      if (props.daily.taxBillYn === "Y") {
+        const camount = Math.round(cost / 1.1);
+        const cvat = cost - amount;
+        setPayment(cost);
+        setAmount(camount);
+        setVat(cvat);
+      } else {
+        setPayment(cost);
+        setAmount(cost);
+        setVat(0);
+      }
+    }
+  };
+
+  const getPayTitle = payType => {
+    if (payType === "CA") {
+      return "현금(개인)";
+    } else if (payType === "CO") {
+      return "현금(법인)";
+    } else if (payType === "PG") {
+      return "PG카드";
+    } else if (payType === "MO") {
+      return "알바몬카드";
+    } else if (payType === "HE") {
+      return "현금(개인)";
+    } else {
+      return "전체";
+    }
+  };
+  return (
+    <tr
+      className={`${
+        props.idx % 2 === 1 ? "bg-blue-100" : "bg-white"
+      } text-center`}
+    >
+      <td className="p-1 border">{props.daily.paidDate}</td>
+      <td className="p-1 border">{props.daily.companyName}</td>
+      <td className="p-1 border">{props.daily.companyBranch}</td>
+      <td className="p-1 border">{payTitle}</td>
+      <td className="p-1 border text-right">
+        {payment > 0 ? payment.toLocaleString() : null}
+      </td>
+      <td className="p-1 border text-right">
+        {amount > 0 ? amount.toLocaleString() : null}
+      </td>
+      <td className="p-1 border text-right">
+        {vat > 0 ? vat.toLocaleString() : null}
+      </td>
+      <td className="p-1 border">{props.daily.cardComp}</td>
+      <td className="p-1 border">{props.daily.cardNum}</td>
+      <td className="p-1 border">{props.daily.cardOwner}</td>
+      <td className="p-1 border">{props.daily.cardExp}</td>
+      <td className="p-1 border">{props.daily.cardPwd}</td>
+      <td className="p-1 border">
+        <StatisticsMemo
+          memo={props.daily.bigo}
+          setMemo={setMemo}
+          setModalOn={setModalOn}
+        />
+        {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
+      </td>
+    </tr>
+  );
+}
+
+export default DailyDetail;

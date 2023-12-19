@@ -10,6 +10,9 @@ import Channel from "./Components/Collect/Channel";
 import Test from "./Components/Test";
 import CardList from "./Components/Collect/CardList";
 import PrePaid from "./Components/Collect/PrePaid";
+import ToTop from "./Components/Layout/ToTop";
+import StatisticsList from "./Components/Collect/StatisticsList";
+import Gifticon from "./Components/Collect/Gifticon";
 
 function App() {
   return (
@@ -23,11 +26,14 @@ function App() {
           <Route path="prepaid" element={<PrePaid />} />
           <Route path="card" element={<CardList />} />
           <Route path="urback" element={<UnReceiveBack />} />
+          <Route path="statistics" element={<StatisticsList />} />
+          <Route path="gifticon" element={<Gifticon />} />
           <Route path="company" element={<Company />} />
           <Route path="channel" element={<Channel />} />
         </Route>
         <Route path="/test" element={<Test />} />
       </Routes>
+      <ToTop />
     </>
   );
 }

@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import sorry from "../../../Asset/sorry.png";
 import PrepaidDetail from "./PrepaidDetail";
 import CompanyPrepaidDetail from "./CompanyPrepaidDetail";
+import MemoModal from "../../Layout/MemoModal";
 
 function PrepaidList(props) {
   const [height, setHeight] = useState(640);
   const [transactionType, setTransactionType] = useState(null);
   const [tType, setTType] = useState("");
   const [cCode, setCCode] = useState("");
+
+  const [modalOn, setModalOn] = useState(false);
+  const [memo, setMemo] = useState("");
+  // 상태 추가: 현재 포커스된 PrepaidDetail 컴포넌트 인덱스
+  const [focusedDetailIndex, setFocusedDetailIndex] = useState(null);
   useEffect(() => {
     console.log(props.inputOn);
     if (props.inputOn) {
-      setHeight(500);
+      setHeight(470);
     } else {
       setHeight(640);
     }
@@ -24,6 +30,7 @@ function PrepaidList(props) {
 
   return (
     <div className="grid grid-cols-4 gap-x-2">
+      {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
       <div className="bg-white rounded-lg drop-shadow h-fit p-4">
         <div
           className="overflow-auto relative"
@@ -54,6 +61,9 @@ function PrepaidList(props) {
                       setPrepayCode={props.setPrepayCode}
                       setCCode={setCCode}
                       setCompanyName={props.setCompanyName}
+                      // 추가된 props
+                      isFocused={idx === focusedDetailIndex} // 현재 포커스된 컴포넌트인지 체크
+                      setFocusedDetailIndex={setFocusedDetailIndex} // 상태 업데이트 함수 전달
                     />
                   </React.Fragment>
                 ))}
@@ -89,7 +99,7 @@ function PrepaidList(props) {
             </div>
             <div className="p-2 text-right">
               <select
-                className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-fit rounded"
+                className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-fit rounded text-sm"
                 value={tType}
                 onChange={handleTType}
               >
@@ -124,6 +134,9 @@ function PrepaidList(props) {
                       setCompanyCode={props.setCompanyCode}
                       setPrepayCode={props.setPrepayCode}
                       setInputOn={props.setInputOn}
+                      memo={memo}
+                      setMemo={setMemo}
+                      setModalOn={setModalOn}
                     />
                   </React.Fragment>
                 ))}

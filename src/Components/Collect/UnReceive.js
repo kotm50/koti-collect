@@ -19,6 +19,7 @@ function UnReceive() {
   const user = useSelector(state => state.user);
   const [title, setTitle] = useOutletContext();
   const [inputOn, setInputOn] = useState(false);
+  const [testNum, setTestNum] = useState(null);
 
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -60,7 +61,7 @@ function UnReceive() {
   useEffect(() => {
     getFeeList(month, year, searchKeyword);
     //eslint-disable-next-line
-  }, [isUnpaid, month, year]);
+  }, [isUnpaid, month, year, searchKeyword]);
 
   const logout = async () => {
     await axios
@@ -163,8 +164,8 @@ function UnReceive() {
 
   return (
     <div className="mx-4" data={title}>
-      <div className="w-[1280px] h-[72px] fixed top-4 right-4 grid grid-cols-2 z-10 gap-x-2 font-medium">
-        {unPaid !== null && (
+      <div className="w-[1280px] h-[104px] fixed top-0 right-0 p-4 grid grid-cols-2 z-10 gap-x-2 font-medium bg-white">
+        {unPaid !== null ? (
           <table className="w-full">
             <thead>
               <tr className="bg-rose-500 text-white">
@@ -201,8 +202,31 @@ function UnReceive() {
               </tr>
             </tbody>
           </table>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="bg-rose-500 text-white">
+                <td className="p-1 border text-center">미수금 합계</td>
+                <td className="p-1 border text-center">광고비 미수금</td>
+                <td className="p-1 border text-center">위촉비 미수금</td>
+                <td className="p-1 border text-center">면케 미수금</td>
+                <td className="p-1 border text-center">위케 미수금</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white">
+                <td className="p-1 border bg-rose-50 text-right font-bold">
+                  0 원
+                </td>
+                <td className="p-1 border text-right">0 원</td>
+                <td className="p-1 border text-right">0 원</td>
+                <td className="p-1 border text-right">0 원</td>
+                <td className="p-1 border text-right">0 원</td>
+              </tr>
+            </tbody>
+          </table>
         )}
-        {paid !== null && (
+        {paid !== null ? (
           <table className="w-full">
             <thead>
               <tr className="bg-green-600 text-white">
@@ -239,21 +263,32 @@ function UnReceive() {
               </tr>
             </tbody>
           </table>
-        )}
-        {unPaid === null && paid === null && (
-          <div className="w-full h-full border text-center col-span-2 flex flex-col justify-center text-xl">
-            <div>
-              <span className="font-bold">{year}</span>년{" "}
-              <span className="font-bold">{month}</span>월의 수금/미수금 내역이
-              없습니다. 다른 달을 선택하세요
-            </div>
-          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="bg-green-600 text-white">
+                <td className="p-1 border text-center">수금 합계</td>
+                <td className="p-1 border text-center">광고비 수금</td>
+                <td className="p-1 border text-center">위촉비 수금</td>
+                <td className="p-1 border text-center">면케 수금</td>
+                <td className="p-1 border text-center">위케 수금</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white">
+                <td className="p-1 border bg-rose-50 text-right font-bold">
+                  0원
+                </td>
+                <td className="p-1 border text-right">0원</td>
+                <td className="p-1 border text-right">0원</td>
+                <td className="p-1 border text-right">0원</td>
+                <td className="p-1 border text-right">0원</td>
+              </tr>
+            </tbody>
+          </table>
         )}
       </div>
-      <div
-        ref={stickyRef}
-        className="sticky top-0 left-0 z-50 bg-gray-50 pb-2 grid grid-cols-2 gap-x-2"
-      >
+      <div ref={stickyRef} className="bg-gray-50 pb-2 grid grid-cols-2 gap-x-2">
         <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow">
           <div
             className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full px-2 ${
@@ -326,6 +361,7 @@ function UnReceive() {
               isUnpaid={isUnpaid}
               logout={logout}
               getPayList={getPayList}
+              testNum={testNum}
             />
           </div>
         </div>
@@ -387,7 +423,7 @@ function UnReceive() {
           </div>
         </div>
       </div>
-      <div className="w-full mt-2">
+      <div className="w-full mt-2 mb-20">
         <CommissionList
           user={user}
           feeList={feeList}
@@ -399,6 +435,7 @@ function UnReceive() {
           setPayCode={setPayCode}
           loading={loaded}
           setInputOn={setInputOn}
+          setTestNum={setTestNum}
         />
       </div>
     </div>

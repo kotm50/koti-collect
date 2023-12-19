@@ -23,8 +23,6 @@ function InputCharge(props) {
   const [dualEtcOn, setDualEtcOn] = useState(false);
   const [dualEtc, setDualEtc] = useState("");
   const [dualType, setDualType] = useState("");
-  const [tax, setTax] = useState("N");
-  const [taxDate, setTaxDate] = useState("");
   const [adNumber, setAdNumber] = useState("");
 
   const [unpaidAd, setUnpaidAd] = useState("0");
@@ -68,8 +66,6 @@ function InputCharge(props) {
       setAdNumber("");
       setWeek("");
       setDay("");
-      setTax("N");
-      setTaxDate("");
 
       setUnpaidAd("0");
       setUnpaidComm("0");
@@ -108,14 +104,17 @@ function InputCharge(props) {
         setCompanyCode(commission.companyCode);
         setDualType(commission.dualType);
         setDualEtc(commission.dualEtc);
-        setTax(commission.taxBillYn);
-        setTaxDate(commission.taxBillIssueDate || "");
         setAdNumber(commission.adId);
-        setStartDate(commission.hireStartDate);
-        setEndDate(commission.hireEndDate);
+        setStartDate(commission.hireStartDate || "");
+        setEndDate(commission.hireEndDate || "");
         setPaymentDueDate(commission.paymentDueDate || "");
-        getWeek(commission.hireStartDate, commission.hireEndDate);
-        setMemo(unescapeHTML(commission.memo));
+        if (
+          commission.hireStartDate !== null &&
+          commission.hireEndDate !== null
+        ) {
+          getWeek(commission.hireStartDate, commission.hireEndDate);
+        }
+        setMemo(commission.memo ? unescapeHTML(commission.memo) : "");
         setPaidAdYn(commission.paidAdYn);
         setPaidCommCareYn(commission.paidCommCareYn);
         setPaidCommYn(commission.paidCommYn);
@@ -262,14 +261,6 @@ function InputCharge(props) {
     setDualType(value);
   };
 
-  const handleTax = e => {
-    const value = e.target.value;
-    if (value === "N") {
-      setTaxDate("");
-    }
-    setTax(value);
-  };
-
   useEffect(() => {
     if (dualType === "etc") {
       setDualEtcOn(true);
@@ -295,8 +286,6 @@ function InputCharge(props) {
       setAdNumber("");
       setWeek("");
       setDay("");
-      setTax("N");
-      setTaxDate("");
 
       setRealUnpaidAd("");
       setRealUnpaidComm("");
@@ -348,9 +337,6 @@ function InputCharge(props) {
           setAdNumber("");
           setWeek("");
           setDay("");
-          setTax("N");
-          setTaxDate("");
-
           setUnpaidAd("0");
           setUnpaidComm("0");
           setUnpaidIntvCare("0");
@@ -451,28 +437,38 @@ function InputCharge(props) {
       } else {
         dual = dualType;
       }
+
+      let start = null;
+      let end = null;
+      if (startDate !== "") {
+        start = startDate;
+      }
+      if (endDate !== "") {
+        end = endDate;
+      }
       const data = {
-        commCode: commCode,
-        companyCode: companyCode,
-        adId: adNumber,
-        unpaidAd: Number(realUnpaidAd),
-        unpaidComm: Number(realUnpaidComm),
-        unpaidIntvCare: Number(realUnpaidIntvCare),
-        unpaidCommCare: Number(realUnpaidCommCare),
-        paidAdYn: adYn,
-        paidCommCareYn: commCareYn,
-        paidCommYn: commYn,
-        paidIntvCareYn: intvCareYn,
-        hireStartDate: startDate,
-        hireEndDate: endDate,
+        commCode: commCode === "" ? null : commCode,
+        companyCode: companyCode === "" ? null : companyCode,
+        adId: adNumber === "" ? null : adNumber,
+        unpaidAd: realUnpaidAd === "" ? null : Number(realUnpaidAd),
+        unpaidComm: realUnpaidComm === "" ? null : Number(realUnpaidComm),
+        unpaidIntvCare:
+          realUnpaidIntvCare === "" ? null : Number(realUnpaidIntvCare),
+        unpaidCommCare:
+          realUnpaidCommCare === "" ? null : Number(realUnpaidCommCare),
+        paidAdYn: adYn === "" ? null : adYn,
+        paidCommCareYn: commCareYn === "" ? null : commCareYn,
+        paidCommYn: commYn === "" ? null : commYn,
+        paidIntvCareYn: intvCareYn === "" ? null : intvCareYn,
+        hireStartDate: start === "" ? null : start,
+        hireEndDate: end === "" ? null : end,
         paymentDueDate: paymentDueDate === "" ? null : paymentDueDate,
-        dualType: dual,
-        week: week,
-        day: day,
-        memo: escapeMemo,
-        taxBillYn: tax,
-        taxBillIssueDate: taxDate === "" ? null : taxDate,
+        dualType: dual === "" ? null : dual,
+        week: week === "" ? null : week,
+        day: day === "" ? null : day,
+        memo: escapeMemo === "" ? null : escapeMemo,
       };
+      console.log(data);
       await axios
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
@@ -485,7 +481,6 @@ function InputCharge(props) {
           }
           if (res.data.code === "C000") {
             setSearchKeyword("");
-            setCommCode(null);
             setCompanyName("");
             setCompanyCode("");
             setCompanyListOn(false);
@@ -497,8 +492,6 @@ function InputCharge(props) {
             setAdNumber("");
             setWeek("");
             setDay("");
-            setTax("N");
-            setTaxDate("");
 
             setRealUnpaidAd("");
             setRealUnpaidComm("");
@@ -518,7 +511,7 @@ function InputCharge(props) {
             setStartDate("");
             setEndDate("");
             setMemo("");
-            props.setCommCode(null);
+            getCharge(props.commCode);
             props.getFeeList(props.month, props.year, props.searchKeyword);
           }
         })
@@ -531,28 +524,46 @@ function InputCharge(props) {
     if (companyName === "" || companyCode === "") {
       return "고객사를 입력하세요";
     }
+    if (startDate === "" && endDate === "" && paymentDueDate === "") {
+      if (paymentDueDate === "") {
+        if (startDate === "" || endDate === "") {
+          return "채용 시작/종료일 또는 입금예정일을 선택하세요";
+        }
+      }
+    }
     if (dualType === "etc" && dualEtc === "") {
       return "듀얼타입을 선택하세요";
-    }
-    if (startDate === "") {
-      return "채용 시작일을 선택하세요";
-    }
-    if (endDate === "") {
-      return "채용 종료일을 선택하세요";
     }
     return "완료";
   };
 
   useEffect(() => {
-    if (startDate !== "" && endDate !== "") {
+    if (startDate === "" && endDate === "") {
+      setWeek("");
+      setDay("");
+    } else {
       getWeek(startDate, endDate);
     }
   }, [startDate, endDate]);
 
   const getWeek = (s, e) => {
     // 시작일과 종료일을 Date 객체로 변환
-    var start = new Date(s);
-    var end = new Date(e);
+    var start = new Date();
+    var end = new Date();
+
+    if (s !== "") {
+      start = new Date(s);
+    }
+
+    if (e !== "") {
+      end = new Date(e);
+    }
+
+    if (s === "" && e === "") {
+      setWeek("");
+      setDay("");
+      return true;
+    }
 
     var weekCount = 0;
     var dayCount = 0;
@@ -618,7 +629,7 @@ function InputCharge(props) {
         </div>
         <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">
-            채용 시작일<span className="text-rose-500">*</span>
+            채용 시작일<span className="text-rose-500 hidden">*</span>
           </div>
           <div className="w-full relative">
             <input
@@ -632,7 +643,7 @@ function InputCharge(props) {
         </div>
         <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">
-            채용 종료일<span className="text-rose-500">*</span>
+            채용 종료일<span className="text-rose-500 hidden">*</span>
           </div>
           <div className="w-full relative">
             <input
@@ -812,34 +823,6 @@ function InputCharge(props) {
             )}
           </div>
         </div>
-        <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">세금계산서</div>
-          <div className="w-full relative">
-            <select
-              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-              value={tax}
-              onChange={handleTax}
-            >
-              <option value="N">미발행</option>
-              <option value="Y">발행</option>
-            </select>
-          </div>
-        </div>
-        {tax === "Y" ? (
-          <div className="flex justify-start gap-2">
-            <div className="py-1 w-[128px]">발행일</div>
-            <div className="w-full relative">
-              <input
-                type="date"
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                value={taxDate}
-                onChange={e => setTaxDate(e.currentTarget.value)}
-              />
-            </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
       </div>
       <div>
         <div className="w-full py-1">
@@ -848,7 +831,7 @@ function InputCharge(props) {
             theme="snow"
             value={memo}
             onChange={setMemo}
-            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full"
+            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustom"
             placeholder="기타 메모할 내용을 입력하세요"
           />
         </div>
