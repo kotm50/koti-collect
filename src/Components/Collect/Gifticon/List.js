@@ -12,58 +12,73 @@ function List(props) {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
+  const [cashTotal, setCashTotal] = useState(0);
+  const [comCashTotal, setComCashTotal] = useState(0);
+  const [comTaxTotal, setComTaxTotal] = useState(0);
+  const [cardTotal, setCardTotal] = useState(0);
+  const [cardTaxTotal, setCardTaxTotal] = useState(0);
 
   useEffect(() => {
+    changeDate();
+    //eslint-disable-next-line
+  }, [props.date]);
+
+  const changeDate = async () => {
     if (props.date !== "") {
+      const date = dayjs(new Date(props.date)).format("YYYY-MM-DD");
       const year = dayjs(new Date(props.date)).format("YYYY");
       const month = dayjs(new Date(props.date)).format("MM");
       const day = dayjs(new Date(props.date)).format("DD");
+      await setYearMonth(year, month);
+      await changeList(year, month, day, date);
       setYear(year);
       setMonth(month);
       setDay(day);
     } else {
-      setYear(dayjs(new Date()).format("YYYY"));
+      setYear("");
       setMonth("");
       setDay("");
     }
-    //eslint-disable-next-line
-  }, [props.date]);
+  };
+
+  const setYearMonth = (year, month) => {
+    props.setYear(year);
+    props.setMonth(month);
+  };
+
+  const changeList = async (year, month, day, date) => {
+    await getGifticonList(year, month, day);
+    props.setDate(date);
+  };
 
   useEffect(() => {
-    setYear(props.year);
+    setYear(String(props.year));
     if (props.year !== year) {
       props.setCalendarDate("");
+      props.setDate("");
       setDay("");
       setMonth("");
     }
-    if (props.year === "") {
-      const now = new Date();
-      setYear(now.getFullYear().toString());
-      props.setYear(now.getFullYear().toString());
-    }
-
-    if (props.month !== "") {
-      setMonth(props.month);
+    if (props.month !== "" || props.month !== month) {
+      setMonth(String(props.month));
       props.setCalendarDate("");
+      props.setDate("");
       setDay("");
     }
     //eslint-disable-next-line
   }, [props.year, props.month]);
 
   useEffect(() => {
-    if (year !== "") {
-      getGifticonList(year, month, day);
-    }
+    getGifticonList(year, month, day);
     //eslint-disable-next-line
   }, [year, month, day]);
 
   const getGifticonList = async (year, month, day) => {
     let data = {
-      searchYear: year,
+      searchYear: year === "" ? null : year,
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
     };
-    console.log(data);
     await axios
       .post("/api/v1/comp/commcare/status", data, {
         headers: { Authorization: props.user.accessToken },
@@ -74,9 +89,57 @@ function List(props) {
           return false;
         }
         console.log("깊콘", res);
+        await getTax(res.data.payList);
         setList(res.data.payList);
       })
       .catch(e => console.log(e));
+  };
+
+  const getTax = list => {
+    let a = 0; // 현금(미발행)
+    let b = 0; // 현금(발행)
+    let c = 0; // 현금(발행) 부가세
+    let d = 0; // 카드
+    let e = 0; // 카드 부가세
+    list.forEach(doc => {
+      if (
+        doc.payType === "PG" ||
+        doc.payType === "MO" ||
+        doc.payType === "HE"
+      ) {
+        console.log("카드", doc.paidCommCare);
+        if (doc.transactionType === "P") {
+          d = d + Math.round(doc.paidCommCare / 1.1);
+          e = e + (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
+        } else if (doc.transactionType === "D") {
+          d = d - Math.round(doc.paidCommCare / 1.1);
+          e = e - (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
+        }
+      } else {
+        if (doc.taxBillYn === "Y") {
+          console.log("세금", doc.paidCommCare);
+          if (doc.transactionType === "P") {
+            b = b + Math.round(doc.paidCommCare / 1.1);
+            c = c + (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
+          } else if (doc.transactionType === "D") {
+            b = b - Math.round(doc.paidCommCare / 1.1);
+            c = c - (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
+          }
+        } else {
+          console.log("현금", doc.paidCommCare);
+          if (doc.transactionType === "P") {
+            a = a + doc.paidCommCare;
+          } else if (doc.transactionType === "D") {
+            a = a - doc.paidCommCare;
+          }
+        }
+      }
+    });
+    setCashTotal(a);
+    setComCashTotal(b);
+    setComTaxTotal(c);
+    setCardTotal(d);
+    setCardTaxTotal(e);
   };
   return (
     <>
@@ -87,28 +150,70 @@ function List(props) {
               <td colSpan="14" className="border border-white">
                 <div className="flex justify-between py-2 pr-2">
                   <h3 className="font-bold text-xl">
-                    기프티콘 충전내역 | 기간 - {year}년{" "}
-                    {month !== "" ? month + "월" : null}{" "}
-                    {day !== "" ? day + "일" : null}
+                    기프티콘 충전내역{" "}
+                    {year ? (
+                      <span>
+                        | 조회기간 : {year}년{" "}
+                        {month !== "" ? month + "월" : null}{" "}
+                        {day !== "" ? day + "일" : null}
+                      </span>
+                    ) : null}
                   </h3>
                 </div>
               </td>
             </tr>
             <tr className="bg-blue-600 text-white text-center">
-              <td className="border p-2">구분</td>
-              <td className="border p-2">날짜</td>
-              <td className="border p-2">고객사</td>
-              <td className="border p-2">지점</td>
-              <td className="border p-2">결제방식</td>
-              <td className="border p-2">금액</td>
-              <td className="border p-2">공급가액</td>
-              <td className="border p-2">부가세</td>
-              <td className="border p-2">입금자명</td>
-              <td className="border p-2">카드사</td>
-              <td className="border p-2">카드번호</td>
-              <td className="border p-2">유효기간</td>
-              <td className="border p-2">비밀번호</td>
-              <td className="border p-2">비고</td>
+              <td rowSpan="3" className="border p-1">
+                구분
+              </td>
+              <td rowSpan="3" className="border p-1">
+                날짜
+              </td>
+              <td rowSpan="3" className="border p-1">
+                고객사
+              </td>
+              <td rowSpan="3" className="border p-1">
+                지점명
+              </td>
+              <td colSpan="5" className="border p-1">
+                결제금액
+              </td>
+              <td rowSpan="4" className="border p-1">
+                담당자1
+              </td>
+              <td rowSpan="4" className="border p-1">
+                담당자2
+              </td>
+              <td rowSpan="4" className="border p-1">
+                비고
+              </td>
+            </tr>
+            <tr className="bg-blue-600 text-white text-center">
+              <td rowSpan="2" className="border p-1">
+                현금
+              </td>
+              <td colSpan="2" className="border p-1">
+                카드
+              </td>
+              <td colSpan="2" className="border p-1">
+                세금계산서
+              </td>
+            </tr>
+            <tr className="bg-blue-600 text-white text-center">
+              <td className="border p-1">공급가액</td>
+              <td className="border p-1">부가세</td>
+              <td className="border p-1">공급가액</td>
+              <td className="border p-1">부가세</td>
+            </tr>
+            <tr className="bg-yellow-300 text-center font-bold text-lg">
+              <td colSpan="4" className="border p-1">
+                합계
+              </td>
+              <td className="border p-1">{cashTotal.toLocaleString()}</td>
+              <td className="border p-1">{cardTotal.toLocaleString()}</td>
+              <td className="border p-1">{cardTaxTotal.toLocaleString()}</td>
+              <td className="border p-1">{comCashTotal.toLocaleString()}</td>
+              <td className="border p-1">{comTaxTotal.toLocaleString()}</td>
             </tr>
           </thead>
           <tbody>

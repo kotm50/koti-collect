@@ -17,10 +17,16 @@ function Menu() {
         광고일정 등록
       </Link>
       <Link
-        to="/collect/urback"
+        to="/collect/dailyreport"
         className="p-4 hover:bg-gray-100 transition-all duration-300"
       >
-        광고일정 등록_백업
+        일일 보고
+      </Link>
+      <Link
+        to="/collect/yeartotal"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
+        고객사별 월별종합
       </Link>
       <Link
         to="/collect/card"
@@ -40,7 +46,6 @@ function Menu() {
       >
         기간 별 조회
       </Link>
-
       <Link
         to="/collect/gifticon"
         className="p-4 hover:bg-gray-100 transition-all duration-300"

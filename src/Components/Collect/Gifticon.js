@@ -23,7 +23,6 @@ function Gifticon() {
   const [memo, setMemo] = useState("");
   const [modalOn, setModalOn] = useState(false);
   useEffect(() => {
-    setYear(new Date().getFullYear().toString());
     setTitle("기프티콘 충전현황");
     //eslint-disable-next-line
   }, [thisLocation]);
@@ -87,6 +86,7 @@ function Gifticon() {
           <List
             year={year}
             setYear={setYear}
+            setMonth={setMonth}
             month={month}
             date={calendarDate}
             user={user}
@@ -94,6 +94,7 @@ function Gifticon() {
             setMemo={setMemo}
             setModalOn={setModalOn}
             setCalendarDate={setCalendarDate}
+            setDate={setDate}
           />
         </div>
       </div>

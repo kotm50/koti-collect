@@ -1,0 +1,132 @@
+import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/ko"; //한국어
+
+function TodayReport(props) {
+  dayjs.locale("ko");
+  const [date, setDate] = useState("");
+  const [dateLong, setDateLong] = useState("");
+  useEffect(() => {
+    let today = new Date();
+    const date = dayjs(today).format("MM/DD");
+    const dateLong = dayjs(today).format("YYYY/MM/DD(dd요일)");
+    setDate(date);
+    setDateLong(dateLong);
+  }, []);
+  const getPayTitle = payType => {
+    if (payType === "CA") {
+      return "현금(개인)";
+    } else if (payType === "CO") {
+      return "현금(법인)";
+    } else if (payType === "PG") {
+      return "PG카드";
+    } else if (payType === "MO") {
+      return "알바몬카드";
+    } else if (payType === "HE") {
+      return "알바천국카드";
+    } else {
+      return "오류";
+    }
+  };
+  return (
+    <div className="p-2 bg-white">
+      <h3 className="text-xl font-bold">오늘 - {dateLong}</h3>
+      {props.list.length > 0 ? (
+        <table className="w-full">
+          <thead>
+            <tr className="bg-blue-600 text-white text-center">
+              <td className="border p-1">채널</td>
+              <td className="border p-1">고객사</td>
+              <td className="border p-1">지점</td>
+              <td className="border p-1">광고비</td>
+              <td className="border p-1">위촉비</td>
+              <td className="border p-1">면접케어</td>
+              <td className="border p-1">위촉케어</td>
+              <td className="border p-1">선입금</td>
+              <td className="border p-1">결제방법</td>
+            </tr>
+          </thead>
+          <tbody className="text-sm">
+            {props.list.map((item, idx) => (
+              <tr className="text-center" key={idx}>
+                <td className="border p-1">{item.channel}</td>
+                <td className="border p-1">{item.companyName}</td>
+                <td className="border p-1">{item.companyBranch}</td>
+                <td className="border p-1">
+                  {item.dailyPaidAd.toLocaleString()}
+                </td>
+                <td className="border p-1">
+                  {item.dailyPaidComm.toLocaleString()}
+                </td>
+                <td className="border p-1">
+                  {item.dailyPaidIntvCare.toLocaleString()}
+                </td>
+                <td className="border p-1">
+                  {item.dailyPaidCommCare.toLocaleString()}
+                </td>
+                <td className="border p-1">
+                  {item.dailyPrepayment.toLocaleString()}
+                </td>
+                <td className="border p-1">{getPayTitle(item.payType)}</td>
+              </tr>
+            ))}
+            <tr></tr>
+            <tr className="bg-blue-600 text-white text-center">
+              <td className="border p-1" colSpan="3" rowSpan="2">
+                {date} 당일 수금액
+              </td>
+              <td className="border p-1 font-bold">
+                {props.total.totalDailyPaidAd.toLocaleString()}
+              </td>
+              <td className="border p-1 font-bold">
+                {props.total.totalDailyPaidComm.toLocaleString()}
+              </td>
+              <td className="border p-1 font-bold">
+                {props.total.totalDailyPaidIntvCare.toLocaleString()}
+              </td>
+              <td className="border p-1 font-bold">
+                {props.total.totalDailyPaidCommCare.toLocaleString()}
+              </td>
+              <td className="border p-1 font-bold">
+                {props.total.totalDailyPrepayment.toLocaleString()}
+              </td>
+              <td className="border p-1"></td>
+            </tr>
+            <tr className="bg-blue-600 text-white text-center">
+              <td colSpan="5" className="border p-1 font-bold">
+                {(
+                  props.total.totalDailyPaidAd +
+                  props.total.totalDailyPaidComm +
+                  props.total.totalDailyPaidIntvCare +
+                  props.total.totalDailyPaidCommCare +
+                  props.total.totalDailyPrepayment
+                ).toLocaleString()}
+              </td>
+              <td className="border p-1"></td>
+            </tr>
+            <tr className="bg-gray-300 text-center">
+              <td colSpan="3" className="border p-1">
+                카드 결제 금액
+              </td>
+              <td colSpan="5" className="border p-1 font-bold">
+                {props.total.totalCardPayment.toLocaleString()}
+              </td>
+              <td className="border p-1"></td>
+            </tr>
+            <tr className="bg-gray-300 text-center">
+              <td colSpan="3" className="border p-1">
+                카드 외 결제 금액
+              </td>
+              <td colSpan="5" className="border p-1 font-bold">
+                {props.total.totalCashPayment.toLocaleString()}
+              </td>
+              <td className="border p-1"></td>
+            </tr>
+          </tbody>
+        </table>
+      ) : null}
+    </div>
+  );
+}
+
+export default TodayReport;

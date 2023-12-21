@@ -18,6 +18,7 @@ function StatisticsList() {
   const [title, setTitle] = useOutletContext();
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
   const [date, setDate] = useState("");
   const [calendarDate, setCalendarDate] = useState("");
   const [calendarOn, setCalendarOn] = useState(false);
@@ -34,9 +35,18 @@ function StatisticsList() {
   useEffect(() => {
     if (calendarDate !== "") {
       const date = dayjs(calendarDate).format("YYYY년 MM월 DD일");
+      const year = dayjs(calendarDate).format("YYYY");
+      const month = dayjs(calendarDate).format("MM");
+      const day = dayjs(calendarDate).format("DD");
+      setYear(year);
+      setMonth(month);
+      setDay(day);
       setCalendarOn(false);
       setDate(date);
     } else {
+      setYear(dayjs(new Date()).format("YYYY"));
+      setMonth("");
+      setDay("");
       setDate("");
     }
     //eslint-disable-next-line
@@ -94,9 +104,9 @@ function StatisticsList() {
             setYear={setYear}
             month={month}
             setMonth={setMonth}
+            day={day}
+            setDay={setDay}
             user={user}
-            date={calendarDate}
-            setCalendarDate={setCalendarDate}
             memo={memo}
             setMemo={setMemo}
             setModalOn={setModalOn}

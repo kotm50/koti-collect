@@ -46,8 +46,18 @@ function InputCharge(props) {
   const [week, setWeek] = useState("");
   const [day, setDay] = useState("");
   const [memo, setMemo] = useState("");
+  const [tax, setTax] = useState("N");
+  const [taxDate, setTaxDate] = useState("");
 
   const comNameRef = useRef(null);
+
+  const handleTax = e => {
+    const value = e.target.value;
+    if (value === "N") {
+      setTaxDate("");
+    }
+    setTax(value);
+  };
 
   useEffect(() => {
     if (props.commCode !== null && props.commCode !== undefined) {
@@ -81,6 +91,8 @@ function InputCharge(props) {
       setEndDate("");
       setPaymentDueDate("");
       setMemo("");
+      setTax("N");
+      setTaxDate("");
     }
     //eslint-disable-next-line
   }, [props.commCode]);
@@ -98,7 +110,10 @@ function InputCharge(props) {
           logout();
           return false;
         }
+
         const commission = res.data.commission;
+        console.log(commission);
+        console.log(commission.taxBillIssueDate);
         setCommCode(commission.commCode);
         setCompanyName(commission.companyBranch);
         setCompanyCode(commission.companyCode);
@@ -106,6 +121,9 @@ function InputCharge(props) {
         setDualEtc(commission.dualEtc);
         setAdNumber(commission.adId);
         setStartDate(commission.hireStartDate || "");
+        setEndDate(commission.hireEndDate || "");
+        setTax(commission.taxBillYn);
+        setTaxDate(commission.taxBillIssueDate || "");
         setEndDate(commission.hireEndDate || "");
         setPaymentDueDate(commission.paymentDueDate || "");
         if (
@@ -306,6 +324,8 @@ function InputCharge(props) {
       setEndDate("");
       setPaymentDueDate("");
       setMemo("");
+      setTax("N");
+      setTaxDate("");
     } else {
       return false;
     }
@@ -350,6 +370,8 @@ function InputCharge(props) {
           setStartDate("");
           setEndDate("");
           setMemo("");
+          setTax("N");
+          setTaxDate("");
 
           props.getFeeList(props.month, props.year, props.searchKeyword);
         })
@@ -467,6 +489,8 @@ function InputCharge(props) {
         week: week === "" ? null : week,
         day: day === "" ? null : day,
         memo: escapeMemo === "" ? null : escapeMemo,
+        taxBillYn: tax === "" ? null : tax,
+        taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
       console.log(data);
       await axios
@@ -511,6 +535,8 @@ function InputCharge(props) {
             setStartDate("");
             setEndDate("");
             setMemo("");
+            setTax("N");
+            setTaxDate("");
             getCharge(props.commCode);
             props.getFeeList(props.month, props.year, props.searchKeyword);
           }
@@ -656,6 +682,46 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
+          <div className="py-1 w-[128px]">
+            <label htmlFor="exp">진행기간</label>
+          </div>
+          <div className="w-full grid grid-cols-11 gap-0">
+            <div className="w-full relative col-span-5">
+              <input
+                type="text"
+                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full "
+                id="exp"
+                value={week}
+                placeholder="채용기간 주"
+                onChange={e => setWeek(e.currentTarget.value)}
+                maxLength={2}
+              />
+              {week !== "" && !isNaN(week) && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
+                  주
+                </div>
+              )}
+            </div>
+            <span className="py-1 text-center">/</span>
+            <div className="w-full relative col-span-5">
+              <input
+                type="text"
+                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full "
+                id="day"
+                value={day}
+                placeholder="채용기간 일"
+                onChange={e => setDay(e.currentTarget.value)}
+                maxLength={2}
+              />
+              {day !== "" && !isNaN(day) && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
+                  일
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">입금 예정일</div>
           <div className="w-full relative">
             <input
@@ -666,50 +732,6 @@ function InputCharge(props) {
               onChange={e => setPaymentDueDate(e.currentTarget.value)}
             />
           </div>
-        </div>
-        <div
-          className={`grid ${
-            dualEtcOn ? "grid-cols-2 gap-x-1" : "grid-cols-1"
-          }`}
-        >
-          <div className="flex justify-start gap-2">
-            <div className="py-1 w-[128px]">
-              듀얼 타입{dualEtcOn && <span className="text-rose-500">*</span>}
-            </div>
-            <div className="w-full relative">
-              <select
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                value={dualType}
-                onChange={handleSelect}
-              >
-                {dualTypeList && dualTypeList.length > 0 ? (
-                  <>
-                    {dualTypeList.map((cat, idx) => (
-                      <option key={idx} value={cat.useValue}>
-                        {cat.useValue}
-                      </option>
-                    ))}
-                    <option value="etc">직접 입력</option>
-                  </>
-                ) : (
-                  <option value="">선택</option>
-                )}
-              </select>
-            </div>
-          </div>
-          {dualEtcOn && (
-            <div className="flex justify-start gap-2">
-              <div className="w-full relative">
-                <input
-                  type="text"
-                  className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                  value={dualEtc}
-                  placeholder="듀얼 타입을 직접 입력해 주세요"
-                  onChange={e => setDualEtc(e.currentTarget.value)}
-                />
-              </div>
-            </div>
-          )}
         </div>
         <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">광고비 미수금</div>
@@ -823,6 +845,78 @@ function InputCharge(props) {
             )}
           </div>
         </div>
+        <div className="flex justify-start gap-2">
+          <div className="py-1 w-[128px]">세금계산서</div>
+          <div className="w-full relative">
+            <select
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              value={tax}
+              onChange={handleTax}
+            >
+              <option value="N">미발행</option>
+              <option value="Y">발행</option>
+            </select>
+          </div>
+        </div>
+        {tax === "Y" ? (
+          <div className="flex justify-start gap-2">
+            <div className="py-1 w-[128px]">발행일</div>
+            <div className="w-full relative">
+              <input
+                type="date"
+                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+                value={taxDate}
+                onChange={e => setTaxDate(e.currentTarget.value)}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="py-1">세금계산서를 발행하지 않습니다</div>
+        )}
+        <div
+          className={`grid ${
+            dualEtcOn ? "grid-cols-2 gap-x-1" : "grid-cols-1"
+          }`}
+        >
+          <div className="flex justify-start gap-2">
+            <div className="py-1 w-[128px]">
+              듀얼 타입{dualEtcOn && <span className="text-rose-500">*</span>}
+            </div>
+            <div className="w-full relative">
+              <select
+                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+                value={dualType}
+                onChange={handleSelect}
+              >
+                {dualTypeList && dualTypeList.length > 0 ? (
+                  <>
+                    {dualTypeList.map((cat, idx) => (
+                      <option key={idx} value={cat.useValue}>
+                        {cat.useValue}
+                      </option>
+                    ))}
+                    <option value="etc">직접 입력</option>
+                  </>
+                ) : (
+                  <option value="">선택</option>
+                )}
+              </select>
+            </div>
+          </div>
+          {dualEtcOn && (
+            <div className="flex justify-start gap-2">
+              <div className="w-full relative">
+                <input
+                  type="text"
+                  className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+                  value={dualEtc}
+                  placeholder="듀얼 타입을 직접 입력해 주세요"
+                  onChange={e => setDualEtc(e.currentTarget.value)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <div>
         <div className="w-full py-1">
@@ -831,7 +925,7 @@ function InputCharge(props) {
             theme="snow"
             value={memo}
             onChange={setMemo}
-            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustom"
+            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustomB"
             placeholder="기타 메모할 내용을 입력하세요"
           />
         </div>

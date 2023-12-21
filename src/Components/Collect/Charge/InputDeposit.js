@@ -45,8 +45,6 @@ function InputDeposit(props) {
   const [paidDate, setPaidDate] = useState("");
 
   const [cardList, setCardList] = useState([]);
-  const [tax, setTax] = useState("N");
-  const [taxDate, setTaxDate] = useState("");
 
   useEffect(() => {
     setCommCode(null);
@@ -69,8 +67,6 @@ function InputDeposit(props) {
     setPrePaid("");
     setPayCode(null);
     setInstallment("N");
-    setTax("N");
-    setTaxDate("");
     if (props.commCode !== null) {
       setCommCode(props.commCode);
       getCompanyCode(props.commCode);
@@ -103,8 +99,6 @@ function InputDeposit(props) {
       setBigo("");
       setPrePaid("");
       setPayCode(null);
-      setTax("N");
-      setTaxDate("");
     }
     //eslint-disable-next-line
   }, [props.payCode]);
@@ -125,14 +119,6 @@ function InputDeposit(props) {
       .catch(e => {
         console.log(e);
       });
-  };
-
-  const handleTax = e => {
-    const value = e.target.value;
-    if (value === "N") {
-      setTaxDate("");
-    }
-    setTax(value);
   };
 
   const getPayed = async pCode => {
@@ -172,8 +158,6 @@ function InputDeposit(props) {
         setPayerName(pay.payerName || "");
 
         setInstallment(pay.installment || "");
-        setTax(pay.taxBillYn);
-        setTaxDate(pay.taxBillIssueDate || "");
       })
       .catch(e => console.log(e));
   };
@@ -216,8 +200,6 @@ function InputDeposit(props) {
     setBigo("");
     setInstallment("N");
     setPayCode(null);
-    setTax("N");
-    setTaxDate("");
   };
 
   const getPaid = num => {
@@ -279,8 +261,6 @@ function InputDeposit(props) {
         authNo: authNo === "" ? null : authNo,
         payerName: payerName === "" ? null : payerName,
         bigo: bigo === "" ? null : escapeBigo,
-        taxBillYn: tax === "" ? null : tax,
-        taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
       if (payType === "CA" || payType === "CO") {
         data.cardCode = null;
@@ -288,12 +268,8 @@ function InputDeposit(props) {
         data.authNo = null;
       } else if (payType === "PG" || payType === "MO" || payType === "HE") {
         data.payerName = null;
-        data.taxBillYn = "N";
-        data.taxBillIssueDate = null;
       } else if (payType === "PR") {
         data.payerName = null;
-        data.taxBillYn = "N";
-        data.taxBillIssueDate = null;
         data.cardCode = null;
         data.resNo = null;
         data.authNo = null;
@@ -344,8 +320,6 @@ function InputDeposit(props) {
         payerName: payerName === "" ? null : payerName,
         bigo: bigo === "" ? null : escapeBigo,
         payCode: payCode === "" ? null : payCode,
-        taxBillYn: tax === "" ? null : tax,
-        taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
       if (payType === "CA" || payType === "CO") {
         data.cardCode = null;
@@ -353,12 +327,8 @@ function InputDeposit(props) {
         data.authNo = null;
       } else if (payType === "PG" || payType === "MO" || payType === "HE") {
         data.payerName = null;
-        data.taxBillYn = "N";
-        data.taxBillIssueDate = null;
       } else if (payType === "PR") {
         data.payerName = null;
-        data.taxBillYn = "N";
-        data.taxBillIssueDate = null;
         data.cardCode = null;
         data.resNo = null;
         data.authNo = null;
@@ -411,8 +381,6 @@ function InputDeposit(props) {
     setBigo("");
     setInstallment("N");
     setPayCode(null);
-    setTax("N");
-    setTaxDate("");
   };
 
   const tester = () => {
@@ -847,41 +815,8 @@ function InputDeposit(props) {
         </div>
         {isTax === 0 && (
           <div className="col-span-2 text-center py-2">
-            세금계산서(현금결제시)/할부개월수(카드결제시)를 확인하려면
-            결제방식을 선택하세요
+            할부개월수(카드결제시)를 확인하려면 결제방식을 선택하세요
           </div>
-        )}
-        {isTax === 1 && (
-          <>
-            <div className="flex justify-start gap-2">
-              <div className="py-1 w-[128px]">세금계산서</div>
-              <div className="w-full relative">
-                <select
-                  className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                  value={tax}
-                  onChange={handleTax}
-                >
-                  <option value="N">미발행</option>
-                  <option value="Y">발행</option>
-                </select>
-              </div>
-            </div>
-            {tax === "Y" ? (
-              <div className="flex justify-start gap-2">
-                <div className="py-1 w-[128px]">발행일</div>
-                <div className="w-full relative">
-                  <input
-                    type="date"
-                    className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                    value={taxDate}
-                    onChange={e => setTaxDate(e.currentTarget.value)}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div></div>
-            )}
-          </>
         )}
         {isTax === 2 && (
           <>
@@ -899,7 +834,6 @@ function InputDeposit(props) {
                 />
               </div>
             </div>
-
             <div className="flex justify-start gap-2">
               <div className="py-1 w-[128px]">승인 번호</div>
               <div className="w-full relative">
