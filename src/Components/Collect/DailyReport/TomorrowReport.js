@@ -58,16 +58,24 @@ function TomorowReport(props) {
                 {date} 수금 예정금액
               </td>
               <td className="border p-1 font-bold">
-                {props.total.totalUnpaid.toLocaleString()}
+                {props.total.totalUnpaid
+                  ? props.total.totalUnpaid.toLocaleString()
+                  : 0}
               </td>
               <td className="border p-1 font-bold">
-                {props.total.totalUnpaidComm.toLocaleString()}
+                {props.total.totalUnpaidComm
+                  ? props.total.totalUnpaidComm.toLocaleString()
+                  : 0}
               </td>
               <td className="border p-1 font-bold">
-                {props.total.totalUnpaidIntvCare.toLocaleString()}
+                {props.total.totalUnpaidIntvCare
+                  ? props.total.totalUnpaidIntvCare.toLocaleString()
+                  : 0}
               </td>
               <td className="border p-1 font-bold">
-                {props.total.totalUnpaidCommCare.toLocaleString()}
+                {props.total.totalUnpaidCommCare
+                  ? props.total.totalUnpaidCommCare.toLocaleString()
+                  : 0}
               </td>
             </tr>
             <tr className="bg-blue-600 text-white text-center">

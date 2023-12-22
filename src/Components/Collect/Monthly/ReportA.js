@@ -494,56 +494,56 @@ function ReportA(props) {
   };
 
   return (
-    <div className="relative min-h-[720px] h-fit overflow-auto">
-      <div className="flex flex-row w-[5350px] h-full justify-start">
+    <div className="relative min-h-[720px] h-fit overflow-auto text-sm">
+      <div className="flex flex-row w-[10840px] h-full justify-start">
         <div className="sticky top-0 left-0 z-30 w-[840px] h-fit border-r border-black truncate">
           <div className="sticky top-0 left-0 z-50 w-full h-fit bg-blue-600 grid grid-cols-9">
-            <div className="text-center text-white h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               채널
             </div>
-            <div className="text-center text-white h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               보험사
             </div>
-            <div className="text-center text-white h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               지점
             </div>
-            <div className="text-center text-white h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               월 총액
             </div>
-            <div className="text-center bg-gray-200 h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               광고비
             </div>
-            <div className="text-center bg-gray-200 h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               위촉비
             </div>
-            <div className="text-center bg-gray-200 h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               면접케어
             </div>
-            <div className="text-center bg-gray-200 h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               위촉케어
             </div>
-            <div className="text-center bg-gray-200 h-[90px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
               선입금
             </div>
-            <div className="col-span-3 text-center bg-green-600 text-white h-[30px] flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="col-span-3 text-center bg-green-600 text-white h-[20px] flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black truncate">
               전체 총액
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.total.toLocaleString()}
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.paidAd.toLocaleString()}
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.paidComm.toLocaleString()}
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.paidIntvCare.toLocaleString()}
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.paidCommCare.toLocaleString()}
             </div>
-            <div className="text-center bg-gray-200 h-[30px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
+            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
               {allTotal.prepayment.toLocaleString()}
             </div>
           </div>
@@ -553,7 +553,7 @@ function ReportA(props) {
               {list.map((com, idx) => (
                 <React.Fragment key={idx}>
                   <div
-                    className={`h-[30px] text-center bg-gray-100 border ${
+                    className={`h-[20px] text-center bg-gray-100 border ${
                       idx === 0 && "border-t-0"
                     } ${
                       idx !== list.length - 1 && "border-b-0"
@@ -642,6 +642,121 @@ function ReportA(props) {
               ))}
             </div>
           ) : null}
+        </div>
+        <div className="w-[2000px] h-fit">
+          <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
+            <div className="col-span-5 text-center bg-green-800 text-white h-[20px] flex flex-col justify-center font-bold border border-l-0 border-black">
+              1주차
+            </div>
+            <div className="col-span-5 grid grid-cols-11 text-center bg-green-800 text-white h-[60px] font-bold border border-l-0 border-black">
+              <div className="flex flex-col justify-center h-full border-l border-black">
+                결제
+              </div>
+              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
+                월
+              </div>
+              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
+                화
+              </div>
+              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
+                수
+              </div>
+              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
+                목
+              </div>
+              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
+                금
+              </div>
+              <div className="flex flex-col justify-center h-full border-t border-l border-black">
+                방법
+              </div>
+              <div className="col-span-2 grid grid-cols-5 h-full border-t border-black bg-white text-black">
+                <div className="border-l border-black flex flex-col justify-center">
+                  광고비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  면접케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  선입금
+                </div>
+              </div>
+              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
+                <div className="border-l border-black flex flex-col justify-center">
+                  광고비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  면접케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  선입금
+                </div>
+              </div>
+              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
+                <div className="border-l border-black flex flex-col justify-center">
+                  광고비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  면접케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  선입금
+                </div>
+              </div>
+              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
+                <div className="border-l border-black flex flex-col justify-center">
+                  광고비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  면접케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  선입금
+                </div>
+              </div>
+              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
+                <div className="border-l border-black flex flex-col justify-center">
+                  광고비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉비
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  면접케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  위촉케어
+                </div>
+                <div className="border-l border-black flex flex-col justify-center">
+                  선입금
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
