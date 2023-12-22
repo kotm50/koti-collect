@@ -645,11 +645,11 @@ function ReportA(props) {
         </div>
         <div className="w-[2000px] h-fit">
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
-            <div className="col-span-5 text-center bg-green-800 text-white h-[20px] flex flex-col justify-center font-bold border border-l-0 border-black">
+            <div className="col-span-5 text-center bg-blue-600 text-white h-[20px] flex flex-col justify-center font-bold border border-l-0 border-black">
               1주차
             </div>
-            <div className="col-span-5 grid grid-cols-11 text-center bg-green-800 text-white h-[60px] font-bold border border-l-0 border-black">
-              <div className="flex flex-col justify-end h-full border-l border-black">
+            <div className="col-span-5 grid grid-cols-11 text-center bg-blue-600 text-white h-[60px] font-bold border border-l-0 border-black">
+              <div className="flex flex-col justify-end h-full border-l border-black bg-green-600">
                 결제
               </div>
               <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
@@ -667,13 +667,11 @@ function ReportA(props) {
               <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
                 금
               </div>
-              <div className="flex flex-col justify-start h-full border-l border-black">
+              <div className="flex flex-col justify-start h-full border-l border-black bg-green-600">
                 방법
               </div>
-              <div className="col-span-2 grid grid-cols-5 h-full border-t border-black bg-white text-black">
-                <div className="border-l border-black flex flex-col justify-center">
-                  광고비
-                </div>
+              <div className="col-span-2 grid grid-cols-5 h-full border-l border-t border-black bg-white text-black">
+                <div className="flex flex-col justify-center">광고비</div>
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉비
                 </div>
@@ -683,14 +681,12 @@ function ReportA(props) {
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉케어
                 </div>
-                <div className="border-l border-black flex flex-col justify-center">
+                <div className="flex flex-col border-l border-black justify-center">
                   선입금
                 </div>
               </div>
               <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="border-l border-black flex flex-col justify-center">
-                  광고비
-                </div>
+                <div className="flex flex-col justify-center">광고비</div>
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉비
                 </div>
@@ -700,14 +696,12 @@ function ReportA(props) {
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉케어
                 </div>
-                <div className="border-l border-black flex flex-col justify-center">
+                <div className="flex flex-col border-l border-black justify-center">
                   선입금
                 </div>
               </div>
               <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="border-l border-black flex flex-col justify-center">
-                  광고비
-                </div>
+                <div className="flex flex-col justify-center">광고비</div>
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉비
                 </div>
@@ -717,14 +711,12 @@ function ReportA(props) {
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉케어
                 </div>
-                <div className="border-l border-black flex flex-col justify-center">
+                <div className="flex flex-col border-l border-black justify-center">
                   선입금
                 </div>
               </div>
               <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="border-l border-black flex flex-col justify-center">
-                  광고비
-                </div>
+                <div className="flex flex-col justify-center">광고비</div>
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉비
                 </div>
@@ -734,14 +726,12 @@ function ReportA(props) {
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉케어
                 </div>
-                <div className="border-l border-black flex flex-col justify-center">
+                <div className="flex flex-col border-l border-black justify-center">
                   선입금
                 </div>
               </div>
               <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="border-l border-black flex flex-col justify-center">
-                  광고비
-                </div>
+                <div className="flex flex-col justify-center">광고비</div>
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉비
                 </div>
@@ -751,7 +741,7 @@ function ReportA(props) {
                 <div className="border-l border-black flex flex-col justify-center">
                   위촉케어
                 </div>
-                <div className="border-l border-black flex flex-col justify-center">
+                <div className="flex flex-col border-l border-black justify-center">
                   선입금
                 </div>
               </div>

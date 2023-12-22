@@ -74,8 +74,13 @@ function DailyReport() {
           navi("/");
           return false;
         }
-        setTomorrow(res.data.commissionList);
-        setTomorrowTotal(res.data.commission);
+        console.log("내일", res);
+        if (res.data.commissionList) {
+          setTomorrow(res.data.commissionList);
+        }
+        if (res.data.commission) {
+          setTomorrowTotal(res.data.commission);
+        }
       })
       .catch(e => console.log(e));
   };

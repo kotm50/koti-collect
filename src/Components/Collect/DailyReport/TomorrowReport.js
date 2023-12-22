@@ -22,7 +22,7 @@ function TomorowReport(props) {
   return (
     <div className="p-2 bg-white">
       <h3 className="text-xl font-bold">내일 - {dateLong}</h3>
-      {props.list ? (
+      {props.list.length > 0 ? (
         <table className="w-full">
           <thead>
             <tr className="bg-blue-600 text-white text-center">
