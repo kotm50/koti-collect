@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Left from "./A/Left";
+import WeekReport from "./A/WeekReport";
 
 function ReportA(props) {
   const [list, setList] = useState([]);
@@ -496,255 +498,256 @@ function ReportA(props) {
   return (
     <div className="relative min-h-[720px] h-fit overflow-auto text-sm">
       <div className="flex flex-row w-[10840px] h-full justify-start">
-        <div className="sticky top-0 left-0 z-30 w-[840px] h-fit border-r border-black truncate">
-          <div className="sticky top-0 left-0 z-50 w-full h-fit bg-blue-600 grid grid-cols-9">
-            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              채널
-            </div>
-            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              보험사
-            </div>
-            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              지점
-            </div>
-            <div className="text-center text-white h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              월 총액
-            </div>
-            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              광고비
-            </div>
-            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              위촉비
-            </div>
-            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              면접케어
-            </div>
-            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              위촉케어
-            </div>
-            <div className="text-center bg-gray-200 h-[60px] flex flex-col justify-center font-bold border border-r-0 border-black truncate">
-              선입금
-            </div>
-            <div className="col-span-3 text-center bg-green-600 text-white h-[20px] flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black truncate">
-              전체 총액
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.total.toLocaleString()}
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.paidAd.toLocaleString()}
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.paidComm.toLocaleString()}
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.paidIntvCare.toLocaleString()}
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.paidCommCare.toLocaleString()}
-            </div>
-            <div className="text-center bg-gray-200 h-[20px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-              {allTotal.prepayment.toLocaleString()}
-            </div>
-          </div>
-
-          {list.length > 0 ? (
-            <div className="w-full h-fit bg-black grid grid-cols-9">
-              {list.map((com, idx) => (
-                <React.Fragment key={idx}>
-                  <div
-                    className={`h-[20px] text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.channel}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.companyName}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.companyBranch}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {(
-                      com.paidAd +
-                      com.paidComm +
-                      com.paidIntvCare +
-                      com.paidCommCare
-                    ).toLocaleString()}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.paidAd.toLocaleString()}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.paidComm.toLocaleString()}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.paidIntvCare.toLocaleString()}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.paidCommCare.toLocaleString()}
-                  </div>
-                  <div
-                    className={`text-center bg-gray-100 border ${
-                      idx === 0 && "border-t-0"
-                    } ${
-                      idx !== list.length - 1 && "border-b-0"
-                    } border-r-0 border-black flex flex-col justify-center`}
-                  >
-                    {com.prepayment.toLocaleString()}
-                  </div>
-                </React.Fragment>
-              ))}
-            </div>
-          ) : null}
-        </div>
+        <Left list={list} allTotal={allTotal} />
         <div className="w-[2000px] h-fit">
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
-            <div className="col-span-5 text-center bg-blue-600 text-white h-[20px] flex flex-col justify-center font-bold border border-l-0 border-black">
-              1주차
-            </div>
-            <div className="col-span-5 grid grid-cols-11 text-center bg-blue-600 text-white h-[60px] font-bold border border-l-0 border-black">
-              <div className="flex flex-col justify-end h-full border-l border-black bg-green-600">
-                결제
+            <div className="grid grid-cols-1 col-span-5">
+              <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-10 text-base">
+                1주차
               </div>
-              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
-                월
+              <div className="flex flex-row justify-start">
+                <div className="flex flex-col justify-center border-black bg-yellow-300 text-black p-2 font-bold border-b h-[75px]">
+                  결제 방법
+                </div>
+                <div className="flex-auto grid grid-cols-5 text-center bg-blue-600 text-white h-[75px] font-bold border border-t-0 border-l-0 border-black">
+                  <div className="flex flex-col justify-center h-full border-l border-black">
+                    월
+                  </div>
+                  <div className="flex flex-col justify-center h-full border-l border-black">
+                    화
+                  </div>
+                  <div className="flex flex-col justify-center h-full border-l border-black">
+                    수
+                  </div>
+                  <div className="flex flex-col justify-center h-full border-l border-black">
+                    목
+                  </div>
+                  <div className="flex flex-col justify-center h-full border-l border-black">
+                    금
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-white text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      광고비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      면접케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      선입금
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-white text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      광고비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      면접케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      선입금
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-white text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      광고비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      면접케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      선입금
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-white text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      광고비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      면접케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      선입금
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-white text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      광고비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉비
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      면접케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      위촉케어
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      선입금
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-green-100 text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      {total.week1.mon.paidAd
+                        ? total.week1.mon.paidAd.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.mon.paidComm
+                        ? total.week1.mon.paidComm.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.mon.paidIntvCare
+                        ? total.week1.mon.paidIntvCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.mon.paidCommCare
+                        ? total.week1.mon.paidCommCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.mon.prepayment
+                        ? total.week1.mon.prepayment.toLocaleString()
+                        : 0}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-green-100 text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      {total.week1.tue.paidAd
+                        ? total.week1.tue.paidAd.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.tue.paidComm
+                        ? total.week1.tue.paidComm.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.tue.paidIntvCare
+                        ? total.week1.tue.paidIntvCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.tue.paidCommCare
+                        ? total.week1.tue.paidCommCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.tue.prepayment
+                        ? total.week1.tue.prepayment.toLocaleString()
+                        : 0}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-green-100 text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      {total.week1.wed.paidAd
+                        ? total.week1.wed.paidAd.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.wed.paidComm
+                        ? total.week1.wed.paidComm.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.wed.paidIntvCare
+                        ? total.week1.wed.paidIntvCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.wed.paidCommCare
+                        ? total.week1.wed.paidCommCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.wed.prepayment
+                        ? total.week1.wed.prepayment.toLocaleString()
+                        : 0}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-green-100 text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      {total.week1.thu.paidAd
+                        ? total.week1.thu.paidAd.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.thu.paidComm
+                        ? total.week1.thu.paidComm.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.thu.paidIntvCare
+                        ? total.week1.thu.paidIntvCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.thu.paidCommCare
+                        ? total.week1.thu.paidCommCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.thu.prepayment
+                        ? total.week1.thu.prepayment.toLocaleString()
+                        : 0}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-5 h-full border-l border-t bg-green-100 text-black border-black">
+                    <div className="flex flex-col justify-center text-center">
+                      {total.week1.fri.paidAd
+                        ? total.week1.fri.paidAd.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.fri.paidComm
+                        ? total.week1.fri.paidComm.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.fri.paidIntvCare
+                        ? total.week1.fri.paidIntvCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.fri.paidCommCare
+                        ? total.week1.fri.paidCommCare.toLocaleString()
+                        : 0}
+                    </div>
+                    <div className="flex flex-col justify-center text-center border-l border-black">
+                      {total.week1.fri.prepayment
+                        ? total.week1.fri.prepayment.toLocaleString()
+                        : 0}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
-                화
-              </div>
-              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
-                수
-              </div>
-              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
-                목
-              </div>
-              <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
-                금
-              </div>
-              <div className="flex flex-col justify-start h-full border-l border-black bg-green-600">
-                방법
-              </div>
-              <div className="col-span-2 grid grid-cols-5 h-full border-l border-t border-black bg-white text-black">
-                <div className="flex flex-col justify-center">광고비</div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉비
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  면접케어
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉케어
-                </div>
-                <div className="flex flex-col border-l border-black justify-center">
-                  선입금
-                </div>
-              </div>
-              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="flex flex-col justify-center">광고비</div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉비
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  면접케어
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉케어
-                </div>
-                <div className="flex flex-col border-l border-black justify-center">
-                  선입금
-                </div>
-              </div>
-              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="flex flex-col justify-center">광고비</div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉비
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  면접케어
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉케어
-                </div>
-                <div className="flex flex-col border-l border-black justify-center">
-                  선입금
-                </div>
-              </div>
-              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="flex flex-col justify-center">광고비</div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉비
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  면접케어
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉케어
-                </div>
-                <div className="flex flex-col border-l border-black justify-center">
-                  선입금
-                </div>
-              </div>
-              <div className="col-span-2  grid grid-cols-5 h-full border-t border-l border-black bg-white text-black">
-                <div className="flex flex-col justify-center">광고비</div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉비
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  면접케어
-                </div>
-                <div className="border-l border-black flex flex-col justify-center">
-                  위촉케어
-                </div>
-                <div className="flex flex-col border-l border-black justify-center">
-                  선입금
-                </div>
-              </div>
+              <WeekReport list={list} week={weeks.week1} total={total.week1} />
             </div>
           </div>
         </div>

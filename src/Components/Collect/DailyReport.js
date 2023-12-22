@@ -86,20 +86,24 @@ function DailyReport() {
   };
   return (
     <div className="mx-4 grid grid-cols-2 gap-x-4" data={title}>
-      <TodayReport
-        list={today}
-        total={todayTotal}
-        memo={memo}
-        setModalOn={setModalOn}
-        setMemo={setMemo}
-      />
-      <TomorrowReport
-        list={tomorrow}
-        total={tomorrowTotal}
-        memo={memo}
-        setModalOn={setModalOn}
-        setMemo={setMemo}
-      />
+      {today && today.length > 0 ? (
+        <TodayReport
+          list={today}
+          total={todayTotal}
+          memo={memo}
+          setModalOn={setModalOn}
+          setMemo={setMemo}
+        />
+      ) : null}
+      {tomorrow && tomorrow.length > 0 ? (
+        <TomorrowReport
+          list={tomorrow}
+          total={tomorrowTotal}
+          memo={memo}
+          setModalOn={setModalOn}
+          setMemo={setMemo}
+        />
+      ) : null}
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
