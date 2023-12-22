@@ -15,7 +15,7 @@ import StatisticsList from "./Components/Collect/StatisticsList";
 import Gifticon from "./Components/Collect/Gifticon";
 import YearTotal from "./Components/Collect/YearTotal";
 import DailyReport from "./Components/Collect/DailyReport";
-//import MonthlyReport from "./Components/Collect/MonthlyReport";
+import MonthlyReport from "./Components/Collect/MonthlyReport";
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function App() {
           <Route path="channel" element={<Channel />} />
           <Route path="yeartotal" element={<YearTotal />} />
           <Route path="dailyreport" element={<DailyReport />} />
+          <Route path="monthlyreport" element={<MonthlyReport />} />
         </Route>
         <Route path="/test" element={<Test />} />
       </Routes>

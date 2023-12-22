@@ -17,7 +17,9 @@ function MonthlyReport() {
   const [tabMenu, setTabMenu] = useState(0);
 
   const [listA, setListA] = useState([]);
-  const [listB, setListB] = useState([]);
+  const [compNmList, setCompNmList] = useState([]);
+  const [compSumList, setCompSumList] = useState([]);
+  const [gubunList, setGubunList] = useState([]);
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
   useEffect(() => {
@@ -44,6 +46,7 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
+        setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));
   };
@@ -63,6 +66,10 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
+
+        setCompNmList(res.data.compNmList);
+        setCompSumList(res.data.compSumList);
+        setGubunList(res.data.gubunList);
       })
       .catch(e => console.log(e));
   };
@@ -113,7 +120,15 @@ function MonthlyReport() {
         </div>
       </div>
       <div className="mt-4">
-        {tabMenu === 0 ? <ReportA list={listA} /> : <ReportB list={listB} />}
+        {tabMenu === 0 ? (
+          <ReportA list={listA} />
+        ) : (
+          <ReportB
+            compNmList={compNmList}
+            compSumList={compSumList}
+            gubunList={gubunList}
+          />
+        )}
       </div>
     </div>
   );

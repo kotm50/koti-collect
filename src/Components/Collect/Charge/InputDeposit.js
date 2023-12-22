@@ -154,7 +154,7 @@ function InputDeposit(props) {
         setResNo(pay.resNo || "");
         setAuthNo(pay.authNo || "");
         setPayerName(pay.companyCode || "");
-        setBigo(bigo ? unescapeHTML(pay.bigo) : "");
+        setBigo(pay.bigo ? unescapeHTML(pay.bigo) : "");
         setPayerName(pay.payerName || "");
 
         setInstallment(pay.installment || "");

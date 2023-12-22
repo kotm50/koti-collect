@@ -1,6 +1,7 @@
 import React from "react";
 
-function ReportB() {
+function ReportB(props) {
+  console.log(props.compNmList);
   return <div>ReportB</div>;
 }
 

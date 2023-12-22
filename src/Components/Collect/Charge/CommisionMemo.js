@@ -40,15 +40,19 @@ function CommisionMemo(props) {
   };
 
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      className="h-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
-        className="flex flex-row flex-nowrap w-full max-w-[150px] truncate memo-nowrap h-full"
+        className="flex flex-row flex-nowrap w-full max-w-[150px] truncate memo-nowrap h-[30px]"
         dangerouslySetInnerHTML={{
           __html: sanitizer(memo),
         }}
       />
       {hovered && (
-        <div className="bg-black border drop-shadow absolute top-0 bottom-0 left-0 right-0 w-full z-10 bg-opacity-20 text-white p-[2px]">
+        <div className="bg-black border drop-shadow absolute top-0 bottom-0 left-0 right-0 w-full z-10 bg-opacity-20 text-white p-[2px] h-full">
           <button
             className="py-1 px-3 text-sm font-bold bg-green-600 hover:bg-green-800 text-white h-full rounded-lg"
             onClick={handleModal}

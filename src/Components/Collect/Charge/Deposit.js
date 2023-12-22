@@ -54,6 +54,7 @@ function Deposit(props) {
               className={`hover:cursor-pointer text-center ${
                 selected === pay.payCode ? "bg-teal-100" : "bg-gray-100"
               }`}
+              data-code={pay.payCode}
             >
               <td className="p-1 border border-stone-400">
                 {pay.transactionType === "P"
@@ -157,10 +158,10 @@ function Deposit(props) {
               <td className="p-1 border border-stone-400">
                 {dayjs(new Date(pay.paidDate)).format("YY-MM-DD")}
               </td>
-              <td className="p-1 border border-stone-400 w-[150px] relative">
+              <td className="border border-stone-400 w-[150px] relative">
                 <CommisionMemo
                   memo={pay.bigo}
-                  setMemo={props.setBigo}
+                  setMemo={props.setMemo}
                   setModalOn={props.setModalOn}
                 />
               </td>

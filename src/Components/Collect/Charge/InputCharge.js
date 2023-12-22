@@ -112,14 +112,12 @@ function InputCharge(props) {
         }
 
         const commission = res.data.commission;
-        console.log(commission);
-        console.log(commission.taxBillIssueDate);
-        setCommCode(commission.commCode);
-        setCompanyName(commission.companyBranch);
-        setCompanyCode(commission.companyCode);
-        setDualType(commission.dualType);
-        setDualEtc(commission.dualEtc);
-        setAdNumber(commission.adId);
+        setCommCode(commission.commCode || "");
+        setCompanyName(commission.companyBranch || "");
+        setCompanyCode(commission.companyCode || "");
+        setDualType(commission.dualType || "");
+        setDualEtc(commission.dualEtc || "");
+        setAdNumber(commission.adId || "");
         setStartDate(commission.hireStartDate || "");
         setEndDate(commission.hireEndDate || "");
         setTax(commission.taxBillYn);
@@ -133,10 +131,10 @@ function InputCharge(props) {
           getWeek(commission.hireStartDate, commission.hireEndDate);
         }
         setMemo(commission.memo ? unescapeHTML(commission.memo) : "");
-        setPaidAdYn(commission.paidAdYn);
-        setPaidCommCareYn(commission.paidCommCareYn);
-        setPaidCommYn(commission.paidCommYn);
-        setPaidIntvCareYn(commission.paidIntvCareYn);
+        setPaidAdYn(commission.paidAdYn || "");
+        setPaidCommCareYn(commission.paidCommCareYn || "");
+        setPaidCommYn(commission.paidCommYn || "");
+        setPaidIntvCareYn(commission.paidIntvCareYn || "");
         editPaidNumber(commission.unpaidAd, "unpaidAd");
         editPaidNumber(commission.unpaidComm, "unpaidComm");
         editPaidNumber(commission.unpaidIntvCare, "unpaidIntvCare");
