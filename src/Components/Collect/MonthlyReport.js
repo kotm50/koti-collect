@@ -17,6 +17,7 @@ function MonthlyReport() {
   const [tabMenu, setTabMenu] = useState(0);
 
   const [listA, setListA] = useState([]);
+  const [weekList, setWeekList] = useState([]);
   const [compNmList, setCompNmList] = useState([]);
   const [compSumList, setCompSumList] = useState([]);
   const [gubunList, setGubunList] = useState([]);
@@ -26,7 +27,12 @@ function MonthlyReport() {
     setTitle("월간보고");
     if (tabMenu === 0) {
       getMonthlyReport(year, month);
+      setWeekList([]);
+      setCompNmList([]);
+      setCompSumList([]);
+      setGubunList([]);
     } else {
+      setListA([]);
       getMonthlyStatisticReport(year, month);
     }
     //eslint-disable-next-line
@@ -41,7 +47,6 @@ function MonthlyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("월별", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -61,12 +66,12 @@ function MonthlyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("통계", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
-
+        console.log(res);
+        setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);
         setGubunList(res.data.gubunList);
@@ -124,6 +129,7 @@ function MonthlyReport() {
           <ReportA list={listA} />
         ) : (
           <ReportB
+            weekList={weekList}
             compNmList={compNmList}
             compSumList={compSumList}
             gubunList={gubunList}

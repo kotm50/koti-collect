@@ -1,7 +1,6 @@
 import React from "react";
 
 function Left(props) {
-  console.log("왼쪽", props.list);
   return (
     <div className="sticky top-0 left-0 z-30 w-[840px] h-fit border-r border-black truncate">
       <div className="sticky top-0 left-0 z-50 w-full h-fit bg-blue-600 grid grid-cols-9">
@@ -63,13 +62,13 @@ function Left(props) {
                 className={`text-center bg-gray-100 border  ${
                   idx === 0 ? "border-t-0 h-[20px]" : "h-[21px]"
                 } ${
-                  idx !== props.list.length - 1 ? "border-b-0 h-[21px]" : ""
+                  idx !== props.list.length - 1 ? "border-b-0" : "h-[22px]"
                 } border-r-0 border-black flex flex-col justify-center`}
               >
                 {com.channel}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -78,7 +77,7 @@ function Left(props) {
                 {com.companyName}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -88,7 +87,7 @@ function Left(props) {
                 {com.companyBranch}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -98,11 +97,12 @@ function Left(props) {
                   com.paidAd +
                   com.paidComm +
                   com.paidIntvCare +
-                  com.paidCommCare
+                  com.paidCommCare +
+                  com.prepayment
                 ).toLocaleString()}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -111,7 +111,7 @@ function Left(props) {
                 {com.paidAd.toLocaleString()}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -120,7 +120,7 @@ function Left(props) {
                 {com.paidComm.toLocaleString()}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -129,7 +129,7 @@ function Left(props) {
                 {com.paidIntvCare.toLocaleString()}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""
@@ -138,7 +138,7 @@ function Left(props) {
                 {com.paidCommCare.toLocaleString()}
               </div>
               <div
-                className={`h-[20px] text-center bg-gray-100 border ${
+                className={`text-center bg-gray-100 border ${
                   idx === 0 ? "border-t-0" : ""
                 } ${
                   idx !== props.list.length - 1 ? "border-b-0" : ""

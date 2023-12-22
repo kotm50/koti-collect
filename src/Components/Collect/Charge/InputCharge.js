@@ -324,6 +324,7 @@ function InputCharge(props) {
       setMemo("");
       setTax("N");
       setTaxDate("");
+      props.setCommCode(null);
     } else {
       return false;
     }

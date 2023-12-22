@@ -25,7 +25,7 @@ function Deposit(props) {
   }, [props.detailOn]);
   return (
     <>
-      <tr className="bg-blue-600 text-white text-center">
+      <tr className="bg-yellow-300 font-bold text-center border-t-2 border-black">
         <td className="p-1 border border-stone-400">입금/환급</td>
         <td className="p-1 border border-stone-400">결제방식</td>
         <td className="p-1 border border-stone-400">카드사</td>
@@ -47,23 +47,31 @@ function Deposit(props) {
           {props.payList.map((pay, idx) => (
             <tr
               key={idx}
-              onClick={() => {
-                setSelected(pay.payCode);
-                handleList(pay.payCode);
-              }}
-              className={`hover:cursor-pointer text-center ${
-                selected === pay.payCode ? "bg-teal-100" : "bg-gray-100"
+              className={`hover:cursor-pointer text-center border-b-2 border-black ${
+                selected === pay.payCode ? "bg-teal-200" : "bg-gray-200"
               }`}
               data-code={pay.payCode}
             >
-              <td className="p-1 border border-stone-400">
+              <td
+                className="p-1 border border-stone-400"
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+              >
                 {pay.transactionType === "P"
                   ? "입금"
                   : pay.transactionType === "D"
                   ? "환급"
                   : "오류"}
               </td>
-              <td className="p-1 border border-stone-400">
+              <td
+                className="p-1 border border-stone-400"
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+              >
                 {pay.payType === "CA"
                   ? "현금"
                   : pay.payType === "CO"
@@ -78,15 +86,37 @@ function Deposit(props) {
                   ? "선입금"
                   : "오류"}
               </td>
-              <td className="p-1 border border-stone-400">{pay.cardComp}</td>
-              <td className="p-1 border border-stone-400" colSpan="2">
+              <td
+                className="p-1 border border-stone-400"
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+              >
+                {pay.cardComp}
+              </td>
+              <td
+                className="p-1 border border-stone-400"
+                colSpan="2"
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+              >
                 {pay.cardCode === "" ||
                 pay.cardCode === null ||
                 pay.cardCode === undefined
                   ? pay.payerName
                   : pay.cardOwner}
               </td>
-              <td className="p-1 border border-stone-400 truncate" colSpan="4">
+              <td
+                className="p-1 border border-stone-400 truncate"
+                colSpan="4"
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+              >
                 {pay.cardNum}
               </td>
               <td
@@ -97,6 +127,10 @@ function Deposit(props) {
                     ? "text-rose-600"
                     : ""
                 }`}
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
               >
                 {Number(pay.paidAd) > 0 && pay.transactionType === "P"
                   ? "+"
@@ -106,6 +140,10 @@ function Deposit(props) {
                 {Number(pay.paidAd).toLocaleString()}
               </td>
               <td
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
                 className={`p-1 border border-stone-400 ${
                   Number(pay.paidComm) > 0 && pay.transactionType === "P"
                     ? "text-green-600"
@@ -122,6 +160,10 @@ function Deposit(props) {
                 {Number(pay.paidComm).toLocaleString()}
               </td>
               <td
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
                 className={`p-1 border border-stone-400 ${
                   Number(pay.paidIntvCare) > 0 && pay.transactionType === "P"
                     ? "text-green-600"
@@ -139,6 +181,10 @@ function Deposit(props) {
                 {Number(pay.paidIntvCare).toLocaleString()}
               </td>
               <td
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
                 className={`p-1 border border-stone-400 ${
                   Number(pay.paidCommCare) > 0 && pay.transactionType === "P"
                     ? "text-green-600"
@@ -155,7 +201,13 @@ function Deposit(props) {
                   : ""}
                 {Number(pay.paidCommCare).toLocaleString()}
               </td>
-              <td className="p-1 border border-stone-400">
+              <td
+                onClick={() => {
+                  setSelected(pay.payCode);
+                  handleList(pay.payCode);
+                }}
+                className="p-1 border border-stone-400"
+              >
                 {dayjs(new Date(pay.paidDate)).format("YY-MM-DD")}
               </td>
               <td className="border border-stone-400 w-[150px] relative">
@@ -169,7 +221,7 @@ function Deposit(props) {
           ))}
         </>
       ) : (
-        <tr className="text-center">
+        <tr className="text-center border-b-2 border-black">
           <td className="p-1 border bg-gray-100" colSpan="15">
             입금 내역이 없습니다
           </td>

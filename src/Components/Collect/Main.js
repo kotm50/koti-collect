@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useLocation, useOutletContext } from "react-router-dom";
-import StatisticsList from "./Dashboard/StatisticsList";
 
 function Main() {
   const thisLocation = useLocation();
@@ -12,12 +11,7 @@ function Main() {
   return (
     <div data={title}>
       <div className="flex flex-row flex-wrap justify-start gap-4 p-4">
-        <div className="p-2 w-60 h-40 bg-white rounded shadow">
-          <StatisticsList />
-        </div>
-        <div className="p-2 w-60 h-40 bg-white rounded shadow"></div>
-        <div className="p-2 w-60 h-40 bg-white rounded shadow"></div>
-        <div className="p-2 w-60 h-40 bg-white rounded shadow"></div>
+        <h2 className="text-3xl font-bold">{title}</h2>
       </div>
     </div>
   );
