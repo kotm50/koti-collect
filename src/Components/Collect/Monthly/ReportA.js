@@ -649,7 +649,7 @@ function ReportA(props) {
               1주차
             </div>
             <div className="col-span-5 grid grid-cols-11 text-center bg-green-800 text-white h-[60px] font-bold border border-l-0 border-black">
-              <div className="flex flex-col justify-center h-full border-l border-black">
+              <div className="flex flex-col justify-end h-full border-l border-black">
                 결제
               </div>
               <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
@@ -667,7 +667,7 @@ function ReportA(props) {
               <div className="col-span-2 flex flex-col justify-center h-full border-l border-black">
                 금
               </div>
-              <div className="flex flex-col justify-center h-full border-t border-l border-black">
+              <div className="flex flex-col justify-start h-full border-l border-black">
                 방법
               </div>
               <div className="col-span-2 grid grid-cols-5 h-full border-t border-black bg-white text-black">

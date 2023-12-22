@@ -187,53 +187,6 @@ function Company() {
     }
   };
 
-  const inputKeyDown = e => {
-    e.preventDefault();
-    if (e.key === "Enter") {
-      inputCompany();
-    }
-    if (e.target === gubunRef.current) {
-      if (e.key === "ArrowRight") {
-        channelRef.current.focus();
-      }
-    }
-
-    if (e.target === channelRef.current) {
-      if (e.key === "ArrowRight") {
-        nameRef.current.focus();
-      } else if (e.key === "ArrowLeft") {
-        gubunRef.current.focus();
-      }
-    }
-
-    if (e.target === nameRef.current) {
-      if (e.key === "ArrowRight") {
-        branchRef.current.focus();
-      } else if (e.key === "ArrowLeft") {
-        channelRef.current.focus();
-      }
-    }
-    if (e.target === branchRef.current) {
-      if (e.key === "ArrowRight") {
-        manager1Ref.current.focus();
-      } else if (e.key === "ArrowLeft") {
-        nameRef.current.focus();
-      }
-    }
-    if (e.target === manager1Ref.current) {
-      if (e.key === "ArrowRight") {
-        manager2Ref.current.focus();
-      } else if (e.key === "ArrowLeft") {
-        branchRef.current.focus();
-      }
-    }
-    if (e.target === manager2Ref.current) {
-      if (e.key === "ArrowLeft") {
-        manager1Ref.current.focus();
-      }
-    }
-  };
-
   const inputCompany = async () => {
     const test = await inputTest();
     if (test !== "완료") {
@@ -467,7 +420,6 @@ function Company() {
                   ref={gubunRef}
                   onChange={handleInputGubunSelect}
                   value={inputGubun}
-                  onKeyDown={inputKeyDown}
                 >
                   <option value="">구분 선택</option>
                   {categoryList && categoryList.length > 0 ? (
@@ -487,7 +439,6 @@ function Company() {
                   ref={channelRef}
                   onChange={handleInputChannelSelect}
                   value={inputChannel}
-                  onKeyDown={inputKeyDown}
                 >
                   <option value="">채널 선택</option>
                   {inputChannelList && inputChannelList.length > 0 ? (
@@ -509,7 +460,6 @@ function Company() {
                   className="p-1 border bg-white focus:border-gray-500"
                   placeholder="고객사명 입력"
                   onChange={e => setInputCompanyName(e.currentTarget.value)}
-                  onKeyDown={inputKeyDown}
                 />
               </td>
               <td className="p-1">
@@ -520,7 +470,6 @@ function Company() {
                   className="p-1 border bg-white focus:border-gray-500"
                   placeholder="지점명 입력"
                   onChange={e => setInputCompanyBranch(e.currentTarget.value)}
-                  onKeyDown={inputKeyDown}
                 />
               </td>
               <td className="p-1">
@@ -531,7 +480,6 @@ function Company() {
                   className="p-1 border bg-white focus:border-gray-500"
                   placeholder="담당자 1 입력"
                   onChange={e => setInputManager1(e.currentTarget.value)}
-                  onKeyDown={inputKeyDown}
                 />
               </td>
               <td className="p-1">
@@ -542,7 +490,6 @@ function Company() {
                   className="p-1 border bg-white focus:border-gray-500"
                   placeholder="담당자 2 입력"
                   onChange={e => setInputManager2(e.currentTarget.value)}
-                  onKeyDown={inputKeyDown}
                 />
               </td>
               <td className="p-1">
