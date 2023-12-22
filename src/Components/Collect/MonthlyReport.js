@@ -4,22 +4,31 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
+import ReportA from "./Monthly/ReportA";
+import ReportB from "./Monthly/ReportB";
+import MonthButton from "./Monthly/MonthButton";
 
 function MonthlyReport() {
   const navi = useNavigate();
   const user = useSelector(state => state.user);
   const thisLocation = useLocation();
   const [title, setTitle] = useOutletContext();
-  const [list, setList] = useState([]);
-  const [statisticsList, setStatisticsList] = useState([]);
+
+  const [tabMenu, setTabMenu] = useState(0);
+
+  const [listA, setListA] = useState([]);
+  const [listB, setListB] = useState([]);
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
   useEffect(() => {
     setTitle("월간보고");
-    getMonthlyReport(year, month);
-    getMonthlyStatisticReport(year, month);
+    if (tabMenu === 0) {
+      getMonthlyReport(year, month);
+    } else {
+      getMonthlyStatisticReport(year, month);
+    }
     //eslint-disable-next-line
-  }, [thisLocation]);
+  }, [thisLocation, tabMenu, year, month]);
   const getMonthlyReport = async (year, month) => {
     const data = {
       searchYear: year,
@@ -58,7 +67,56 @@ function MonthlyReport() {
       .catch(e => console.log(e));
   };
 
-  return <div className="mx-4 grid grid-cols-2 gap-x-4" data={title}></div>;
+  return (
+    <div className="mx-4 gap-x-4" data={title}>
+      <div className="py-2 px-4 bg-white flex flex-row justify-between w-full h-fit rounded drop-shadow">
+        <div className="flex flex-row justify-start gap-x-2">
+          <button
+            className={`${
+              tabMenu === 0
+                ? "bg-green-500 text-white"
+                : "bg-white hover:bg-green-700 hover:text-white text-green-700"
+            } transition-all duration-300 border border-green-500 rounded p-2`}
+            onClick={() => setTabMenu(0)}
+            disabled={tabMenu === 0}
+          >
+            보고양식 1
+          </button>
+          <button
+            className={`${
+              tabMenu === 1
+                ? "bg-green-500 text-white"
+                : "bg-white hover:bg-green-700 hover:text-white text-green-700"
+            } transition-all duration-300 border border-green-500 rounded p-2`}
+            onClick={() => setTabMenu(1)}
+            disabled={tabMenu === 1}
+          >
+            보고양식 2
+          </button>
+        </div>
+
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">연도별 보기</span>
+          <select
+            className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+            value={year}
+            onChange={e => setYear(e.currentTarget.value)}
+          >
+            <option value="">연도 선택</option>
+            <option value="2023">2023년</option>
+            <option value="2024">2024년</option>
+          </select>
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
+          <MonthButton month={month} setMonth={setMonth} />
+        </div>
+      </div>
+      <div className="mt-4">
+        {tabMenu === 0 ? <ReportA list={listA} /> : <ReportB list={listB} />}
+      </div>
+    </div>
+  );
 }
 
 export default MonthlyReport;

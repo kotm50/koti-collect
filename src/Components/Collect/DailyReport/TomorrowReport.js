@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
+import sorry from "../../../Asset/sorry.png";
 
 function TomorowReport(props) {
   dayjs.locale("ko");
@@ -21,7 +22,7 @@ function TomorowReport(props) {
   return (
     <div className="p-2 bg-white">
       <h3 className="text-xl font-bold">내일 - {dateLong}</h3>
-      {props.list.length > 0 ? (
+      {props.list ? (
         <table className="w-full">
           <thead>
             <tr className="bg-blue-600 text-white text-center">
@@ -76,7 +77,16 @@ function TomorowReport(props) {
             </tr>
           </tbody>
         </table>
-      ) : null}
+      ) : (
+        <div className="text-2xl text-bold text-center">
+          <img
+            src={sorry}
+            className="mx-auto w-[240px] h-auto mb-5 mt-20"
+            alt="오류"
+          />
+          조회 된 내용이 없습니다
+        </div>
+      )}
     </div>
   );
 }

@@ -23,6 +23,12 @@ function Menu() {
         일일 보고
       </Link>
       <Link
+        to="/collect/monthlyreport"
+        className="p-4 hover:bg-gray-100 transition-all duration-300"
+      >
+        월별 보고
+      </Link>
+      <Link
         to="/collect/yeartotal"
         className="p-4 hover:bg-gray-100 transition-all duration-300"
       >
