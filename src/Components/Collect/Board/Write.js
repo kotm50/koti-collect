@@ -47,7 +47,7 @@ function Write() {
       boardId: bid,
       userName: userName,
       title: title,
-      content: content,
+      content: escapeContent,
     };
     if (pid) {
       data.postId = pid;
