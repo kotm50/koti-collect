@@ -53,11 +53,14 @@ function Write() {
       data.postId = pid;
     }
 
+    console.log(content);
+
     await axios
       .post("/api/v1/board/admin/write/post", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
+        console.log(res);
         alert(res.data.message);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
