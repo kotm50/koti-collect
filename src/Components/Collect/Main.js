@@ -9,9 +9,12 @@ function Main() {
     //eslint-disable-next-line
   }, [thisLocation]);
   return (
-    <div data={title}>
-      <div className="flex flex-row flex-wrap justify-start gap-4 p-4">
-        <h2 className="text-3xl font-bold">{title}</h2>
+    <div className="mx-4" data={title}>
+      <h3 className="font-bold text-xl">메뉴안내</h3>
+      <div className="p-4 flex flex-col justify-start gap-y-4 divide-y border">
+        <div className="flex justify-between">
+          <div className="font-bold"></div>
+        </div>
       </div>
     </div>
   );

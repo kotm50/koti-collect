@@ -5,6 +5,7 @@ import axios from "axios";
 import sorry from "../../../Asset/sorry.png";
 import StatisticsDetail from "./StatisticsDetail";
 
+import dayjs from "dayjs";
 function Statistics(props) {
   const navi = useNavigate();
   const [statisticsList, setStatisticsList] = useState([]);
@@ -22,26 +23,54 @@ function Statistics(props) {
   };
 
   useEffect(() => {
-    setYear(props.year);
-    if (props.year !== "" && props.year !== year) {
+    changeDate();
+    //eslint-disable-next-line
+  }, [props.date]);
+
+  const changeDate = async () => {
+    if (props.date !== "") {
+      const date = dayjs(new Date(props.date)).format("YYYY-MM-DD");
+      const year = dayjs(new Date(props.date)).format("YYYY");
+      const month = dayjs(new Date(props.date)).format("MM");
+      const day = dayjs(new Date(props.date)).format("DD");
+      await setYearMonth(year, month);
+      await changeList(year, month, day, date);
+      setYear(year);
+      setMonth(month);
+      setDay(day);
+    } else {
+      setYear("");
+      setMonth("");
+      setDay("");
+    }
+  };
+
+  const setYearMonth = (year, month) => {
+    props.setYear(year);
+    props.setMonth(month);
+  };
+
+  const changeList = async (year, month, day, date) => {
+    await getStatisticsList(year, month, day);
+    props.setDate(date);
+  };
+
+  useEffect(() => {
+    setYear(String(props.year));
+    if (props.year !== year) {
+      props.setCalendarDate("");
+      props.setDate("");
       setDay("");
       setMonth("");
     }
-    //eslint-disable-next-line
-  }, [props.year]);
-
-  useEffect(() => {
-    setMonth(props.month);
-    if (props.month !== "" && props.month !== month) {
+    if (props.month !== "" || props.month !== month) {
+      setMonth(String(props.month));
+      props.setCalendarDate("");
+      props.setDate("");
       setDay("");
     }
     //eslint-disable-next-line
-  }, [props.month]);
-
-  useEffect(() => {
-    setDay(props.day);
-    //eslint-disable-next-line
-  }, [props.day]);
+  }, [props.year, props.month]);
 
   useEffect(() => {
     console.log(year, month, day, payType);

@@ -9,50 +9,18 @@ import {
 
 function Pagenate(props) {
   const [isSearching, setIsSearching] = useState(false);
-  const [isGubun, setIsGubun] = useState(false);
-  const [isChannel, setIsChannel] = useState(false);
-  const [isSelect, setIsSelect] = useState(false);
-  const [isAgree, setIsAgree] = useState(false);
-  const [isUsable, setIsUsable] = useState(false);
-  const [isSearchType, setIsSearchType] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   useEffect(() => {
     if (props.keyword && props.keyword !== "") {
       setIsSearching(true);
     } else {
       setIsSearching(false);
     }
-
-    if (props.usable && props.usable !== "") {
-      setIsUsable(true);
+    if (props.delYn && props.delYn !== "N") {
+      setIsDelete(true);
     } else {
-      setIsUsable(false);
+      setIsDelete(false);
     }
-    if (props.gubun && props.gubun !== "") {
-      setIsGubun(true);
-    } else {
-      setIsGubun(false);
-    }
-    if (props.channel && props.channel !== "") {
-      setIsChannel(true);
-    } else {
-      setIsChannel(false);
-    }
-    if (props.select && props.select !== "") {
-      setIsSelect(true);
-    } else {
-      setIsSelect(false);
-    }
-    if (props.agree && props.agree !== "") {
-      setIsAgree(true);
-    } else {
-      setIsAgree(false);
-    }
-    if (props.sType && props.sType !== "") {
-      setIsSearchType(true);
-    } else {
-      setIsSearchType(false);
-    }
-
     //eslint-disable-next-line
   }, [props.page]);
   return (
@@ -63,13 +31,7 @@ function Pagenate(props) {
             <Link
               to={`${props.pathName}?page=1${
                 isSearching ? `&keyword=${props.keyword}` : ""
-              }${isSelect ? `&select=${props.select}` : ""}${
-                isGubun ? `&gubun=${props.gubun}` : ""
-              }${isChannel ? `&channel=${props.channel}` : ""}${
-                isAgree ? `&agree=${props.agree}` : ""
-              }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUsable ? `&usable=${props.usable}` : ""
-              }`}
+              }${isDelete ? `&delYn=Y` : ""}`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110 hidden xl:block"
             >
@@ -81,13 +43,7 @@ function Pagenate(props) {
             <Link
               to={`${props.pathName}?page=${props.page - 1}${
                 isSearching ? `&keyword=${props.keyword}` : ""
-              }${isSelect ? `&select=${props.select}` : ""}${
-                isGubun ? `&gubun=${props.gubun}` : ""
-              }${isChannel ? `&endDate=${props.endDate}` : ""}${
-                isAgree ? `&agree=${props.agree}` : ""
-              }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUsable ? `&usable=${props.usable}` : ""
-              }`}
+              }${isDelete ? `&delYn=Y` : ""}`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110"
             >
@@ -99,13 +55,7 @@ function Pagenate(props) {
               <Link
                 to={`${props.pathName}?page=${pageNum}${
                   isSearching ? `&keyword=${props.keyword}` : ""
-                }${isSelect ? `&select=${props.select}` : ""}${
-                  isGubun ? `&gubun=${props.gubun}` : ""
-                }${isChannel ? `&endDate=${props.endDate}` : ""}${
-                  isAgree ? `&agree=${props.agree}` : ""
-                }${isSearchType ? `&sType=${props.sType}` : ""}${
-                  isUsable ? `&usable=${props.usable}` : ""
-                }`}
+                }${isDelete ? `&delYn=Y` : ""}`}
                 state={{ log: props.log }}
                 key={idx}
                 className={`transition duration-300 ease-in-out pageButton hover:scale-110 ${
@@ -120,13 +70,7 @@ function Pagenate(props) {
             <Link
               to={`${props.pathName}?page=${props.page + 1}${
                 isSearching ? `&keyword=${props.keyword}` : ""
-              }${isSelect ? `&select=${props.select}` : ""}${
-                isGubun ? `&gubun=${props.gubun}` : ""
-              }${isChannel ? `&endDate=${props.endDate}` : ""}${
-                isAgree ? `&agree=${props.agree}` : ""
-              }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUsable ? `&usable=${props.usable}` : ""
-              }`}
+              }${isDelete ? `&delYn=Y` : ""}`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110"
             >
@@ -137,13 +81,7 @@ function Pagenate(props) {
             <Link
               to={`${props.pathName}?page=${props.totalPage}${
                 isSearching ? `&keyword=${props.keyword}` : ""
-              }${isSelect ? `&select=${props.select}` : ""}${
-                isGubun ? `&gubun=${props.gubun}` : ""
-              }${isChannel ? `&endDate=${props.endDate}` : ""}${
-                isAgree ? `&agree=${props.agree}` : ""
-              }${isSearchType ? `&sType=${props.sType}` : ""}${
-                isUsable ? `&usable=${props.usable}` : ""
-              }`}
+              }${isDelete ? `&delYn=Y` : ""}`}
               state={{ log: props.log }}
               className="transition duration-300 ease-in-out pageButton hover:scale-110 hidden xl:block"
             >

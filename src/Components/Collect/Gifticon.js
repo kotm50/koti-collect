@@ -15,7 +15,7 @@ function Gifticon() {
   const thisLocation = useLocation();
 
   const [title, setTitle] = useOutletContext();
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState("");
   const [date, setDate] = useState("");
   const [calendarDate, setCalendarDate] = useState("");
@@ -38,7 +38,10 @@ function Gifticon() {
   return (
     <div className="mx-4" data={title}>
       <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10">
-        <div className="flex justify-start gap-x-3">
+        <div
+          className="flex justify-start gap-x-3"
+          onClick={() => setCalendarOn(false)}
+        >
           <span className="font-bold whitespace-nowrap py-2">연도별 보기</span>
           <select
             className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
@@ -50,12 +53,20 @@ function Gifticon() {
             <option value="2024">2024년</option>
           </select>
         </div>
-        <div className="flex justify-start gap-x-3">
+        <div
+          className="flex justify-start gap-x-3"
+          onClick={() => setCalendarOn(false)}
+        >
           <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
           <MonthButton month={month} setMonth={setMonth} />
         </div>
         <div className="flex justify-start gap-x-3">
-          <span className="font-bold whitespace-nowrap py-2">날짜 선택</span>
+          <span
+            className="font-bold whitespace-nowrap py-2"
+            onClick={() => setCalendarOn(false)}
+          >
+            날짜 선택
+          </span>
           <div className="relative min-w-[350px]">
             {calendarOn ? (
               <div className="calendarArea top-2 left-0 w-fit h-fit">
@@ -81,7 +92,10 @@ function Gifticon() {
         </div>
       </div>
 
-      <div className="p-4 bg-white drop-shadow-lg rounded-lg mt-4">
+      <div
+        className="p-4 bg-white drop-shadow-lg rounded-lg mt-4"
+        onClick={() => setCalendarOn(false)}
+      >
         <div className="h-fit max-h-[680px] overflow-y-auto relative">
           <List
             year={year}

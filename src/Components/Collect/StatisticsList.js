@@ -18,7 +18,6 @@ function StatisticsList() {
   const [title, setTitle] = useOutletContext();
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
   const [date, setDate] = useState("");
   const [calendarDate, setCalendarDate] = useState("");
   const [calendarOn, setCalendarOn] = useState(false);
@@ -35,19 +34,8 @@ function StatisticsList() {
   useEffect(() => {
     if (calendarDate !== "") {
       const date = dayjs(calendarDate).format("YYYY년 MM월 DD일");
-      const year = dayjs(calendarDate).format("YYYY");
-      const month = dayjs(calendarDate).format("MM");
-      const day = dayjs(calendarDate).format("DD");
-      setYear(year);
-      setMonth(month);
-      setDay(day);
       setCalendarOn(false);
       setDate(date);
-    } else {
-      setYear(dayjs(new Date()).format("YYYY"));
-      setMonth("");
-      setDay("");
-      setDate("");
     }
     //eslint-disable-next-line
   }, [calendarDate]);
@@ -55,7 +43,10 @@ function StatisticsList() {
   return (
     <div className="mx-4" data={title}>
       <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10">
-        <div className="flex justify-start gap-x-3">
+        <div
+          className="flex justify-start gap-x-3"
+          onClick={() => setCalendarOn(false)}
+        >
           <span className="font-bold whitespace-nowrap py-2">연도별 보기</span>
           <select
             className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
@@ -67,12 +58,20 @@ function StatisticsList() {
             <option value="2024">2024년</option>
           </select>
         </div>
-        <div className="flex justify-start gap-x-3">
+        <div
+          className="flex justify-start gap-x-3"
+          onClick={() => setCalendarOn(false)}
+        >
           <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
           <MonthButton month={month} setMonth={setMonth} />
         </div>
         <div className="flex justify-start gap-x-3">
-          <span className="font-bold whitespace-nowrap py-2">날짜 선택</span>
+          <span
+            className="font-bold whitespace-nowrap py-2"
+            onClick={() => setCalendarOn(false)}
+          >
+            날짜 선택
+          </span>
           <div className="relative min-w-[350px]">
             {calendarOn ? (
               <div className="calendarArea top-2 left-0 w-fit h-fit">
@@ -97,19 +96,23 @@ function StatisticsList() {
           </div>
         </div>
       </div>
-      <div className="p-4 bg-white drop-shadow-lg rounded-lg mt-4">
+      <div
+        className="p-4 bg-white drop-shadow-lg rounded-lg mt-4"
+        onClick={() => setCalendarOn(false)}
+      >
         <div className="h-[640px] overflow-y-auto relative">
           <Statistics
             year={year}
             setYear={setYear}
-            month={month}
             setMonth={setMonth}
-            day={day}
-            setDay={setDay}
+            month={month}
+            date={calendarDate}
             user={user}
             memo={memo}
             setMemo={setMemo}
             setModalOn={setModalOn}
+            setCalendarDate={setCalendarDate}
+            setDate={setDate}
           />
         </div>
       </div>

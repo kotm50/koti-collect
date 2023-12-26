@@ -16,6 +16,10 @@ import Gifticon from "./Components/Collect/Gifticon";
 import YearTotal from "./Components/Collect/YearTotal";
 import DailyReport from "./Components/Collect/DailyReport";
 import MonthlyReport from "./Components/Collect/MonthlyReport";
+import Board from "./Components/Collect/Board";
+import List from "./Components/Collect/Board/List";
+import Write from "./Components/Collect/Board/Write";
+import Detail from "./Components/Collect/Board/Detail";
 
 function App() {
   return (
@@ -36,6 +40,11 @@ function App() {
           <Route path="yeartotal" element={<YearTotal />} />
           <Route path="dailyreport" element={<DailyReport />} />
           <Route path="monthlyreport" element={<MonthlyReport />} />
+        </Route>
+        <Route path="/board" element={<Board />}>
+          <Route path="list/:bid?" element={<List />} />
+          <Route path="write/:bid?/:pid?" element={<Write />} />
+          <Route path="detail/:pid?" element={<Detail />} />
         </Route>
         <Route path="/test" element={<Test />} />
       </Routes>

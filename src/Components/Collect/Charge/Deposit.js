@@ -81,7 +81,7 @@ function Deposit(props) {
                   : pay.payType === "MO"
                   ? "알바몬카드"
                   : pay.payType === "HE"
-                  ? "알바천국카드"
+                  ? "천국카드"
                   : pay.payType === "PR"
                   ? "선입금"
                   : "오류"}

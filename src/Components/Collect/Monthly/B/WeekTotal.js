@@ -1,7 +1,6 @@
 import React from "react";
 
 function WeekTotal(props) {
-  console.log(props.total);
   return (
     <div className="bg-white p-4 rounded-lg drop-shadow">
       <h3 className="text-lg mb-2 font-bold">주차별 수수료 결제</h3>
