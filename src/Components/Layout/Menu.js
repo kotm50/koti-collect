@@ -30,7 +30,7 @@ function Menu() {
           to="/collect/card"
           className="px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300"
         >
-          결제카드 관리
+          결제카드 관리..
         </Link>
       </div>
       <div className="p-3 font-bold">보고 양식</div>
