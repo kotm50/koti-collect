@@ -53,7 +53,7 @@ function Write() {
       data.postId = pid;
     }
 
-    console.log(content);
+    console.log(escapeContent);
 
     await axios
       .post("/api/v1/board/admin/write/post", data, {
