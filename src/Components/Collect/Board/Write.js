@@ -47,7 +47,7 @@ function Write() {
       boardId: bid,
       userName: userName,
       title: title,
-      content: escapeContent,
+      content: content,
     };
     if (pid) {
       data.postId = pid;
@@ -90,16 +90,16 @@ function Write() {
   /*
   const unescapeHTML = text => {
     return text
-      .replace(/_여는꺾쇠_/g, "<")
-      .replace(/_닫는꺾쇠_/g, ">")
+      .replace(/_여꺾_/g, "<")
+      .replace(/_닫꺾_/g, ">")
       .replace(/_등호_/g, "=")
-      .replace(/_여는괄호_/g, "(")
-      .replace(/_닫는괄호_/g, ")")
+      .replace(/_여괄_/g, "(")
+      .replace(/_닫괄_/g, ")")
       .replace(/_쉼표_/g, ",")
-      .replace(/_마침표_/g, '"')
+      .replace(/_마침_/g, '"')
       .replace(/_콜론_/g, ":")
-      .replace(/_세미콜론_/g, ";")
-      .replace(/_슬래시_/g, "/");
+      .replace(/_세콜_/g, ";")
+      .replace(/_슬시_/g, "/");
   };
   */
   return (
