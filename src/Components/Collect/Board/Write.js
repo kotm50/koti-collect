@@ -36,7 +36,7 @@ function Write() {
       .post("/api/v1/board/admin/post/data", data, {
         headers: { Authorization: user.accessToken },
       })
-      .then(res => {
+      .then(async res => {
         console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
@@ -47,6 +47,8 @@ function Write() {
           setUserName(post.userName);
           setTitle(post.title);
           setContent(post.content);
+          const unescapeContent = await unescapeHTML(content);
+          console.log(unescapeContent);
         }
       })
       .catch(e => {
@@ -104,23 +106,46 @@ function Write() {
       });
   };
   const escapeHTML = text => {
-    return text.replace(/"/g, "_따_");
+    return text
+      .replace(/</g, "＜")
+      .replace(/>/g, "＞")
+      .replace(/=/g, "＝")
+      .replace(/\(/g, "（")
+      .replace(/\)/g, "）")
+      .replace(/,/g, "，")
+      .replace(/"/g, "＂")
+      .replace(/:/g, "：")
+      .replace(/;/g, "；")
+      .replace(/\//g, "／");
     /*
+    return text
       .replace(/</g, "_여꺾_")
       .replace(/>/g, "_닫꺾_")
       .replace(/=/g, "_등호_")
       .replace(/\(/g, "_여괄_")
       .replace(/\)/g, "_닫괄_")
       .replace(/,/g, "_쉼표_")
+      .replace(/"/g, "_쌍따_")
       .replace(/:/g, "_콜론_")
       .replace(/;/g, "_세콜_")
       .replace(/\//g, "_슬시_");
       */
   };
 
-  /*
   const unescapeHTML = text => {
     return text
+      .replace(/＜/g, "<")
+      .replace(/＞/g, ">")
+      .replace(/＝/g, "=")
+      .replace(/（/g, "(")
+      .replace(/）/g, ")")
+      .replace(/，/g, ",")
+      .replace(/＂/g, '"')
+      .replace(/：/g, ":")
+      .replace(/；/g, ";")
+      .replace(/／/g, "/");
+
+    /*  return text
       .replace(/_여꺾_/g, "<")
       .replace(/_닫꺾_/g, ">")
       .replace(/_등호_/g, "=")
@@ -131,8 +156,9 @@ function Write() {
       .replace(/_콜론_/g, ":")
       .replace(/_세콜_/g, ";")
       .replace(/_슬시_/g, "/");
+      */
   };
-  */
+
   return (
     <div className="mx-4">
       <div className="p-3 bg-white drop-shadow flex flex-col justify-start gap-y-2">
