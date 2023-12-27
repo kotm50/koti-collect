@@ -43,8 +43,8 @@ function Write() {
           return false;
         }
         if (res.data.code === "C000") {
-          const unescapeContent = await unescapeHTML(content);
           const post = res.data.post;
+          const unescapeContent = await unescapeHTML(post.content);
           setUserName(post.userName);
           setTitle(post.title);
           setContent(unescapeContent);
