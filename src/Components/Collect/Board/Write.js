@@ -20,8 +20,39 @@ function Write() {
 
   useEffect(() => {
     console.log(bid, pid);
+    if (pid) {
+      getPost(pid);
+    }
     //eslint-disable-next-line
   }, [thisLocation]);
+
+  const getPost = async pid => {
+    const data = {
+      boardId: bid,
+      postId: pid,
+    };
+
+    await axios
+      .post("/api/v1/board/admin/post/data", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        console.log(res);
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+        if (res.data.code === "C000") {
+          const post = res.data.post;
+          setUserName(post.userName);
+          setTitle(post.title);
+          setContent(post.content);
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   const logout = async () => {
     await axios
@@ -42,18 +73,17 @@ function Write() {
     const escapeContent = await escapeHTML(content);
 
     console.log(escapeContent.length);
-    console.log(content.length);
     let data = {
       boardId: bid,
       userName: userName,
       title: title,
-      content: escapeContent,
+      content: content,
     };
     if (pid) {
       data.postId = pid;
     }
 
-    console.log(escapeContent);
+    console.log(data);
 
     await axios
       .post("/api/v1/board/admin/write/post", data, {
