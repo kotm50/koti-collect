@@ -7,7 +7,7 @@ import { clearUser } from "../../../Reducer/userSlice";
 import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
-
+import PastMemoList from "./PastMemoList";
 function InputCharge(props) {
   const navi = useNavigate();
   const thisLocation = useLocation();
@@ -18,6 +18,8 @@ function InputCharge(props) {
   const [companyName, setCompanyName] = useState("");
   const [companyCode, setCompanyCode] = useState("");
   const [companyListOn, setCompanyListOn] = useState(false);
+
+  const [pastMemoOn, setPastMemoOn] = useState(false);
 
   const [dualTypeList, setDualTypeList] = useState("");
   const [dualEtcOn, setDualEtcOn] = useState(false);
@@ -610,6 +612,14 @@ function InputCharge(props) {
     setWeek(weekCount);
     setDay(dayCount);
   };
+
+  const handlePastMemo = () => {
+    if (companyCode !== "") {
+      setPastMemoOn(!pastMemoOn);
+    } else {
+      alert("먼저 고객사를 선택해 주세요");
+    }
+  };
   return (
     <div className="flex flex-col justify-between h-[400px] text-sm">
       <div className="grid grid-cols-2 gap-y-2 gap-x-3">
@@ -916,6 +926,24 @@ function InputCharge(props) {
                 />
               </div>
             </div>
+          )}
+        </div>
+        <div className="pb-2 relative">
+          <button
+            className="bg-indigo-500 hover:bg-indigo-700 text-white p-1 w-full rounded"
+            onClick={handlePastMemo}
+          >
+            {!pastMemoOn ? "과거 메모 불러오기" : "창닫기"}
+          </button>
+          {pastMemoOn && (
+            <PastMemoList
+              commCode={commCode}
+              companyCode={companyCode}
+              setMemo={setMemo}
+              setMemoModal={props.setMemo}
+              setModalOn={props.setModalOn}
+              setPastMemoOn={setPastMemoOn}
+            />
           )}
         </div>
       </div>

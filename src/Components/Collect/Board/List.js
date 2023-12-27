@@ -162,7 +162,7 @@ function List() {
                 <div className="flex justify-start">
                   <Link
                     to={`/board/write/${bid}`}
-                    className="p-2 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+                    className="py-2 px-4 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
                   >
                     글쓰기
                   </Link>

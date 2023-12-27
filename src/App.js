@@ -4,7 +4,6 @@ import CollectMain from "./Components/Collect/Main";
 import CollectIndex from "./Components/CollectIndex";
 import Receive from "./Components/Collect/Receive";
 import UnReceive from "./Components/Collect/UnReceive";
-import UnReceiveBack from "./Components/Collect/UnReceiveBack";
 import Company from "./Components/Collect/Company";
 import Channel from "./Components/Collect/Channel";
 import Test from "./Components/Test";
@@ -32,7 +31,6 @@ function App() {
           <Route path="ur" element={<UnReceive />} />
           <Route path="prepaid" element={<PrePaid />} />
           <Route path="card" element={<CardList />} />
-          <Route path="urback" element={<UnReceiveBack />} />
           <Route path="statistics" element={<StatisticsList />} />
           <Route path="gifticon" element={<Gifticon />} />
           <Route path="company" element={<Company />} />

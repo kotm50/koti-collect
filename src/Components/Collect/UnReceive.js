@@ -10,6 +10,7 @@ import MonthButton from "./Charge/MonthButton";
 import InputDeposit from "./Charge/InputDeposit";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
+import MemoModal from "../Layout/MemoModal";
 
 function UnReceive() {
   const stickyRef = useRef(null);
@@ -39,6 +40,9 @@ function UnReceive() {
 
   const [paid, setPaid] = useState(null);
   const [unPaid, setUnPaid] = useState(null);
+
+  const [memo, setMemo] = useState("");
+  const [modalOn, setModalOn] = useState(false);
 
   const handleSearch = e => {
     if (e.key === "Enter") {
@@ -321,6 +325,8 @@ function UnReceive() {
               year={year}
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
+              setMemo={setMemo}
+              setModalOn={setModalOn}
             />
           </div>
         </div>
@@ -439,6 +445,8 @@ function UnReceive() {
           setTestNum={setTestNum}
         />
       </div>
+
+      {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
 }
