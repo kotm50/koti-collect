@@ -143,7 +143,7 @@ function Main() {
           <div>
             <div className="font-bold p-2">회의록</div>
             <div className="p-2 flex flex-row justify-between bg-gray-100">
-              <div className="text-blue-800 font-medium">회의록 보기</div>
+              <div className="text-blue-800 font-medium">회의록 목록</div>
               <div className="font-normal">
                 현재까지 진행된 회의 내용을 열람합니다
               </div>
@@ -151,13 +151,6 @@ function Main() {
                 to="/board/list/B04"
                 className="text-blue-800 font-medium hover:text-rose-500"
               >
-                바로가기
-              </Link>
-            </div>
-            <div className="p-2 flex flex-row justify-between bg-gray-100">
-              <div className="text-blue-800 font-medium">회의록 작성</div>
-              <div className="font-normal">회의 내용을 기록합니다</div>
-              <Link to="/board/write/B04" className="text-blue-800 font-medium">
                 바로가기
               </Link>
             </div>

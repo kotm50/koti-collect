@@ -93,12 +93,6 @@ function Menu() {
         >
           회의록 목록
         </Link>
-        <Link
-          to="/board/write/B04"
-          className="px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300"
-        >
-          회의록 작성
-        </Link>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ function App() {
         <Route path="/board" element={<Board />}>
           <Route path="list/:bid?" element={<List />} />
           <Route path="write/:bid?/:pid?" element={<Write />} />
-          <Route path="detail/:pid?" element={<Detail />} />
+          <Route path="detail/:bid?/:pid?" element={<Detail />} />
         </Route>
         <Route path="/test" element={<Test />} />
       </Routes>

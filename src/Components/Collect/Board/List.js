@@ -141,7 +141,7 @@ function List() {
                 <div className="w-[200px] text-center">등록일</div>
               </div>
               {postList.map((post, idx) => (
-                <Link to={`/board/detail/${post.postId}`} key={idx}>
+                <Link to={`/board/detail/${bid}/${post.postId}`} key={idx}>
                   <div
                     className={`border-y flex justify-between gap-x-2 p-2 ${
                       idx % 2 === 0 ? "bg-blue-50" : "bg-white"
@@ -158,6 +158,16 @@ function List() {
                   </div>
                 </Link>
               ))}
+              <div className="flex justify-between py-2">
+                <div className="flex justify-start">
+                  <Link
+                    to={`/board/write/${bid}`}
+                    className="p-2 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+                  >
+                    글쓰기
+                  </Link>
+                </div>
+              </div>
               <Pagenate
                 page={Number(page)}
                 keyword={searchKeyword}

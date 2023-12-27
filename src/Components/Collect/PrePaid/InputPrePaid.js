@@ -149,30 +149,30 @@ function InputPrePaid(props) {
 
   const escapeHTML = text => {
     return text
-      .replace(/</g, "_여는꺾쇠_")
-      .replace(/>/g, "_닫는꺾쇠_")
-      .replace(/=/g, "_등호_")
-      .replace(/\(/g, "_여는괄호_")
-      .replace(/\)/g, "_닫는괄호_")
-      .replace(/,/g, "_쉼표_")
-      .replace(/"/g, "_마침표_")
-      .replace(/:/g, "_콜론_")
-      .replace(/;/g, "_세미콜론_")
-      .replace(/\//g, "_슬래시_");
+      .replace(/</g, "＜")
+      .replace(/>/g, "＞")
+      .replace(/=/g, "＝")
+      .replace(/\(/g, "（")
+      .replace(/\)/g, "）")
+      .replace(/,/g, "，")
+      .replace(/"/g, "＂")
+      .replace(/:/g, "：")
+      .replace(/;/g, "；")
+      .replace(/\//g, "／");
   };
 
   const unescapeHTML = text => {
     return text
-      .replace(/_여는꺾쇠_/g, "<")
-      .replace(/_닫는꺾쇠_/g, ">")
-      .replace(/_등호_/g, "=")
-      .replace(/_여는괄호_/g, "(")
-      .replace(/_닫는괄호_/g, ")")
-      .replace(/_쉼표_/g, ",")
-      .replace(/_마침표_/g, '"')
-      .replace(/_콜론_/g, ":")
-      .replace(/_세미콜론_/g, ";")
-      .replace(/_슬래시_/g, "/");
+      .replace(/＜/g, "<")
+      .replace(/＞/g, ">")
+      .replace(/＝/g, "=")
+      .replace(/（/g, "(")
+      .replace(/）/g, ")")
+      .replace(/，/g, ",")
+      .replace(/＂/g, '"')
+      .replace(/：/g, ":")
+      .replace(/；/g, ";")
+      .replace(/／/g, "/");
   };
 
   const saveIt = async () => {

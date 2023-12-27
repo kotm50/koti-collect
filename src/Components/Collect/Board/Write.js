@@ -116,19 +116,6 @@ function Write() {
       .replace(/:/g, "：")
       .replace(/;/g, "；")
       .replace(/\//g, "／");
-    /*
-    return text
-      .replace(/</g, "_여꺾_")
-      .replace(/>/g, "_닫꺾_")
-      .replace(/=/g, "_등호_")
-      .replace(/\(/g, "_여괄_")
-      .replace(/\)/g, "_닫괄_")
-      .replace(/,/g, "_쉼표_")
-      .replace(/"/g, "_쌍따_")
-      .replace(/:/g, "_콜론_")
-      .replace(/;/g, "_세콜_")
-      .replace(/\//g, "_슬시_");
-      */
   };
 
   const unescapeHTML = text => {
@@ -143,19 +130,6 @@ function Write() {
       .replace(/：/g, ":")
       .replace(/；/g, ";")
       .replace(/／/g, "/");
-
-    /*  return text
-      .replace(/_여꺾_/g, "<")
-      .replace(/_닫꺾_/g, ">")
-      .replace(/_등호_/g, "=")
-      .replace(/_여괄_/g, "(")
-      .replace(/_닫괄_/g, ")")
-      .replace(/_쉼표_/g, ",")
-      .replace(/_쌍따_/g, '"')
-      .replace(/_콜론_/g, ":")
-      .replace(/_세콜_/g, ";")
-      .replace(/_슬시_/g, "/");
-      */
   };
 
   return (
