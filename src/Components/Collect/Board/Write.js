@@ -71,18 +71,13 @@ function Write() {
 
   const submit = async () => {
     const escapeContent = await escapeHTML(content);
-    const mimeType = "text/xml";
-    const domParser = new DOMParser();
-    const contentParser = domParser.parseFromString(content, mimeType);
-
-    console.log(contentParser);
 
     console.log(escapeContent.length);
     let data = {
       boardId: bid,
       userName: userName,
       title: title,
-      content: contentParser,
+      content: escapeContent,
     };
     if (pid) {
       data.postId = pid;
