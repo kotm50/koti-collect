@@ -43,12 +43,11 @@ function Write() {
           return false;
         }
         if (res.data.code === "C000") {
+          const unescapeContent = await unescapeHTML(content);
           const post = res.data.post;
           setUserName(post.userName);
           setTitle(post.title);
-          setContent(post.content);
-          const unescapeContent = await unescapeHTML(content);
-          console.log(unescapeContent);
+          setContent(unescapeContent);
         }
       })
       .catch(e => {
