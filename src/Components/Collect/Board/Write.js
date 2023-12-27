@@ -71,13 +71,18 @@ function Write() {
 
   const submit = async () => {
     const escapeContent = await escapeHTML(content);
+    const mimeType = "text/xml";
+    const domParser = new DOMParser();
+    const contentParser = domParser.parseFromString(content, mimeType);
+
+    console.log(contentParser);
 
     console.log(escapeContent.length);
     let data = {
       boardId: bid,
       userName: userName,
       title: title,
-      content: content,
+      content: contentParser,
     };
     if (pid) {
       data.postId = pid;
@@ -104,17 +109,18 @@ function Write() {
       });
   };
   const escapeHTML = text => {
-    return text
+    return text.replace(/"/g, "_따_");
+    /*
       .replace(/</g, "_여꺾_")
       .replace(/>/g, "_닫꺾_")
       .replace(/=/g, "_등호_")
       .replace(/\(/g, "_여괄_")
       .replace(/\)/g, "_닫괄_")
       .replace(/,/g, "_쉼표_")
-      .replace(/"/g, "_마침_")
       .replace(/:/g, "_콜론_")
       .replace(/;/g, "_세콜_")
       .replace(/\//g, "_슬시_");
+      */
   };
 
   /*
@@ -126,7 +132,7 @@ function Write() {
       .replace(/_여괄_/g, "(")
       .replace(/_닫괄_/g, ")")
       .replace(/_쉼표_/g, ",")
-      .replace(/_마침_/g, '"')
+      .replace(/_쌍따_/g, '"')
       .replace(/_콜론_/g, ":")
       .replace(/_세콜_/g, ";")
       .replace(/_슬시_/g, "/");
