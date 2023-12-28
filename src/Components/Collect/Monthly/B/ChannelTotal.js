@@ -1,6 +1,26 @@
 import React from "react";
 
 function ChannelTotal(props) {
+  const dummy = [
+    {
+      gubun: "IM",
+      paidAd: 0,
+      paidComm: 0,
+      paidIntvCare: 0,
+      paidCommCare: 0,
+      prepayment: 0,
+      im: 0,
+    },
+    {
+      gubun: "TM",
+      paidAd: 0,
+      paidComm: 0,
+      paidIntvCare: 0,
+      paidCommCare: 0,
+      prepayment: 0,
+      tm: 0,
+    },
+  ];
   return (
     <div className="bg-white p-4 rounded-lg drop-shadow">
       <h3 className="text-lg mb-2 font-bold">채널별 결제 수수료</h3>
@@ -85,7 +105,65 @@ function ChannelTotal(props) {
               </React.Fragment>
             ))}
           </>
-        ) : null}
+        ) : (
+          <>
+            {dummy.map((gubun, idx) => (
+              <React.Fragment key={idx}>
+                <div
+                  className={`bg-white text-center py-1 border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.gubun}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.paidAd.toLocaleString()}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.paidComm.toLocaleString()}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.paidIntvCare.toLocaleString()}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.paidCommCare.toLocaleString()}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.prepayment.toLocaleString()}
+                </div>
+                <div
+                  className={`bg-white text-center py-1 border-l border-black ${
+                    idx > 0 && "border-t"
+                  }`}
+                >
+                  {gubun.gubun === "IM"
+                    ? props.gubunTotal.im.toLocaleString()
+                    : props.gubunTotal.tm.toLocaleString()}
+                </div>
+              </React.Fragment>
+            ))}
+          </>
+        )}
       </div>
       <div className="grid grid-cols-7">
         <div className="col-span-5  border-black"></div>
@@ -95,7 +173,7 @@ function ChannelTotal(props) {
         <div className="bg-white text-center border-r border-b border-black py-1">
           {props.gubunTotal.total > 0
             ? props.gubunTotal.total.toLocaleString()
-            : null}
+            : 0}
         </div>
       </div>
     </div>
