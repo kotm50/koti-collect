@@ -35,25 +35,25 @@ function ReportB(props) {
   console.log(props.compSumList);
 
   useEffect(() => {
-    if (props.weekList.length && props.weekList.length > 0) {
+    if (props.weekList && props.weekList.length > 0) {
       getWeeklyCost(props.weekList);
     }
   }, [props.weekList]);
 
   useEffect(() => {
-    if (props.gubunList.length && props.gubunList.length > 0) {
+    if (props.gubunList && props.gubunList.length > 0) {
       getGubun(props.gubunList);
     }
   }, [props.gubunList]);
 
   useEffect(() => {
-    if (props.compNmList.length && props.compNmList.length > 0) {
+    if (props.compNmList && props.compNmList.length > 0) {
       getCompNm(props.compNmList);
     }
   }, [props.compNmList]);
 
   useEffect(() => {
-    if (props.compSumList.length && props.compSumList.length > 0) {
+    if (props.compSumList && props.compSumList.length > 0) {
       getCompSumm(props.compSumList);
     }
   }, [props.compSumList]);
