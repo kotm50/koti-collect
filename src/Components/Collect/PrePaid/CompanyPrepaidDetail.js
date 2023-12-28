@@ -45,7 +45,6 @@ function CompanyPrepaidDetail(props) {
   }, [props.pay]);
 
   const editIt = ppCode => {
-    console.log(props.pay.payType);
     if (
       props.pay.transactionType === "B" ||
       props.pay.transactionType === "C"

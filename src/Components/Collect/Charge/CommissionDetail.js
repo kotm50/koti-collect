@@ -29,6 +29,7 @@ function CommissionDetail(props) {
   }, [props.isActive]);
 
   useEffect(() => {
+    console.log(props.comm);
     if (
       props.comm.paymentDueDate !== null &&
       props.comm.paymentDueDate !== undefined &&
@@ -135,9 +136,13 @@ function CommissionDetail(props) {
         >
           {props.comm.week !== null && props.comm.day !== null ? (
             <>
-              {props.comm.week !== "" && props.comm.day !== ""
-                ? `${props.comm.week}주 ${props.comm.day}일`
-                : ""}
+              {props.comm.week !== undefined && props.comm.day !== undefined ? (
+                <>
+                  {props.comm.week !== "" && props.comm.day !== ""
+                    ? `${props.comm.week}주 ${props.comm.day}일`
+                    : ""}
+                </>
+              ) : null}
             </>
           ) : null}
         </td>
