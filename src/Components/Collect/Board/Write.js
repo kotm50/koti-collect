@@ -56,13 +56,13 @@ function Write() {
   };
 
   const resetIt = () => {
-    const confirm = window.confirm("입력한 내용을 초기화 할까요?");
+    const confirm = window.confirm(
+      "입력한 내용이 전부 사라집니다. 진행할까요?"
+    );
     if (!confirm) {
       return false;
     } else {
-      setTitle("");
-      setUserName("");
-      setContent("");
+      navi(-1);
     }
   };
 
@@ -201,7 +201,7 @@ function Write() {
           className="p-2 bg-gray-300 hover:bg-gray-700 hover:text-white rounded"
           onClick={resetIt}
         >
-          초기화
+          취소
         </button>
       </div>
     </div>

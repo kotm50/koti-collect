@@ -25,6 +25,7 @@ function CommissionDetail(props) {
   };
 
   useEffect(() => {
+    console.log(props.isActive);
     // 상위 컴포넌트로부터 받은 isActive prop에 따라 detailOn 상태를 설정
     setDetailOn(props.isActive);
   }, [props.isActive]);
