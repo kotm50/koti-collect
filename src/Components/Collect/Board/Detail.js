@@ -3,6 +3,8 @@ import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../../Reducer/userSlice";
 
+import { FaAngleUp, FaAngleDown } from "react-icons/fa";
+
 import axios from "axios";
 import dompurify from "dompurify";
 import dayjs from "dayjs";
@@ -20,6 +22,10 @@ function Detail() {
   const [content, setContent] = useState("");
   const [date, setDate] = useState("");
   const [delYn, setDelYn] = useState("N");
+  const [nextPid, setNextPid] = useState("");
+  const [prevPid, setPrevPid] = useState("");
+  const [nextTitle, setNextTitle] = useState("");
+  const [prevTitle, setPrevTitle] = useState("");
 
   const logout = async () => {
     await axios
@@ -62,12 +68,17 @@ function Detail() {
         }
         if (res.data.code === "C000") {
           const post = res.data.post;
+          const postNav = res.data.postNavi;
           const unescapeContent = await unescapeHTML(post.content);
           setUserName(post.userName);
           setTitle(post.title);
           setContent(unescapeContent);
           setDate(getDate(post.regDate));
           setDelYn(post.delYn);
+          setNextPid(postNav.nextPostId || "");
+          setNextTitle(postNav.nextTitle || "");
+          setPrevPid(postNav.prevPostId || "");
+          setPrevTitle(postNav.prevTitle || "");
         }
       })
       .catch(e => {
@@ -179,8 +190,50 @@ function Detail() {
           }}
         />
       </div>
-      <div className="flex justify-between py-2 mb-10">
-        <div className="flex justify-start gap-x-1">
+      <div className="flex flex-col justify-start divide-y border-b border-black divide-black">
+        {nextPid === "" ? (
+          <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
+            <div className="w-[120px] text-center">다음 글</div>
+            <div className="w-[48px] text-center flex flex-col justify-center">
+              <FaAngleUp />
+            </div>
+            <div className="text-left">다음 글이 없습니다</div>
+          </div>
+        ) : (
+          <Link
+            to={`/board/detail/${bid}/${nextPid}`}
+            className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+          >
+            <div className="w-[120px] text-center">다음 글</div>
+            <div className="w-[48px] text-center flex flex-col justify-center">
+              <FaAngleUp />
+            </div>
+            <div className="text-left">{nextTitle}</div>
+          </Link>
+        )}
+        {prevPid === "" ? (
+          <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
+            <div className="w-[120px] text-center">이전 글</div>
+            <div className="w-[48px] text-center flex flex-col justify-center">
+              <FaAngleDown />
+            </div>
+            <div className="text-left">이전 글이 없습니다</div>
+          </div>
+        ) : (
+          <Link
+            to={`/board/detail/${bid}/${prevPid}`}
+            className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+          >
+            <div className="w-[120px] text-center">이전 글</div>
+            <div className="w-[48px] text-center flex flex-col justify-center">
+              <FaAngleDown />
+            </div>
+            <div className="text-left">{prevTitle}</div>
+          </Link>
+        )}
+      </div>
+      <div className="flex justify-center py-2 mb-10">
+        <div className="flex justify-center gap-x-1">
           <Link
             to={`/board/list/${bid}`}
             className="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
