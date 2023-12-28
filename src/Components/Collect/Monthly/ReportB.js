@@ -291,7 +291,7 @@ function ReportB(props) {
           <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
             합계
           </div>
-          {props.compSumList.length > 0 ? (
+          {props.compSumList && props.compSumList.length > 0 ? (
             <>
               {props.compSumList.map((comp, idx) => (
                 <React.Fragment key={idx}>

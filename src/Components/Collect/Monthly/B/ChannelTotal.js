@@ -27,7 +27,7 @@ function ChannelTotal(props) {
           합계
         </div>
 
-        {props.gubunList.length > 0 ? (
+        {props.gubunList && props.gubunList.length > 0 ? (
           <>
             {props.gubunList.map((gubun, idx) => (
               <React.Fragment key={idx}>
