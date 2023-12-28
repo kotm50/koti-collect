@@ -179,10 +179,9 @@ function Detail() {
       <div className="border-y border-black bg-blue-100 flex justify-between py-1">
         <div className="w-[200px] text-center">{date}</div>
         <h3 className="w-full font-bold text-center">{title}</h3>
-
         <div className="w-[200px] text-center">{userName}</div>
       </div>
-      <div className="bg-white p-2 border-b border-black">
+      <div className="bg-white p-4 border-b border-black">
         <div
           className="text-left"
           dangerouslySetInnerHTML={{
