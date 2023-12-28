@@ -232,14 +232,14 @@ function Detail() {
           </Link>
         )}
       </div>
-      <div className="flex justify-center py-2 mb-10">
-        <div className="flex justify-center gap-x-1">
-          <Link
-            to={`/board/list/${bid}`}
-            className="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
-          >
-            목록으로
-          </Link>
+      <div className="flex justify-between py-2 mb-24">
+        <Link
+          to={`/board/list/${bid}`}
+          className="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+        >
+          목록으로
+        </Link>
+        <div className="flex justify-end gap-x-1">
           {delYn === "N" ? (
             <Link
               to={`/board/write/${bid}/${pid}`}
