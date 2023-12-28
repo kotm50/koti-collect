@@ -87,7 +87,7 @@ function Detail() {
   };
 
   const getDate = date => {
-    return dayjs(new Date(date)).format("YYYY-MM-DD");
+    return dayjs(new Date(date)).format("YYYY-MM-DD hh:mm:ss");
   };
 
   const unescapeHTML = text => {
@@ -177,7 +177,7 @@ function Detail() {
   return (
     <div className="mx-4">
       <div className="border-y border-black bg-blue-100 flex justify-between py-1">
-        <div className="w-[200px] text-center">{date}</div>
+        <div className="w-[300px] text-center">{date}</div>
         <h3 className="w-full font-bold text-center">{title}</h3>
         <div className="w-[200px] text-center">{userName}</div>
       </div>
@@ -189,48 +189,50 @@ function Detail() {
           }}
         />
       </div>
-      <div className="flex flex-col justify-start divide-y border-b border-black divide-black">
-        {nextPid === "" ? (
-          <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
-            <div className="w-[120px] text-center">다음 글</div>
-            <div className="w-[48px] text-center flex flex-col justify-center">
-              <FaAngleUp />
+      {delYn === "N" ? (
+        <div className="flex flex-col justify-start divide-y border-b border-black divide-black">
+          {nextPid === "" ? (
+            <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
+              <div className="w-[120px] text-center">다음 글</div>
+              <div className="w-[48px] text-center flex flex-col justify-center">
+                <FaAngleUp />
+              </div>
+              <div className="text-left">다음 글이 없습니다</div>
             </div>
-            <div className="text-left">다음 글이 없습니다</div>
-          </div>
-        ) : (
-          <Link
-            to={`/board/detail/${bid}/${nextPid}`}
-            className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
-          >
-            <div className="w-[120px] text-center">다음 글</div>
-            <div className="w-[48px] text-center flex flex-col justify-center">
-              <FaAngleUp />
+          ) : (
+            <Link
+              to={`/board/detail/${bid}/${nextPid}`}
+              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+            >
+              <div className="w-[120px] text-center">다음 글</div>
+              <div className="w-[48px] text-center flex flex-col justify-center">
+                <FaAngleUp />
+              </div>
+              <div className="text-left">{nextTitle}</div>
+            </Link>
+          )}
+          {prevPid === "" ? (
+            <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
+              <div className="w-[120px] text-center">이전 글</div>
+              <div className="w-[48px] text-center flex flex-col justify-center">
+                <FaAngleDown />
+              </div>
+              <div className="text-left">이전 글이 없습니다</div>
             </div>
-            <div className="text-left">{nextTitle}</div>
-          </Link>
-        )}
-        {prevPid === "" ? (
-          <div className="bg-gray-50 flex flex-row justify-start gap-x-2 py-2">
-            <div className="w-[120px] text-center">이전 글</div>
-            <div className="w-[48px] text-center flex flex-col justify-center">
-              <FaAngleDown />
-            </div>
-            <div className="text-left">이전 글이 없습니다</div>
-          </div>
-        ) : (
-          <Link
-            to={`/board/detail/${bid}/${prevPid}`}
-            className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
-          >
-            <div className="w-[120px] text-center">이전 글</div>
-            <div className="w-[48px] text-center flex flex-col justify-center">
-              <FaAngleDown />
-            </div>
-            <div className="text-left">{prevTitle}</div>
-          </Link>
-        )}
-      </div>
+          ) : (
+            <Link
+              to={`/board/detail/${bid}/${prevPid}`}
+              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+            >
+              <div className="w-[120px] text-center">이전 글</div>
+              <div className="w-[48px] text-center flex flex-col justify-center">
+                <FaAngleDown />
+              </div>
+              <div className="text-left">{prevTitle}</div>
+            </Link>
+          )}
+        </div>
+      ) : null}
       <div className="flex justify-between py-2 mb-24">
         <Link
           to={`/board/list/${bid}`}
