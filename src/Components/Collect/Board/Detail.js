@@ -202,13 +202,13 @@ function Detail() {
           ) : (
             <Link
               to={`/board/detail/${bid}/${nextPid}`}
-              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2 group"
             >
               <div className="w-[120px] text-center">다음 글</div>
               <div className="w-[48px] text-center flex flex-col justify-center">
                 <FaAngleUp />
               </div>
-              <div className="text-left">{nextTitle}</div>
+              <div className="text-left group-hover:font-bold">{nextTitle}</div>
             </Link>
           )}
           {prevPid === "" ? (
@@ -222,13 +222,13 @@ function Detail() {
           ) : (
             <Link
               to={`/board/detail/${bid}/${prevPid}`}
-              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2"
+              className="bg-gray-50 hover:bg-gray-200 flex flex-row justify-start gap-x-2 py-2 group"
             >
               <div className="w-[120px] text-center">이전 글</div>
               <div className="w-[48px] text-center flex flex-col justify-center">
                 <FaAngleDown />
               </div>
-              <div className="text-left">{prevTitle}</div>
+              <div className="text-left group-hover:font-bold">{prevTitle}</div>
             </Link>
           )}
         </div>
