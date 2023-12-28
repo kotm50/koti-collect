@@ -70,7 +70,6 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
-        console.log(res);
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);

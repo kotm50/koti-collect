@@ -60,7 +60,6 @@ function InputPrePaid(props) {
   }, [companyCode]);
 
   const getCardList = async cCode => {
-    console.log(cCode);
     setCardList([]);
     const data = {
       companyCode: cCode,
@@ -85,7 +84,6 @@ function InputPrePaid(props) {
   };
 
   const handlePayType = e => {
-    console.log(companyCode);
     setPayType(e.target.value);
     if (payType === "PG" || payType === "MO" || payType === "HE") {
       getCardList(companyCode);
@@ -203,6 +201,9 @@ function InputPrePaid(props) {
         data.payerName = null;
         data.taxBillYn = null;
         data.taxBillIssueDate = null;
+        data.resNo = resNo;
+        data.authNo = authNo;
+        data.installment = installment;
       }
       await axios
         .post("/api/v1/comp/add/prepay", data, {
@@ -231,6 +232,7 @@ function InputPrePaid(props) {
             setCardList([]);
             setBigo("");
             props.getCompanyPrepayList(companyCode, null);
+            props.getPrepayList(props.keyword);
           }
         })
         .catch(e => {
@@ -319,7 +321,6 @@ function InputPrePaid(props) {
         }
         if (res.data.code === "C000") {
           const prepay = res.data.prepay;
-          console.log(prepay.paidDate);
           setCompanyName(`${prepay.companyName} ${prepay.companyBranch}`);
           setCompanyCode(prepay.companyCode);
           setRealCost(prepay.prepayment);
@@ -341,6 +342,9 @@ function InputPrePaid(props) {
               ? dayjs(new Date(prepay.taxBillIssueDate)).format("YYYY-MM-DD")
               : ""
           );
+          setResNo(prepay.resNo || "");
+          setAuthNo(prepay.authNo || "");
+          setInstallment(prepay.installment || "");
         }
       })
       .catch(e => {
@@ -454,14 +458,15 @@ function InputPrePaid(props) {
         data.payerName = null;
         data.taxBillYn = null;
         data.taxBillIssueDate = null;
+        data.resNo = resNo;
+        data.authNo = authNo;
+        data.installment = installment;
       }
-      console.log(data);
       await axios
         .patch("/api/v1/comp/upt/prepay", data, {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           alert(res.data.message);
           if (res.data.code === "E999" || res.data.code === "E403") {
             logout();
@@ -469,6 +474,7 @@ function InputPrePaid(props) {
           }
           if (res.data.code === "C000") {
             props.getCompanyPrepayList(companyCode, null);
+            props.getPrepayList(props.keyword);
           }
         })
         .catch(e => {

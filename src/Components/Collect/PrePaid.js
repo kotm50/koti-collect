@@ -37,10 +37,6 @@ function PrePaid() {
   };
 
   useEffect(() => {
-    console.log(companyCode);
-  }, [companyCode]);
-
-  useEffect(() => {
     setTitle("선입금 관리");
 
     //eslint-disable-next-line
@@ -66,7 +62,6 @@ function PrePaid() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           return false;
         }

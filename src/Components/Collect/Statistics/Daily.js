@@ -69,13 +69,11 @@ function Daily(props) {
       searchMonth: month,
       searchDay: day,
     };
-    console.log("일간 리퀘", data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        console.log("일간", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;

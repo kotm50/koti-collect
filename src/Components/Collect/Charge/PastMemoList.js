@@ -25,7 +25,6 @@ function PastMemoList(props) {
     if (props.commCode !== "") {
       data.commCode = props.commCode;
     }
-    console.log(data);
     await axios
       .post("/api/v1/comp/memo", data, {
         headers: { Authorization: user.accessToken },

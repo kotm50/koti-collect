@@ -99,6 +99,17 @@ function InputCharge(props) {
     //eslint-disable-next-line
   }, [props.commCode]);
 
+  const companyReset = async (code, branch) => {
+    await resetCommCode();
+    setCompanyCode(code);
+    setCompanyName(branch);
+    setCompanyListOn(false);
+  };
+
+  const resetCommCode = () => {
+    props.setCommCode(null);
+  };
+
   const getCharge = async cCode => {
     const data = {
       commCode: cCode,
@@ -495,7 +506,6 @@ function InputCharge(props) {
         taxBillYn: tax === "" ? null : tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
-      console.log(data);
       await axios
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
@@ -644,9 +654,7 @@ function InputCharge(props) {
             {companyListOn && (
               <InputCompanyList
                 searchKeyword={searchKeyword}
-                setCompanyCode={setCompanyCode}
-                setCompanyName={setCompanyName}
-                setCompanyListOn={setCompanyListOn}
+                companyReset={companyReset}
               />
             )}
           </div>

@@ -539,7 +539,6 @@ function InputDeposit(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (res.data.code === "C000") {
           setPrePaid(
             Number(res.data.prepay.actualPrepayment).toLocaleString() + " 원"

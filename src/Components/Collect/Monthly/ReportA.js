@@ -462,7 +462,6 @@ function ReportA(props) {
       newAllTotal.paidIntvCare +
       newAllTotal.paidCommCare +
       newAllTotal.prepayment;
-    console.log("newTotal", newTotal);
     setWeeks(newWeeks);
     setTotal(newTotal);
     setAllTotal(newAllTotal);

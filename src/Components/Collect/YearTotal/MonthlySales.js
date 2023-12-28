@@ -7,7 +7,6 @@ function MonthlySales(props) {
   const [prepay, setPrepay] = useState(0);
   useEffect(() => {
     props.month.forEach(doc => {
-      console.log(props.monthNum);
       if (doc.companyCode === props.companyCode) {
         setAd(Number(doc.compMonthPaidAd));
         setComm(Number(doc.compMonthPaidComm));

@@ -19,7 +19,6 @@ function Write() {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    console.log(bid, pid);
     if (pid) {
       getPost(pid);
     }
@@ -37,7 +36,6 @@ function Write() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
@@ -84,7 +82,6 @@ function Write() {
   const submit = async () => {
     const escapeContent = await escapeHTML(content);
 
-    console.log(escapeContent.length);
     let data = {
       boardId: bid,
       userName: userName,
@@ -95,14 +92,11 @@ function Write() {
       data.postId = pid;
     }
 
-    console.log(data);
-
     await axios
       .post("/api/v1/board/admin/write/post", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         alert(res.data.message);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();

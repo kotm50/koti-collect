@@ -22,7 +22,6 @@ function Channel() {
   const [commList, setCommList] = useState([]);
   const [loadFail, setLoadFail] = useState(false);
   useEffect(() => {
-    console.log("?");
     setTitle("듀얼/채널 관리");
     getCategory();
     getCommList("", "Y");
@@ -49,7 +48,6 @@ function Channel() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res.data);
         setCommList(res.data.commList || []);
         if (!res.data.commList || res.data.commList.legnth === 0) {
           setLoadFail(true);
@@ -66,11 +64,9 @@ function Channel() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (!res.data.codeList || res.data.codeList.length === 0) {
           setLoadFail(true);
         } else {
-          console.log(res.data.codeList);
           setCategory(res.data.codeList);
         }
       })

@@ -31,7 +31,6 @@ function StatisticsList() {
     } else {
       data.searchYear = new Date().getFullYear().toString();
     }
-    console.log(data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: user.accessToken },
@@ -41,7 +40,6 @@ function StatisticsList() {
           navi("/");
           return false;
         }
-        console.log(res);
         let list = res.data.statisticsList;
         let caTotal = 0;
         let coTotal = 0;

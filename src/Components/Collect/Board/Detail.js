@@ -43,8 +43,6 @@ function Detail() {
   };
 
   useEffect(() => {
-    console.log(user);
-    console.log(bid, pid);
     if (pid) {
       getPost(pid);
     }

@@ -53,7 +53,6 @@ function DailyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("오늘", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -69,12 +68,10 @@ function DailyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("내일", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
-        console.log("내일", res);
         if (res.data.commissionList) {
           setTomorrow(res.data.commissionList);
         }

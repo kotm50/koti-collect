@@ -73,7 +73,6 @@ function Statistics(props) {
   }, [props.year, props.month]);
 
   useEffect(() => {
-    console.log(year, month, day, payType);
     getStatisticsList(year, month, day, payType);
     //eslint-disable-next-line
   }, [year, month, day, payType]);
@@ -110,13 +109,11 @@ function Statistics(props) {
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
     };
-    console.log("통합 리퀘", data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        console.log("통합", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -151,9 +148,6 @@ function Statistics(props) {
       }
     });
     let total = depositCost - withdrawCost;
-    console.log("환급액", withdrawCost);
-    console.log("수금액", depositCost);
-    console.log("총합", total);
     setDeposit(depositCost);
     setWithdraw(withdrawCost);
     setTotalCost(total);

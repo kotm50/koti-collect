@@ -83,9 +83,10 @@ function InputCompanyList(props) {
                       className="py-1 px-2 bg-green-500 text-white hover:bg-green-700 truncate"
                       value={com.companyCode}
                       onClick={e => {
-                        props.setCompanyCode(e.currentTarget.value);
-                        props.setCompanyName(com.companyBranch);
-                        props.setCompanyListOn(false);
+                        props.companyReset(
+                          e.currentTarget.value,
+                          com.companyBranch
+                        );
                       }}
                     >
                       등록

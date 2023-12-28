@@ -231,13 +231,11 @@ function YearTotal() {
     const data = {
       searchYear: year,
     };
-    console.log(data);
     axios
       .post("/api/v1/comp/year/total/list", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -425,8 +423,6 @@ function YearTotal() {
             listC.push({ ...item, counter: 0 });
           }
         });
-        console.log("카운터,코스트 추가", listB);
-        console.log("중복제거 후 코스트만 추가", listC);
         setCostTotal(costTotal);
         setCountTotal(countTotal);
         setJanTotal({

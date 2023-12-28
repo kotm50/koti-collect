@@ -13,7 +13,6 @@ function CommissionDetail(props) {
   const [memo, setMemo] = useState("");
 
   const handleList = () => {
-    console.log(props.isActive);
     if (props.isActive) {
       props.setCommCode(null);
       props.setActiveDetailId(null); // 현재 컴포넌트가 활성화되어 있다면 비활성화
@@ -25,7 +24,6 @@ function CommissionDetail(props) {
   };
 
   useEffect(() => {
-    console.log(props.isActive);
     // 상위 컴포넌트로부터 받은 isActive prop에 따라 detailOn 상태를 설정
     setDetailOn(props.isActive);
   }, [props.isActive]);

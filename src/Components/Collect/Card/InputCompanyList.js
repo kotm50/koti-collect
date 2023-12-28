@@ -31,7 +31,6 @@ function InputCompanyList(props) {
         },
       })
       .then(async res => {
-        console.log(res);
         if (!res.data.compList || res.data.compList.length === 0) {
           setLoadMsg("검색 실패");
         }

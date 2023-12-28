@@ -15,7 +15,6 @@ function PrepaidList(props) {
   // 상태 추가: 현재 포커스된 PrepaidDetail 컴포넌트 인덱스
   const [focusedDetailIndex, setFocusedDetailIndex] = useState(null);
   useEffect(() => {
-    console.log(props.inputOn);
     if (props.inputOn) {
       setHeight(470);
     } else {

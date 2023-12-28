@@ -88,7 +88,6 @@ function List(props) {
           navi("/");
           return false;
         }
-        console.log("깊콘", res);
         await getTax(res.data.payList);
         setList(res.data.payList);
       })
@@ -107,7 +106,6 @@ function List(props) {
         doc.payType === "MO" ||
         doc.payType === "HE"
       ) {
-        console.log("카드", doc.paidCommCare);
         if (doc.transactionType === "P") {
           d = d + Math.round(doc.paidCommCare / 1.1);
           e = e + (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
@@ -117,7 +115,6 @@ function List(props) {
         }
       } else {
         if (doc.taxBillYn === "Y") {
-          console.log("세금", doc.paidCommCare);
           if (doc.transactionType === "P") {
             b = b + Math.round(doc.paidCommCare / 1.1);
             c = c + (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
@@ -126,7 +123,6 @@ function List(props) {
             c = c - (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
           }
         } else {
-          console.log("현금", doc.paidCommCare);
           if (doc.transactionType === "P") {
             a = a + doc.paidCommCare;
           } else if (doc.transactionType === "D") {

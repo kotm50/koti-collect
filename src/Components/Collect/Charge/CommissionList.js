@@ -13,9 +13,6 @@ function CommissionList(props) {
       setIdNum(null);
     }
     setCommissionList(props.feeList);
-    if (props.commCode === null) {
-      setActiveDetailId(null);
-    }
   }, [props]);
 
   return (

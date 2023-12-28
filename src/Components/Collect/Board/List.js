@@ -57,13 +57,11 @@ function List() {
     if (searchKeyword) {
       data.searchKeyword = searchKeyword;
     }
-    console.log(data);
     await axios
       .post("/api/v1/board/admin/post/list", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;

@@ -32,7 +32,6 @@ function ReportB(props) {
     prepayment: 0,
     total: 0,
   });
-  console.log(props.compSumList);
 
   useEffect(() => {
     if (props.weekList && props.weekList.length > 0) {
