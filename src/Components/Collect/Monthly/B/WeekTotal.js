@@ -21,29 +21,23 @@ function WeekTotal(props) {
           5주차
         </div>
         <div className="bg-white text-center py-1 border-black">
-          {props.weekList.first > 0
-            ? props.weekList.first.toLocaleString()
-            : null}
+          {props.weekList.first > 0 ? props.weekList.first.toLocaleString() : 0}
         </div>
         <div className="bg-white text-center py-1 border-l border-black">
           {props.weekList.second > 0
             ? props.weekList.second.toLocaleString()
-            : null}
+            : 0}
         </div>
         <div className="bg-white text-center py-1 border-l border-black">
-          {props.weekList.third > 0
-            ? props.weekList.third.toLocaleString()
-            : null}
+          {props.weekList.third > 0 ? props.weekList.third.toLocaleString() : 0}
         </div>
         <div className="bg-white text-center py-1 border-l border-black">
           {props.weekList.fourth > 0
             ? props.weekList.fourth.toLocaleString()
-            : null}
+            : 0}
         </div>
         <div className="bg-white text-center py-1 border-l border-black">
-          {props.weekList.fifth > 0
-            ? props.weekList.fifth.toLocaleString()
-            : null}
+          {props.weekList.fifth > 0 ? props.weekList.fifth.toLocaleString() : 0}
         </div>
       </div>
       <div className="grid grid-cols-5">
@@ -52,9 +46,7 @@ function WeekTotal(props) {
           합계
         </div>
         <div className="bg-white text-center border-r border-b border-black py-1">
-          {props.weekList.total > 0
-            ? props.weekList.total.toLocaleString()
-            : null}
+          {props.weekList.total > 0 ? props.weekList.total.toLocaleString() : 0}
         </div>
       </div>
     </div>
