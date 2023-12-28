@@ -12,7 +12,7 @@ function Main() {
     <div className="mx-4 grid grid-cols-3 gap-x-4" data={title}>
       <div className="text-sm">
         <h3 className="font-bold text-lg">메뉴안내</h3>
-        <div className="p-4 flex flex-col justify-start gap-y-2 border">
+        <div className="p-4 flex flex-col justify-start gap-y-2 border bg-white drop-shadow-sm">
           <div>
             <div className="font-bold p-2">수금 업무</div>
             <div className="p-2 flex flex-row justify-between bg-gray-100">
@@ -155,6 +155,12 @@ function Main() {
               </Link>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col justify-start gap-y-4 col-span-2">
+        <div className="text-sm">
+          <h3 className="font-bold text-lg">월별통계</h3>
+          <div className="p-4 flex flex-col justify-start gap-y-2 border bg-white drop-shadow-sm"></div>
         </div>
       </div>
     </div>

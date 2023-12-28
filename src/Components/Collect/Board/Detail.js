@@ -185,7 +185,7 @@ function Detail() {
         <div
           className="text-left"
           dangerouslySetInnerHTML={{
-            __html: sanitizer(content),
+            __html: sanitizer(content, { ADD_ATTR: ["target"] }),
           }}
         />
       </div>
