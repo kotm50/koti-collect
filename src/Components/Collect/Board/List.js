@@ -4,6 +4,7 @@ import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import queryString from "query-string";
 import sorry from "../../../Asset/sorry.png";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
@@ -37,6 +38,7 @@ function List() {
   }, [thisLocation]);
 
   const loadReset = () => {
+    setPostList([]);
     setLoaded(false);
   };
 
@@ -49,7 +51,7 @@ function List() {
     let data = {
       boardId: bid,
       page: pageNum,
-      size: 20,
+      size: 5,
       delYn: delYn,
     };
     if (searchKeyword) {
@@ -129,17 +131,19 @@ function List() {
     <div className="mx-4">
       {loaded ? (
         <>
+          <div className="flex flex-row justify-between py-2">
+            <h3 className="text-center font-bold text-xl">
+              회의록 게시판{delYn === "Y" && " - 휴지통"}
+            </h3>
+          </div>
+          <div className="border-y border-black bg-blue-100 flex justify-between gap-x-2 p-2">
+            <div className="w-[64px] text-center">번호</div>
+            <div className="w-full text-center">제목</div>
+            <div className="w-[200px] text-center">작성자</div>
+            <div className="w-[200px] text-center">등록일</div>
+          </div>
           {postList.length > 0 ? (
-            <>
-              <div className="flex flex-row justify-between p-2">
-                <h3 className="text-center font-bold text-xl">회의록 목록</h3>
-              </div>
-              <div className="border-y border-black bg-blue-100 flex justify-between gap-x-2 p-2">
-                <div className="w-[64px] text-center">번호</div>
-                <div className="w-full text-center">제목</div>
-                <div className="w-[200px] text-center">작성자</div>
-                <div className="w-[200px] text-center">등록일</div>
-              </div>
+            <div className="border-b border-black">
               {postList.map((post, idx) => (
                 <Link to={`/board/detail/${bid}/${post.postId}`} key={idx}>
                   <div
@@ -158,35 +162,51 @@ function List() {
                   </div>
                 </Link>
               ))}
-              <div className="flex justify-between py-2">
-                <div className="flex justify-start">
-                  <Link
-                    to={`/board/write/${bid}`}
-                    className="py-2 px-4 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
-                  >
-                    글쓰기
-                  </Link>
-                </div>
-              </div>
-              <Pagenate
-                page={Number(page)}
-                keyword={searchKeyword}
-                delYn={delYn}
-                totalPage={Number(totalPage)}
-                pagenate={pagenate}
-                pathName={pathName}
-              />
-            </>
+            </div>
           ) : (
-            <div className="text-2xl text-bold text-center">
+            <div className="text-2xl text-bold text-center py-10  bg-white border-b border-black">
               <img
                 src={sorry}
-                className="mx-auto w-[240px] h-auto mb-5 mt-20"
+                className="mx-auto w-[240px] h-auto mb-10"
                 alt="오류"
               />
               조회 된 내용이 없습니다
             </div>
           )}
+
+          <div className="flex justify-between py-2">
+            <div className="flex justify-start">
+              {delYn === "N" ? (
+                <Link
+                  to={`/board/write/${bid}`}
+                  className="py-2 px-4 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+                >
+                  글쓰기
+                </Link>
+              ) : null}
+            </div>
+            {user.admin ? (
+              <Link
+                to={`/board/list/${bid}?delYn=${delYn === "N" ? "Y" : "N"}`}
+                className={`py-2 px-4 hover:bg-gray-100 rounded drop-shadow hover:drop-shadow-lg ${
+                  delYn === "N"
+                    ? "bg-white"
+                    : "bg-rose-500 text-white hover:text-black"
+                }`}
+                title={delYn === "N" ? "삭제예정 글 보기" : "전체 글 보기"}
+              >
+                <FaRegTrashAlt className="inline mb-[1px]" />
+              </Link>
+            ) : null}
+          </div>
+          <Pagenate
+            page={Number(page)}
+            keyword={searchKeyword}
+            delYn={delYn}
+            totalPage={Number(totalPage)}
+            pagenate={pagenate}
+            pathName={pathName}
+          />
         </>
       ) : (
         <div>목록을 불러오고 있습니다</div>

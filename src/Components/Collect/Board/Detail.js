@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../../Reducer/userSlice";
 
@@ -19,6 +19,7 @@ function Detail() {
   const [userName, setUserName] = useState("");
   const [content, setContent] = useState("");
   const [date, setDate] = useState("");
+  const [delYn, setDelYn] = useState("N");
 
   const logout = async () => {
     await axios
@@ -66,6 +67,7 @@ function Detail() {
           setTitle(post.title);
           setContent(unescapeContent);
           setDate(getDate(post.regDate));
+          setDelYn(post.delYn);
         }
       })
       .catch(e => {
@@ -91,21 +93,123 @@ function Detail() {
       .replace(/／/g, "/");
   };
 
+  const deleteIt = async () => {
+    const data = {
+      boardId: bid,
+      postId: pid,
+    };
+    if (delYn === "N") {
+      await axios
+        .patch("/api/v1/board/admin/del/y/post", data, {
+          headers: { Authorization: user.accessToken },
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.code === "E999" || res.data.code === "E403") {
+            logout();
+            return false;
+          }
+
+          if (res.data.code === "C000") {
+            alert(res.data.message);
+            navi(`/board/list/${bid}`);
+          }
+        });
+    } else {
+      const confirm = window.confirm(
+        "영구삭제시 복구가 불가능합니다. 진행할까요?"
+      );
+      if (!confirm) {
+        return false;
+      }
+      await axios
+        .delete("/api/v1/board/admin/delete/post", {
+          data: data,
+          headers: { Authorization: user.accessToken },
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.code === "E999" || res.data.code === "E403") {
+            logout();
+            return false;
+          }
+
+          if (res.data.code === "C000") {
+            alert(res.data.message);
+            navi(`/board/list/${bid}`);
+          }
+        });
+    }
+  };
+  const restoreIt = async () => {
+    const data = {
+      boardId: bid,
+      postId: pid,
+    };
+    await axios
+      .patch("/api/v1/board/admin/recv/post", data, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(res => {
+        console.log(res);
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+
+        if (res.data.code === "C000") {
+          alert(res.data.message);
+          navi(`/board/list/${bid}`);
+        }
+      });
+  };
   return (
     <div className="mx-4">
       <div className="border-y border-black bg-blue-100 flex justify-between py-1">
+        <div className="w-[200px] text-center">{date}</div>
         <h3 className="w-full font-bold text-center">{title}</h3>
 
         <div className="w-[200px] text-center">{userName}</div>
-        <div className="w-[200px] text-center">{date}</div>
       </div>
-      <div className="bg-white p-2">
+      <div className="bg-white p-2 border-b border-black">
         <div
           className="text-left"
           dangerouslySetInnerHTML={{
             __html: sanitizer(content),
           }}
         />
+      </div>
+      <div className="flex justify-between py-2 mb-10">
+        <div className="flex justify-start gap-x-1">
+          <Link
+            to={`/board/list/${bid}`}
+            className="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+          >
+            목록으로
+          </Link>
+          {delYn === "N" ? (
+            <Link
+              to={`/board/write/${bid}/${pid}`}
+              className="py-2 px-4 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+            >
+              수정하기
+            </Link>
+          ) : (
+            <button
+              className="py-2 px-4 bg-green-500 hover:bg-green-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+              onClick={() => restoreIt()}
+            >
+              복원하기
+            </button>
+          )}
+
+          <button
+            className="py-2 px-4 bg-rose-500 hover:bg-rose-700 text-center text-white rounded drop-shadow hover:drop-shadow-lg"
+            onClick={() => deleteIt()}
+          >
+            {delYn === "N" ? "삭제하기" : "영구삭제"}
+          </button>
+        </div>
       </div>
     </div>
   );

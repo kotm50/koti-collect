@@ -55,6 +55,17 @@ function Write() {
       });
   };
 
+  const resetIt = () => {
+    const confirm = window.confirm("입력한 내용을 초기화 할까요?");
+    if (!confirm) {
+      return false;
+    } else {
+      setTitle("");
+      setUserName("");
+      setContent("");
+    }
+  };
+
   const logout = async () => {
     await axios
       .post("/api/v1/user/logout", null, {
@@ -98,6 +109,7 @@ function Write() {
           return false;
         }
         if (res.data.code === "C000") {
+          navi(`/board/list/${bid}`);
         }
       })
       .catch(e => {
@@ -178,12 +190,18 @@ function Write() {
           />
         </div>
       </div>
-      <div className="flex justify-center gap-x-4 mt-4">
+      <div className="flex justify-center gap-x-2 mt-4">
         <button
           className="p-2 bg-green-500 hover:bg-green-700 text-white rounded"
           onClick={submit}
         >
           저장하기
+        </button>
+        <button
+          className="p-2 bg-gray-300 hover:bg-gray-700 hover:text-white rounded"
+          onClick={resetIt}
+        >
+          초기화
         </button>
       </div>
     </div>

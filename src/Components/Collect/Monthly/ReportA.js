@@ -425,6 +425,9 @@ function ReportA(props) {
   };
 
   const getWeekDay = list => {
+    if (list === undefined) {
+      return false;
+    }
     let newWeeks = { ...weeks };
     // 새로운 total과 allTotal 객체 초기화
     let newTotal = initializeTotal();

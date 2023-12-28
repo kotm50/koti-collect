@@ -35,26 +35,34 @@ function Left(props) {
           전체 총액
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.total.toLocaleString()}
+          {props.allTotal.total ? props.allTotal.total.toLocaleString() : 0}
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.paidAd.toLocaleString()}
+          {props.allTotal.paidAd ? props.allTotal.paidAd.toLocaleString() : 0}
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.paidComm.toLocaleString()}
+          {props.allTotal.paidComm
+            ? props.allTotal.paidComm.toLocaleString()
+            : 0}
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.paidIntvCare.toLocaleString()}
+          {props.allTotal.paidIntvCare
+            ? props.allTotal.paidIntvCare.toLocaleString()
+            : 0}
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.paidCommCare.toLocaleString()}
+          {props.allTotal.paidCommCare
+            ? props.allTotal.paidCommCare.toLocaleString()
+            : 0}
         </div>
         <div className="text-center bg-gray-200 h-[45px] flex flex-col justify-center text-sm font-bold border border-r-0 border-t-0 border-black truncate">
-          {props.allTotal.prepayment.toLocaleString()}
+          {props.allTotal.prepayment
+            ? props.allTotal.prepayment.toLocaleString()
+            : 0}
         </div>
       </div>
 
-      {props.list.length > 0 ? (
+      {props.list && props.list.length > 0 ? (
         <div className="w-full h-fit grid grid-cols-9">
           {props.list.map((com, idx) => (
             <React.Fragment key={idx}>
