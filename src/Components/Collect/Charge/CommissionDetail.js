@@ -254,6 +254,7 @@ function CommissionDetail(props) {
           setMemo={setMemo}
           setModalOn={setModalOn}
           user={props.user}
+          setCommCode={props.setCommCode}
         />
       ) : null}
     </>

@@ -8,9 +8,6 @@ import axios from "axios";
 function Deposit(props) {
   const navi = useNavigate();
   const [payList, setPayList] = useState([]);
-  const [isSelected, setIsSelected] = useState(false);
-  const [payCode, setPayCode] = useState("");
-
   const getPayList = async commCode => {
     const data = {
       commCode: commCode,
@@ -30,7 +27,6 @@ function Deposit(props) {
   };
 
   const handleList = async pCode => {
-    setPayCode(pCode);
     await resetPayCode();
     await getPayCode(pCode);
     props.setCommCode(props.commCode);
@@ -52,13 +48,13 @@ function Deposit(props) {
     //eslint-disable-next-line
   }, [props.detailOn]);
 
-  useEffect(() => {
+  const chkPayCode = payCode => {
     if (props.payCode === payCode) {
-      setIsSelected(true);
+      return true;
     } else {
-      setIsSelected(false);
+      return false;
     }
-  }, [props.payCode, payCode]);
+  };
   return (
     <>
       <tr className="bg-yellow-300 font-bold text-center border-t-2 border-black">
@@ -84,7 +80,7 @@ function Deposit(props) {
             <tr
               key={idx}
               className={`hover:cursor-pointer text-center border-b-2 border-black ${
-                isSelected ? "bg-teal-200" : "bg-gray-200"
+                chkPayCode(pay.payCode) ? "bg-teal-200" : "bg-gray-200"
               }`}
               data-code={pay.payCode}
             >
