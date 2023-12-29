@@ -19,7 +19,7 @@ function CommissionList(props) {
     <>
       {commisionList.length > 0 ? (
         <table id="mainTable" className="w-full mb-[50px]">
-          <thead className="sticky top-0 left-0 z-50">
+          <thead className="sticky top-0 left-0 z-30">
             <tr className="text-white bg-blue-500 text-center">
               <td className="p-1 border">채널</td>
               <td className="p-1 border">고객사</td>

@@ -31,7 +31,6 @@ function UnReceive() {
   const [keyword, setKeyword] = useState("");
 
   const [feeList, setFeeList] = useState([]);
-  const [payList, setPayList] = useState([]);
 
   const [commCode, setCommCode] = useState(null);
   const [payCode, setPayCode] = useState(null);
@@ -143,32 +142,9 @@ function UnReceive() {
     setIsUnpaid(e.target.value);
   };
 
-  const resetPayList = () => {
-    setPayList([]);
-  };
-
-  const getPayList = async commCode => {
-    await resetPayList();
-    const data = {
-      commCode: commCode,
-    };
-    await axios
-      .post("/api/v1/comp/get/pay/list", data, {
-        headers: { Authorization: user.accessToken },
-      })
-      .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          navi("/");
-          return false;
-        }
-        setPayList(res.data.payList);
-      })
-      .catch(e => console.log(e));
-  };
-
   return (
     <div className="mx-4" data={title}>
-      <div className="w-[1280px] h-[88px] fixed top-0 right-0 py-2 px-4 grid grid-cols-2 z-10 gap-x-2 font-medium bg-gray-50">
+      <div className="w-[1280px] h-[88px] fixed top-0 right-0 py-2 px-4 grid grid-cols-2 z-50 gap-x-2 font-medium bg-gray-50">
         {unPaid !== null ? (
           <table className="w-full">
             <thead>
@@ -366,7 +342,6 @@ function UnReceive() {
               searchKeyword={searchKeyword}
               isUnpaid={isUnpaid}
               logout={logout}
-              getPayList={getPayList}
               testNum={testNum}
             />
           </div>
@@ -435,8 +410,6 @@ function UnReceive() {
           user={user}
           feeList={feeList}
           inputOn={inputOn}
-          payList={payList}
-          getPayList={getPayList}
           commCode={commCode}
           setCommCode={setCommCode}
           setPayCode={setPayCode}

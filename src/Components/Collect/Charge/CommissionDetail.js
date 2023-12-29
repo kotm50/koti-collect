@@ -15,14 +15,7 @@ function CommissionDetail(props) {
   const [color, setColor] = useState("");
 
   const handleList = () => {
-    if (props.isActive) {
-      props.setCommCode(null);
-      props.setActiveDetailId(null); // 현재 컴포넌트가 활성화되어 있다면 비활성화
-    } else {
-      props.setCommCode(props.comm.commCode);
-      props.setTestNum(props.idx);
-      props.setActiveDetailId(props.idx); // 다른 컴포넌트를 활성화
-    }
+    setDetailOn(!detailOn);
   };
 
   useEffect(() => {
@@ -259,6 +252,7 @@ function CommissionDetail(props) {
           detailOn={detailOn}
           setMemo={setMemo}
           setModalOn={setModalOn}
+          user={props.user}
         />
       ) : null}
     </>

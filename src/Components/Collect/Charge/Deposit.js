@@ -2,9 +2,32 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
 import CommisionMemo from "./CommisionMemo";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Deposit(props) {
+  const navi = useNavigate();
   const [selected, setSelected] = useState("");
+  const [payList, setPayList] = useState([]);
+
+  const getPayList = async commCode => {
+    const data = {
+      commCode: commCode,
+    };
+    await axios
+      .post("/api/v1/comp/get/pay/list", data, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          navi("/");
+          return false;
+        }
+        setPayList(res.data.payList);
+      })
+      .catch(e => console.log(e));
+  };
+
   const handleList = async pCode => {
     await resetPayCode();
     await setPayCode(pCode);
@@ -19,7 +42,9 @@ function Deposit(props) {
   };
   useEffect(() => {
     if (props.detailOn) {
-      props.getPayList(props.commCode);
+      getPayList(props.commCode);
+    } else {
+      setPayList([]);
     }
     //eslint-disable-next-line
   }, [props.detailOn]);
@@ -42,9 +67,9 @@ function Deposit(props) {
         <td className="p-1 border border-stone-400">결제일</td>
         <td className="p-1 border border-stone-400">메모</td>
       </tr>
-      {props.payList.length > 0 ? (
+      {payList.length > 0 ? (
         <>
-          {props.payList.map((pay, idx) => (
+          {payList.map((pay, idx) => (
             <tr
               key={idx}
               className={`hover:cursor-pointer text-center border-b-2 border-black ${
