@@ -32,6 +32,7 @@ function Board() {
         className="fixed top-0 left-0 h-screen w-[240px] pb-4 border-r bg-white shadow-lg flex flex-col justify-between transition-all duration-300"
         style={{ marginLeft: `${open ? 0 : -240}px` }}
       >
+        g
         <button
           className={`transition-all font-bold duration-300 bg-indigo-100 hover:bg-indigo-50 p-2 absolute top-0 right-0 ${
             !open && "translate-x-[48px] border"
