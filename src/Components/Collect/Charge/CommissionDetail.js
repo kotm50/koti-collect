@@ -31,7 +31,6 @@ function CommissionDetail(props) {
   }, [props.isActive]);
 
   useEffect(() => {
-    console.log(props.comm);
     if (
       props.comm.paymentDueDate !== null &&
       props.comm.paymentDueDate !== undefined &&
@@ -39,26 +38,38 @@ function CommissionDetail(props) {
     ) {
       chkDueDate(props.comm.paymentDueDate);
     }
+    //eslint-disable-next-line
+  }, [props.comm]);
 
-    if (
-      Number(props.comm.unpaidAd) +
-        Number(props.comm.unpaidComm) +
-        Number(props.comm.unpaidIntvCare) +
-        Number(props.comm.unpaidCommCare) >
-      0
-    ) {
-      if (period <= 3 && period > 1) {
-        setColor("bg-purple-100");
-      } else if (period <= 1) {
-        setColor("bg-purple-200");
+  useEffect(() => {
+    if (period !== 10) {
+      let color = "";
+      if (
+        Number(props.comm.unpaidAd) +
+          Number(props.comm.unpaidComm) +
+          Number(props.comm.unpaidIntvCare) +
+          Number(props.comm.unpaidCommCare) >
+        0
+      ) {
+        color = "bg-purple-100";
+        if (period <= 3 && period > 1) {
+          setColor(color);
+        } else if (period <= 1) {
+          color = "bg-purple-200";
+          setColor(color);
+        } else {
+          color = "bg-white";
+          setColor(color);
+        }
       } else {
-        setColor("bg-white");
+        color = "bg-white";
+        setColor(color);
       }
     } else {
       setColor("bg-white");
     }
     //eslint-disable-next-line
-  }, [props.comm]);
+  }, [period]);
 
   const chkDueDate = date => {
     const today = new Date();
