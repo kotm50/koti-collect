@@ -423,9 +423,9 @@ function UnReceive() {
               <option value="N">월별 조회</option>
               <option value="Y">미수금 조회</option>
               <option value="B">발행 미수금 조회</option>
-              <option value="S">시작 7일 전까지 조회</option>
-              <option value="T">시작 3일 전까지 조회</option>
-              <option value="O">시작 1일 전까지 조회</option>
+              <option value="S">예정 7일</option>
+              <option value="T">예정 3일</option>
+              <option value="O">예정 1일</option>
             </select>
           </div>
         </div>

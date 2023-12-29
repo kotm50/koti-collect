@@ -12,6 +12,8 @@ function CommissionDetail(props) {
   const [period, setPeriod] = useState(10);
   const [memo, setMemo] = useState("");
 
+  const [color, setColor] = useState("");
+
   const handleList = () => {
     if (props.isActive) {
       props.setCommCode(null);
@@ -37,6 +39,24 @@ function CommissionDetail(props) {
     ) {
       chkDueDate(props.comm.paymentDueDate);
     }
+
+    if (
+      Number(props.comm.unpaidAd) +
+        Number(props.comm.unpaidComm) +
+        Number(props.comm.unpaidIntvCare) +
+        Number(props.comm.unpaidCommCare) >
+      0
+    ) {
+      if (period <= 3 && period > 1) {
+        setColor("bg-purple-100");
+      } else if (period <= 1) {
+        setColor("bg-purple-200");
+      } else {
+        setColor("bg-white");
+      }
+    } else {
+      setColor("bg-white");
+    }
     //eslint-disable-next-line
   }, [props.comm]);
 
@@ -59,13 +79,7 @@ function CommissionDetail(props) {
   return (
     <>
       <tr
-        className={`text-center hover:cursor-pointer ${
-          period <= 3 && period > 1
-            ? "bg-purple-100"
-            : period <= 1
-            ? "bg-violet-200"
-            : "bg-white"
-        }`}
+        className={`text-center hover:cursor-pointer ${color}`}
         title="수정하려면 클릭하세요"
       >
         <td
