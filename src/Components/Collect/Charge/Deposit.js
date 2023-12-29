@@ -7,8 +7,9 @@ import axios from "axios";
 
 function Deposit(props) {
   const navi = useNavigate();
-  const [selected, setSelected] = useState("");
   const [payList, setPayList] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
+  const [payCode, setPayCode] = useState("");
 
   const getPayList = async commCode => {
     const data = {
@@ -29,11 +30,12 @@ function Deposit(props) {
   };
 
   const handleList = async pCode => {
+    setPayCode(pCode);
     await resetPayCode();
-    await setPayCode(pCode);
+    await getPayCode(pCode);
   };
 
-  const setPayCode = code => {
+  const getPayCode = code => {
     props.setPayCode(code);
   };
 
@@ -48,6 +50,15 @@ function Deposit(props) {
     }
     //eslint-disable-next-line
   }, [props.detailOn]);
+
+  useEffect(() => {
+    console.log(props.payCode);
+    if (props.payCode === payCode) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [props.payCode, payCode]);
   return (
     <>
       <tr className="bg-yellow-300 font-bold text-center border-t-2 border-black">
@@ -73,14 +84,13 @@ function Deposit(props) {
             <tr
               key={idx}
               className={`hover:cursor-pointer text-center border-b-2 border-black ${
-                selected === pay.payCode ? "bg-teal-200" : "bg-gray-200"
+                isSelected ? "bg-teal-200" : "bg-gray-200"
               }`}
               data-code={pay.payCode}
             >
               <td
                 className="p-1 border border-stone-400"
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -93,7 +103,6 @@ function Deposit(props) {
               <td
                 className="p-1 border border-stone-400"
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -114,7 +123,6 @@ function Deposit(props) {
               <td
                 className="p-1 border border-stone-400"
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -124,7 +132,6 @@ function Deposit(props) {
                 className="p-1 border border-stone-400"
                 colSpan="2"
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -138,7 +145,6 @@ function Deposit(props) {
                 className="p-1 border border-stone-400 truncate"
                 colSpan="4"
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -153,7 +159,6 @@ function Deposit(props) {
                     : ""
                 }`}
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
               >
@@ -166,7 +171,6 @@ function Deposit(props) {
               </td>
               <td
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
                 className={`p-1 border border-stone-400 ${
@@ -186,7 +190,6 @@ function Deposit(props) {
               </td>
               <td
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
                 className={`p-1 border border-stone-400 ${
@@ -207,7 +210,6 @@ function Deposit(props) {
               </td>
               <td
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
                 className={`p-1 border border-stone-400 ${
@@ -228,7 +230,6 @@ function Deposit(props) {
               </td>
               <td
                 onClick={() => {
-                  setSelected(pay.payCode);
                   handleList(pay.payCode);
                 }}
                 className="p-1 border border-stone-400"

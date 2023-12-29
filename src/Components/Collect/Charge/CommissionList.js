@@ -51,6 +51,7 @@ function CommissionList(props) {
                   getPayList={props.getPayList}
                   commisionList={props.feeList}
                   setCommCode={props.setCommCode}
+                  payCode={props.payCode}
                   setPayCode={props.setPayCode}
                   setInputOn={props.setInputOn}
                   setTestNum={props.setTestNum}

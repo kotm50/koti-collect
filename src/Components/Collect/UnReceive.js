@@ -410,6 +410,7 @@ function UnReceive() {
           user={user}
           feeList={feeList}
           inputOn={inputOn}
+          payCode={payCode}
           commCode={commCode}
           setCommCode={setCommCode}
           setPayCode={setPayCode}

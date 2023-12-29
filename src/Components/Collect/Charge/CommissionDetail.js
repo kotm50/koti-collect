@@ -249,6 +249,7 @@ function CommissionDetail(props) {
           payList={props.payList}
           getPayList={props.getPayList}
           setPayCode={props.setPayCode}
+          payCode={props.payCode}
           detailOn={detailOn}
           setMemo={setMemo}
           setModalOn={setModalOn}
