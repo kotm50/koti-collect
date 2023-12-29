@@ -8,7 +8,7 @@ import axios from "axios";
 import Menu from "../Layout/Menu";
 
 function Collect() {
-  const [title, setTitle] = useState("코리아티엠 수금전산 페이지");
+  const [title, setTitle] = useState("코리아티엠 수금전산 페이지.");
   const [open, setOpen] = useState(true);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
