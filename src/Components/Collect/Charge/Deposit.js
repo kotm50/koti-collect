@@ -33,6 +33,7 @@ function Deposit(props) {
     setPayCode(pCode);
     await resetPayCode();
     await getPayCode(pCode);
+    props.setCommCode(props.commCode);
   };
 
   const getPayCode = code => {
@@ -52,7 +53,6 @@ function Deposit(props) {
   }, [props.detailOn]);
 
   useEffect(() => {
-    console.log(props.payCode);
     if (props.payCode === payCode) {
       setIsSelected(true);
     } else {
