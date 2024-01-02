@@ -59,7 +59,7 @@ function TomorowReport(props) {
               </td>
               <td className="border p-1 font-bold">
                 {props.total.totalUnpaid
-                  ? props.total.totalUnpaid.toLocaleString()
+                  ? props.total.totalUnpaidAd.toLocaleString()
                   : 0}
               </td>
               <td className="border p-1 font-bold">
