@@ -102,11 +102,13 @@ function StatisticsDetail(props) {
       <td className="p-1 border">{props.statistics.cardExp}</td>
       <td className="p-1 border">{props.statistics.cardPwd}</td>
       <td className="p-1 border">
-        <StatisticsMemo
-          memo={props.statistics.bigo}
-          setMemo={props.setMemo}
-          setModalOn={props.setModalOn}
-        />
+        {props.statistics.bigo && (
+          <StatisticsMemo
+            memo={props.statistics.bigo}
+            setMemo={props.setMemo}
+            setModalOn={props.setModalOn}
+          />
+        )}
       </td>
     </tr>
   );
