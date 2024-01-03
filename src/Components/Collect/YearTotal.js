@@ -226,6 +226,14 @@ function YearTotal() {
     setTotalList([]);
   };
 
+  const getPercentage = (a, b) => {
+    if (b === 0) {
+      return "0.00%";
+    }
+
+    return ((a / b) * 100).toFixed(2) + "%";
+  };
+
   const getTotal = async year => {
     await resetIt();
     const data = {
@@ -522,7 +530,10 @@ function YearTotal() {
         setOct(oct);
         setNov(nov);
         setDec(dec);
-        setTotalList(listC);
+        const listD = listC.sort((a, b) => {
+          return b.costTotal - a.costTotal;
+        });
+        setTotalList(listD);
       })
       .catch(e => console.log(e));
   };
@@ -603,7 +614,7 @@ function YearTotal() {
                         idx === 0 && "border-t-0"
                       } ${
                         idx !== totalList.length - 1 && "border-b-0"
-                      } border-r-0 border-black flex flex-col justify-center`}
+                      } border-r-0 border-black flex flex-col justify-center truncate whitespace-nowrap`}
                     >
                       {total.companyName}
                     </div>
@@ -612,7 +623,7 @@ function YearTotal() {
                         idx === 0 && "border-t-0"
                       } ${
                         idx !== totalList.length - 1 && "border-b-0"
-                      } border-r-0 border-black flex flex-col justify-center`}
+                      } border-r-0 border-black flex flex-col justify-center text-sm truncate whitespace-nowrap`}
                     >
                       {total.companyBranch}
                     </div>
@@ -659,7 +670,7 @@ function YearTotal() {
                         idx !== totalList.length - 1 && "border-b-0"
                       } border-r-0 border-black flex flex-col justify-center`}
                     >
-                      {Math.round((total.costTotal / costTotal) * 100)}%
+                      {getPercentage(total.costTotal, costTotal)}
                     </div>
                   </React.Fragment>
                 ))}

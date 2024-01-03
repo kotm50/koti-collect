@@ -28,7 +28,16 @@ function ComList(props) {
   return (
     <>
       {edit ? (
-        <ComEdit com={props.com} setEdit={setEdit} user={props.user} />
+        <ComEdit
+          com={props.com}
+          setEdit={setEdit}
+          user={props.user}
+          getCompanyList={props.getCompanyList}
+          page={props.page}
+          keyword={props.keyword}
+          gubun={props.gubun}
+          channel={props.channel}
+        />
       ) : (
         <>
           <td className="p-2 text-rose-500 text-xs font-bold uppercase truncate w-8">

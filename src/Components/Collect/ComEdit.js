@@ -160,7 +160,12 @@ function ComEdit(props) {
         .then(res => {
           alert("수정하였습니다");
           cancelEdit();
-          props.getCompanyList(props.page, props.keyword);
+          props.getCompanyList(
+            props.page,
+            props.keyword,
+            props.gubun,
+            props.channel
+          );
         })
         .catch(e => console.log(e));
     }

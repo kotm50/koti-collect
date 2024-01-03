@@ -514,6 +514,8 @@ function Company() {
                       getCompanyList={getCompanyList}
                       page={page}
                       keyword={keyword}
+                      gubun={gubun}
+                      channel={channel}
                       user={user}
                       logout={logout}
                     />

@@ -200,6 +200,7 @@ function InputDeposit(props) {
     setBigo("");
     setInstallment("N");
     setPayCode(null);
+    props.setPayCode(null);
   };
 
   const getPaid = num => {
