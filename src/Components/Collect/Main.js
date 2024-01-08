@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useOutletContext } from "react-router-dom";
-import GenerateCoupon from "./Coupon/GenerateCoupon";
 
 function Main() {
   const thisLocation = useLocation();
@@ -159,7 +158,6 @@ function Main() {
           </div>
         </div>
       </div>
-      <GenerateCoupon />
     </div>
   );
 }
