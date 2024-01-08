@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useOutletContext } from "react-router-dom";
+import GenerateCoupon from "./Coupon/GenerateCoupon";
 
 function Main() {
   const thisLocation = useLocation();
@@ -8,6 +9,7 @@ function Main() {
     setTitle("코리아티엠 수금전산 페이지");
     //eslint-disable-next-line
   }, [thisLocation]);
+
   return (
     <div className="mx-4 grid grid-cols-3 gap-x-4" data={title}>
       <div className="text-sm">
@@ -157,12 +159,7 @@ function Main() {
           </div>
         </div>
       </div>
-      <div className="hidden flex-col justify-start gap-y-4 col-span-2">
-        <div className="text-sm">
-          <h3 className="font-bold text-lg">월별통계</h3>
-          <div className="p-4 flex flex-col justify-start gap-y-2 border bg-white drop-shadow-sm"></div>
-        </div>
-      </div>
+      <GenerateCoupon />
     </div>
   );
 }

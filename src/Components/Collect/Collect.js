@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
@@ -43,9 +43,11 @@ function Collect() {
           {!open ? <FaCaretRight size={32} /> : <FaCaretLeft size={32} />}
         </button>
         <div>
-          <h2 className="font-bold px-4 text-xl h-[48px] flex flex-col justify-center">
-            코티 수금전산
-          </h2>
+          <Link to="/collect">
+            <h2 className="font-bold px-4 text-xl h-[48px] flex flex-col justify-center">
+              코티 수금전산
+            </h2>
+          </Link>
           <Menu />
         </div>
         <div className="p-2">

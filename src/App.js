@@ -19,6 +19,7 @@ import Board from "./Components/Collect/Board";
 import List from "./Components/Collect/Board/List";
 import Write from "./Components/Collect/Board/Write";
 import Detail from "./Components/Collect/Board/Detail";
+import Coupon from "./Components/Collect/Coupon";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="yeartotal" element={<YearTotal />} />
           <Route path="dailyreport" element={<DailyReport />} />
           <Route path="monthlyreport" element={<MonthlyReport />} />
+          <Route path="coupon" element={<Coupon />} />
         </Route>
         <Route path="/board" element={<Board />}>
           <Route path="list/:bid?" element={<List />} />

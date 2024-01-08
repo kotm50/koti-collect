@@ -4,12 +4,6 @@ import { Link } from "react-router-dom";
 function Menu() {
   return (
     <div className="flex flex-col justify-start divide-y border-y">
-      <Link
-        to="/collect"
-        className="p-3 hover:bg-gray-200 transition-all duration-300"
-      >
-        메인
-      </Link>
       <div className="p-3 font-bold">
         <span>수금 업무</span>
       </div>
@@ -92,6 +86,15 @@ function Menu() {
           className="px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300"
         >
           회의록 목록
+        </Link>
+      </div>
+      <div className="p-3 font-bold">쿠폰</div>
+      <div className="bg-gray-100 flex flex-col justify-start divide-y border-y">
+        <Link
+          to="/collect/coupon"
+          className="px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300"
+        >
+          쿠폰 관리
         </Link>
       </div>
     </div>
