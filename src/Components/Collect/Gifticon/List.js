@@ -84,6 +84,7 @@ function List(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
+        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -114,7 +115,7 @@ function List(props) {
           e = e - (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));
         }
       } else {
-        if (doc.taxBillYn === "Y") {
+        if (doc.taxBillStatus === "Y") {
           if (doc.transactionType === "P") {
             b = b + Math.round(doc.paidCommCare / 1.1);
             c = c + (doc.paidCommCare - Math.round(doc.paidCommCare / 1.1));

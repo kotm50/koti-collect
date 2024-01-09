@@ -80,7 +80,9 @@ function CompanyPrepaidDetail(props) {
         <td className="p-1 border text-sm">
           {payResult}
           {props.pay.payType === "CA" || props.pay.payType === "CO" ? (
-            <span>{props.pay.taxBillYn === "Y" ? "(발행)" : "(미발행)"}</span>
+            <span>
+              {props.pay.taxBillStatus === "Y" ? "(발행)" : "(미발행)"}
+            </span>
           ) : null}
         </td>
         <td className="p-1 border text-sm">

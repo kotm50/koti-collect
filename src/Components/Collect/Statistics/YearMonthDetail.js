@@ -28,7 +28,7 @@ function YearMonthDetail(props) {
       setAmount(camount);
       setVat(cvat);
     } else {
-      if (props.yearMonth.taxBillYn === "Y") {
+      if (props.yearMonth.taxBillStatus === "Y") {
         const camount = Math.round(cost / 1.1);
         const cvat = cost - camount;
         setPayment(cost);

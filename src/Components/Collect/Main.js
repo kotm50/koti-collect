@@ -156,6 +156,22 @@ function Main() {
               </Link>
             </div>
           </div>
+
+          <div>
+            <div className="font-bold p-2">쿠폰</div>
+            <div className="p-2 flex flex-row justify-between bg-gray-100">
+              <div className="text-blue-800 font-medium">쿠폰 관리</div>
+              <div className="font-normal">
+                고객사 할인 쿠폰을 생성/관리하는 페이지입니다
+              </div>
+              <Link
+                to="/collect/coupon"
+                className="text-blue-800 font-medium hover:text-rose-500"
+              >
+                바로가기
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

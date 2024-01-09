@@ -130,7 +130,7 @@ function Statistics(props) {
     list.forEach(doc => {
       let cost = doc.payment;
       if (doc.payType === "CA" || doc.payType === "CO") {
-        if (doc.taxBillYn === "Y") {
+        if (doc.taxBillStatus === "Y") {
           Math.round(cost / 1.1);
         }
         if (doc.transactionType === "P") {

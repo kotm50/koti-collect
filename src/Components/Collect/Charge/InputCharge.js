@@ -133,7 +133,7 @@ function InputCharge(props) {
         setAdNumber(commission.adId || "");
         setStartDate(commission.hireStartDate || "");
         setEndDate(commission.hireEndDate || "");
-        setTax(commission.taxBillYn);
+        setTax(commission.taxBillStatus);
         setTaxDate(commission.taxBillIssueDate || "");
         setEndDate(commission.hireEndDate || "");
         setPaymentDueDate(commission.paymentDueDate || "");
@@ -503,7 +503,7 @@ function InputCharge(props) {
         week: week === "" ? null : week,
         day: day === "" ? null : day,
         memo: escapeMemo === "" ? null : escapeMemo,
-        taxBillYn: tax === "" ? null : tax,
+        taxBillStatus: tax === "" ? null : tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
       await axios
@@ -874,6 +874,7 @@ function InputCharge(props) {
             >
               <option value="N">미발행</option>
               <option value="Y">발행</option>
+              <option value="S">면세</option>
             </select>
           </div>
         </div>

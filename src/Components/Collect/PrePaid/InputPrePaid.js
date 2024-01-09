@@ -189,7 +189,7 @@ function InputPrePaid(props) {
       };
       if (payType === "CA" || payType === "CO") {
         data.payerName = payerName;
-        data.taxBillYn = tax;
+        data.taxBillStatus = tax;
         data.cardCode = null;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
@@ -199,7 +199,7 @@ function InputPrePaid(props) {
       } else {
         data.cardCode = cardCode;
         data.payerName = null;
-        data.taxBillYn = null;
+        data.taxBillStatus = null;
         data.taxBillIssueDate = null;
         data.resNo = resNo;
         data.authNo = authNo;
@@ -330,7 +330,7 @@ function InputPrePaid(props) {
           setBigo(bigo ? unescapeHTML(prepay.bigo) : "");
           setCardCode(prepay.cardCode || "");
           setTransactionType(prepay.transactionType || "");
-          setTax(prepay.taxBillYn || "N");
+          setTax(prepay.taxBillStatus || "N");
           setPayerName(prepay.payerName || "");
           setPaidDate(
             prepay.paidDate
@@ -446,7 +446,7 @@ function InputPrePaid(props) {
       };
       if (payType === "CA" || payType === "CO") {
         data.payerName = payerName;
-        data.taxBillYn = tax;
+        data.taxBillStatus = tax;
         data.cardCode = null;
         if (tax === "Y") {
           data.taxBillIssueDate = taxDate;
@@ -456,7 +456,7 @@ function InputPrePaid(props) {
       } else {
         data.cardCode = cardCode;
         data.payerName = null;
-        data.taxBillYn = null;
+        data.taxBillStatus = null;
         data.taxBillIssueDate = null;
         data.resNo = resNo;
         data.authNo = authNo;

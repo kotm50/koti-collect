@@ -28,7 +28,7 @@ function DailyDetail(props) {
       setAmount(camount);
       setVat(cvat);
     } else {
-      if (props.daily.taxBillYn === "Y") {
+      if (props.daily.taxBillStatus === "Y") {
         const camount = Math.round(cost / 1.1);
         const cvat = cost - camount;
         setPayment(cost);

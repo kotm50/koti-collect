@@ -43,7 +43,7 @@ function ListDetail(props) {
       setAmount(camount);
       setVat(cvat);
     } else {
-      if (props.gifticon.taxBillYn === "Y") {
+      if (props.gifticon.taxBillStatus === "Y") {
         const camount = Math.round(cost / 1.1);
         const cvat = cost - camount;
         setPayment(cost);
@@ -67,7 +67,9 @@ function ListDetail(props) {
       <td className="p-1 border">
         {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
           <span>
-            {props.gifticon.taxBillYn === "N" ? payment.toLocaleString() : null}
+            {props.gifticon.taxBillStatus !== "Y"
+              ? payment.toLocaleString()
+              : null}
           </span>
         ) : null}
       </td>
@@ -84,14 +86,16 @@ function ListDetail(props) {
       <td className="p-1 border text-center">
         {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
           <span>
-            {props.gifticon.taxBillYn === "Y" ? amount.toLocaleString() : null}
+            {props.gifticon.taxBillStatus === "Y"
+              ? amount.toLocaleString()
+              : null}
           </span>
         ) : null}
       </td>
       <td className="p-1 border text-center">
         {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
           <span>
-            {props.gifticon.taxBillYn === "Y" ? vat.toLocaleString() : null}
+            {props.gifticon.taxBillStatus === "Y" ? vat.toLocaleString() : null}
           </span>
         ) : null}
       </td>
