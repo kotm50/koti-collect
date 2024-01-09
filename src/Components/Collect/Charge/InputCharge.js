@@ -65,6 +65,7 @@ function InputCharge(props) {
     if (props.commCode !== null && props.commCode !== undefined) {
       getCharge(props.commCode);
     } else {
+      console.log("리셋");
       setSearchKeyword("");
       setCommCode(null);
       setCompanyName("");
@@ -83,6 +84,11 @@ function InputCharge(props) {
       setUnpaidComm("0");
       setUnpaidIntvCare("0");
       setUnpaidCommCare("0");
+
+      setRealUnpaidAd("");
+      setRealUnpaidComm("");
+      setRealUnpaidIntvCare("");
+      setRealUnpaidCommCare("");
 
       setPaidAdYn(null);
       setPaidCommCareYn(null);
