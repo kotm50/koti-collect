@@ -722,6 +722,7 @@ function InputPrePaid(props) {
                 >
                   <option value="N">미발행</option>
                   <option value="Y">발행</option>
+                  <option value="S">면세</option>
                 </select>
               </div>
             </div>
