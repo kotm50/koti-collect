@@ -556,6 +556,7 @@ function InputCharge(props) {
             setMemo("");
             setTax("N");
             setTaxDate("");
+            setPaymentDueDate("");
             getCharge(props.commCode);
             props.getFeeList(props.month, props.year, props.searchKeyword);
           }

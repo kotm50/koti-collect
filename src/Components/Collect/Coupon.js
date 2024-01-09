@@ -15,15 +15,21 @@ function Coupon() {
   const [discount, setDiscount] = useState(0);
   const [couponOn, setCouponOn] = useState(false);
   const [couponList, setCouponList] = useState([]);
+  const [couponStat, setCouponStat] = useState("AVAILABLE");
   useEffect(() => {
     setTitle("쿠폰관리");
-    getCouponList();
     //eslint-disable-next-line
   }, [thisLocation]);
 
+  useEffect(() => {
+    setCouponList([]);
+    getCouponList();
+    //eslint-disable-next-line
+  }, [couponStat]);
+
   const getCouponList = async () => {
     const data = {
-      couponStatus: "AVAILABLE",
+      couponStatus: couponStat,
     };
     await axios
       .post("/api/v1/comp/cpn/list", data, {
@@ -59,19 +65,28 @@ function Coupon() {
         <div className="grid grid-cols-1">
           <h3 className="font-bold text-lg py-1">쿠폰목록</h3>
           <div className="px-3 py-4 flex flex-col justify-start gap-y-2 border bg-white drop-shadow-sm relative">
+            <div className="grid grid-cols-6 border-b py-2">
+              <div className="text-center">
+                <select
+                  className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+                  value={couponStat}
+                  onChange={e => setCouponStat(e.currentTarget.value)}
+                >
+                  <option value="AVAILABLE">사용 가능</option>
+                  <option value="USED">사용 완료</option>
+                </select>
+              </div>
+              <div className="text-center p-1">고객사</div>
+              <div className="text-center p-1">할인율</div>
+              <div className="text-center p-1 col-span-2">쿠폰번호</div>
+              <div className="text-center p-1">쿠폰보기</div>
+            </div>
             {couponList && couponList.length > 0 ? (
               <>
-                <div className="grid grid-cols-6">
-                  <div className="text-center">상태</div>
-                  <div className="text-center">고객사</div>
-                  <div className="text-center">할인율</div>
-                  <div className="text-center col-span-2">쿠폰번호</div>
-                  <div className="text-center">쿠폰보기</div>
-                </div>
                 {couponList.map((coupon, idx) => (
                   <div
                     className={`grid grid-cols-6 gap-y-2 ${
-                      idx % 2 === 1 ? "bg-green-100" : ""
+                      idx % 2 === 0 ? "bg-green-100" : ""
                     }`}
                     key={idx}
                   >
