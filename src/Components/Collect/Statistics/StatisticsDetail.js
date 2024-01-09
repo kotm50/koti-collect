@@ -69,7 +69,7 @@ function StatisticsDetail(props) {
     } else if (payType === "MO") {
       return "알바몬카드";
     } else if (payType === "HE") {
-      return "현금(개인)";
+      return "알바천국카드";
     } else {
       return "전체";
     }
