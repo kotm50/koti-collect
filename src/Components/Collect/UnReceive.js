@@ -143,6 +143,7 @@ function UnReceive() {
         ) {
           unPaid = null;
         }
+        console.log(res);
         const commisionList = res.data.commissionList;
         setPaid(res.data.pay || null);
         setUnPaid(unPaid);
