@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import sorry from "../../../Asset/sorry.png";
 
-import CommissionDetail from "./CommissionDetail";
+import TodayPayDetail from "./TodayPayDetail";
 
-function CommissionList(props) {
-  const [commissionList, setCommissionList] = useState([]);
+function TodayPayList(props) {
+  const [todayPayList, setTodayPayList] = useState([]);
   const [idNum, setIdNum] = useState(null);
   // 상태 추가: 현재 활성화된 CommissionDetail 컴포넌트 ID
   const [activeDetailId, setActiveDetailId] = useState(null);
   useEffect(() => {
-    if (props.feeList.length === 0) {
+    if (props.todayList.length === 0) {
       setIdNum(null);
     }
-    setCommissionList(props.feeList);
+    setTodayPayList(props.todayList);
   }, [props]);
 
   return (
     <>
-      {commissionList.length > 0 ? (
+      {todayPayList.length > 0 ? (
         <table id="mainTable" className="w-full mb-[50px]">
           <thead className="sticky top-0 left-0 z-30">
-            <tr className="text-white bg-blue-500 text-center">
+            <tr className="text-white bg-green-600 text-center">
               <td className="p-1 border">채널</td>
               <td className="p-1 border">고객사</td>
               <td className="p-1 border">지점명</td>
@@ -30,31 +30,28 @@ function CommissionList(props) {
               <td className="p-1 border">종료일</td>
               <td className="p-1 border">기간</td>
               <td className="p-1 border">듀얼</td>
-              <td className="p-1 border">광고비 미수금</td>
-              <td className="p-1 border">위촉비 미수금</td>
-              <td className="p-1 border">면케 미수금</td>
-              <td className="p-1 border">위케 미수금</td>
+              <td className="p-1 border">광고비 입금</td>
+              <td className="p-1 border">위촉비 입금</td>
+              <td className="p-1 border">면케 입금</td>
+              <td className="p-1 border">위케 입금</td>
               <td className="p-1 border">입금 예정일</td>
               <td className="p-1 border">메모</td>
             </tr>
           </thead>
           <tbody>
-            {commissionList.map((comm, idx) => (
+            {todayPayList.map((comm, idx) => (
               <React.Fragment key={idx}>
-                <CommissionDetail
+                <TodayPayDetail
                   user={props.user}
                   comm={comm}
                   idx={idx}
                   idNum={idNum}
                   setIdNum={setIdNum}
-                  payList={props.payList}
-                  getPayList={props.getPayList}
-                  commissionList={props.feeList}
+                  todayPayList={props.todayList}
                   setCommCode={props.setCommCode}
                   payCode={props.payCode}
                   setPayCode={props.setPayCode}
                   setInputOn={props.setInputOn}
-                  setTestNum={props.setTestNum}
                   // 추가된 props
                   isActive={idx === activeDetailId} // 현재 활성화된 컴포넌트인지 체크
                   setActiveDetailId={setActiveDetailId} // 상태 업데이트 함수 전달
@@ -81,4 +78,4 @@ function CommissionList(props) {
   );
 }
 
-export default CommissionList;
+export default TodayPayList;

@@ -11,6 +11,7 @@ import InputDeposit from "./Charge/InputDeposit";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; // 한국어 로케일 import
 import MemoModal from "../Layout/MemoModal";
+import TodayPayList from "./Charge/TodayPayList";
 
 function UnReceive() {
   const stickyRef = useRef(null);
@@ -43,6 +44,9 @@ function UnReceive() {
   const [memo, setMemo] = useState("");
   const [modalOn, setModalOn] = useState(false);
 
+  const [todayOn, setTodayOn] = useState(false);
+  const [todayList, setTodayList] = useState([]);
+
   const handleSearch = e => {
     if (e.key === "Enter") {
       setSearchKeyword(e.target.value);
@@ -63,6 +67,7 @@ function UnReceive() {
 
   useEffect(() => {
     getFeeList(month, year, searchKeyword);
+    getTodayList();
     //eslint-disable-next-line
   }, [isUnpaid, month, year, searchKeyword]);
 
@@ -134,6 +139,22 @@ function UnReceive() {
         setUnPaid(unPaid);
         setFeeList(commisionList);
         setLoaded(true);
+      })
+      .catch(e => console.log(e));
+  };
+
+  const getTodayList = async () => {
+    setTodayList([]);
+    await axios
+      .post("/api/v1/comp/today/pay/info/list", null, {
+        headers: { Authorization: user.accessToken },
+      })
+      .then(async res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+        setTodayList(res.data.payList);
       })
       .catch(e => console.log(e));
   };
@@ -420,7 +441,39 @@ function UnReceive() {
           setTestNum={setTestNum}
         />
       </div>
-
+      <button
+        className={`fixed transition-all duration-300 right-2 ${
+          !todayOn ? "bottom-1" : "bottom-[320px]"
+        } w-[48px] h-[48px] bg-indigo-500 hover:bg-indigo-700 text-white border flex justify-center items-center`}
+        onClick={() => setTodayOn(!todayOn)}
+        style={{ zIndex: "999999" }}
+      >
+        {!todayOn ? <FaCaretUp size={32} /> : <FaCaretDown size={32} />}
+      </button>
+      <div
+        className={`transition-all duration-300 fixed bottom-0 right-2 w-[1656px] ${
+          todayOn ? "h-[320px] border-t border-x overflow-auto p-2" : "h-1"
+        } bg-white`}
+        style={{ zIndex: "999999" }}
+      >
+        <div className="flex justify-start gap-x-3">
+          <h4 className="text-lg font-bold">입금내역</h4>
+          <button
+            className="p-2 bg-violet-500 hover:bg-violet-700 text-white"
+            onClick={() => getTodayList()}
+          >
+            목록갱신
+          </button>
+        </div>
+        <TodayPayList
+          todayList={todayList}
+          payCode={payCode}
+          commCode={commCode}
+          setCommCode={setCommCode}
+          setPayCode={setPayCode}
+          setInputOn={setInputOn}
+        />
+      </div>
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );
