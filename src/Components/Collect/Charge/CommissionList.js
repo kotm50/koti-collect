@@ -9,6 +9,7 @@ function CommissionList(props) {
   // 상태 추가: 현재 활성화된 CommissionDetail 컴포넌트 ID
   const [activeDetailId, setActiveDetailId] = useState(null);
   useEffect(() => {
+    console.log(props.feeList);
     if (props.feeList.length === 0) {
       setIdNum(null);
     }
