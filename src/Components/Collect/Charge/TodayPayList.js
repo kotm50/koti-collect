@@ -34,7 +34,7 @@ function TodayPayList(props) {
               <td className="p-1 border">면케 입금</td>
               <td className="p-1 border">위케 입금</td>
               <td className="p-1 border">위촉비 입금</td>
-              <td className="p-1 border">입금 예정일</td>
+              <td className="p-1 border">결제방식</td>
               <td className="p-1 border">메모</td>
             </tr>
           </thead>

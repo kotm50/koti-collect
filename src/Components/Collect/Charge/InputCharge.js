@@ -62,10 +62,10 @@ function InputCharge(props) {
   };
 
   useEffect(() => {
+    console.log(props.commCode);
     if (props.commCode !== null && props.commCode !== undefined) {
       getCharge(props.commCode);
     } else {
-      console.log("리셋");
       setSearchKeyword("");
       setCommCode(null);
       setCompanyName("");
@@ -572,6 +572,7 @@ function InputCharge(props) {
             setPaymentDueDate("");
             getCharge(props.commCode);
             props.getFeeList(props.month, props.year, props.searchKeyword);
+            props.resetCharge();
           }
         })
         .catch(e => {

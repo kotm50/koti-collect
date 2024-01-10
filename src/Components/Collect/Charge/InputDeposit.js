@@ -287,9 +287,8 @@ function InputDeposit(props) {
           }
           if (res.data.code === "C000") {
             setBigo("");
-
+            props.resetCharge();
             props.getFeeList(props.month, props.year, props.searchKeyword);
-            props.getPayList(commCode);
             await codeReset();
           }
         })
@@ -346,9 +345,9 @@ function InputDeposit(props) {
           }
           if (res.data.code === "C000") {
             setBigo("");
+            props.resetCharge();
             props.setCommCode(null);
             props.getFeeList(props.month, props.year, props.searchKeyword);
-            props.getPayList(commCode);
             await codeReset();
           }
         })

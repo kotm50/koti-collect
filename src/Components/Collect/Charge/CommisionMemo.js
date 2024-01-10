@@ -42,7 +42,11 @@ function CommisionMemo(props) {
 
   return (
     <div
-      className="h-full"
+      className={`h-full ${
+        props.memo !== null && props.memo !== undefined && props.memo !== ""
+          ? ""
+          : "hidden"
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

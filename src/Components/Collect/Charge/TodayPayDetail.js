@@ -11,6 +11,22 @@ function TodayPayDetail(props) {
   const [period, setPeriod] = useState(10);
   const [memo, setMemo] = useState("");
 
+  const getPayTitle = payType => {
+    if (payType === "CA") {
+      return "개인";
+    } else if (payType === "CO") {
+      return "법인";
+    } else if (payType === "PG") {
+      return "카드(PG)";
+    } else if (payType === "MO") {
+      return "카드(몬)";
+    } else if (payType === "HE") {
+      return "카드(천국)";
+    } else {
+      return "오류";
+    }
+  };
+
   const handleList = () => {
     setDetailOn(!detailOn);
     props.setActiveDetailId(props.idx);
@@ -201,9 +217,7 @@ function TodayPayDetail(props) {
             handleList();
           }}
         >
-          {props.comm.paymentDueDate
-            ? dayjs(new Date(props.comm.paymentDueDate)).format("YY-MM-DD")
-            : ""}
+          {getPayTitle(props.comm.payType)}
         </td>
         <td
           className={`border w-[150px] relative hover:cursor-auto ${
@@ -211,7 +225,7 @@ function TodayPayDetail(props) {
           }`}
         >
           <CommisionMemo
-            memo={props.comm.memo}
+            memo={props.comm.bigo}
             setMemo={setMemo}
             setModalOn={setModalOn}
           />

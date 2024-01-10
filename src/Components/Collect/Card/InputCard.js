@@ -372,7 +372,6 @@ function InputCard(props) {
               placeholder="(숫자, 하이픈(-)만 입력가능)"
               onChange={handleCardNum}
               onBlur={handleBlur}
-              maxLength={19}
             />
           </div>
         </div>

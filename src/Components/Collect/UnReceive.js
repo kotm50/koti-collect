@@ -60,6 +60,15 @@ function UnReceive() {
     setIsUnpaid("N");
   };
 
+  const resetCharge = async () => {
+    const code = commCode;
+    console.log("리셋전", commCode);
+    setCommCode(null);
+    setTimeout(() => {
+      setCommCode(code);
+    }, 100);
+  };
+
   useEffect(() => {
     setTitle("수수료 관리");
     //eslint-disable-next-line
@@ -154,6 +163,7 @@ function UnReceive() {
           logout();
           return false;
         }
+        console.log(res);
         setTodayList(res.data.payList);
       })
       .catch(e => console.log(e));
@@ -364,6 +374,7 @@ function UnReceive() {
               isUnpaid={isUnpaid}
               logout={logout}
               testNum={testNum}
+              resetCharge={resetCharge}
             />
           </div>
         </div>
