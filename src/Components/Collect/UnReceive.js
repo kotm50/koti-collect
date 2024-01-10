@@ -442,8 +442,8 @@ function UnReceive() {
         />
       </div>
       <button
-        className={`fixed transition-all duration-300 right-2 ${
-          !todayOn ? "bottom-1" : "bottom-[320px]"
+        className={`fixed transition-all duration-300 right-[60px] ${
+          !todayOn ? "bottom-0" : "bottom-[320px]"
         } w-[48px] h-[48px] bg-indigo-500 hover:bg-indigo-700 text-white border flex justify-center items-center`}
         onClick={() => setTodayOn(!todayOn)}
         style={{ zIndex: "999999" }}
@@ -458,12 +458,15 @@ function UnReceive() {
       >
         <div className="flex justify-start gap-x-3 items-center mb-3">
           <h4 className="text-lg font-bold">입금내역</h4>
-          <button
-            className="p-1 bg-violet-500 hover:bg-violet-700 text-white"
-            onClick={() => getTodayList()}
-          >
-            새로고침
-          </button>
+          {todayOn ? (
+            <button
+              className="p-1 bg-violet-500 hover:bg-violet-700 text-white"
+              onClick={() => getTodayList()}
+            >
+              새로고침
+            </button>
+          ) : null}
+
           <span className="p-1 text-sm">
             목록이 갱신되지 않으면 새로고침 버튼을 눌러주세요
           </span>
