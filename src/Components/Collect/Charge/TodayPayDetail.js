@@ -137,10 +137,10 @@ function TodayPayDetail(props) {
             handleList();
           }}
         >
-          {props.comm.week &&
-          props.comm.day &&
-          props.comm.week !== "0" &&
-          props.comm.day !== "0"
+          {props.comm.week != null &&
+          props.comm.day != null &&
+          (props.comm.week !== 0 || props.comm.day !== 0) &&
+          (props.comm.week !== "0" || props.comm.day !== "0")
             ? `${props.comm.week}주 ${props.comm.day}일`
             : null}
         </td>
