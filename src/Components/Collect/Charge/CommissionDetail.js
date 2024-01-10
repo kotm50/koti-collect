@@ -152,25 +152,12 @@ function CommissionDetail(props) {
             handleList();
           }}
         >
-          {props.comm.week !== null && props.comm.day !== null ? (
-            <>
-              {props.comm.week !== undefined && props.comm.day !== undefined ? (
-                <>
-                  {props.comm.week !== "" && props.comm.day !== "" ? (
-                    <>
-                      {props.comm.week !== 0 && props.comm.day !== 0 ? (
-                        <>
-                          {props.comm.week !== "0" && props.comm.day !== "0"
-                            ? `${props.comm.week}주 ${props.comm.day}일`
-                            : ""}
-                        </>
-                      ) : null}
-                    </>
-                  ) : null}
-                </>
-              ) : null}
-            </>
-          ) : null}
+          {props.comm.week &&
+          props.comm.day &&
+          props.comm.week !== "0" &&
+          props.comm.day !== "0"
+            ? `${props.comm.week}주 ${props.comm.day}일`
+            : null}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
