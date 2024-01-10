@@ -193,17 +193,6 @@ function CommissionDetail(props) {
 
         <td
           className={`p-1 border font-medium ${
-            props.comm.paidCommYn === "N" ? "text-rose-500" : ""
-          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
-          onClick={() => {
-            handleList();
-          }}
-        >
-          {Number(props.comm.unpaidComm).toLocaleString()}
-        </td>
-
-        <td
-          className={`p-1 border font-medium ${
             props.comm.paidIntvCareYn === "N" ? "text-rose-500" : ""
           } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
           onClick={() => {
@@ -222,6 +211,17 @@ function CommissionDetail(props) {
           }}
         >
           {Number(props.comm.unpaidCommCare).toLocaleString()}
+        </td>
+
+        <td
+          className={`p-1 border font-medium ${
+            props.comm.paidCommYn === "N" ? "text-rose-500" : ""
+          } ${detailOn ? "bg-blue-100 font-bold" : ""}`}
+          onClick={() => {
+            handleList();
+          }}
+        >
+          {Number(props.comm.unpaidComm).toLocaleString()}
         </td>
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""} ${

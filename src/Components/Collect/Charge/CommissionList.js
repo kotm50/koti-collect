@@ -31,9 +31,9 @@ function CommissionList(props) {
               <td className="p-1 border">기간</td>
               <td className="p-1 border">듀얼</td>
               <td className="p-1 border">광고비 미수금</td>
-              <td className="p-1 border">위촉비 미수금</td>
               <td className="p-1 border">면케 미수금</td>
               <td className="p-1 border">위케 미수금</td>
+              <td className="p-1 border">위촉비 미수금</td>
               <td className="p-1 border">입금 예정일</td>
               <td className="p-1 border">메모</td>
             </tr>

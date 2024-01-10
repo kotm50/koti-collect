@@ -451,19 +451,22 @@ function UnReceive() {
         {!todayOn ? <FaCaretUp size={32} /> : <FaCaretDown size={32} />}
       </button>
       <div
-        className={`transition-all duration-300 fixed bottom-0 right-2 w-[1656px] ${
+        className={`transition-all duration-300 fixed bottom-0 right-2 ${
           todayOn ? "h-[320px] border-t border-x overflow-auto p-2" : "h-1"
         } bg-white`}
-        style={{ zIndex: "999999" }}
+        style={{ zIndex: "999999", width: "calc(100% - 250px)" }}
       >
-        <div className="flex justify-start gap-x-3">
+        <div className="flex justify-start gap-x-3 items-center mb-3">
           <h4 className="text-lg font-bold">입금내역</h4>
           <button
-            className="p-2 bg-violet-500 hover:bg-violet-700 text-white"
+            className="p-1 bg-violet-500 hover:bg-violet-700 text-white"
             onClick={() => getTodayList()}
           >
-            목록갱신
+            새로고침
           </button>
+          <span className="p-1 text-sm">
+            목록이 갱신되지 않으면 새로고침 버튼을 눌러주세요
+          </span>
         </div>
         <TodayPayList
           todayList={todayList}

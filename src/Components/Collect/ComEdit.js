@@ -49,6 +49,10 @@ function ComEdit(props) {
       .catch(e => console.log(e));
   };
 
+  useEffect(() => {
+    console.log(categoryList);
+  }, [categoryList]);
+
   const getCategory = async () => {
     const data = {
       category: "GU",
@@ -59,6 +63,7 @@ function ComEdit(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(res => {
+        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           alert(res.data.message);
           props.logout();
@@ -229,8 +234,8 @@ function ComEdit(props) {
           {categoryList && categoryList.length > 0 ? (
             <>
               {categoryList.map((cat, idx) => (
-                <option key={idx} value={cat.value}>
-                  {cat.value}
+                <option key={idx} value={cat.useValue}>
+                  {cat.useValue}
                 </option>
               ))}
             </>
@@ -249,8 +254,8 @@ function ComEdit(props) {
           {channelList && channelList.length > 0 && (
             <>
               {channelList.map((chn, idx) => (
-                <option key={idx} value={chn.value}>
-                  {chn.value}
+                <option key={idx} value={chn.useValue}>
+                  {chn.useValue}
                 </option>
               ))}
             </>

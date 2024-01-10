@@ -68,9 +68,9 @@ function Deposit(props) {
           카드번호
         </td>
         <td className="p-1 border border-stone-400">광고비 입금</td>
-        <td className="p-1 border border-stone-400">위촉비 입금</td>
         <td className="p-1 border border-stone-400">면케 입금</td>
         <td className="p-1 border border-stone-400">위케 입금</td>
+        <td className="p-1 border border-stone-400">위촉비 입금</td>
         <td className="p-1 border border-stone-400">결제일</td>
         <td className="p-1 border border-stone-400">메모</td>
       </tr>
@@ -170,25 +170,6 @@ function Deposit(props) {
                   handleList(pay.payCode);
                 }}
                 className={`p-1 border border-stone-400 ${
-                  Number(pay.paidComm) > 0 && pay.transactionType === "P"
-                    ? "text-green-600"
-                    : Number(pay.paidComm) > 0 && pay.transactionType === "D"
-                    ? "text-rose-600"
-                    : ""
-                }`}
-              >
-                {Number(pay.paidComm) > 0 && pay.transactionType === "P"
-                  ? "+"
-                  : Number(pay.paidComm) > 0 && pay.transactionType === "D"
-                  ? "-"
-                  : ""}
-                {Number(pay.paidComm).toLocaleString()}
-              </td>
-              <td
-                onClick={() => {
-                  handleList(pay.payCode);
-                }}
-                className={`p-1 border border-stone-400 ${
                   Number(pay.paidIntvCare) > 0 && pay.transactionType === "P"
                     ? "text-green-600"
                     : Number(pay.paidIntvCare) > 0 &&
@@ -223,6 +204,26 @@ function Deposit(props) {
                   ? "-"
                   : ""}
                 {Number(pay.paidCommCare).toLocaleString()}
+              </td>
+
+              <td
+                onClick={() => {
+                  handleList(pay.payCode);
+                }}
+                className={`p-1 border border-stone-400 ${
+                  Number(pay.paidComm) > 0 && pay.transactionType === "P"
+                    ? "text-green-600"
+                    : Number(pay.paidComm) > 0 && pay.transactionType === "D"
+                    ? "text-rose-600"
+                    : ""
+                }`}
+              >
+                {Number(pay.paidComm) > 0 && pay.transactionType === "P"
+                  ? "+"
+                  : Number(pay.paidComm) > 0 && pay.transactionType === "D"
+                  ? "-"
+                  : ""}
+                {Number(pay.paidComm).toLocaleString()}
               </td>
               <td
                 onClick={() => {
