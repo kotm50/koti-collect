@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { /*useLocation,*/ useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import InputCompanyList from "./InputCompanyList";
 import axios from "axios";
@@ -10,7 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import PastMemoList from "./PastMemoList";
 function InputCharge(props) {
   const navi = useNavigate();
-  const thisLocation = useLocation();
+  //const thisLocation = useLocation();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -161,11 +161,12 @@ function InputCharge(props) {
       })
       .catch(e => console.log(e));
   };
-
+  /*
   useEffect(() => {
     getDualTypeList();
     //eslint-disable-next-line
   }, [thisLocation, props.month, props.searchKeyword, props.isUnpaid]);
+  */
 
   const logout = async () => {
     await axios
@@ -488,8 +489,7 @@ function InputCharge(props) {
       if (endDate !== "") {
         end = endDate;
       }
-      const data = {
-        commCode: commCode === "" ? null : commCode,
+      let data = {
         companyCode: companyCode === "" ? null : companyCode,
         adId: adNumber === "" ? null : adNumber,
         unpaidAd: realUnpaidAd === "" ? null : Number(realUnpaidAd),
@@ -504,7 +504,6 @@ function InputCharge(props) {
         paidIntvCareYn: intvCareYn === "" ? null : intvCareYn,
         hireStartDate: start === "" ? null : start,
         hireEndDate: end === "" ? null : end,
-        paymentDueDate: paymentDueDate === "" ? null : paymentDueDate,
         dualType: dual === "" ? null : dual,
         week: week === "" ? null : week,
         day: day === "" ? null : day,
@@ -512,6 +511,20 @@ function InputCharge(props) {
         taxBillStatus: tax === "" ? null : tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
+      if (commCode !== "") {
+        data.commCode = commCode;
+      }
+      if (paymentDueDate !== "") {
+        data.paymentDueDate = paymentDueDate;
+      }
+      const isdup = await dupchk(data);
+      console.log(isdup);
+      if (isdup !== "조회 완료") {
+        const confirm = window.confirm(isdup);
+        if (!confirm) {
+          return false;
+        }
+      }
       await axios
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
@@ -566,6 +579,25 @@ function InputCharge(props) {
         });
     }
   };
+
+  const dupchk = async data => {
+    console.log(data);
+    try {
+      const response = await axios.post(
+        "/api/v1/comp/commission/dupchk",
+        data,
+        {
+          headers: { Authorization: user.accessToken },
+        }
+      );
+      console.log(response);
+      return response.data.message; // 응답 메시지 반환
+    } catch (e) {
+      console.error(e);
+      return "오류 발생"; // 오류 메시지 반환 또는 다른 오류 처리
+    }
+  };
+
   const test = () => {
     if (companyName === "" || companyCode === "") {
       return "고객사를 입력하세요";
@@ -662,6 +694,7 @@ function InputCharge(props) {
               <InputCompanyList
                 searchKeyword={searchKeyword}
                 companyReset={companyReset}
+                setCompanyListOn={setCompanyListOn}
               />
             )}
           </div>
@@ -788,34 +821,6 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">위촉비 미수금</div>
-          <div className="w-full relative">
-            <input
-              type="text"
-              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-              id="unpaidComm"
-              value={unpaidComm}
-              placeholder="위촉비 미수금을 입력하세요(숫자만)"
-              onChange={handleNumber}
-              onFocus={() => {
-                if (unpaidComm === "0") {
-                  setUnpaidComm("");
-                }
-              }}
-              onBlur={e => {
-                if (e.currentTarget.value === "") {
-                  setUnpaidComm("0");
-                }
-              }}
-            />
-            {unpaidComm !== "" && unpaidComm !== "0" && (
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
-                원
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">면접케어 미수금</div>
           <div className="w-full relative">
             <input
@@ -865,6 +870,34 @@ function InputCharge(props) {
               }}
             />
             {unpaidCommCare !== "" && unpaidCommCare !== "0" && (
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
+                원
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-start gap-2">
+          <div className="py-1 w-[128px]">위촉비 미수금</div>
+          <div className="w-full relative">
+            <input
+              type="text"
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              id="unpaidComm"
+              value={unpaidComm}
+              placeholder="위촉비 미수금을 입력하세요(숫자만)"
+              onChange={handleNumber}
+              onFocus={() => {
+                if (unpaidComm === "0") {
+                  setUnpaidComm("");
+                }
+              }}
+              onBlur={e => {
+                if (e.currentTarget.value === "") {
+                  setUnpaidComm("0");
+                }
+              }}
+            />
+            {unpaidComm !== "" && unpaidComm !== "0" && (
               <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
                 원
               </div>

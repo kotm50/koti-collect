@@ -730,34 +730,6 @@ function InputDeposit(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">위촉비 결제액</div>
-          <div className="w-full relative">
-            <input
-              type="text"
-              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-              id="paidComm"
-              value={paidComm}
-              placeholder="위촉비 결제금액을 입력하세요(숫자만)"
-              onChange={handleNumber}
-              onFocus={() => {
-                if (paidComm === "0") {
-                  setPaidComm("");
-                }
-              }}
-              onBlur={e => {
-                if (e.currentTarget.value === "") {
-                  setPaidComm("0");
-                }
-              }}
-            />
-            {paidComm !== "" && paidComm !== "0" && (
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
-                원
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">면접케어 결제액</div>
           <div className="w-full relative">
             <input
@@ -807,6 +779,35 @@ function InputDeposit(props) {
               }}
             />
             {paidCommCare !== "" && paidCommCare !== "0" && (
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
+                원
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-start gap-2">
+          <div className="py-1 w-[128px]">위촉비 결제액</div>
+          <div className="w-full relative">
+            <input
+              type="text"
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              id="paidComm"
+              value={paidComm}
+              placeholder="위촉비 결제금액을 입력하세요(숫자만)"
+              onChange={handleNumber}
+              onFocus={() => {
+                if (paidComm === "0") {
+                  setPaidComm("");
+                }
+              }}
+              onBlur={e => {
+                if (e.currentTarget.value === "") {
+                  setPaidComm("0");
+                }
+              }}
+            />
+            {paidComm !== "" && paidComm !== "0" && (
               <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
                 원
               </div>
