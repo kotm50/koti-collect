@@ -62,7 +62,6 @@ function InputCharge(props) {
   };
 
   useEffect(() => {
-    console.log(props.commCode);
     if (props.commCode !== null && props.commCode !== undefined) {
       getCharge(props.commCode);
     } else {

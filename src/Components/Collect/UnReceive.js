@@ -163,7 +163,6 @@ function UnReceive() {
           logout();
           return false;
         }
-        console.log(res);
         setTodayList(res.data.payList);
       })
       .catch(e => console.log(e));
