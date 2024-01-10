@@ -158,12 +158,6 @@ function InputCard(props) {
   useEffect(() => {
     if (props.edit !== null) {
       const exp = props.edit.cardExp.split("/");
-      let cardType;
-      if (props.edit.individual) {
-        cardType = "individual";
-      } else if (props.edit.corporation) {
-        cardType = "corporation";
-      }
       setCompanyCode(props.edit.companyCode || "");
       setCompanyName(props.edit.companyBranch || "");
       setCardCom(props.edit.cardComp || "");
@@ -173,7 +167,7 @@ function InputCard(props) {
       setExpY(exp[1] || "");
       setOwner(props.edit.cardOwner || "");
       setPwd(props.edit.cardPwd || "");
-      setCardType(cardType || "");
+      setCardType(props.edit.cardType || "");
       setIndividual(props.edit.individual || "");
       setCorporation(props.edit.corporation || "");
       props.setInputOn(true);
@@ -218,6 +212,7 @@ function InputCard(props) {
       corporation: corporation === "" ? null : corporation,
       cardOwner: owner === "" ? null : owner.trim(),
       cardPwd: pwd === "" ? null : pwd.trim(),
+      cardType: cardType === "" ? null : cardType,
     };
     if (cardCode !== "") {
       data.cardCode = cardCode.trim();
@@ -485,12 +480,12 @@ function InputCard(props) {
               maxLength={2}
             >
               <option value="">-선택-</option>
-              <option value="individual">개인</option>
-              <option value="corporation">법인</option>
+              <option value="I">개인</option>
+              <option value="C">법인</option>
             </select>
           </div>
         </div>
-        {cardType === "corporation" ? (
+        {cardType === "C" ? (
           <div className="flex justify-start gap-2">
             <div className="py-1 w-[144px] text-right">
               <label htmlFor="corp">사업자 번호</label>
@@ -506,7 +501,7 @@ function InputCard(props) {
               />
             </div>
           </div>
-        ) : cardType === "individual" ? (
+        ) : cardType === "I" ? (
           <div className="flex justify-start gap-2">
             <div className="py-1 w-[144px] text-right">
               <label htmlFor="indi">생년월일</label>

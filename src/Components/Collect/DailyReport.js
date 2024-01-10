@@ -82,7 +82,6 @@ function DailyReport() {
         paidDate: dayjs(new Date()).format("YYYY-MM-DD"),
       };
     }
-    console.log(data);
     await axios
       .post("/api/v1/comp/today/pay/list", data, {
         headers: { Authorization: user.accessToken },
