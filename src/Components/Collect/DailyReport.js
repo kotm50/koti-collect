@@ -6,6 +6,12 @@ import TodayReport from "./DailyReport/TodayReport";
 import TomorrowReport from "./DailyReport/TomorrowReport";
 import MemoModal from "../Layout/MemoModal";
 
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css"; // css import
+
+import dayjs from "dayjs";
+import { FaCalendarAlt } from "react-icons/fa";
+
 function DailyReport() {
   const navi = useNavigate();
   const user = useSelector(state => state.user);
@@ -40,16 +46,45 @@ function DailyReport() {
     unpaidCommCare: 0,
     unpaidIntvCare: 0,
   });
+  const [calendarDate, setCalendarDate] = useState("");
+  const [date, setDate] = useState("");
+  const [calendarOn, setCalendarOn] = useState(false);
   useEffect(() => {
     setTitle("일간보고");
-    getTodayReport();
-    getTomorrowReport();
     //eslint-disable-next-line
   }, [thisLocation]);
 
+  useEffect(() => {
+    if (calendarDate !== "") {
+      const date = dayjs(calendarDate).format("YYYY-MM-DD");
+      setCalendarOn(false);
+      setDate(date);
+    }
+    //eslint-disable-next-line
+  }, [calendarDate]);
+
+  useEffect(() => {
+    getTodayReport();
+    if (date === "") {
+      getTomorrowReport();
+    }
+    //eslint-disable-next-line
+  }, [date]);
+
   const getTodayReport = async () => {
+    let data = null;
+    if (date !== "") {
+      data = {
+        paidDate: date,
+      };
+    } else {
+      data = {
+        paidDate: dayjs(new Date()).format("YYYY-MM-DD"),
+      };
+    }
+    console.log(data);
     await axios
-      .post("/api/v1/comp/today/pay/list", null, {
+      .post("/api/v1/comp/today/pay/list", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
@@ -83,20 +118,62 @@ function DailyReport() {
   };
   return (
     <div className="mx-4 grid grid-cols-2 gap-x-4" data={title}>
+      <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow relative z-10 col-span-2 mb-4">
+        <div className="flex justify-start gap-x-3">
+          <span
+            className="font-bold whitespace-nowrap py-2"
+            onClick={() => setCalendarOn(false)}
+          >
+            날짜 선택
+          </span>
+          <div className="relative min-w-[350px]">
+            {calendarOn ? (
+              <div className="calendarArea top-2 left-0 w-fit h-fit">
+                <Calendar onChange={setCalendarDate} value={calendarDate} />
+              </div>
+            ) : (
+              <div
+                className="border p-2 hover:cursor-pointer flex flex-row justify-start gap-x-2"
+                onClick={() => setCalendarOn(true)}
+              >
+                <FaCalendarAlt size={24} />
+                {date === "" ? (
+                  <span className="ml-2">날짜를 변경하려면 클릭하세요</span>
+                ) : (
+                  <span className="ml-2">{date}</span>
+                )}
+                {date !== "" && (
+                  <span className="text-gray-400">(변경하려면 클릭)</span>
+                )}
+              </div>
+            )}
+          </div>
+          <button
+            className="bg-indigo-500 hover:bg-indigo-700 p-2 text-white"
+            onClick={() => setDate("")}
+          >
+            날짜 초기화
+          </button>
+        </div>
+      </div>
       <TodayReport
         list={today}
         total={todayTotal}
         memo={memo}
         setModalOn={setModalOn}
         setMemo={setMemo}
+        date={date}
       />
-      <TomorrowReport
-        list={tomorrow}
-        total={tomorrowTotal}
-        memo={memo}
-        setModalOn={setModalOn}
-        setMemo={setMemo}
-      />
+      {date === "" ? (
+        <TomorrowReport
+          list={tomorrow}
+          total={tomorrowTotal}
+          memo={memo}
+          setModalOn={setModalOn}
+          setMemo={setMemo}
+        />
+      ) : null}
+
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );

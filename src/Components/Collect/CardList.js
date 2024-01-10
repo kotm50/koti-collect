@@ -102,6 +102,7 @@ function CardList() {
           logout();
           return false;
         }
+        console.log(res);
         if (res.data.code === "C000") {
           setCardList(res.data.cardList);
         }
@@ -185,6 +186,8 @@ function CardList() {
               edit={edit}
               setEdit={setEdit}
               setInputOn={setInputOn}
+              setCompanyCode={setCompanyCode}
+              setCompanyName={setCompanyName}
             />
           </div>
         </div>

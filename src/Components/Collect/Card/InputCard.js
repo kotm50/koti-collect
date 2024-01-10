@@ -50,24 +50,26 @@ function InputCard(props) {
   // 입력값 변경 핸들러
   const handleCardNum = event => {
     const value = event.target.value;
+    /*
     // 숫자와 하이픈(-)만 허용
     const filteredValue = value.replace(/[^0-9-]/g, "");
-    setCardNum(filteredValue);
+    */
+    setCardNum(value);
   };
 
   // 입력값 변경 핸들러
   const handleCorp = event => {
     const value = event.target.value;
     // 숫자와 하이픈(-)만 허용
-    const filteredValue = value.replace(/[^0-9-]/g, "");
-    setCorporation(filteredValue);
+    //const filteredValue = value.replace(/[^0-9-]/g, "");
+    setCorporation(value);
   };
 
   const handleIndi = event => {
     const value = event.target.value;
     // 숫자만 허용
-    const filteredValue = value.replace(/[^0-9]/g, "");
-    setIndividual(filteredValue);
+    //const filteredValue = value.replace(/[^0-9]/g, "");
+    setIndividual(value);
   };
 
   const handleExp = e => {
@@ -98,6 +100,7 @@ function InputCard(props) {
   };
 
   // 입력값이 숫자만 포함하고 15자리 또는 16자리인지 확인하고, 형식에 맞게 하이픈 추가
+  /*
   const formatCardNumber = value => {
     // 숫자만 있는지 확인
     if (/^\d+$/.test(value)) {
@@ -115,10 +118,13 @@ function InputCard(props) {
     }
     return value; // 조건에 맞지 않는 경우 원래 값 반환
   };
+  */
 
   // 포커스가 입력창에서 벗어났을 때 핸들러
-  const handleBlur = () => {
-    setCardNum(formatCardNumber(cardNum));
+
+  const handleBlur = e => {
+    setCardNum(e.target.value.trim());
+    //setCardNum(formatCardNumber(cardNum));
   };
 
   const handleCardType = event => {
@@ -143,6 +149,8 @@ function InputCard(props) {
       setCardType("");
       setIndividual("");
       setCorporation("");
+      setCompanyCode("");
+      setCompanyName("");
     }
     //eslint-disable-next-line
   }, [props.companyName, props.companyCode]);
@@ -151,9 +159,9 @@ function InputCard(props) {
     if (props.edit !== null) {
       const exp = props.edit.cardExp.split("/");
       let cardType;
-      if (props.edit.individual !== "") {
+      if (props.edit.individual) {
         cardType = "individual";
-      } else if (props.edit.corporation !== "") {
+      } else if (props.edit.corporation) {
         cardType = "corporation";
       }
       setCompanyCode(props.edit.companyCode || "");
@@ -189,17 +197,8 @@ function InputCard(props) {
     if (owner === "") {
       return "카드 소유주를 입력하세요";
     }
-    if (pwd === "") {
-      return "카드 비밀번호 앞 2자리를 입력하세요";
-    }
     if (cardType === "") {
       return "개인/법인카드 여부를 선택하세요";
-    }
-    if (cardType === "individual" && individual === "") {
-      return "개인카드 소유주 생년월일을 입력하세요";
-    }
-    if (cardType === "corporation" && corporation === "") {
-      return "법인카드 사업자번호를 입력하세요";
     }
     return "완료";
   };
@@ -211,17 +210,17 @@ function InputCard(props) {
     }
     const cardExp = `${expY}/${expM}`;
     let data = {
-      companyCode: companyCode === "" ? null : companyCode,
-      cardComp: cardCom === "" ? null : cardCom,
-      cardNum: cardNum === "" ? null : cardNum,
-      cardExp: cardExp === "" ? null : cardExp,
+      companyCode: companyCode === "" ? null : companyCode.trim(),
+      cardComp: cardCom === "" ? null : cardCom.trim(),
+      cardNum: cardNum === "" ? null : cardNum.trim(),
+      cardExp: cardExp === "" ? null : cardExp.trim(),
       individual: individual === "" ? null : individual,
       corporation: corporation === "" ? null : corporation,
-      cardOwner: owner === "" ? null : owner,
-      cardPwd: pwd === "" ? null : pwd,
+      cardOwner: owner === "" ? null : owner.trim(),
+      cardPwd: pwd === "" ? null : pwd.trim(),
     };
     if (cardCode !== "") {
-      data.cardCode = cardCode;
+      data.cardCode = cardCode.trim();
     }
     if (cardCode === "") {
       await axios
@@ -247,6 +246,8 @@ function InputCard(props) {
             setCardType("");
             setIndividual("");
             setCorporation("");
+            setCompanyName("");
+            setCompanyCode("");
           }
         })
         .catch(e => {
@@ -276,6 +277,10 @@ function InputCard(props) {
             setCardType("");
             setIndividual("");
             setCorporation("");
+            setCompanyName("");
+            setCompanyCode("");
+            props.setCompanyCode("");
+            props.setCompanyName("");
           }
         })
         .catch(e => {
@@ -301,6 +306,10 @@ function InputCard(props) {
     setCardType("");
     setIndividual("");
     setCorporation("");
+    setCompanyName("");
+    setCompanyCode("");
+    props.setCompanyCode("");
+    props.setCompanyName("");
   };
 
   const deleteIt = async () => {
@@ -327,6 +336,10 @@ function InputCard(props) {
         setCardType("");
         setIndividual("");
         setCorporation("");
+        setCompanyName("");
+        setCompanyCode("");
+        props.setCompanyCode("");
+        props.setCompanyName("");
         props.getCardList(companyCode);
       })
       .catch(e => console.log(e));
@@ -471,7 +484,7 @@ function InputCard(props) {
               onChange={handleCardType}
               maxLength={2}
             >
-              <option value="">개인/법인</option>
+              <option value="">-선택-</option>
               <option value="individual">개인</option>
               <option value="corporation">법인</option>
             </select>
@@ -490,7 +503,6 @@ function InputCard(props) {
                 value={corporation}
                 placeholder="법인 업체 사업자번호"
                 onChange={handleCorp}
-                maxLength={10}
               />
             </div>
           </div>
@@ -507,7 +519,6 @@ function InputCard(props) {
                 value={individual}
                 placeholder="카드 소유주 생년월일 6자리"
                 onChange={handleIndi}
-                maxLength={6}
               />
             </div>
           </div>

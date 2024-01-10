@@ -8,12 +8,17 @@ function TodayReport(props) {
   const [date, setDate] = useState("");
   const [dateLong, setDateLong] = useState("");
   useEffect(() => {
-    let today = new Date();
+    let today;
+    if (props.date === "") {
+      today = new Date();
+    } else {
+      today = new Date(props.date);
+    }
     const date = dayjs(today).format("MM/DD");
     const dateLong = dayjs(today).format("YYYY/MM/DD(dd요일)");
     setDate(date);
     setDateLong(dateLong);
-  }, []);
+  }, [props.date]);
   const getPayTitle = payType => {
     if (payType === "CA") {
       return "현금(개인)";
