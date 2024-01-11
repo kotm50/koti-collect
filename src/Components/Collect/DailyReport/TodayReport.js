@@ -55,9 +55,7 @@ function TodayReport(props) {
           <tbody className="text-sm">
             {props.list.map((item, idx) => (
               <tr
-                className={`text-center ${
-                  item.sortNum === 1 ? "bg-green-200" : ""
-                }`}
+                className={`text-center ${item.sortNum === 1 ? "" : ""}`}
                 key={idx}
               >
                 <td className="border p-1">{item.channel}</td>
