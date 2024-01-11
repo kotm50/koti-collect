@@ -54,7 +54,12 @@ function TodayReport(props) {
           </thead>
           <tbody className="text-sm">
             {props.list.map((item, idx) => (
-              <tr className="text-center" key={idx}>
+              <tr
+                className={`text-center ${
+                  item.sortNum === 1 ? "bg-green-200" : ""
+                }`}
+                key={idx}
+              >
                 <td className="border p-1">{item.channel}</td>
                 <td className="border p-1">{item.companyName}</td>
                 <td className="border p-1">{item.companyBranch}</td>
@@ -76,7 +81,6 @@ function TodayReport(props) {
                 <td className="border p-1">{getPayTitle(item.payType)}</td>
               </tr>
             ))}
-            <tr></tr>
             <tr className="bg-blue-600 text-white text-center">
               <td className="border p-1" colSpan="3" rowSpan="2">
                 {date} 당일 수금액
