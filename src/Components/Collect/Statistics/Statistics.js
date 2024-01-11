@@ -188,11 +188,11 @@ function Statistics(props) {
                     onChange={handlePayType}
                   >
                     <option value="">결제방식 선택</option>
-                    <option value="CA">현금</option>
+                    <option value="CA">개인</option>
                     <option value="CO">법인</option>
-                    <option value="PG">PG카드</option>
                     <option value="MO">몬카드</option>
                     <option value="HE">천국카드</option>
+                    <option value="PG">PG카드</option>
                   </select>
                 </div>
               </td>
