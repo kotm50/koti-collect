@@ -672,7 +672,7 @@ function ReportA(props) {
   };
 
   return (
-    <div className="relative min-h-[720px] h-fit overflow-auto text-sm">
+    <div className="relative max-h-[720px] h-fit overflow-auto text-sm">
       <div className="flex flex-row w-[10840px] h-full justify-start">
         <Left list={list} allTotal={allTotal} />
         <div className="w-[2000px] h-fit" data-txt={"week1"}>

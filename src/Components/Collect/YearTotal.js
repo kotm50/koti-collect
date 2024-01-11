@@ -553,7 +553,7 @@ function YearTotal() {
           </select>
         </div>
       </div>
-      <div className="relative min-h-[720px] h-fit overflow-auto">
+      <div className="relative max-h-[700px] h-fit overflow-auto">
         <div className="flex flex-row w-[5350px] h-full justify-start">
           <div className="sticky top-0 left-0 z-30 w-[550px] h-fit border-r border-black">
             <div className="sticky top-0 left-0 z-50 w-full h-fit bg-black grid grid-cols-11">
