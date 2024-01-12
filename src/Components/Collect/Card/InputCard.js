@@ -157,7 +157,6 @@ function InputCard(props) {
 
   useEffect(() => {
     if (props.edit !== null) {
-      console.log(props.edit);
       const exp = props.edit.cardExp.split("/");
       setCompanyCode(props.edit.companyCode || "");
       setCompanyName(props.edit.companyBranch || "");
