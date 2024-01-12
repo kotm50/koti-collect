@@ -11,9 +11,17 @@ function TomorowReport(props) {
     // 현재 날짜와 시간을 나타내는 Date 객체 생성
     let today = new Date();
 
+    console.log(today.getDay());
+
     // 현재 날짜에 1을 더하여 내일 날짜를 얻음
     let tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    if (today.getDay() === 5) {
+      tomorrow.setDate(today.getDate() + 3); //오늘이 금요일이면 + 3
+    } else if (today.getDay() === 6) {
+      tomorrow.setDate(today.getDate() + 2); //오늘이 토요일이면 + 2
+    } else {
+      tomorrow.setDate(today.getDate() + 1); //나머지 +1
+    }
     const date = dayjs(tomorrow).format("MM/DD");
     const dateLong = dayjs(tomorrow).format("YYYY/MM/DD(dd요일)");
     setDate(date);
