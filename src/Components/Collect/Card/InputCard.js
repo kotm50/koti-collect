@@ -157,6 +157,7 @@ function InputCard(props) {
 
   useEffect(() => {
     if (props.edit !== null) {
+      console.log(props.edit);
       const exp = props.edit.cardExp.split("/");
       setCompanyCode(props.edit.companyCode || "");
       setCompanyName(props.edit.companyBranch || "");
@@ -396,6 +397,25 @@ function InputCard(props) {
             <label htmlFor="exp">유효기간</label>
           </div>
           <div className="w-full grid grid-cols-11 gap-0">
+            {" "}
+            <div className="w-full relative col-span-5">
+              <input
+                type="text"
+                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full "
+                id="exp1"
+                ref={yearRef}
+                value={expY}
+                placeholder="유효기간 연"
+                onChange={handleExp}
+                maxLength={2}
+              />
+              {expY !== "" && !isNaN(expY) && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
+                  년
+                </div>
+              )}
+            </div>
+            <span className="py-1 text-center">/</span>
             <div className="w-full relative col-span-5">
               <input
                 type="text"
@@ -411,24 +431,6 @@ function InputCard(props) {
               {expM !== "" && !isNaN(expM) && (
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
                   월
-                </div>
-              )}
-            </div>
-            <span className="py-1 text-center">/</span>
-            <div className="w-full relative col-span-5">
-              <input
-                type="text"
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full "
-                id="exp1"
-                ref={yearRef}
-                value={expY}
-                placeholder="유효기간 연"
-                onChange={handleExp}
-                maxLength={2}
-              />
-              {expY !== "" && !isNaN(expY) && (
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm">
-                  년
                 </div>
               )}
             </div>
