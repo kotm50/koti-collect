@@ -11,8 +11,8 @@ function Statistics(props) {
   const [statisticsList, setStatisticsList] = useState([]);
   const [payTitle, setPayTitle] = useState("");
   const [payType, setPayType] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  const [year, setYear] = useState(dayjs(new Date(props.date)).format("YYYY"));
+  const [month, setMonth] = useState(dayjs(new Date(props.date)).format("MM"));
   const [day, setDay] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const [deposit, setDeposit] = useState(0);
@@ -20,6 +20,7 @@ function Statistics(props) {
 
   const handlePayType = e => {
     setPayType(e.target.value);
+    getStatisticsList(year, month, day, e.target.value);
   };
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function Statistics(props) {
       setYear(year);
       setMonth(month);
       setDay(day);
+      getStatisticsList(year, month, day, payType);
     } else {
       setYear("");
       setMonth("");
@@ -56,8 +58,8 @@ function Statistics(props) {
   };
 
   useEffect(() => {
-    setYear(String(props.year));
     if (props.year !== year) {
+      setYear(String(props.year));
       props.setCalendarDate("");
       props.setDate("");
       setDay("");
@@ -69,13 +71,9 @@ function Statistics(props) {
       props.setDate("");
       setDay("");
     }
+    getStatisticsList(props.year, props.month, "", payType);
     //eslint-disable-next-line
   }, [props.year, props.month]);
-
-  useEffect(() => {
-    getStatisticsList(year, month, day, payType);
-    //eslint-disable-next-line
-  }, [year, month, day, payType]);
 
   useEffect(() => {
     setPayTitle(getPayTitle(payType));
@@ -99,6 +97,9 @@ function Statistics(props) {
 
   const getStatisticsList = async (year, month, day, payType) => {
     await setStatisticsList([]);
+    setTotalCost(0);
+    setDeposit(0);
+    setWithdraw(0);
     let pType = payType;
     if (payType === "") {
       pType = null;
@@ -109,21 +110,28 @@ function Statistics(props) {
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
     };
+    console.log(data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
+        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
-        await getTotal(res.data.statisticsList);
-        await setStatisticsList(res.data.statisticsList);
+        //await getTotal(res.data.statisticsList);
+        setDeposit(res.data.totalPaymentP || 0);
+        setWithdraw(res.data.totalPaymentD || 0);
+        setTotalCost(res.data.totalPayment || 0);
+        await setStatisticsList(res.data.statisticsList || []);
       })
       .catch(e => console.log(e));
   };
 
+  //합계구하는거 (이제 안씀)
+  /*
   const getTotal = list => {
     let depositCost = 0;
     let withdrawCost = 0;
@@ -152,6 +160,7 @@ function Statistics(props) {
     setWithdraw(withdrawCost);
     setTotalCost(total);
   };
+  */
   return (
     <>
       {statisticsList.length > 0 ? (
@@ -167,15 +176,15 @@ function Statistics(props) {
                   </h3>
                   {totalCost !== 0 ? (
                     <span className="text-xl font-medium">
-                      수금액 :{" "}
+                      수금 합계 :{" "}
                       <span className="text-green-600 font-bold">
                         {deposit.toLocaleString()}
                       </span>
-                      원 | 환급액 :{" "}
+                      원 | 환급 합계 :{" "}
                       <span className="text-rose-600 font-bold">
                         {withdraw.toLocaleString()}
                       </span>
-                      원 | 합계 :{" "}
+                      원 | 총 합계 :{" "}
                       <span className="text-stone-900 font-bold">
                         {totalCost.toLocaleString()}
                       </span>

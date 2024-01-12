@@ -43,32 +43,36 @@ function StatisticsDetail(props) {
   useEffect(() => {
     let color;
     if (props.statistics.transactionType === "P") {
-      if (props.idx % 2 === 0) {
+      if (props.statistics.payType === "CA") {
+        color = "bg-white";
+      } else if (props.statistics.payType === "CO") {
         color = "bg-green-100";
+      } else if (props.statistics.payType === "PG") {
+        color = "bg-blue-100";
+      } else if (props.statistics.payType === "MO") {
+        color = "bg-yellow-100";
+      } else if (props.statistics.payType === "HE") {
+        color = "bg-orange-100";
       } else {
-        color = "bg-green-50";
+        color = "";
       }
     } else {
-      if (props.idx % 2 === 0) {
-        color = "bg-rose-100";
-      } else {
-        color = "bg-rose-50";
-      }
+      color = "bg-rose-100";
     }
     setColor(color);
     //eslint-disable-next-line
   }, [props.statistics]);
 
   const getPayTitle = payType => {
-    if (payType === "CA") {
+    if (props.statistics.payType === "CA") {
       return "개인";
-    } else if (payType === "CO") {
+    } else if (props.statistics.payType === "CO") {
       return "법인";
-    } else if (payType === "PG") {
+    } else if (props.statistics.payType === "PG") {
       return "카드(PG)";
-    } else if (payType === "MO") {
+    } else if (props.statistics.payType === "MO") {
       return "카드(몬)";
-    } else if (payType === "HE") {
+    } else if (props.statistics.payType === "HE") {
       return "카드(천국)";
     } else {
       return "전체";

@@ -16,8 +16,8 @@ function StatisticsList() {
   const thisLocation = useLocation();
 
   const [title, setTitle] = useOutletContext();
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
+  const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
   const [date, setDate] = useState("");
   const [calendarDate, setCalendarDate] = useState("");
   const [calendarOn, setCalendarOn] = useState(false);
@@ -25,8 +25,6 @@ function StatisticsList() {
   const [modalOn, setModalOn] = useState(false);
 
   useEffect(() => {
-    const now = new Date();
-    setYear(now.getFullYear().toString());
     setTitle("기간 별 조회");
     //eslint-disable-next-line
   }, [thisLocation]);
