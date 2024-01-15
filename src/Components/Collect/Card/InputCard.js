@@ -158,13 +158,18 @@ function InputCard(props) {
   useEffect(() => {
     if (props.edit !== null) {
       const exp = props.edit.cardExp.split("/");
+      exp.forEach(element => {
+        if (13 > Number(element) > 0) {
+          setExpM(element);
+        } else {
+          setExpY(element);
+        }
+      });
       setCompanyCode(props.edit.companyCode || "");
       setCompanyName(props.edit.companyBranch || "");
       setCardCom(props.edit.cardComp || "");
       setCardCode(props.edit.cardCode || "");
       setCardNum(props.edit.cardNum || "");
-      setExpM(exp[0] || "");
-      setExpY(exp[1] || "");
       setOwner(props.edit.cardOwner || "");
       setPwd(props.edit.cardPwd || "");
       setCardType(props.edit.cardType || "");
