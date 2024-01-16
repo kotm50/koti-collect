@@ -48,12 +48,24 @@ function CollectIndex() {
         if (res.data.code === "A100") {
           dispatch(
             loginUser({
-              userId: id,
+              userId: user.userId,
               userName: user.userName,
               accessToken: token,
               lastLogin: new Date(),
               point: user.point,
               admin: true,
+            })
+          );
+          navi("/collect");
+        } else if (res.data.code === "A300") {
+          dispatch(
+            loginUser({
+              userId: user.userId,
+              userName: user.userName,
+              accessToken: token,
+              lastLogin: new Date(),
+              point: user.point,
+              admin: false,
             })
           );
           navi("/collect");

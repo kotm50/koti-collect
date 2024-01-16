@@ -62,8 +62,11 @@ function PrePaid() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         setTotalPrepay(res.data.prepay.actualPrepayment);
         setCompanyPrepayList(res.data.prepayList);
@@ -86,9 +89,12 @@ function PrePaid() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         setPrepayList(res.data.prepayList);
       })
@@ -153,44 +159,46 @@ function PrePaid() {
             </button>
           </div>
         </div>
-        <div
-          id="inputArea"
-          className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow mt-2"
-        >
+        {user.admin ? (
           <div
-            className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full relative px-2 ${
-              inputOn && "mb-2"
-            }`}
-            onClick={() => {
-              setInputOn(!inputOn);
-            }}
+            id="inputArea"
+            className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow mt-2"
           >
-            <h3 className="text-center text-lg font-bold py-2 pl-2">
-              추가/수정하기
-            </h3>
-            <button className="min-w-[24px] text-lg hover:text-gray-500">
-              {inputOn ? <FaCaretUp /> : <FaCaretDown />}
-            </button>
+            <div
+              className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full relative px-2 ${
+                inputOn && "mb-2"
+              }`}
+              onClick={() => {
+                setInputOn(!inputOn);
+              }}
+            >
+              <h3 className="text-center text-lg font-bold py-2 pl-2">
+                추가/수정하기
+              </h3>
+              <button className="min-w-[24px] text-lg hover:text-gray-500">
+                {inputOn ? <FaCaretUp /> : <FaCaretDown />}
+              </button>
+            </div>
+            <div
+              className={`transition-height duration-300 ${
+                inputOn ? "h-fit opacity-100" : "h-0 overflow-hidden opacity-0"
+              }`}
+            >
+              <InputPrePaid
+                user={user}
+                companyName={companyName}
+                keyword={searchKeyword}
+                companyCode={companyCode}
+                setCompanyCode={setCompanyCode}
+                prepayCode={prepayCode}
+                setPrepayCode={setPrepayCode}
+                setInputOn={setInputOn}
+                getCompanyPrepayList={getCompanyPrepayList}
+                getPrepayList={getPrepayList}
+              />
+            </div>
           </div>
-          <div
-            className={`transition-height duration-300 ${
-              inputOn ? "h-fit opacity-100" : "h-0 overflow-hidden opacity-0"
-            }`}
-          >
-            <InputPrePaid
-              user={user}
-              companyName={companyName}
-              keyword={searchKeyword}
-              companyCode={companyCode}
-              setCompanyCode={setCompanyCode}
-              prepayCode={prepayCode}
-              setPrepayCode={setPrepayCode}
-              setInputOn={setInputOn}
-              getCompanyPrepayList={getCompanyPrepayList}
-              getPrepayList={getPrepayList}
-            />
-          </div>
-        </div>
+        ) : null}
       </div>
       <div className="w-full mt-2">
         <PrepaidList

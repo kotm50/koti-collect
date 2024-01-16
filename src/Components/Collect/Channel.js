@@ -144,58 +144,61 @@ function Channel() {
 
   return (
     <div className="mx-4 flex flex-row justify-start gap-3">
-      <div
-        className="w-[480px] h-[300px] grid grid-cols-1 gap-y-2 p-4 bg-white rounded-lg drop-shadow"
-        data={title}
-      >
-        <h2 className="text-2xl font-bold">추가하기</h2>
-        <div className="grid grid-cols-4 gap-x-2">
-          <div className="font-bold p-2">카테고리</div>
-          {category && category.length > 0 ? (
-            <>
-              <select
-                className="p-2 border font-medium col-span-3"
-                onChange={handleCategorySelect}
-                value={selectCategory}
-              >
-                <option value="">카테고리 선택</option>
-                {category.map((cat, idx) => (
-                  <option key={idx} value={cat.category}>
-                    {cat.value}
-                  </option>
-                ))}
-              </select>
-            </>
-          ) : null}
-        </div>
-        <div className="grid grid-cols-4 gap-x-2">
-          <div className="font-bold p-2">코드명</div>
-          <input
-            type="text"
-            ref={chnRef}
-            value={channelCode}
-            className="p-1 border bg-white focus:border-gray-500 col-span-3"
-            placeholder="코드 입력"
-            onChange={e => setChannelCode(e.currentTarget.value)}
-          />
-        </div>
-        <div className="grid grid-cols-4 gap-x-2">
-          <div className="font-bold p-2">설명</div>
-          <input
-            type="text"
-            value={description}
-            className="p-1 border bg-white focus:border-gray-500 col-span-3"
-            placeholder="채널 설명 입력"
-            onChange={e => setDescription(e.currentTarget.value)}
-          />
-        </div>
-        <button
-          className="bg-green-600 hover:bg-green-700 p-2 text-white mt-2"
-          onClick={() => submit()}
+      {user.admin ? (
+        <div
+          className="w-[480px] h-[300px] grid grid-cols-1 gap-y-2 p-4 bg-white rounded-lg drop-shadow"
+          data={title}
         >
-          등록하기
-        </button>
-      </div>
+          <h2 className="text-2xl font-bold">추가하기</h2>
+          <div className="grid grid-cols-4 gap-x-2">
+            <div className="font-bold p-2">카테고리</div>
+            {category && category.length > 0 ? (
+              <>
+                <select
+                  className="p-2 border font-medium col-span-3"
+                  onChange={handleCategorySelect}
+                  value={selectCategory}
+                >
+                  <option value="">카테고리 선택</option>
+                  {category.map((cat, idx) => (
+                    <option key={idx} value={cat.category}>
+                      {cat.value}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+          </div>
+          <div className="grid grid-cols-4 gap-x-2">
+            <div className="font-bold p-2">코드명</div>
+            <input
+              type="text"
+              ref={chnRef}
+              value={channelCode}
+              className="p-1 border bg-white focus:border-gray-500 col-span-3"
+              placeholder="코드 입력"
+              onChange={e => setChannelCode(e.currentTarget.value)}
+            />
+          </div>
+          <div className="grid grid-cols-4 gap-x-2">
+            <div className="font-bold p-2">설명</div>
+            <input
+              type="text"
+              value={description}
+              className="p-1 border bg-white focus:border-gray-500 col-span-3"
+              placeholder="채널 설명 입력"
+              onChange={e => setDescription(e.currentTarget.value)}
+            />
+          </div>
+          <button
+            className="bg-green-600 hover:bg-green-700 p-2 text-white mt-2"
+            onClick={() => submit()}
+          >
+            등록하기
+          </button>
+        </div>
+      ) : null}
+
       <div className="min-w-[768px] max-h-[768px] bg-white p-4 rounded-lg drop-shadow">
         <div className="flex flex-row justify-between mb-2">
           <h2 className="text-2xl font-bold">채널리스트</h2>

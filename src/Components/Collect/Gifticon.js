@@ -96,7 +96,7 @@ function Gifticon() {
         className="p-4 bg-white drop-shadow-lg rounded-lg mt-4"
         onClick={() => setCalendarOn(false)}
       >
-        <div className="h-fit max-h-[680px] overflow-y-auto relative">
+        <div className="h-fit max-h-[640px] overflow-y-auto relative">
           <List
             year={year}
             setYear={setYear}

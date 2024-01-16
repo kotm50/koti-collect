@@ -42,13 +42,13 @@ function Collect() {
         >
           {!open ? <FaCaretRight size={32} /> : <FaCaretLeft size={32} />}
         </button>
-        <div>
-          <Link to="/collect">
-            <h2 className="font-bold px-4 text-xl h-[48px] flex flex-col justify-center">
-              코티 수금전산
-            </h2>
-          </Link>
-          <Menu />
+        <Link to="/collect">
+          <h2 className="font-bold px-4 text-xl h-[48px] flex flex-col justify-center">
+            코티 수금전산
+          </h2>
+        </Link>
+        <div className="flex-1 overflow-auto">
+          <Menu user={user} />
         </div>
         <div className="p-2">
           <button
@@ -63,6 +63,9 @@ function Collect() {
         className="duration-300 transition-all"
         style={{ paddingLeft: `${open ? 250 : 50}px` }}
       >
+        <div className="text-sm p-2 bg-gray-100 w-fit border border-t-0 drop-shadow">
+          접속중 : {user.userId}({user.userName})
+        </div>
         <h1 className="my-8 mx-4 text-3xl">{title}</h1>
         <Outlet context={[title, setTitle]} logout={logout} />
       </div>

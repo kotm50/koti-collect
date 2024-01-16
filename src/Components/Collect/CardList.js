@@ -73,7 +73,6 @@ function CardList() {
   };
   useEffect(() => {
     setTitle("결제카드 관리");
-    getCardList("");
     //eslint-disable-next-line
   }, [thisLocation]);
 
@@ -98,9 +97,12 @@ function CardList() {
       })
       .then(res => {
         setCardList([]);
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         if (res.data.code === "C000") {
           setCardList(res.data.cardList);
@@ -156,40 +158,42 @@ function CardList() {
             setCompanyListOn={setCompanyListOn}
           />
         )}
-        <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow mt-2">
-          <div
-            className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full relative px-2 ${
-              inputOn && "mb-2"
-            }`}
-            onClick={() => {
-              setInputOn(!inputOn);
-            }}
-          >
-            <h3 className="text-center text-lg font-bold py-2 pl-2">
-              추가/수정하기
-            </h3>
-            <button className="min-w-[24px] text-lg hover:text-gray-500">
-              {inputOn ? <FaCaretUp /> : <FaCaretDown />}
-            </button>
+        {user.admin ? (
+          <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow mt-2">
+            <div
+              className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full relative px-2 ${
+                inputOn && "mb-2"
+              }`}
+              onClick={() => {
+                setInputOn(!inputOn);
+              }}
+            >
+              <h3 className="text-center text-lg font-bold py-2 pl-2">
+                추가/수정하기
+              </h3>
+              <button className="min-w-[24px] text-lg hover:text-gray-500">
+                {inputOn ? <FaCaretUp /> : <FaCaretDown />}
+              </button>
+            </div>
+            <div
+              className={`transition-height duration-300 ${
+                inputOn ? "h-fit opacity-100" : "h-0 overflow-hidden opacity-0"
+              }`}
+            >
+              <InputCard
+                cancelSearch={cancelSearch}
+                companyName={companyName}
+                companyCode={companyCode}
+                getCardList={getCardList}
+                edit={edit}
+                setEdit={setEdit}
+                setInputOn={setInputOn}
+                setCompanyCode={setCompanyCode}
+                setCompanyName={setCompanyName}
+              />
+            </div>
           </div>
-          <div
-            className={`transition-height duration-300 ${
-              inputOn ? "h-fit opacity-100" : "h-0 overflow-hidden opacity-0"
-            }`}
-          >
-            <InputCard
-              cancelSearch={cancelSearch}
-              companyName={companyName}
-              companyCode={companyCode}
-              getCardList={getCardList}
-              edit={edit}
-              setEdit={setEdit}
-              setInputOn={setInputOn}
-              setCompanyCode={setCompanyCode}
-              setCompanyName={setCompanyName}
-            />
-          </div>
-        </div>
+        ) : null}
       </div>
       {loaded ? (
         <>

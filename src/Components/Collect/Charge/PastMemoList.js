@@ -30,9 +30,12 @@ function PastMemoList(props) {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           navi("/");
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         setMemoList(res.data.commissionList);
       })

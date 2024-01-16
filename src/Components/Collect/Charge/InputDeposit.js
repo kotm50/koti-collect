@@ -131,9 +131,12 @@ function InputDeposit(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
 
         const pay = res.data.pay;
@@ -243,10 +246,10 @@ function InputDeposit(props) {
   const submit = async () => {
     const result = await tester();
     if (result !== "완료") {
-      return alert(result);
+      alert(result);
+      return false;
     } else {
       const escapeBigo = await escapeHTML(bigo);
-
       let data = {
         companyCode: companyCode === "" ? null : companyCode,
         commCode: commCode === "" ? null : commCode,
@@ -280,11 +283,14 @@ function InputDeposit(props) {
           headers: { Authorization: props.user.accessToken },
         })
         .then(async res => {
-          alert(res.data.message);
-          if (res.data.code === "E999" || res.data.code === "E403") {
+          if (res.data.code === "E999") {
             props.logout();
             return false;
           }
+          if (res.data.code === "E403") {
+            return alert(res.data.message);
+          }
+          alert(res.data.message);
           if (res.data.code === "C000") {
             setBigo("");
             props.resetCharge();
@@ -338,11 +344,14 @@ function InputDeposit(props) {
           headers: { Authorization: props.user.accessToken },
         })
         .then(async res => {
-          alert(res.data.message);
-          if (res.data.code === "E999" || res.data.code === "E403") {
+          if (res.data.code === "E999") {
             props.logout();
             return false;
           }
+          if (res.data.code === "E403") {
+            return alert(res.data.message);
+          }
+          alert(res.data.message);
           if (res.data.code === "C000") {
             setBigo("");
             props.resetCharge();
@@ -440,12 +449,12 @@ function InputDeposit(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          navi("/");
+        if (res.data.code === "E999") {
+          logout();
           return false;
         }
-        if (res.data.code === "C000") {
-          setCardList(res.data.cardList);
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
       })
       .catch(e => {

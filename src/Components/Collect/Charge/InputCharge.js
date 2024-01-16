@@ -124,11 +124,13 @@ function InputCharge(props) {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           logout();
           return false;
         }
-
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
+        }
         const commission = res.data.commission;
         setCommCode(commission.commCode || "");
         setCompanyName(commission.companyBranch || "");
@@ -192,9 +194,12 @@ function InputCharge(props) {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
+        if (res.data.code === "E999") {
           logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         setDualTypeList(res.data.commList);
         setDualType(res.data.commList[0].useValue);
@@ -518,6 +523,9 @@ function InputCharge(props) {
       }
       const isdup = await dupchk(data);
       console.log(isdup);
+      if (isdup === "오류 발생") {
+        return false;
+      }
       if (isdup !== "조회 완료") {
         const confirm = window.confirm(isdup);
         if (!confirm) {
@@ -529,11 +537,14 @@ function InputCharge(props) {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          alert(res.data.message);
-          if (res.data.code === "E999" || res.data.code === "E403") {
+          if (res.data.code === "E999") {
             logout();
             return false;
           }
+          if (res.data.code === "E403") {
+            return alert(res.data.message);
+          }
+          alert(res.data.message);
           if (res.data.code === "C000") {
             setSearchKeyword("");
             setCompanyName("");
@@ -590,7 +601,14 @@ function InputCharge(props) {
           headers: { Authorization: user.accessToken },
         }
       );
-      console.log(response);
+      if (response.data.code === "E999") {
+        logout();
+        return false;
+      }
+      if (response.data.code === "E403") {
+        alert(response.data.message);
+        return "오류 발생";
+      }
       return response.data.message; // 응답 메시지 반환
     } catch (e) {
       console.error(e);

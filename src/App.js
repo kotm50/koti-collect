@@ -20,6 +20,7 @@ import List from "./Components/Collect/Board/List";
 import Write from "./Components/Collect/Board/Write";
 import Detail from "./Components/Collect/Board/Detail";
 import Coupon from "./Components/Collect/Coupon";
+import ReadOnly from "./Components/Collect/ReadOnly";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="dailyreport" element={<DailyReport />} />
           <Route path="monthlyreport" element={<MonthlyReport />} />
           <Route path="coupon" element={<Coupon />} />
+          <Route path="readonly" element={<ReadOnly />} />
         </Route>
         <Route path="/board" element={<Board />}>
           <Route path="list/:bid?" element={<List />} />

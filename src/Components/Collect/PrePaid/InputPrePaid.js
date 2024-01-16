@@ -70,9 +70,12 @@ function InputPrePaid(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          navi("/");
+        if (res.data.code === "E999") {
+          logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         if (res.data.code === "C000") {
           setCardList(res.data.cardList);
@@ -211,9 +214,12 @@ function InputPrePaid(props) {
         })
         .then(res => {
           alert(res.data.message);
-          if (res.data.code === "E999" || res.data.code === "E403") {
+          if (res.data.code === "E999") {
             logout();
             return false;
+          }
+          if (res.data.code === "E403") {
+            return alert(res.data.message);
           }
           if (res.data.code === "C000") {
             setSearchKeyword("");
@@ -315,9 +321,12 @@ function InputPrePaid(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          navi("/");
+        if (res.data.code === "E999") {
+          logout();
           return false;
+        }
+        if (res.data.code === "E403") {
+          return alert(res.data.message);
         }
         if (res.data.code === "C000") {
           const prepay = res.data.prepay;
@@ -468,9 +477,12 @@ function InputPrePaid(props) {
         })
         .then(res => {
           alert(res.data.message);
-          if (res.data.code === "E999" || res.data.code === "E403") {
+          if (res.data.code === "E999") {
             logout();
             return false;
+          }
+          if (res.data.code === "E403") {
+            return alert(res.data.message);
           }
           if (res.data.code === "C000") {
             props.getCompanyPrepayList(companyCode, null);

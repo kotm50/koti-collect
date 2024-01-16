@@ -54,12 +54,14 @@ function ComList(props) {
             <button
               className="bg-blue-500 text-white p-1 min-w-[95px] w-full"
               onClick={e => setEdit(true)}
+              disabled={!props.user.admin}
             >
               수정
             </button>
             <button
               className="bg-rose-500 text-white p-1 min-w-[95px] w-full"
               onClick={e => deleteCompany()}
+              disabled={!props.user.admin}
             >
               삭제
             </button>

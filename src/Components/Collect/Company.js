@@ -411,96 +411,99 @@ function Company() {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-green-100">
-              <td className="p-2 truncate">신규</td>
-              <td className="p-2 truncate">입력</td>
-              <td className="p-1 w-28">
-                <select
-                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-[100px]"
-                  ref={gubunRef}
-                  onChange={handleInputGubunSelect}
-                  value={inputGubun}
-                >
-                  <option value="">구분 선택</option>
-                  {categoryList && categoryList.length > 0 ? (
-                    <>
-                      {categoryList.map((cat, idx) => (
-                        <option key={idx} value={cat.useValue}>
-                          {cat.useValue}
-                        </option>
-                      ))}
-                    </>
-                  ) : null}
-                </select>
-              </td>
-              <td className="p-1">
-                <select
-                  className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
-                  ref={channelRef}
-                  onChange={handleInputChannelSelect}
-                  value={inputChannel}
-                >
-                  <option value="">채널 선택</option>
-                  {inputChannelList && inputChannelList.length > 0 ? (
-                    <>
-                      {inputChannelList.map((chn, idx) => (
-                        <option key={idx} value={chn.useValue}>
-                          {chn.useValue}
-                        </option>
-                      ))}
-                    </>
-                  ) : null}
-                </select>
-              </td>
-              <td className="p-1">
-                <input
-                  type="text"
-                  ref={nameRef}
-                  value={inputCompanyName}
-                  className="p-1 border bg-white focus:border-gray-500"
-                  placeholder="고객사명 입력"
-                  onChange={e => setInputCompanyName(e.currentTarget.value)}
-                />
-              </td>
-              <td className="p-1">
-                <input
-                  type="text"
-                  ref={branchRef}
-                  value={inputCompanyBranch}
-                  className="p-1 border bg-white focus:border-gray-500"
-                  placeholder="지점명 입력"
-                  onChange={e => setInputCompanyBranch(e.currentTarget.value)}
-                />
-              </td>
-              <td className="p-1">
-                <input
-                  type="text"
-                  ref={manager1Ref}
-                  value={inputManager1}
-                  className="p-1 border bg-white focus:border-gray-500"
-                  placeholder="담당자 1 입력"
-                  onChange={e => setInputManager1(e.currentTarget.value)}
-                />
-              </td>
-              <td className="p-1">
-                <input
-                  type="text"
-                  ref={manager2Ref}
-                  value={inputMananger2}
-                  className="p-1 border bg-white focus:border-gray-500"
-                  placeholder="담당자 2 입력"
-                  onChange={e => setInputManager2(e.currentTarget.value)}
-                />
-              </td>
-              <td className="p-1">
-                <button
-                  className="text-white bg-green-600 py-1 px-2 block min-w-[200px] w-full"
-                  onClick={e => inputCompany()}
-                >
-                  등록
-                </button>
-              </td>
-            </tr>
+            {user.admin ? (
+              <tr className="bg-green-100">
+                <td className="p-2 truncate">신규</td>
+                <td className="p-2 truncate">입력</td>
+                <td className="p-1 w-28">
+                  <select
+                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-[100px]"
+                    ref={gubunRef}
+                    onChange={handleInputGubunSelect}
+                    value={inputGubun}
+                  >
+                    <option value="">구분 선택</option>
+                    {categoryList && categoryList.length > 0 ? (
+                      <>
+                        {categoryList.map((cat, idx) => (
+                          <option key={idx} value={cat.useValue}>
+                            {cat.useValue}
+                          </option>
+                        ))}
+                      </>
+                    ) : null}
+                  </select>
+                </td>
+                <td className="p-1">
+                  <select
+                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+                    ref={channelRef}
+                    onChange={handleInputChannelSelect}
+                    value={inputChannel}
+                  >
+                    <option value="">채널 선택</option>
+                    {inputChannelList && inputChannelList.length > 0 ? (
+                      <>
+                        {inputChannelList.map((chn, idx) => (
+                          <option key={idx} value={chn.useValue}>
+                            {chn.useValue}
+                          </option>
+                        ))}
+                      </>
+                    ) : null}
+                  </select>
+                </td>
+                <td className="p-1">
+                  <input
+                    type="text"
+                    ref={nameRef}
+                    value={inputCompanyName}
+                    className="p-1 border bg-white focus:border-gray-500"
+                    placeholder="고객사명 입력"
+                    onChange={e => setInputCompanyName(e.currentTarget.value)}
+                  />
+                </td>
+                <td className="p-1">
+                  <input
+                    type="text"
+                    ref={branchRef}
+                    value={inputCompanyBranch}
+                    className="p-1 border bg-white focus:border-gray-500"
+                    placeholder="지점명 입력"
+                    onChange={e => setInputCompanyBranch(e.currentTarget.value)}
+                  />
+                </td>
+                <td className="p-1">
+                  <input
+                    type="text"
+                    ref={manager1Ref}
+                    value={inputManager1}
+                    className="p-1 border bg-white focus:border-gray-500"
+                    placeholder="담당자 1 입력"
+                    onChange={e => setInputManager1(e.currentTarget.value)}
+                  />
+                </td>
+                <td className="p-1">
+                  <input
+                    type="text"
+                    ref={manager2Ref}
+                    value={inputMananger2}
+                    className="p-1 border bg-white focus:border-gray-500"
+                    placeholder="담당자 2 입력"
+                    onChange={e => setInputManager2(e.currentTarget.value)}
+                  />
+                </td>
+                <td className="p-1">
+                  <button
+                    className="text-white bg-green-600 py-1 px-2 block min-w-[200px] w-full"
+                    onClick={e => inputCompany()}
+                  >
+                    등록
+                  </button>
+                </td>
+              </tr>
+            ) : null}
+
             {companyList && companyList.length > 0 ? (
               <>
                 {companyList.map((com, idx) => (
