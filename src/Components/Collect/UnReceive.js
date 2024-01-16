@@ -427,7 +427,8 @@ function UnReceive() {
               onChange={handleUnpaidChk}
             >
               <option value="N">월별 조회</option>
-              <option value="Y">미수금 조회</option>
+              <option value="Y">미수금 전체 조회</option>
+              <option value="L">미수금 조회</option>
               <option value="B">발행 미수금 조회</option>
               <option value="F">면세 조회</option>
               <option value="S">예정 7일</option>
