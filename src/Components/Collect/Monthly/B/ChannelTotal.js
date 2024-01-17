@@ -166,8 +166,8 @@ function ChannelTotal(props) {
         )}
       </div>
       <div className="grid grid-cols-7">
-        <div className="col-span-5  border-black"></div>
-        <div className="bg-blue-200 text-center border-x border-b border-black py-1">
+        <div className="col-span-5 border-r border-black"></div>
+        <div className="bg-blue-200 text-center border-r border-b border-black py-1">
           합계
         </div>
         <div className="bg-white text-center border-r border-b border-black py-1">
