@@ -456,6 +456,7 @@ function InputDeposit(props) {
         if (res.data.code === "E403") {
           return alert(res.data.message);
         }
+        setCardList(res.data.cardList);
       })
       .catch(e => {
         console.log(e);

@@ -342,6 +342,7 @@ function UnReceive() {
               isUnpaid={isUnpaid}
               setMemo={setMemo}
               setModalOn={setModalOn}
+              resetCharge={resetCharge}
             />
           </div>
         </div>
