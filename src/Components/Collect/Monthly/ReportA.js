@@ -673,9 +673,9 @@ function ReportA(props) {
 
   return (
     <div className="relative max-h-[720px] h-fit overflow-auto text-sm">
-      <div className="flex flex-row w-[10840px] h-full justify-start">
+      <div className="flex flex-row w-[12840px] h-full justify-start">
         <Left list={list} allTotal={allTotal} />
-        <div className="w-[2000px] h-fit" data-txt={"week1"}>
+        <div className="w-[2400px] h-fit" data-txt={"week1"}>
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
             <div className="grid grid-cols-1 col-span-5">
               <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-4 text-base">
@@ -686,7 +686,7 @@ function ReportA(props) {
             </div>
           </div>
         </div>
-        <div className="w-[2000px] h-fit" data-txt={"week1"}>
+        <div className="w-[2400px] h-fit" data-txt={"week1"}>
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
             <div className="grid grid-cols-1 col-span-5">
               <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-4 text-base">
@@ -697,7 +697,7 @@ function ReportA(props) {
             </div>
           </div>
         </div>
-        <div className="w-[2000px] h-fit" data-txt={"week3"}>
+        <div className="w-[2400px] h-fit" data-txt={"week3"}>
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
             <div className="grid grid-cols-1 col-span-5">
               <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-4 text-base">
@@ -708,7 +708,7 @@ function ReportA(props) {
             </div>
           </div>
         </div>
-        <div className="w-[2000px] h-fit" data-txt={"week4"}>
+        <div className="w-[2400px] h-fit" data-txt={"week4"}>
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
             <div className="grid grid-cols-1 col-span-5">
               <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-4 text-base">
@@ -719,7 +719,7 @@ function ReportA(props) {
             </div>
           </div>
         </div>
-        <div className="w-[2000px] h-fit" data-txt={"week5"}>
+        <div className="w-[2400px] h-fit" data-txt={"week5"}>
           <div className="sticky top-0 left-0 z-10 w-full h-fit grid grid-cols-5">
             <div className="grid grid-cols-1 col-span-5">
               <div className="text-left bg-blue-600 text-white h-[30px] flex flex-col justify-center font-bold border border-l-0 border-black pl-4 text-base">

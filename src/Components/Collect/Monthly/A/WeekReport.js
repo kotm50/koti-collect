@@ -53,7 +53,7 @@ function WeekReport(props) {
               key={idx}
             >
               <div
-                className="flex flex-col justify-center text-center bg-yellow-300 text-black py-2 h-[20px] w-[70px] truncate"
+                className="flex flex-col justify-center text-center bg-yellow-300 text-black py-2 h-[20px] w-[84px] truncate"
                 data-code={list.companyCode}
               >
                 {getPayType(list.companyCode, list.payType)}

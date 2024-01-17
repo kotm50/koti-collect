@@ -48,7 +48,7 @@ function Board() {
               코티 수금전산
             </h2>
           </Link>
-          <Menu />
+          <Menu user={user} />
         </div>
         <div className="p-2">
           <button

@@ -3,7 +3,7 @@ import React from "react";
 function WeekTotal(props) {
   return (
     <div className="flex flex-row justify-start">
-      <div className="flex flex-col justify-center border-black bg-yellow-300 text-black p-2 font-bold border-b w-[70px] h-[75px]">
+      <div className="flex flex-col justify-center border-black bg-yellow-300 text-center text-black p-2 font-bold border-b w-[84px] h-[75px]">
         결제 방법
       </div>
       <div className="flex-auto grid grid-cols-5 text-center bg-blue-600 text-white h-[75px] font-bold border border-t-0 border-l-0 border-black">
