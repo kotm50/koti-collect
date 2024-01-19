@@ -77,9 +77,30 @@ function Statistics(props) {
     }
   };
 
-  const searchIt = () => {
+  const searchIt = async () => {
     setStatisticsList([]);
     console.log(searchKeyword, startKeyword, endKeyword);
+    const data = {
+      searchKeyword: searchKeyword === "" ? null : searchKeyword,
+      searchStartDate: startKeyword === "" ? null : startKeyword,
+      searchEndDate: endKeyword === "" ? null : endKeyword,
+    };
+    await axios
+      .post("/api/v1/comp/paytype/list", data, {
+        headers: { Authorization: props.user.accessToken },
+      })
+      .then(async res => {
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          navi("/");
+          return false;
+        }
+        //await getTotal(res.data.statisticsList);
+        setDeposit(res.data.totalPaymentP || 0);
+        setWithdraw(res.data.totalPaymentD || 0);
+        setTotalCost(res.data.totalPayment || 0);
+        await setStatisticsList(res.data.statisticsList || []);
+      })
+      .catch(e => console.log(e));
   };
 
   const reset = () => {
@@ -214,7 +235,7 @@ function Statistics(props) {
   */
   return (
     <>
-      <div className="flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10 mt-4">
+      <div className="flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10 mt-4 hidden">
         <div
           className="flex justify-start gap-x-3"
           onClick={() => props.setCalendarOn(false)}
