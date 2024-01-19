@@ -74,7 +74,7 @@ function CompanyPrepaidDetail(props) {
         <td className="p-1 border text-sm">
           {Number(props.pay.prepayment).toLocaleString()}원
         </td>
-        <td className="p-1 border text-sm">
+        <td className="p-1 border text-sm hidden">
           {Number(props.pay.actualPrepayment).toLocaleString()}원
         </td>
         <td className="p-1 border text-sm">

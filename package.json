@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.1",
     "dayjs": "^1.11.10",
+    "dom-to-image": "^2.6.0",
     "dompurify": "^3.0.6",
     "html2canvas": "^1.4.1",
     "http-proxy-middleware": "^2.0.6",

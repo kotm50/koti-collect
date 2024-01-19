@@ -12,6 +12,8 @@ import "react-calendar/dist/Calendar.css"; // css import
 import dayjs from "dayjs";
 import { FaCalendarAlt } from "react-icons/fa";
 
+import domtoimage from "dom-to-image";
+
 function DailyReport() {
   const navi = useNavigate();
   const user = useSelector(state => state.user);
@@ -116,13 +118,27 @@ function DailyReport() {
       })
       .catch(e => console.log(e));
   };
+
+  const captureReport = () => {
+    const reportElement = document.getElementById("reportResult"); // 캡처하고자 하는 요소의 id
+
+    domtoimage
+      .toPng(reportElement)
+      .then(dataUrl => {
+        // 이미지 다운로드 (예: a 태그를 사용)
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `report_${dayjs(new Date()).format("YYYY-MM-DD")}.png`;
+        link.click();
+        alert("보고서 저장 완료");
+      })
+      .catch(error => {
+        console.error("dom-to-image에서 에러가 발생했습니다", error);
+        alert("보고서 저장에 실패했습니다");
+      });
+  };
   return (
-    <div
-      className={`mx-4 grid gap-y-4 ${
-        horizontal ? "grid-cols-1" : "grid-cols-2 gap-x-4"
-      }`}
-      data={title}
-    >
+    <div className={`mx-4`} data={title}>
       <div
         className={`flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow relative z-10 mb-4 ${
           !horizontal ? "col-span-2" : ""
@@ -178,25 +194,39 @@ function DailyReport() {
             한줄보기
           </button>
         </div>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white p-2"
+          onClick={captureReport}
+        >
+          보고양식 이미지 저장
+        </button>
       </div>
-      <TodayReport
-        list={today}
-        total={todayTotal}
-        memo={memo}
-        setModalOn={setModalOn}
-        setMemo={setMemo}
-        date={date}
-      />
-      {date === "" ? (
-        <TomorrowReport
-          list={tomorrow}
-          total={tomorrowTotal}
+      <div
+        id="reportResult"
+        className={`p-4 bg-gray-100 grid ${
+          horizontal
+            ? "grid-cols-1 w-1/2 gap-y-4"
+            : "w-full grid-cols-2 gap-x-4"
+        }`}
+      >
+        <TodayReport
+          list={today}
+          total={todayTotal}
           memo={memo}
           setModalOn={setModalOn}
           setMemo={setMemo}
+          date={date}
         />
-      ) : null}
-
+        {date === "" ? (
+          <TomorrowReport
+            list={tomorrow}
+            total={tomorrowTotal}
+            memo={memo}
+            setModalOn={setModalOn}
+            setMemo={setMemo}
+          />
+        ) : null}
+      </div>
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );

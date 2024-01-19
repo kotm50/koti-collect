@@ -117,7 +117,7 @@ function PrepaidList(props) {
                   <td className="p-1 border text-sm">구분</td>
                   <td className="p-1 border text-sm">날짜</td>
                   <td className="p-1 border text-sm">입금액</td>
-                  <td className="p-1 border text-sm">실제잔액</td>
+                  <td className="p-1 border text-sm hidden">실제잔액</td>
                   <td className="p-1 border text-sm">결제방법</td>
                   <td className="p-1 border text-sm">입금자명</td>
                   <td className="p-1 border text-sm">카드정보</td>

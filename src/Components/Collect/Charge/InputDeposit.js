@@ -551,7 +551,7 @@ function InputDeposit(props) {
       .then(res => {
         if (res.data.code === "C000") {
           setPrePaid(
-            Number(res.data.prepay.actualPrepayment).toLocaleString() + " 원"
+            Number(res.data.prepay.prepayment).toLocaleString() + " 원"
           );
         } else {
           setPrePaid("선입금 내역이 없습니다");

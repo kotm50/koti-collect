@@ -40,7 +40,7 @@ function StatisticsList() {
 
   return (
     <div className="mx-4" data={title}>
-      <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10">
+      <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-50">
         <div
           className="flex justify-start gap-x-3"
           onClick={() => setCalendarOn(false)}
@@ -94,26 +94,20 @@ function StatisticsList() {
           </div>
         </div>
       </div>
-      <div
-        className="p-4 bg-white drop-shadow-lg rounded-lg mt-4"
-        onClick={() => setCalendarOn(false)}
-      >
-        <div className="h-[640px] overflow-y-auto relative">
-          <Statistics
-            year={year}
-            setYear={setYear}
-            setMonth={setMonth}
-            month={month}
-            date={calendarDate}
-            user={user}
-            memo={memo}
-            setMemo={setMemo}
-            setModalOn={setModalOn}
-            setCalendarDate={setCalendarDate}
-            setDate={setDate}
-          />
-        </div>
-      </div>
+      <Statistics
+        year={year}
+        setYear={setYear}
+        setMonth={setMonth}
+        month={month}
+        date={calendarDate}
+        user={user}
+        memo={memo}
+        setMemo={setMemo}
+        setModalOn={setModalOn}
+        setCalendarDate={setCalendarDate}
+        setDate={setDate}
+        setCalendarOn={setCalendarOn}
+      />
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );

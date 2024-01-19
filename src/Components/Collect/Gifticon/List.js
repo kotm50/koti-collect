@@ -17,6 +17,7 @@ function List(props) {
   const [comTaxTotal, setComTaxTotal] = useState(0);
   const [cardTotal, setCardTotal] = useState(0);
   const [cardTaxTotal, setCardTaxTotal] = useState(0);
+  const [allTotal, setAllTotal] = useState(0);
 
   useEffect(() => {
     changeDate();
@@ -137,6 +138,7 @@ function List(props) {
     setComTaxTotal(c);
     setCardTotal(d);
     setCardTaxTotal(e);
+    setAllTotal(a + b + c + d + e);
   };
   return (
     <>
@@ -203,9 +205,10 @@ function List(props) {
               <td className="border p-1">부가세</td>
             </tr>
             <tr className="bg-yellow-300 text-center font-bold text-lg">
-              <td colSpan="4" className="border p-1">
+              <td colSpan="3" className="border p-1">
                 합계
               </td>
+              <td className="border p-1">{allTotal.toLocaleString()}</td>
               <td className="border p-1">{cashTotal.toLocaleString()}</td>
               <td className="border p-1">{cardTotal.toLocaleString()}</td>
               <td className="border p-1">{cardTaxTotal.toLocaleString()}</td>

@@ -68,7 +68,7 @@ function PrePaid() {
         if (res.data.code === "E403") {
           return alert(res.data.message);
         }
-        setTotalPrepay(res.data.prepay.actualPrepayment);
+        setTotalPrepay(res.data.prepay.prepayment);
         setCompanyPrepayList(res.data.prepayList);
       })
       .catch(e => console.log(e));
