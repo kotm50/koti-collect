@@ -17,6 +17,7 @@ function DailyReport() {
   const user = useSelector(state => state.user);
   const thisLocation = useLocation();
   const [title, setTitle] = useOutletContext();
+  const [horizontal, setHorizontal] = useState(false);
   const [memo, setMemo] = useState("");
   const [modalOn, setModalOn] = useState(false);
   const [today, setToday] = useState([]);
@@ -116,8 +117,17 @@ function DailyReport() {
       .catch(e => console.log(e));
   };
   return (
-    <div className="mx-4 grid grid-cols-2 gap-x-4" data={title}>
-      <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow relative z-10 col-span-2 mb-4">
+    <div
+      className={`mx-4 grid gap-y-4 ${
+        horizontal ? "grid-cols-1" : "grid-cols-2 gap-x-4"
+      }`}
+      data={title}
+    >
+      <div
+        className={`flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow relative z-10 mb-4 ${
+          !horizontal ? "col-span-2" : ""
+        }`}
+      >
         <div className="flex justify-start gap-x-3">
           <span
             className="font-bold whitespace-nowrap py-2"
@@ -152,6 +162,20 @@ function DailyReport() {
             onClick={() => setDate("")}
           >
             날짜 초기화
+          </button>
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <button
+            className="p-2 border hover:bg-gray-100"
+            onClick={() => setHorizontal(false)}
+          >
+            두줄보기
+          </button>
+          <button
+            className="p-2 border hover:bg-gray-100"
+            onClick={() => setHorizontal(true)}
+          >
+            한줄보기
           </button>
         </div>
       </div>
