@@ -47,11 +47,13 @@ function Daily(props) {
     } else if (payType === "CO") {
       return "현금(법인)";
     } else if (payType === "PG") {
-      return "PG카드";
+      return "카드(PG)";
     } else if (payType === "MO") {
-      return "알바몬카드";
+      return "카드(몬)";
     } else if (payType === "HE") {
-      return "현금(개인)";
+      return "카드(천국)";
+    } else if (payType === "PR") {
+      return "선입금";
     } else {
       return "전체";
     }

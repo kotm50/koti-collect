@@ -74,6 +74,8 @@ function StatisticsDetail(props) {
       return "카드(몬)";
     } else if (props.statistics.payType === "HE") {
       return "카드(천국)";
+    } else if (props.statistics.payType === "PR") {
+      return "선입금";
     } else {
       return "전체";
     }

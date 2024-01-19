@@ -30,6 +30,8 @@ function TodayReport(props) {
       return "카드(몬)";
     } else if (payType === "HE") {
       return "카드(천국)";
+    } else if (payType === "PR") {
+      return "선입금";
     } else {
       return "오류";
     }
