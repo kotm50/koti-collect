@@ -340,7 +340,7 @@ function InputPrePaid(props) {
           getFormatCost(prepay.prepayment);
           setPaidDate(prepay.paidDate.split(" ")[0]);
           setPayType(prepay.payType || "");
-          setBigo(bigo ? unescapeHTML(prepay.bigo) : "");
+          setBigo(prepay.bigo ? unescapeHTML(prepay.bigo) : "");
           setCardCode(prepay.cardCode || "");
           setTransactionType(prepay.transactionType || "");
           setTax(prepay.taxBillStatus || "N");
