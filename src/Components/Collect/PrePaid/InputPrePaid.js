@@ -237,6 +237,8 @@ function InputPrePaid(props) {
             setCardCode("");
             setCardList([]);
             setBigo("");
+            setResNo("");
+            setAuthNo("");
             props.getCompanyPrepayList(companyCode, null);
             props.getPrepayList(props.keyword);
           }
@@ -297,6 +299,8 @@ function InputPrePaid(props) {
       setCardCode("");
       setCardList([]);
       setBigo("");
+      setResNo("");
+      setAuthNo("");
     }
     //eslint-disable-next-line
   }, [props.prepayCode]);
@@ -393,6 +397,8 @@ function InputPrePaid(props) {
       setCardCode("");
       setCardList([]);
       setPaidDate("");
+      setResNo("");
+      setAuthNo("");
       props.setPrepayCode(null);
     }
   };
@@ -426,6 +432,8 @@ function InputPrePaid(props) {
             setCardCode("");
             setCardList([]);
             setPaidDate("");
+            setResNo("");
+            setAuthNo("");
             props.setPrepayCode(null);
 
             props.getCompanyPrepayList(companyCode, null);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import MonthButton from "./MonthButton";
 
 import sorry from "../../../Asset/sorry.png";
 import StatisticsDetail from "./StatisticsDetail";
@@ -10,12 +11,13 @@ import Calendar from "react-calendar";
 import { FaCalendarAlt } from "react-icons/fa";
 
 function Statistics(props) {
+  const today = new Date();
   const navi = useNavigate();
   const [statisticsList, setStatisticsList] = useState([]);
   const [payTitle, setPayTitle] = useState("");
   const [payType, setPayType] = useState("");
-  const [year, setYear] = useState(dayjs(new Date(props.date)).format("YYYY"));
-  const [month, setMonth] = useState(dayjs(new Date(props.date)).format("MM"));
+  const [year, setYear] = useState(dayjs(today).format("YYYY"));
+  const [month, setMonth] = useState(dayjs(today).format("MM"));
   const [day, setDay] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const [deposit, setDeposit] = useState(0);
@@ -30,17 +32,36 @@ function Statistics(props) {
   const [startKeyword, setStartKeyword] = useState("");
   const [endKeyword, setEndKeyword] = useState("");
 
+  const [date, setDate] = useState("");
+  const [calendarDate, setCalendarDate] = useState("");
+  const [calendarOn, setCalendarOn] = useState(false);
+
+  const [searchOn, setSearchOn] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   const handlePayType = e => {
     setPayType(e.target.value);
-    getStatisticsList(year, month, day, e.target.value);
+    getStatisticsList(year, month, day, e.target.value, searchKeyword);
   };
 
   useEffect(() => {
-    changeDate();
+    if (!searchOn) {
+      getStatisticsList(year, month, day, payType, searchKeyword);
+    }
     //eslint-disable-next-line
-  }, [props.date]);
+  }, [searchOn]);
+
+  console.log(year);
 
   useEffect(() => {
+    if (calendarDate !== "") {
+      const year = dayjs(calendarDate).format("YYYY");
+      const month = dayjs(calendarDate).format("MM");
+      const day = dayjs(calendarDate).format("DD");
+      setYear(year);
+      setMonth(month);
+      setDay(day);
+    }
     if (calendarDate1 !== "") {
       const startDate1 = dayjs(calendarDate1).format("YYYY년 MM월 DD일");
       const startDate2 = dayjs(calendarDate1).format("YYYY-MM-DD");
@@ -55,29 +76,11 @@ function Statistics(props) {
       setEndDate(endDate1);
       setEndKeyword(endDate2);
     }
-  }, [calendarDate1, calendarDate2]);
-
-  const changeDate = async () => {
-    if (props.date !== "") {
-      const date = dayjs(new Date(props.date)).format("YYYY-MM-DD");
-      const year = dayjs(new Date(props.date)).format("YYYY");
-      const month = dayjs(new Date(props.date)).format("MM");
-      const day = dayjs(new Date(props.date)).format("DD");
-      await setYearMonth(year, month);
-      await changeList(year, month, day, date);
-      setYear(year);
-      setMonth(month);
-      setDay(day);
-      getStatisticsList(year, month, day, payType);
-    } else {
-      setYear("");
-      setMonth("");
-      setDay("");
-    }
-  };
+  }, [calendarDate, calendarDate1, calendarDate2]);
 
   const searchIt = async () => {
     setStatisticsList([]);
+    console.log(props.searchKeyword, startKeyword, endKeyword);
     const data = {
       searchKeyword: props.searchKeyword === "" ? null : props.searchKeyword,
       searchStartDate: startKeyword === "" ? null : startKeyword,
@@ -105,38 +108,13 @@ function Statistics(props) {
     window.location.reload();
   };
 
-  const setYearMonth = (year, month) => {
-    props.setYear(year);
-    props.setMonth(month);
-  };
-
-  const changeList = async (year, month, day, date) => {
-    await getStatisticsList(year, month, day);
-    props.setDate(date);
-  };
-
   useEffect(() => {
-    if (props.year !== year) {
-      setYear(String(props.year));
-      props.setCalendarDate("");
-      props.setDate("");
-      setDay("");
-      setMonth("");
-      resetIt();
-    }
-    if (props.month !== "" || props.month !== month) {
-      setMonth(String(props.month));
-      props.setCalendarDate("");
-      props.setDate("");
-      setDay("");
-      resetIt();
-    }
-    getStatisticsList(props.year, props.month, "", payType);
+    resetIt();
     //eslint-disable-next-line
-  }, [props.year, props.month]);
+  }, [year, month, day]);
 
   const resetIt = () => {
-    props.setSearchKeyword("");
+    setSearchKeyword("");
     setCalendarDate1("");
     setCalendarDate2("");
     setStartDate("");
@@ -167,7 +145,7 @@ function Statistics(props) {
     }
   };
 
-  const getStatisticsList = async (year, month, day, payType) => {
+  const getStatisticsList = async (year, month, day, payType, keyword) => {
     await setStatisticsList([]);
     setTotalCost(0);
     setDeposit(0);
@@ -176,9 +154,13 @@ function Statistics(props) {
     if (payType === "") {
       pType = null;
     }
+    let searchKeyword = keyword;
+    if (keyword === "") {
+      searchKeyword = null;
+    }
     let data = {
-      searchKeyword: props.searchKeyword === "" ? null : props.searchKeyword,
       payType: pType,
+      searchKeyword: searchKeyword,
       searchYear: year,
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
@@ -232,17 +214,135 @@ function Statistics(props) {
     setTotalCost(total);
   };
   */
+
+  useEffect(() => {
+    if (calendarDate !== "") {
+      const date = dayjs(calendarDate).format("YYYY년 MM월 DD일");
+      setCalendarOn(false);
+      setDate(date);
+    }
+    //eslint-disable-next-line
+  }, [calendarDate]);
   return (
     <>
-      {props.searchOn ? (
+      <div className="flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-30">
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">조회방식</span>
+          <button
+            className={`border border-green-500 hover:border-green-700 ${
+              !searchOn
+                ? "bg-green-500 hover:bg-green-700 text-white"
+                : "bg-white hover:bg-gray-100 text-green-500 hover:text-green-700"
+            } p-2 rounded`}
+            onClick={() => setSearchOn(false)}
+            disabled={!searchOn}
+          >
+            기본조회
+          </button>
+          <button
+            className={`border border-green-500 hover:border-green-700 ${
+              searchOn
+                ? "bg-green-500 hover:bg-green-700 text-white"
+                : "bg-white hover:bg-gray-100 text-green-500 hover:text-green-700"
+            } p-2 rounded`}
+            onClick={() => setSearchOn(true)}
+            disabled={searchOn}
+          >
+            상세조회
+          </button>
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <span className="font-bold whitespace-nowrap py-2">검색</span>
+          <input
+            type="text"
+            className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600"
+            value={searchKeyword}
+            onChange={e => setSearchKeyword(e.currentTarget.value)}
+          />
+          <button
+            className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4"
+            onClick={searchIt}
+          >
+            검색하기
+          </button>
+          <button
+            className="text-rose-500 hover:text-rose-700 hover:bg-gray-100 border border-rose-500 hover:border-rose-700  py-2 px-4"
+            onClick={() => reset()}
+          >
+            초기화
+          </button>
+        </div>
+      </div>
+      {!searchOn ? (
+        <div className="flex justify-between py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-50 mt-4">
+          <div className="flex justify-start gap-x-3">
+            <span className="font-bold whitespace-nowrap py-2">
+              연도별 보기
+            </span>
+            <select
+              className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              value={year}
+              onChange={e => {
+                setYear(e.currentTarget.value);
+                setMonth("");
+                setDay("");
+                getStatisticsList(year, "", "", payType);
+              }}
+            >
+              <option value="">연도 선택</option>
+              <option value="2023">2023년</option>
+              <option value="2024">2024년</option>
+            </select>
+          </div>
+          <div className="flex justify-start gap-x-3">
+            <span className="font-bold whitespace-nowrap py-2">월별 보기</span>
+            <MonthButton
+              year={year}
+              month={month}
+              payType={payType}
+              searchKeyword={props.searchKeyword}
+              setMonth={setMonth}
+              setDay={setDay}
+              getStatisticsList={getStatisticsList}
+            />
+          </div>
+          <div className="flex justify-start gap-x-3">
+            <span className="font-bold whitespace-nowrap py-2">날짜 선택</span>
+            <div className="relative min-w-[350px]">
+              {calendarOn ? (
+                <div className="calendarArea top-2 left-0 w-fit h-fit">
+                  <button
+                    className="w-full bg-blue-500 hover:bg-blue-700 text-white p-2 mb-1"
+                    onClick={() => setEndCalendarOn(false)}
+                  >
+                    닫기
+                  </button>
+                  <Calendar onChange={setCalendarDate} value={calendarDate} />
+                </div>
+              ) : (
+                <div
+                  className="border p-2 hover:cursor-pointer flex flex-row justify-start gap-x-2"
+                  onClick={() => setCalendarOn(true)}
+                >
+                  <FaCalendarAlt size={24} />
+                  {date === "" ? (
+                    <span className="ml-2">날짜를 변경하려면 클릭하세요</span>
+                  ) : (
+                    <span className="ml-2">{date}</span>
+                  )}
+                  {date !== "" && (
+                    <span className="text-gray-400">(변경하려면 클릭)</span>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {searchOn ? (
         <div className="flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10 mt-4">
           <div className="flex justify-start gap-x-3">
-            <span
-              className="font-bold whitespace-nowrap py-2"
-              onClick={() => props.setCalendarOn(false)}
-            >
-              날짜 선택
-            </span>
+            <span className="font-bold whitespace-nowrap py-2">날짜 선택</span>
             <div className="relative min-w-[350px]">
               {startCalendarOn ? (
                 <div className="calendarArea top-2 left-0 w-fit h-fit">
@@ -299,27 +399,12 @@ function Statistics(props) {
                 </div>
               )}
             </div>
-            <button
-              className="bg-indigo-500 hover:bg-indigo-700 text-white py-2 px-4"
-              onClick={searchIt}
-            >
-              검색하기
-            </button>
-            <button
-              className="text-rose-500 hover:text-rose-700 hover:bg-gray-100 border border-rose-500 hover:border-rose-700  py-2 px-4"
-              onClick={() => reset()}
-            >
-              초기화
-            </button>
           </div>
           <div></div>
         </div>
       ) : null}
 
-      <div
-        className="p-4 bg-white drop-shadow-lg rounded-lg mt-4"
-        onClick={() => props.setCalendarOn(false)}
-      >
+      <div className="p-4 bg-white drop-shadow-lg rounded-lg mt-4">
         <div className="h-[640px] overflow-y-auto relative">
           {statisticsList.length > 0 ? (
             <table className="w-full">

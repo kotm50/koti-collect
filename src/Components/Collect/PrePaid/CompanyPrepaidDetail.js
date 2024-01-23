@@ -35,9 +35,23 @@ function CompanyPrepaidDetail(props) {
     } else if (props.pay.transactionType === "B") {
       bg = "bg-gray-100";
       stat = "사용";
+      if (props.pay.prepayType === "CA") {
+        result = "현금";
+      } else if (props.pay.prepayType === "CO") {
+        result = "법인";
+      } else if (props.pay.prepayType === "CD") {
+        result = "카드";
+      }
     } else if (props.pay.transactionType === "C") {
       bg = "bg-white";
       stat = "미사용";
+      if (props.pay.prepayType === "CA") {
+        result = "현금";
+      } else if (props.pay.prepayType === "CO") {
+        result = "법인";
+      } else if (props.pay.prepayType === "CD") {
+        result = "카드";
+      }
     }
     setPayStat(stat);
     setPayBg(bg);
@@ -63,21 +77,45 @@ function CompanyPrepaidDetail(props) {
       <tr
         className={`text-center hover:cursor-pointer ${payBg}`}
         title="수정하려면 클릭하세요"
-        onClick={() => {
-          editIt(props.pay.prepayCode);
-        }}
       >
-        <td className="p-1 border text-sm">{payStat}</td>
-        <td className="p-1 border text-sm">
+        <td
+          className="p-1 border text-sm"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
+          {payStat}
+        </td>
+        <td
+          className="p-1 border text-sm"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
           {dayjs(new Date(props.pay.paidDate)).format("YYYY-MM-DD")}
         </td>
-        <td className="p-1 border text-sm">
-          {Number(props.pay.prepayment).toLocaleString()}원
+        <td
+          className="p-1 border text-sm"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
+          {Number(props.pay.prepayment).toLocaleString()}
         </td>
-        <td className="p-1 border text-sm hidden">
-          {Number(props.pay.actualPrepayment).toLocaleString()}원
+        <td
+          className="p-1 border text-sm hidden"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
+          {Number(props.pay.actualPrepayment).toLocaleString()}
         </td>
-        <td className="p-1 border text-sm">
+        <td
+          className="p-1 border text-sm"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
           {payResult}
           {props.pay.payType === "CA" || props.pay.payType === "CO" ? (
             <span>
@@ -85,7 +123,12 @@ function CompanyPrepaidDetail(props) {
             </span>
           ) : null}
         </td>
-        <td className="p-1 border text-sm">
+        <td
+          className="p-1 border text-sm"
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
+        >
           {payResult === "현금" || payResult === "법인"
             ? props.pay.payerName
             : props.pay.cardOwner}
@@ -93,6 +136,9 @@ function CompanyPrepaidDetail(props) {
         <td
           className="border max-w-[150px] w-[150px] min-w-[150px] text-sm px-2"
           title={`${props.pay.cardComp} | ${props.pay.cardOwner} | ${props.pay.cardNum}`}
+          onClick={() => {
+            editIt(props.pay.prepayCode);
+          }}
         >
           <div className="w-[142px] overflow-x-hidden truncate">
             {props.pay.cardComp} {props.pay.cardNum}

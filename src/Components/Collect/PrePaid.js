@@ -20,6 +20,9 @@ function PrePaid() {
 
   const [companyPrepayList, setCompanyPrepayList] = useState([]);
   const [totalPrepay, setTotalPrepay] = useState(0);
+  const [cardPrepay, setCardPrepay] = useState(0);
+  const [cashPrepay, setCashPrepay] = useState(0);
+  const [corpPrepay, setCorpPrepay] = useState(0);
 
   const [companyCode, setCompanyCode] = useState(null);
   const [companyName, setCompanyName] = useState(null);
@@ -49,6 +52,9 @@ function PrePaid() {
 
   const getCompanyPrepayList = async (cCode, tType) => {
     setTotalPrepay(0);
+    setCardPrepay(0);
+    setCashPrepay(0);
+    setCorpPrepay(0);
     setCompanyPrepayList([]);
     if (cCode === "cancel") {
       return true;
@@ -69,6 +75,9 @@ function PrePaid() {
           return alert(res.data.message);
         }
         setTotalPrepay(res.data.prepay.prepayment);
+        setCardPrepay(res.data.prepay.cardPrepayment);
+        setCashPrepay(res.data.prepay.cashPrepayment);
+        setCorpPrepay(res.data.prepay.corporatePrepayment);
         setCompanyPrepayList(res.data.prepayList);
       })
       .catch(e => console.log(e));
@@ -213,6 +222,9 @@ function PrePaid() {
           setCompanyName={setCompanyName}
           companyPrepayList={companyPrepayList}
           totalPrepay={totalPrepay}
+          cardPrepay={cardPrepay}
+          cashPrepay={cashPrepay}
+          corpPrepay={corpPrepay}
           getCompanyPrepayList={getCompanyPrepayList}
         />
       </div>

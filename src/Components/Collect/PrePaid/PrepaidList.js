@@ -85,20 +85,41 @@ function PrepaidList(props) {
           className="overflow-auto relative"
           style={{ height: `${height}px` }}
         >
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-row justify-start gap-x-2">
-              <h3 className="font-bold text-3xl p-2">선입금 상세내역</h3>
-              <div className="text-base pt-5">
-                선입금 잔액{" : "}
-                <span className="text-rose-500 font-bold">
-                  {Number(props.totalPrepay).toLocaleString()}
-                </span>
-                원
-              </div>
+          <div className="flex flex-row justify-between mb-2">
+            <h3 className="font-bold text-3xl p-4">선입금 상세내역</h3>
+            <div className="flex flex-col justify-center">
+              <table>
+                <thead>
+                  <tr className="bg-orange-200">
+                    <td className="py-1 px-4 text-center font-bold border">
+                      총 잔액
+                    </td>
+                    <td className="py-1 px-4 text-center border">현금</td>
+                    <td className="py-1 px-4 text-center border">카드</td>
+                    <td className="py-1 px-4 text-center border">법인</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white">
+                    <td className="py-1 px-4 text-center font-bold border">
+                      {Number(props.totalPrepay).toLocaleString()}
+                    </td>
+                    <td className="py-1 px-4 text-center border">
+                      {Number(props.cashPrepay).toLocaleString()}
+                    </td>
+                    <td className="py-1 px-4 text-center border">
+                      {Number(props.cardPrepay).toLocaleString()}
+                    </td>
+                    <td className="py-1 px-4 text-center border">
+                      {Number(props.corpPrepay).toLocaleString()}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div className="p-2 text-right">
+            <div className="px-0 py-4 text-right">
               <select
-                className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-fit rounded text-sm"
+                className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-fit rounded text-sm"
                 value={tType}
                 onChange={handleTType}
               >

@@ -22,6 +22,13 @@ function ListDetail(props) {
         color = "bg-rose-50";
       }
     }
+    if (props.gifticon.payType === "PR") {
+      if (props.idx % 2 === 1) {
+        color = "bg-stone-100 text-indigo-700";
+      } else {
+        color = "bg-stone-50 text-indigo-500";
+      }
+    }
     setColor(color);
     //eslint-disable-next-line
   }, [props.gifticon]);
@@ -35,7 +42,8 @@ function ListDetail(props) {
     if (
       props.gifticon.payType === "PG" ||
       props.gifticon.payType === "MO" ||
-      props.gifticon.payType === "HE"
+      props.gifticon.payType === "HE" ||
+      props.gifticon.prepayType === "CD"
     ) {
       const camount = Math.round(cost / 1.1);
       const cvat = cost - camount;
@@ -65,7 +73,10 @@ function ListDetail(props) {
       <td className="p-1 border">{props.gifticon.companyName}</td>
       <td className="p-1 border">{props.gifticon.companyBranch}</td>
       <td className="p-1 border">
-        {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
+        {props.gifticon.payType === "CA" ||
+        props.gifticon.payType === "CO" ||
+        props.gifticon.prepayType === "CA" ||
+        props.gifticon.prepayType === "CO" ? (
           <span>
             {props.gifticon.taxBillStatus !== "Y"
               ? payment.toLocaleString()
@@ -74,17 +85,26 @@ function ListDetail(props) {
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType !== "CA" && props.gifticon.payType !== "CO" ? (
+        {props.gifticon.payType !== "CA" &&
+        props.gifticon.payType !== "CO" &&
+        props.gifticon.prepayType !== "CO" &&
+        props.gifticon.prepayType !== "CA" ? (
           <span>{amount > 0 ? amount.toLocaleString() : null}</span>
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType !== "CA" && props.gifticon.payType !== "CO" ? (
+        {props.gifticon.payType !== "CA" &&
+        props.gifticon.payType !== "CO" &&
+        props.gifticon.prepayType !== "CO" &&
+        props.gifticon.prepayType !== "CA" ? (
           <span>{vat > 0 ? vat.toLocaleString() : null}</span>
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
+        {props.gifticon.payType === "CA" ||
+        props.gifticon.payType === "CO" ||
+        props.gifticon.prepayType === "CA" ||
+        props.gifticon.prepayType === "CO" ? (
           <span>
             {props.gifticon.taxBillStatus === "Y"
               ? amount.toLocaleString()
@@ -93,7 +113,10 @@ function ListDetail(props) {
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType === "CA" || props.gifticon.payType === "CO" ? (
+        {props.gifticon.payType === "CA" ||
+        props.gifticon.payType === "CO" ||
+        props.gifticon.prepayType === "CA" ||
+        props.gifticon.prepayType === "CO" ? (
           <span>
             {props.gifticon.taxBillStatus === "Y" ? vat.toLocaleString() : null}
           </span>
