@@ -37,20 +37,25 @@ function TodayReport(props) {
     }
   };
 
-  const colorChk = payType => {
+  const colorChk = (payType, sortNum) => {
+    let color;
     if (payType === "CA") {
-      return "bg-white";
+      color = "bg-white";
     } else if (payType === "CO") {
-      return "bg-green-100";
+      color = "bg-green-100";
     } else if (payType === "PG") {
-      return "bg-blue-100";
+      color = "bg-blue-100";
     } else if (payType === "MO") {
-      return "bg-yellow-100";
+      color = "bg-yellow-100";
     } else if (payType === "HE") {
-      return "bg-orange-100";
+      color = "bg-orange-100";
     } else {
-      return "";
+      color = "";
     }
+    if (sortNum === 1) {
+      color = "bg-gray-100";
+    }
+    return color;
   };
   return (
     <div className="p-2 bg-white">
@@ -73,9 +78,10 @@ function TodayReport(props) {
           <tbody className="text-sm">
             {props.list.map((item, idx) => (
               <tr
-                className={`text-center ${
-                  item.sortNum === 1 ? "" : ""
-                } ${colorChk(item.payType)}`}
+                className={`text-center ${colorChk(
+                  item.payType,
+                  item.sortNum
+                )}`}
                 key={idx}
               >
                 <td className="border p-1">{item.channel}</td>

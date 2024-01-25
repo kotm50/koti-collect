@@ -11,8 +11,6 @@ function TomorowReport(props) {
     // 현재 날짜와 시간을 나타내는 Date 객체 생성
     let today = new Date();
 
-    console.log(today.getDay());
-
     // 현재 날짜에 1을 더하여 내일 날짜를 얻음
     let tomorrow = new Date(today);
     if (today.getDay() === 5) {
