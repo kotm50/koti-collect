@@ -354,6 +354,7 @@ function InputDeposit(props) {
         data.cardCode = null;
         data.resNo = null;
         data.authNo = null;
+        data.prepayType = prePayType;
       }
       await axios
         .patch("/api/v1/comp/upt/pay", data, {
