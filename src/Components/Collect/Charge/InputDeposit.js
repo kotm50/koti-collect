@@ -341,6 +341,7 @@ function InputDeposit(props) {
         payerName: payerName === "" ? null : payerName,
         bigo: bigo === "" ? null : escapeBigo,
         payCode: payCode === "" ? null : payCode,
+        installment: installment === "" ? null : installment,
       };
       if (payType === "CA" || payType === "CO") {
         data.cardCode = null;
