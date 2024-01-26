@@ -278,6 +278,7 @@ function InputDeposit(props) {
         authNo: authNo === "" ? null : authNo,
         payerName: payerName === "" ? null : payerName,
         bigo: bigo === "" ? null : escapeBigo,
+        installment: installment === "" ? null : installment,
       };
       if (payType === "CA" || payType === "CO") {
         data.cardCode = null;
