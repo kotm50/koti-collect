@@ -148,7 +148,7 @@ function ReportB(props) {
       } else if (doc.weekOfMonth === "2") {
         weekList.second = doc.totalPayment;
       } else if (doc.weekOfMonth === "3") {
-        weekList.thrid = doc.totalPayment;
+        weekList.third = doc.totalPayment;
       } else if (doc.weekOfMonth === "4") {
         weekList.fourth = doc.totalPayment;
       } else if (doc.weekOfMonth === "5") {
