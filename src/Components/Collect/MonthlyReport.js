@@ -25,15 +25,19 @@ function MonthlyReport() {
   const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
   useEffect(() => {
     setTitle("월간보고");
-    if (tabMenu === 1) {
-      getMonthlyStatisticReport(year, month);
-    } else {
+    if (tabMenu === 0) {
       getMonthlyReport(year, month);
+      setWeekList([]);
+      setCompNmList([]);
+      setCompSumList([]);
+      setGubunList([]);
+    } else {
+      setListA([]);
+      getMonthlyStatisticReport(year, month);
     }
     //eslint-disable-next-line
   }, [thisLocation, tabMenu, year, month]);
   const getMonthlyReport = async (year, month) => {
-    setListA([]);
     const data = {
       searchYear: year,
       searchMonth: month,
@@ -43,7 +47,6 @@ function MonthlyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -54,10 +57,6 @@ function MonthlyReport() {
   };
 
   const getMonthlyStatisticReport = async (year, month) => {
-    setWeekList([]);
-    setCompNmList([]);
-    setCompSumList([]);
-    setGubunList([]);
     const data = {
       searchYear: year,
       searchMonth: month,
@@ -67,7 +66,6 @@ function MonthlyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;

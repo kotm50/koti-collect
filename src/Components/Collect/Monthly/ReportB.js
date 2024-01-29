@@ -36,24 +36,55 @@ function ReportB(props) {
   useEffect(() => {
     if (props.weekList && props.weekList.length > 0) {
       getWeeklyCost(props.weekList);
+    } else {
+      setWeekList({
+        first: 0,
+        second: 0,
+        third: 0,
+        fourth: 0,
+        fifth: 0,
+        total: 0,
+      });
     }
   }, [props.weekList]);
 
   useEffect(() => {
     if (props.gubunList && props.gubunList.length > 0) {
       getGubun(props.gubunList);
+    } else {
+      setGubunTotal({
+        im: 0,
+        tm: 0,
+        total: 0,
+      });
     }
   }, [props.gubunList]);
 
   useEffect(() => {
     if (props.compNmList && props.compNmList.length > 0) {
       getCompNm(props.compNmList);
+    } else {
+      setCompNmTotal({
+        paidAd: 0,
+        paidComm: 0,
+        paidIntvCare: 0,
+        paidCommCare: 0,
+        prepayment: 0,
+        total: 0,
+      });
     }
   }, [props.compNmList]);
 
   useEffect(() => {
     if (props.compSumList && props.compSumList.length > 0) {
       getCompSumm(props.compSumList);
+    } else {
+      setCompSumTotal({
+        cashPayment: 0,
+        billPayment: 0,
+        cardPayment: 0,
+        total: 0,
+      });
     }
   }, [props.compSumList]);
 
