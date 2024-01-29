@@ -106,11 +106,20 @@ function UnReceive() {
   const getFeeList = async (month, year, keyword) => {
     await loadReset();
     await feeReset();
-    let commission = {
-      hireStartMonth: String(month),
-      hireStartYear: String(year),
-      commStatus: isUnpaid,
-    };
+    let commission;
+    if (isUnpaid === "N") {
+      commission = {
+        hireStartMonth: String(month),
+        hireStartYear: String(year),
+        commStatus: isUnpaid,
+      };
+    } else {
+      commission = {
+        hireStartMonth: String(new Date().getMonth() + 1),
+        hireStartYear: String(dayjs(new Date()).format("YYYY")),
+        commStatus: isUnpaid,
+      };
+    }
     let reqData;
     let paging;
 
@@ -138,6 +147,8 @@ function UnReceive() {
           return alert(res.data.message);
         }
         let unPaid = res.data.commission;
+        console.log(unPaid);
+        console.log(res.data.pay);
         if (
           unPaid.unpaidAd === 0 &&
           unPaid.unpaidComm === 0 &&
