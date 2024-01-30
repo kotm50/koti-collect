@@ -432,10 +432,11 @@ function ReportA(props) {
     // 새로운 total과 allTotal 객체 초기화
     let newTotal = await initializeTotal();
     let newAllTotal = await initializeAllTotal();
+    let count = 0;
     list.forEach(item => {
+      count = count + 1;
       let weekKey = `week${item.weekOfMonth}`;
       let dayOfWeek = convertNumberToDay(item.dayOfWeek);
-      console.log(newAllTotal.paidAd);
       if (newWeeks[weekKey] && dayOfWeek) {
         newWeeks[weekKey][dayOfWeek] = [...newWeeks[weekKey][dayOfWeek], item];
         // total 상태 업데이트
@@ -454,7 +455,7 @@ function ReportA(props) {
         newAllTotal.prepayment += item.prepayment;
       }
     });
-    console.log(newAllTotal.paidAd);
+    console.log(count, newAllTotal.paidAd);
     // 전체 total 계산
     newAllTotal.total =
       newAllTotal.paidAd +

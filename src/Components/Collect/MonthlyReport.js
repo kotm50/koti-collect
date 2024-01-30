@@ -52,8 +52,10 @@ function MonthlyReport() {
           return false;
         }
         let aaa = 0;
+        let count = 0;
         res.data.statisticsList.forEach(item => {
           aaa = aaa + item.paidAd;
+          count = count + 1;
         });
         console.log(aaa);
         setListA(res.data.statisticsList);
