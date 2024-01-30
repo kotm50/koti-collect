@@ -454,6 +454,7 @@ function UnReceive() {
               <option value="F">면세 조회</option>
               <option value="S">예정 7일</option>
               <option value="T">예정 3일</option>
+              <option value="W">예정 2일</option>
               <option value="O">예정 1일</option>
             </select>
           </div>
