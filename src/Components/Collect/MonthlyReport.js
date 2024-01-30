@@ -51,6 +51,7 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
+        console.log(res.data.statisticsList);
         setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));

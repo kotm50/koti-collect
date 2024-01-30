@@ -432,7 +432,7 @@ function ReportA(props) {
     // 새로운 total과 allTotal 객체 초기화
     let newTotal = initializeTotal();
     let newAllTotal = initializeAllTotal();
-
+    console.log(newAllTotal);
     list.forEach(item => {
       let weekKey = `week${item.weekOfMonth}`;
       let dayOfWeek = convertNumberToDay(item.dayOfWeek);
@@ -462,6 +462,7 @@ function ReportA(props) {
       newAllTotal.paidIntvCare +
       newAllTotal.paidCommCare +
       newAllTotal.prepayment;
+    console.log(newAllTotal);
     setWeeks(newWeeks);
     setTotal(newTotal);
     setAllTotal(newAllTotal);
