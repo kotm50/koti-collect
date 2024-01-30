@@ -78,8 +78,8 @@ function MonthlyReport() {
         sumList.forEach(doc => {
           count = count + 1;
           cash = cash + doc.cashPayment;
-          card = cash + doc.cardPayment;
-          bill = cash + doc.billPayment;
+          card = card + doc.cardPayment;
+          bill = bill + doc.billPayment;
         });
         console.log("부모", count, cash);
         console.log("부모", count, card);
