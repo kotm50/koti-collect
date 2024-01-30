@@ -51,14 +51,6 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
-        let aaa = 0;
-        let count = 0;
-        res.data.statisticsList.forEach(item => {
-          aaa = aaa + item.paidAd;
-          count = count + 1;
-        });
-        console.log(count, aaa);
-        console.log("부모", res.data.statisticsList.length);
         setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));
@@ -78,7 +70,6 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
-        console.log(res);
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);

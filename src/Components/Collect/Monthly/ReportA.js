@@ -210,9 +210,13 @@ function ReportA(props) {
     prepayment: 0,
   });
 
-  const convertNumberToDay = dayNumber => {
+  const convertNumberToDay = (dayNumber, manager) => {
+    let dNum = dayNumber;
+    if (dNum === "1" || dNum === "0" || dNum === "7") {
+      dNum = "2";
+    }
     const numberMap = { 2: "mon", 3: "tue", 4: "wed", 5: "thu", 6: "fri" };
-    return numberMap[dayNumber] || null;
+    return numberMap[dNum] || null;
   };
 
   useEffect(() => {
@@ -428,16 +432,16 @@ function ReportA(props) {
     if (list === undefined) {
       return false;
     }
-    console.log("자식", list.length);
     let newWeeks = { ...weeks };
     // 새로운 total과 allTotal 객체 초기화
     let newTotal = await initializeTotal();
     let newAllTotal = await initializeAllTotal();
     let count = 0;
+    let mlist = [];
     list.forEach(item => {
       count = count + 1;
       let weekKey = `week${item.weekOfMonth}`;
-      let dayOfWeek = convertNumberToDay(item.dayOfWeek);
+      let dayOfWeek = convertNumberToDay(item.dayOfWeek, item.manager1);
       if (newWeeks[weekKey] && dayOfWeek) {
         newWeeks[weekKey][dayOfWeek] = [...newWeeks[weekKey][dayOfWeek], item];
         // total 상태 업데이트
@@ -454,9 +458,9 @@ function ReportA(props) {
         newAllTotal.paidIntvCare += item.paidIntvCare;
         newAllTotal.paidCommCare += item.paidCommCare;
         newAllTotal.prepayment += item.prepayment;
+        mlist.push(item.manager1);
       }
     });
-    console.log(count, newAllTotal.paidAd);
     // 전체 total 계산
     newAllTotal.total =
       newAllTotal.paidAd +
