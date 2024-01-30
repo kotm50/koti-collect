@@ -57,7 +57,7 @@ function MonthlyReport() {
           aaa = aaa + item.paidAd;
           count = count + 1;
         });
-        console.log(aaa);
+        console.log(count, aaa);
         setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));
