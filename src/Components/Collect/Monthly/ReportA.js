@@ -424,14 +424,14 @@ function ReportA(props) {
     getWeekDay(list);
   };
 
-  const getWeekDay = list => {
+  const getWeekDay = async list => {
     if (list === undefined) {
       return false;
     }
     let newWeeks = { ...weeks };
     // 새로운 total과 allTotal 객체 초기화
-    let newTotal = initializeTotal();
-    let newAllTotal = initializeAllTotal();
+    let newTotal = await initializeTotal();
+    let newAllTotal = await initializeAllTotal();
     console.log(newAllTotal);
     list.forEach(item => {
       let weekKey = `week${item.weekOfMonth}`;
