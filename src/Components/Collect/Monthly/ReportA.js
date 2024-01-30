@@ -454,6 +454,7 @@ function ReportA(props) {
         newAllTotal.prepayment += item.prepayment;
       }
     });
+    console.log(newAllTotal.paidAd);
     // 전체 total 계산
     newAllTotal.total =
       newAllTotal.paidAd +

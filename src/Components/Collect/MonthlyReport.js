@@ -51,7 +51,11 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
-        console.log(res.data.statisticsList);
+        let aaa = 0;
+        res.data.statisticsList.forEach(item => {
+          aaa = aaa + item.paidAd;
+        });
+        console.log(aaa);
         setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));
