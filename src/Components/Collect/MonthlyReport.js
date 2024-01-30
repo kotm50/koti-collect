@@ -73,11 +73,17 @@ function MonthlyReport() {
         const sumList = res.data.compSumList;
         let count = 0;
         let cash = 0;
+        let card = 0;
+        let bill = 0;
         sumList.forEach(doc => {
           count = count + 1;
           cash = cash + doc.cashPayment;
+          card = cash + doc.cardPayment;
+          bill = cash + doc.billPayment;
         });
         console.log("부모", count, cash);
+        console.log("부모", count, card);
+        console.log("부모", count, bill);
 
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
