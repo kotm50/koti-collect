@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 function WeekTotal(props) {
-  useEffect(() => {
-    console.log(props.weekList);
-  }, [props.weekList]);
   return (
     <div className="bg-white p-4 rounded-lg drop-shadow">
       <h3 className="text-lg mb-2 font-bold">주차별 수수료 결제</h3>
