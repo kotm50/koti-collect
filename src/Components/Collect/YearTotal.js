@@ -589,7 +589,7 @@ function YearTotal() {
               <div className="text-center bg-yellow-200 flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black">
                 {countTotal}
               </div>
-              <div className="col-span-2 text-right pr-3 bg-yellow-200 flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black">
+              <div className="col-span-2 text-center bg-yellow-200 flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black">
                 {costTotal.toLocaleString()}
               </div>
               <div className="text-center bg-yellow-200 flex flex-col justify-center font-bold border border-r-0 border-t-0 border-black">
@@ -655,7 +655,7 @@ function YearTotal() {
                       {total.counter + 1}
                     </div>
                     <div
-                      className={`col-span-2 text-right pr-3 bg-yellow-200 border ${
+                      className={`col-span-2 text-center bg-yellow-200 border ${
                         idx === 0 && "border-t-0"
                       } ${
                         idx !== totalList.length - 1 && "border-b-0"
