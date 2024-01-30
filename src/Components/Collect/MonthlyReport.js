@@ -58,6 +58,7 @@ function MonthlyReport() {
           count = count + 1;
         });
         console.log(count, aaa);
+        console.log("부모", res.data.statisticsList.length);
         setListA(res.data.statisticsList);
       })
       .catch(e => console.log(e));

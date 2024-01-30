@@ -628,7 +628,7 @@ function YearTotal() {
                       {total.companyBranch}
                     </div>
                     <div
-                      className={`text-center bg-gray-100 border ${
+                      className={`text-center bg-gray-100 border truncate overflow-hidden ${
                         idx === 0 && "border-t-0"
                       } ${
                         idx !== totalList.length - 1 && "border-b-0"
@@ -637,7 +637,7 @@ function YearTotal() {
                       {total.manager1}
                     </div>
                     <div
-                      className={`text-center bg-yellow-100 border ${
+                      className={`text-center bg-yellow-100 border truncate overflow-hidden ${
                         idx === 0 && "border-t-0"
                       } ${
                         idx !== totalList.length - 1 && "border-b-0"

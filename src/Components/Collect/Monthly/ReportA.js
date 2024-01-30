@@ -428,6 +428,7 @@ function ReportA(props) {
     if (list === undefined) {
       return false;
     }
+    console.log("자식", list.length);
     let newWeeks = { ...weeks };
     // 새로운 total과 allTotal 객체 초기화
     let newTotal = await initializeTotal();
