@@ -199,9 +199,9 @@ function UnReceive() {
                 <tr className="bg-rose-500 text-white">
                   <td className="p-1 border text-center">미수금 합계</td>
                   <td className="p-1 border text-center">광고비 미수금</td>
-                  <td className="p-1 border text-center">위촉비 미수금</td>
                   <td className="p-1 border text-center">면케 미수금</td>
                   <td className="p-1 border text-center">위케 미수금</td>
+                  <td className="p-1 border text-center">위촉비 미수금</td>
                 </tr>
               </thead>
               <tbody>
@@ -219,13 +219,13 @@ function UnReceive() {
                     {Number(unPaid.unpaidAd).toLocaleString()} 원
                   </td>
                   <td className="p-1 border text-right">
-                    {Number(unPaid.unpaidComm).toLocaleString()} 원
-                  </td>
-                  <td className="p-1 border text-right">
                     {Number(unPaid.unpaidIntvCare).toLocaleString()} 원
                   </td>
                   <td className="p-1 border text-right">
                     {Number(unPaid.unpaidCommCare).toLocaleString()} 원
+                  </td>
+                  <td className="p-1 border text-right">
+                    {Number(unPaid.unpaidComm).toLocaleString()} 원
                   </td>
                 </tr>
               </tbody>
@@ -236,9 +236,9 @@ function UnReceive() {
                 <tr className="bg-rose-500 text-white">
                   <td className="p-1 border text-center">미수금 합계</td>
                   <td className="p-1 border text-center">광고비 미수금</td>
-                  <td className="p-1 border text-center">위촉비 미수금</td>
                   <td className="p-1 border text-center">면케 미수금</td>
                   <td className="p-1 border text-center">위케 미수금</td>
+                  <td className="p-1 border text-center">위촉비 미수금</td>
                 </tr>
               </thead>
               <tbody>
@@ -260,9 +260,9 @@ function UnReceive() {
                 <tr className="bg-green-600 text-white">
                   <td className="p-1 border text-center">수금 합계</td>
                   <td className="p-1 border text-center">광고비 수금</td>
-                  <td className="p-1 border text-center">위촉비 수금</td>
                   <td className="p-1 border text-center">면케 수금</td>
                   <td className="p-1 border text-center">위케 수금</td>
+                  <td className="p-1 border text-center">위촉비 수금</td>
                 </tr>
               </thead>
               <tbody>
@@ -280,13 +280,13 @@ function UnReceive() {
                     {Number(paid.paidAd).toLocaleString()} 원
                   </td>
                   <td className="p-1 border text-right">
-                    {Number(paid.paidComm).toLocaleString()} 원
-                  </td>
-                  <td className="p-1 border text-right">
                     {Number(paid.paidIntvCare).toLocaleString()} 원
                   </td>
                   <td className="p-1 border text-right">
                     {Number(paid.paidCommCare).toLocaleString()} 원
+                  </td>
+                  <td className="p-1 border text-right">
+                    {Number(paid.paidComm).toLocaleString()} 원
                   </td>
                 </tr>
               </tbody>

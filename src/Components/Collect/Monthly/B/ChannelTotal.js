@@ -46,7 +46,6 @@ function ChannelTotal(props) {
         <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
           합계
         </div>
-
         {props.gubunList && props.gubunList.length > 0 ? (
           <>
             {props.gubunList.map((gubun, idx) => (
