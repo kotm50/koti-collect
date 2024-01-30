@@ -70,6 +70,15 @@ function MonthlyReport() {
           navi("/");
           return false;
         }
+        const sumList = res.data.compSumList;
+        let count = 0;
+        let cash = 0;
+        sumList.forEach(doc => {
+          count = count + 1;
+          cash = cash + doc.cashPayment;
+        });
+        console.log("부모", count, cash);
+
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);

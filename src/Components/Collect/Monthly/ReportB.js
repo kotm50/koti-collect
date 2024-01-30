@@ -93,11 +93,14 @@ function ReportB(props) {
     let billPayment = 0;
     let cardPayment = 0;
     let total = 0;
+    let count = 0;
     comp.forEach(doc => {
+      count = count + 1;
       cashPayment = cashPayment + doc.cashPayment;
       billPayment = billPayment + doc.billPayment;
       cardPayment = cardPayment + doc.cardPayment;
     });
+    console.log("자식", count, cashPayment);
     total = cashPayment + billPayment + cardPayment;
     setCompSumTotal({
       cashPayment: cashPayment,
