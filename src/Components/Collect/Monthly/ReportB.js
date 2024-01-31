@@ -104,6 +104,7 @@ function ReportB(props) {
     console.log("자식", count, cardPayment);
     console.log("자식", count, billPayment);
     total = cashPayment + billPayment + cardPayment;
+    console.log("자식", count, total);
     setCompSumTotal({
       cashPayment: cashPayment,
       billPayment: billPayment,

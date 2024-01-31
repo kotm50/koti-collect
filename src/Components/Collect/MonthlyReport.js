@@ -84,6 +84,7 @@ function MonthlyReport() {
         console.log("부모", count, cash);
         console.log("부모", count, card);
         console.log("부모", count, bill);
+        console.log("부모", count, cash + card + bill);
 
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
