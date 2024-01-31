@@ -512,7 +512,7 @@ function InputCharge(props) {
         week: week === "" ? null : week,
         day: day === "" ? null : day,
         memo: escapeMemo === "" ? null : escapeMemo,
-        taxBillStatus: tax === "" ? null : tax,
+        taxBillStatus: tax === "" ? "N" : tax,
         taxBillIssueDate: taxDate === "" ? null : taxDate,
       };
       if (commCode !== "") {
