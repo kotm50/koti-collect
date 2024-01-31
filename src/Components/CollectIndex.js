@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import axios from "axios";
 import { loginUser } from "../Reducer/userSlice";
+
+import { dummy1, dummy2 } from "../Dummy/DailyJS";
 
 function CollectIndex() {
   const inputPwdRef = useRef();
@@ -12,6 +14,23 @@ function CollectIndex() {
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    const mismatched = [];
+
+    dummy1.forEach(item1 => {
+      const item2 = dummy2.find(item => item.name === item1.name);
+      if (item2 && item1.total !== item2.total) {
+        mismatched.push({
+          name: item1.name,
+          total1: item1.total,
+          total2: item2.total,
+        });
+      }
+    });
+
+    console.log(mismatched);
+  }, []);
 
   const login = async () => {
     const data = {

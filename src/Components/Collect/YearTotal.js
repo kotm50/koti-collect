@@ -534,6 +534,10 @@ function YearTotal() {
           return b.costTotal - a.costTotal;
         });
         setTotalList(listD);
+        console.log("1단계", list);
+        console.log("2단계", listB);
+        console.log("3단계", listC);
+        console.log("4단계", listD);
       })
       .catch(e => console.log(e));
   };
