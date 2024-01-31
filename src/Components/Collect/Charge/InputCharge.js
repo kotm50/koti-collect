@@ -140,7 +140,7 @@ function InputCharge(props) {
         setAdNumber(commission.adId || "");
         setStartDate(commission.hireStartDate || "");
         setEndDate(commission.hireEndDate || "");
-        setTax(commission.taxBillStatus);
+        setTax(commission.taxBillStatus || "N");
         setTaxDate(commission.taxBillIssueDate || "");
         setEndDate(commission.hireEndDate || "");
         setPaymentDueDate(commission.paymentDueDate || "");
