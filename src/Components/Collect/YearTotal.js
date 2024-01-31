@@ -534,10 +534,27 @@ function YearTotal() {
           return b.costTotal - a.costTotal;
         });
         setTotalList(listD);
-        console.log("1단계", list);
-        console.log("2단계", listB);
-        console.log("3단계", listC);
-        console.log("4단계", listD);
+        let listE = [];
+        let listF = [];
+        listD.forEach(doc => {
+          if (doc.companyName === "교보생명") {
+            const object = {
+              name: doc.companyName,
+              branch: doc.companyBranch,
+              total: doc.costTotal,
+            };
+            listE.push(object);
+          } else if (doc.companyName === "미래에셋") {
+            const object = {
+              name: doc.companyName,
+              branch: doc.companyBranch,
+              total: doc.costTotal,
+            };
+            listF.push(object);
+          }
+        });
+        console.log("교보", listE);
+        console.log("미래", listF);
       })
       .catch(e => console.log(e));
   };
