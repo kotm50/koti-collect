@@ -95,13 +95,17 @@ function ReportB(props) {
     let cardPayment = 0;
     let total = 0;
     comp.forEach(doc => {
-      list.push(doc);
       cashPayment = cashPayment + doc.cashPayment;
       billPayment = billPayment + doc.billPayment;
       cardPayment = cardPayment + doc.cardPayment;
+      const object = {
+        name: doc.companyName,
+        total: doc.cashPayment + doc.billPayment + doc.cardPayment,
+      };
+      list.push(object);
     });
     total = cashPayment + billPayment + cardPayment;
-    console.log("방식별", total, list);
+    console.log("방식별", list);
     setCompSumTotal({
       cashPayment: cashPayment,
       billPayment: billPayment,
@@ -119,15 +123,24 @@ function ReportB(props) {
     let prepayment = 0;
     let total = 0;
     comp.forEach(doc => {
-      list.push(doc);
       paidAd = paidAd + doc.paidAd;
       paidComm = paidComm + doc.paidComm;
       paidIntvCare = paidIntvCare + doc.paidIntvCare;
       paidCommCare = paidCommCare + doc.paidCommCare;
       prepayment = prepayment + doc.prepayment;
+      const object = {
+        name: doc.companyName,
+        total:
+          doc.paidAd +
+          doc.paidComm +
+          doc.paidIntvCare +
+          doc.paidCommCare +
+          doc.prepayment,
+      };
+      list.push(object);
     });
     total = paidAd + paidComm + paidIntvCare + paidCommCare + prepayment;
-    console.log("사별", total, list);
+    console.log("사별", list);
     setCompNmTotal({
       paidAd: paidAd,
       paidComm: paidComm,
