@@ -536,6 +536,8 @@ function YearTotal() {
         setTotalList(listD);
         let listE = [];
         let listF = [];
+        let totalE = 0;
+        let totalF = 0;
         listD.forEach(doc => {
           if (doc.companyName === "교보생명") {
             const object = {
@@ -543,6 +545,7 @@ function YearTotal() {
               branch: doc.companyBranch,
               total: doc.costTotal,
             };
+            totalE = totalE + doc.costTotal;
             listE.push(object);
           } else if (doc.companyName === "미래에셋") {
             const object = {
@@ -550,11 +553,12 @@ function YearTotal() {
               branch: doc.companyBranch,
               total: doc.costTotal,
             };
+            totalF = totalF + doc.costTotal;
             listF.push(object);
           }
         });
-        console.log("교보", listE);
-        console.log("미래", listF);
+        console.log("교보", totalE, listE);
+        console.log("미래", totalF, listF);
       })
       .catch(e => console.log(e));
   };
