@@ -50,7 +50,7 @@ function InputCompanyList(props) {
         <h3 className="text-center text-lg font-bold">고객사 검색결과</h3>
         <button
           className="min-w-[24px] text-lg hover:text-gray-500"
-          onClick={() => props.setCompanyListOn(false)}
+          onClick={() => props.cancelSearch(false)}
         >
           <MdClose />
         </button>

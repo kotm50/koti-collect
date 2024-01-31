@@ -11,7 +11,7 @@ function Cards(props) {
   return (
     <>
       <table id="mainTable" className="w-full">
-        <thead>
+        <thead className="relative" style={{ zIndex: 0 }}>
           <tr className="bg-orange-700 text-center text-white">
             <td className="border p-1">고객사</td>
             <td className="border p-1">카드사</td>

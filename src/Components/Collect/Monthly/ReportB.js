@@ -89,22 +89,19 @@ function ReportB(props) {
   }, [props.compSumList]);
 
   const getCompSumm = comp => {
+    let list = [];
     let cashPayment = 0;
     let billPayment = 0;
     let cardPayment = 0;
     let total = 0;
-    let count = 0;
     comp.forEach(doc => {
-      count = count + 1;
+      list.push(doc);
       cashPayment = cashPayment + doc.cashPayment;
       billPayment = billPayment + doc.billPayment;
       cardPayment = cardPayment + doc.cardPayment;
     });
-    console.log("자식", count, cashPayment);
-    console.log("자식", count, cardPayment);
-    console.log("자식", count, billPayment);
     total = cashPayment + billPayment + cardPayment;
-    console.log("자식", count, total);
+    console.log("방식별", total, list);
     setCompSumTotal({
       cashPayment: cashPayment,
       billPayment: billPayment,
@@ -114,6 +111,7 @@ function ReportB(props) {
   };
 
   const getCompNm = comp => {
+    let list = [];
     let paidAd = 0;
     let paidComm = 0;
     let paidIntvCare = 0;
@@ -121,6 +119,7 @@ function ReportB(props) {
     let prepayment = 0;
     let total = 0;
     comp.forEach(doc => {
+      list.push(doc);
       paidAd = paidAd + doc.paidAd;
       paidComm = paidComm + doc.paidComm;
       paidIntvCare = paidIntvCare + doc.paidIntvCare;
@@ -128,6 +127,7 @@ function ReportB(props) {
       prepayment = prepayment + doc.prepayment;
     });
     total = paidAd + paidComm + paidIntvCare + paidCommCare + prepayment;
+    console.log("사별", total, list);
     setCompNmTotal({
       paidAd: paidAd,
       paidComm: paidComm,

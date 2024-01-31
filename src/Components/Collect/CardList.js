@@ -26,7 +26,6 @@ function CardList() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyCode, setCompanyCode] = useState("");
-  const [companyListOn, setCompanyListOn] = useState(false);
   const [inputOn, setInputOn] = useState(false);
   const [cardList, setCardList] = useState([]);
 
@@ -118,7 +117,6 @@ function CardList() {
     setCompanyCode("");
     setCompanyName("");
     setSearchKeyword("");
-    setCompanyListOn(false);
   };
 
   return (
@@ -136,9 +134,6 @@ function CardList() {
               onChange={e => setCompanyName(e.currentTarget.value)}
               onKeyUp={handleDelay}
               data-comcode={companyCode}
-              onFocus={() => {
-                setCompanyListOn(true);
-              }}
             />
             <button
               className="bg-gray-700 hover:bg-gray-500 text-white p-2 w-[100px]"
@@ -150,16 +145,14 @@ function CardList() {
             </button>
           </div>
         </div>
-        {companyListOn && (
-          <InputCompanyList
-            searchKeyword={searchKeyword}
-            setCompanyCode={setCompanyCode}
-            setCompanyName={setCompanyName}
-            setCompanyListOn={setCompanyListOn}
-          />
-        )}
+        <InputCompanyList
+          searchKeyword={searchKeyword}
+          setCompanyCode={setCompanyCode}
+          setCompanyName={setCompanyName}
+          cancelSearch={cancelSearch}
+        />
         {user.admin ? (
-          <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow mt-2">
+          <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow my-2">
             <div
               className={`flex justify-between hover:cursor-pointer hover:bg-gray-100 hover:rounded-full relative px-2 ${
                 inputOn && "mb-2"
@@ -194,27 +187,27 @@ function CardList() {
             </div>
           </div>
         ) : null}
+        {loaded ? (
+          <>
+            {cardList.length > 0 ? (
+              <Cards cardList={cardList} setEdit={setEdit} />
+            ) : (
+              <div className="text-2xl text-bold text-center">
+                <img
+                  src={sorry}
+                  className="mx-auto w-[240px] h-auto mb-5 mt-20"
+                  alt="오류"
+                />
+                조회 된 내용이 없습니다
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-2xl text-center font-bold">
+            잠시만 기다려 주세요...
+          </div>
+        )}
       </div>
-      {loaded ? (
-        <>
-          {cardList.length > 0 ? (
-            <Cards cardList={cardList} setEdit={setEdit} />
-          ) : (
-            <div className="text-2xl text-bold text-center">
-              <img
-                src={sorry}
-                className="mx-auto w-[240px] h-auto mb-5 mt-20"
-                alt="오류"
-              />
-              조회 된 내용이 없습니다
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="text-2xl text-center font-bold">
-          잠시만 기다려 주세요...
-        </div>
-      )}
     </div>
   );
 }
