@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import WeekTotal from "./B/WeekTotal";
 import ChannelTotal from "./B/ChannelTotal";
+import CompanyTotal from "./B/CompanyTotal";
+import PaytypeTotal from "./B/PaytypeTotal";
 
 function ReportB(props) {
   const [gubunTotal, setGubunTotal] = useState({
@@ -32,6 +34,8 @@ function ReportB(props) {
     prepayment: 0,
     total: 0,
   });
+
+  const [statisticsTotal, setStatistictTotal] = useState(0);
 
   useEffect(() => {
     if (props.weekList && props.weekList.length > 0) {
@@ -87,6 +91,14 @@ function ReportB(props) {
       });
     }
   }, [props.compSumList]);
+
+  useEffect(() => {
+    setStatistictTotal(
+      props.statistics.cashPayment +
+        props.statistics.billPayment +
+        props.statistics.cardPayment
+    );
+  }, [props.statistics]);
 
   const getCompSumm = comp => {
     let list = [];
@@ -211,197 +223,61 @@ function ReportB(props) {
     <div className="grid grid-cols-1 gap-y-4 w-full">
       <WeekTotal weekList={weekList} />
       <ChannelTotal gubunList={props.gubunList} gubunTotal={gubunTotal} />
-      <div className="bg-white p-4 rounded-lg drop-shadow">
-        <h3 className="text-lg mb-2 font-bold">고객사별 결제 수수료</h3>
-        <div className="grid grid-cols-7 border border-black">
-          <div className="bg-blue-200 text-center py-1 border-b border-black">
-            고객사별
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            광고비
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            위촉비
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            면접케어
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            위촉케어
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            선입금
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            합계
-          </div>
-          {props.compNmList && props.compNmList.length > 0 ? (
-            <>
-              {props.compNmList.map((comp, idx) => (
-                <React.Fragment key={idx}>
-                  <div
-                    className={`bg-white text-center py-1 border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.companyName}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.paidAd.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.paidComm.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.paidIntvCare.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.paidCommCare.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.prepayment.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {(
-                      comp.paidAd +
-                      comp.paidComm +
-                      comp.paidIntvCare +
-                      comp.paidCommCare +
-                      comp.prepayment
-                    ).toLocaleString()}
-                  </div>
-                </React.Fragment>
-              ))}
-            </>
-          ) : null}
-
-          <div className="bg-blue-200 text-center py-1 border-black border-t font-bold">
-            합계
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compNmTotal.paidAd.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compNmTotal.paidComm.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compNmTotal.paidIntvCare.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compNmTotal.paidCommCare.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compNmTotal.prepayment.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t font-bold">
-            {compNmTotal.total.toLocaleString()}
-          </div>
-        </div>
-      </div>
-      <div className="bg-white p-4 rounded-lg drop-shadow">
-        <h3 className="text-lg mb-2 font-bold">고객사 결제 방식별 수수료</h3>
-        <div className="grid grid-cols-5 border border-black">
-          <div className="bg-blue-200 text-center py-1 border-b border-black">
-            고객사별
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            현금
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            카드
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            세금계산서
-          </div>
-          <div className="bg-blue-200 text-center py-1 border-b border-l border-black">
-            합계
-          </div>
-          {props.compSumList && props.compSumList.length > 0 ? (
-            <>
-              {props.compSumList.map((comp, idx) => (
-                <React.Fragment key={idx}>
-                  <div
-                    className={`bg-white text-center py-1 border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.companyName}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.cashPayment.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.cardPayment.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {comp.billPayment.toLocaleString()}
-                  </div>
-                  <div
-                    className={`bg-white text-center py-1 border-l border-black ${
-                      idx > 0 && "border-t"
-                    }`}
-                  >
-                    {(
-                      comp.cashPayment +
-                      comp.billPayment +
-                      comp.cardPayment
-                    ).toLocaleString()}
-                  </div>
-                </React.Fragment>
-              ))}
-            </>
-          ) : null}
-
-          <div className="bg-blue-200 text-center py-1 border-black border-t font-bold">
-            합계
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compSumTotal.cashPayment.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compSumTotal.billPayment.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
-            {compSumTotal.cardPayment.toLocaleString()}
-          </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t font-bold">
-            {compSumTotal.total.toLocaleString()}
+      <CompanyTotal compNmList={props.compNmList} compNmTotal={compNmTotal} />
+      <PaytypeTotal
+        compSumList={props.compSumList}
+        compSumTotal={compSumTotal}
+      />
+      <div className="grid grid-cols-2">
+        <div className="bg-white p-4 rounded-lg drop-shadow">
+          <h3 className="text-lg mb-2 font-bold">결제방식별 결제 비율</h3>
+          <div className="grid grid-cols-3 border border-black">
+            <div className="bg-green-200 text-center py-1 border-b border-black">
+              구분
+            </div>
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black">
+              금액
+            </div>
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black">
+              비율
+            </div>
+            <div className="bg-white text-center py-1 border-black">현금</div>
+            <div className="bg-white text-center py-1 border-l border-black">
+              {props.statistics.cashPayment
+                ? props.statistics.cashPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black">
+              {props.statistics.cashRatio ? props.statistics.cashRatio : "0"}%
+            </div>
+            <div className="bg-white text-center py-1 border-black border-t">
+              법인
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.billPayment
+                ? props.statistics.billPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.billRatio ? props.statistics.billRatio : "0"}%
+            </div>
+            <div className="bg-white text-center py-1 border-black border-t">
+              카드
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.cardPayment
+                ? props.statistics.cardPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.cardRatio ? props.statistics.cardRatio : "0"}%
+            </div>
+            <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
+              합계
+            </div>
+            <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
+              {statisticsTotal.toLocaleString()}
+            </div>
           </div>
         </div>
       </div>

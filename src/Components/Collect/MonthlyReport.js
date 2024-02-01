@@ -20,6 +20,7 @@ function MonthlyReport() {
   const [weekList, setWeekList] = useState([]);
   const [compNmList, setCompNmList] = useState([]);
   const [compSumList, setCompSumList] = useState([]);
+  const [statistics, setStatistics] = useState([]);
   const [gubunList, setGubunList] = useState([]);
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
@@ -81,15 +82,15 @@ function MonthlyReport() {
           card = card + doc.cardPayment;
           bill = bill + doc.billPayment;
         });
-
+        console.log(res.data);
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);
         setGubunList(res.data.gubunList);
+        setStatistics(res.data.statistics);
       })
       .catch(e => console.log(e));
   };
-
   return (
     <div className="mx-4 gap-x-4" data={title}>
       <div className="py-2 px-4 bg-white flex flex-row justify-between w-full h-fit rounded drop-shadow">
@@ -144,6 +145,7 @@ function MonthlyReport() {
             compNmList={compNmList}
             compSumList={compSumList}
             gubunList={gubunList}
+            statistics={statistics}
           />
         )}
       </div>
