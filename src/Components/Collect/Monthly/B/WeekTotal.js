@@ -42,10 +42,10 @@ function WeekTotal(props) {
       </div>
       <div className="grid grid-cols-5">
         <div className="col-span-3 border-black"></div>
-        <div className="bg-blue-200 text-center border-x border-b border-black py-1">
+        <div className="bg-blue-200 text-center border-x border-b border-black py-1 font-bold">
           합계
         </div>
-        <div className="bg-white text-center border-r border-b border-black py-1">
+        <div className="bg-white text-center border-r border-b border-black py-1 font-bold">
           {props.weekList.total > 0 ? props.weekList.total.toLocaleString() : 0}
         </div>
       </div>

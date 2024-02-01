@@ -212,7 +212,7 @@ function ReportB(props) {
       <WeekTotal weekList={weekList} />
       <ChannelTotal gubunList={props.gubunList} gubunTotal={gubunTotal} />
       <div className="bg-white p-4 rounded-lg drop-shadow">
-        <h3 className="text-lg mb-2 font-bold">고객사별 결제수수료</h3>
+        <h3 className="text-lg mb-2 font-bold">고객사별 결제 수수료</h3>
         <div className="grid grid-cols-7 border border-black">
           <div className="bg-blue-200 text-center py-1 border-b border-black">
             고객사별
@@ -299,7 +299,7 @@ function ReportB(props) {
             </>
           ) : null}
 
-          <div className="bg-blue-200 text-center py-1 border-black border-t">
+          <div className="bg-blue-200 text-center py-1 border-black border-t font-bold">
             합계
           </div>
           <div className="bg-white text-center py-1 border-l border-black border-t">
@@ -317,7 +317,7 @@ function ReportB(props) {
           <div className="bg-white text-center py-1 border-l border-black border-t">
             {compNmTotal.prepayment.toLocaleString()}
           </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
+          <div className="bg-white text-center py-1 border-l border-black border-t font-bold">
             {compNmTotal.total.toLocaleString()}
           </div>
         </div>
@@ -388,7 +388,7 @@ function ReportB(props) {
             </>
           ) : null}
 
-          <div className="bg-blue-200 text-center py-1 border-black border-t">
+          <div className="bg-blue-200 text-center py-1 border-black border-t font-bold">
             합계
           </div>
           <div className="bg-white text-center py-1 border-l border-black border-t">
@@ -400,7 +400,7 @@ function ReportB(props) {
           <div className="bg-white text-center py-1 border-l border-black border-t">
             {compSumTotal.cardPayment.toLocaleString()}
           </div>
-          <div className="bg-white text-center py-1 border-l border-black border-t">
+          <div className="bg-white text-center py-1 border-l border-black border-t font-bold">
             {compSumTotal.total.toLocaleString()}
           </div>
         </div>
