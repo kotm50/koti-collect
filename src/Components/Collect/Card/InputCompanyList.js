@@ -44,13 +44,13 @@ function InputCompanyList(props) {
   return (
     <div
       id="searchCompany"
-      className="absolute top-0 left-0 translate-x-full border bg-white min-w-[380px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-2 rounded-lg"
+      className="absolute top-0 left-0 translate-x-full drop-shadow bg-white min-w-[380px] w-fit min-h-[100px] max-h-[360px] overflow-y-auto p-3 rounded-lg"
     >
       <div className="flex justify-between mb-2">
         <h3 className="text-center text-lg font-bold">고객사 검색결과</h3>
         <button
           className="min-w-[24px] text-lg hover:text-gray-500"
-          onClick={() => props.cancelSearch(false)}
+          onClick={() => props.cancelSearch()}
         >
           <MdClose />
         </button>
@@ -85,7 +85,7 @@ function InputCompanyList(props) {
                       onClick={e => {
                         props.setCompanyCode(e.currentTarget.value);
                         props.setCompanyName(com.companyBranch);
-                        props.setCompanyListOn(false);
+                        props.setCompanySearchOn(false);
                       }}
                     >
                       조회

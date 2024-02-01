@@ -28,6 +28,7 @@ function CardList() {
   const [companyCode, setCompanyCode] = useState("");
   const [inputOn, setInputOn] = useState(false);
   const [cardList, setCardList] = useState([]);
+  const [companySearchOn, setCompanySearchOn] = useState(false);
 
   useEffect(() => {
     if (edit !== null) {
@@ -117,11 +118,12 @@ function CardList() {
     setCompanyCode("");
     setCompanyName("");
     setSearchKeyword("");
+    setCompanySearchOn(false);
   };
 
   return (
     <div className="mx-4" data={title}>
-      <div className="sticky top-0 left-0 bg-gray-50 pb-2">
+      <div className="sticky top-0 left-0 bg-gray-100 pb-2">
         <div className="flex flex-col justify-start gap-y-3 w-[360px] bg-white p-3 drop-shadow rounded-lg">
           <div className="text-lg font-bold">고객사 지점을 입력</div>
           <div className="w-full relative flex justify-start gap-x-1">
@@ -132,6 +134,7 @@ function CardList() {
               value={companyName}
               placeholder="지점명/담당자명을 입력하세요"
               onChange={e => setCompanyName(e.currentTarget.value)}
+              onFocus={() => setCompanySearchOn(true)}
               onKeyUp={handleDelay}
               data-comcode={companyCode}
             />
@@ -145,12 +148,16 @@ function CardList() {
             </button>
           </div>
         </div>
-        <InputCompanyList
-          searchKeyword={searchKeyword}
-          setCompanyCode={setCompanyCode}
-          setCompanyName={setCompanyName}
-          cancelSearch={cancelSearch}
-        />
+        {companySearchOn ? (
+          <InputCompanyList
+            searchKeyword={searchKeyword}
+            setCompanyCode={setCompanyCode}
+            setCompanyName={setCompanyName}
+            cancelSearch={cancelSearch}
+            setCompanySearchOn={setCompanySearchOn}
+          />
+        ) : null}
+
         {user.admin ? (
           <div className="bg-white p-2 border-b w-full h-fit rounded-lg drop-shadow my-2">
             <div
