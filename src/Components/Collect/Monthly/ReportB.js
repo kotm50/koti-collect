@@ -276,7 +276,7 @@ function ReportB(props) {
               합계
             </div>
             <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
-              {statisticsTotal.toLocaleString()}
+              {statisticsTotal ? statisticsTotal.toLocaleString() : 0}
             </div>
           </div>
         </div>
