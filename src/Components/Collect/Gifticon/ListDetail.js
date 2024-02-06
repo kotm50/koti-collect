@@ -74,14 +74,8 @@ function ListDetail(props) {
       <td className="p-1 border">{props.gifticon.companyBranch}</td>
       <td className="p-1 border">
         {props.gifticon.payType === "CA" ||
-        props.gifticon.payType === "CO" ||
-        props.gifticon.prepayType === "CA" ||
-        props.gifticon.prepayType === "CO" ? (
-          <span>
-            {props.gifticon.taxBillStatus !== "Y"
-              ? payment.toLocaleString()
-              : null}
-          </span>
+        props.gifticon.prepayType === "CA" ? (
+          <span>{payment.toLocaleString()}</span>
         ) : null}
       </td>
       <td className="p-1 border text-center">
@@ -101,21 +95,17 @@ function ListDetail(props) {
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType === "CA" ||
-        props.gifticon.payType === "CO" ||
-        props.gifticon.prepayType === "CA" ||
+        {props.gifticon.payType === "CO" ||
         props.gifticon.prepayType === "CO" ? (
           <span>
             {props.gifticon.taxBillStatus === "Y"
               ? amount.toLocaleString()
-              : null}
+              : payment.toLocaleString()}
           </span>
         ) : null}
       </td>
       <td className="p-1 border text-center">
-        {props.gifticon.payType === "CA" ||
-        props.gifticon.payType === "CO" ||
-        props.gifticon.prepayType === "CA" ||
+        {props.gifticon.payType === "CO" ||
         props.gifticon.prepayType === "CO" ? (
           <span>
             {props.gifticon.taxBillStatus === "Y" ? vat.toLocaleString() : null}
