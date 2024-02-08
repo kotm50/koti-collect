@@ -590,7 +590,7 @@ function InputDeposit(props) {
       });
   };
   return (
-    <div className="flex flex-col justify-between h-[400px] text-sm">
+    <div className="flex flex-col justify-between h-[480px] text-sm">
       <div
         className="grid grid-cols-2 gap-y-2 gap-x-3"
         data-realpaid1={realPaidAd}

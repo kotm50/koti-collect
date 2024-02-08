@@ -688,7 +688,7 @@ function InputCharge(props) {
     }
   };
   return (
-    <div className="flex flex-col justify-between h-[400px] text-sm">
+    <div className="flex flex-col justify-between h-[480px] text-sm">
       <div className="grid grid-cols-2 gap-y-2 gap-x-3">
         <div className="flex justify-start gap-2">
           <div className="py-1 w-[128px]">
@@ -1021,7 +1021,7 @@ function InputCharge(props) {
             theme="snow"
             value={memo}
             onChange={setMemo}
-            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustomB"
+            className="p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full quillCustom"
             placeholder="기타 메모할 내용을 입력하세요"
           />
         </div>
