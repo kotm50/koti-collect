@@ -453,7 +453,7 @@ function UnReceive() {
               <option value="B">발행 미수금 조회</option>
               <option value="F">면세 조회</option>
               <option value="S">예정 7일</option>
-              <option value="U">예정 4일</option>
+              <option value="V">예정 5일</option>
               <option value="T">예정 3일</option>
               <option value="W">예정 2일</option>
               <option value="O">예정 1일</option>
