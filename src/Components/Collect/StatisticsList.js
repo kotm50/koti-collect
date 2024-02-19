@@ -25,7 +25,6 @@ function StatisticsList() {
   const [modalOn, setModalOn] = useState(false);
 
   const [searchOn, setSearchOn] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
     setTitle("기간 별 조회");
@@ -68,18 +67,6 @@ function StatisticsList() {
           >
             상세조회
           </button>
-        </div>
-        <div
-          className="flex justify-start gap-x-3"
-          onClick={() => setCalendarOn(false)}
-        >
-          <span className="font-bold whitespace-nowrap py-2">검색</span>
-          <input
-            type="text"
-            className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-            value={searchKeyword}
-            onChange={e => setSearchKeyword(e.currentTarget.value)}
-          />
         </div>
       </div>
       {!searchOn ? (
@@ -154,8 +141,6 @@ function StatisticsList() {
         setDate={setDate}
         setCalendarOn={setCalendarOn}
         searchOn={searchOn}
-        searchKeyword={searchKeyword}
-        setSearchKeyword={setSearchKeyword}
       />
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>

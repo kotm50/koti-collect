@@ -30,6 +30,8 @@ function Statistics(props) {
   const [startKeyword, setStartKeyword] = useState("");
   const [endKeyword, setEndKeyword] = useState("");
 
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   const handlePayType = e => {
     setPayType(e.target.value);
     getStatisticsList(year, month, day, e.target.value);
@@ -136,7 +138,7 @@ function Statistics(props) {
   }, [props.year, props.month]);
 
   const resetIt = () => {
-    props.setSearchKeyword("");
+    setSearchKeyword("");
     setCalendarDate1("");
     setCalendarDate2("");
     setStartDate("");
@@ -177,7 +179,7 @@ function Statistics(props) {
       pType = null;
     }
     let data = {
-      searchKeyword: props.searchKeyword === "" ? null : props.searchKeyword,
+      searchKeyword: searchKeyword === "" ? null : searchKeyword,
       payType: pType,
       searchYear: year,
       searchMonth: month === "" ? null : month,
@@ -236,6 +238,18 @@ function Statistics(props) {
     <>
       {props.searchOn ? (
         <div className="flex justify-start gap-x-10 py-2 px-4 bg-white rounded-lg drop-shadow-lg relative z-10 mt-4">
+          <div
+            className="flex justify-start gap-x-3"
+            onClick={() => props.setCalendarOn(false)}
+          >
+            <span className="font-bold whitespace-nowrap py-2">검색</span>
+            <input
+              type="text"
+              className="p-2 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              value={searchKeyword}
+              onChange={e => setSearchKeyword(e.currentTarget.value)}
+            />
+          </div>
           <div className="flex justify-start gap-x-3">
             <span
               className="font-bold whitespace-nowrap py-2"
