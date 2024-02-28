@@ -55,8 +55,10 @@ function ReadOnly() {
           </div>
         ) : null}
       </div>
-      <Logs gubun="IN" />
-      <Logs gubun="AP" />
+      <div className="hidden">
+        <Logs gubun="IN" />
+        <Logs gubun="AP" />
+      </div>
     </div>
   );
 }
