@@ -62,7 +62,11 @@ function InputCharge(props) {
   };
 
   useEffect(() => {
-    if (props.commCode !== null && props.commCode !== undefined) {
+    if (
+      props.commCode !== null &&
+      props.commCode !== undefined &&
+      props.commCode !== ""
+    ) {
       getCharge(props.commCode);
     } else {
       setSearchKeyword("");

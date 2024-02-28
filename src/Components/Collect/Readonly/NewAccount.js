@@ -23,7 +23,7 @@ function NewAccount(props) {
       .catch(e => console.log(e));
   };
   return (
-    <div className="w-1/6 mb-4">
+    <div className="w-full mb-4">
       <h3 className="font-bold text-lg">읽기전용 계정 추가</h3>
       <div className="p-4 flex flex-col justify-start gap-y-2 border bg-white drop-shadow-sm">
         <div className="flex flex-row justify-start gap-x-2">

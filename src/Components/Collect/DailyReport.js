@@ -52,6 +52,9 @@ function DailyReport() {
   const [calendarDate, setCalendarDate] = useState("");
   const [date, setDate] = useState("");
   const [calendarOn, setCalendarOn] = useState(false);
+  const [calendarDate1, setCalendarDate1] = useState("");
+  const [date1, setDate1] = useState("");
+  const [calendarOn1, setCalendarOn1] = useState(false);
   useEffect(() => {
     setTitle("일간보고");
     //eslint-disable-next-line
@@ -67,12 +70,19 @@ function DailyReport() {
   }, [calendarDate]);
 
   useEffect(() => {
-    getTodayReport();
-    if (date === "") {
-      getTomorrowReport();
+    if (calendarDate1 !== "") {
+      const date = dayjs(calendarDate1).format("YYYY-MM-DD");
+      setCalendarOn1(false);
+      setDate1(date);
     }
     //eslint-disable-next-line
-  }, [date]);
+  }, [calendarDate1]);
+
+  useEffect(() => {
+    getTodayReport();
+    getTomorrowReport();
+    //eslint-disable-next-line
+  }, [date, date1]);
 
   const getTodayReport = async () => {
     let data = null;
@@ -90,6 +100,7 @@ function DailyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
+        console.log("오늘", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -100,11 +111,23 @@ function DailyReport() {
       .catch(e => console.log(e));
   };
   const getTomorrowReport = async () => {
+    let data = null;
+    if (date1 !== "") {
+      data = {
+        nextUnpaidDate: date1,
+      };
+    } else {
+      data = {
+        nextUnpaidDate: null,
+      };
+    }
+    console.log(data);
     await axios
-      .post("/api/v1/comp/sched/unpaid", null, {
+      .post("/api/v1/comp/sched/unpaid", data, {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
+        console.log("내일", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -149,7 +172,7 @@ function DailyReport() {
             className="font-bold whitespace-nowrap py-2"
             onClick={() => setCalendarOn(false)}
           >
-            날짜 선택
+            왼쪽 선택
           </span>
           <div className="relative min-w-[350px]">
             {calendarOn ? (
@@ -176,6 +199,42 @@ function DailyReport() {
           <button
             className="bg-indigo-500 hover:bg-indigo-700 p-2 text-white"
             onClick={() => setDate("")}
+          >
+            날짜 초기화
+          </button>
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <span
+            className="font-bold whitespace-nowrap py-2"
+            onClick={() => setCalendarOn1(false)}
+          >
+            익일 선택
+          </span>
+          <div className="relative min-w-[350px]">
+            {calendarOn1 ? (
+              <div className="calendarArea top-2 left-0 w-fit h-fit">
+                <Calendar onChange={setCalendarDate1} value={calendarDate1} />
+              </div>
+            ) : (
+              <div
+                className="border p-2 hover:cursor-pointer flex flex-row justify-start gap-x-2"
+                onClick={() => setCalendarOn1(true)}
+              >
+                <FaCalendarAlt size={24} />
+                {date1 === "" ? (
+                  <span className="ml-2">날짜를 변경하려면 클릭하세요</span>
+                ) : (
+                  <span className="ml-2">{date1}</span>
+                )}
+                {date1 !== "" && (
+                  <span className="text-gray-400">(변경하려면 클릭)</span>
+                )}
+              </div>
+            )}
+          </div>
+          <button
+            className="bg-indigo-500 hover:bg-indigo-700 p-2 text-white"
+            onClick={() => setDate1("")}
           >
             날짜 초기화
           </button>
@@ -217,15 +276,14 @@ function DailyReport() {
           setMemo={setMemo}
           date={date}
         />
-        {date === "" ? (
-          <TomorrowReport
-            list={tomorrow}
-            total={tomorrowTotal}
-            memo={memo}
-            setModalOn={setModalOn}
-            setMemo={setMemo}
-          />
-        ) : null}
+        <TomorrowReport
+          list={tomorrow}
+          total={tomorrowTotal}
+          memo={memo}
+          setModalOn={setModalOn}
+          setMemo={setMemo}
+          date={date1}
+        />
       </div>
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>

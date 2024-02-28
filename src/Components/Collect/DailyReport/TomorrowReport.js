@@ -8,23 +8,29 @@ function TomorowReport(props) {
   const [date, setDate] = useState("");
   const [dateLong, setDateLong] = useState("");
   useEffect(() => {
-    // 현재 날짜와 시간을 나타내는 Date 객체 생성
-    let today = new Date();
+    if (props.date === "") {
+      // 현재 날짜와 시간을 나타내는 Date 객체 생성
+      let today = new Date();
 
-    // 현재 날짜에 1을 더하여 내일 날짜를 얻음
-    let tomorrow = new Date(today);
-    if (today.getDay() === 5) {
-      tomorrow.setDate(today.getDate() + 3); //오늘이 금요일이면 + 3
-    } else if (today.getDay() === 6) {
-      tomorrow.setDate(today.getDate() + 2); //오늘이 토요일이면 + 2
+      // 현재 날짜에 1을 더하여 내일 날짜를 얻음
+      let tomorrow = new Date(today);
+      if (today.getDay() === 5) {
+        tomorrow.setDate(today.getDate() + 3); //오늘이 금요일이면 + 3
+      } else if (today.getDay() === 6) {
+        tomorrow.setDate(today.getDate() + 2); //오늘이 토요일이면 + 2
+      } else {
+        tomorrow.setDate(today.getDate() + 1); //나머지 +1
+      }
+      const date = dayjs(tomorrow).format("MM/DD");
+      const dateLong = dayjs(tomorrow).format("YYYY/MM/DD(dd요일)");
+      setDate(date);
+      setDateLong(dateLong);
     } else {
-      tomorrow.setDate(today.getDate() + 1); //나머지 +1
+      const dateLong = dayjs(props.date).format("YYYY/MM/DD(dd요일)");
+      setDate(props.date);
+      setDateLong(dateLong);
     }
-    const date = dayjs(tomorrow).format("MM/DD");
-    const dateLong = dayjs(tomorrow).format("YYYY/MM/DD(dd요일)");
-    setDate(date);
-    setDateLong(dateLong);
-  }, []);
+  }, [props.date]);
   return (
     <div className="p-2 bg-white">
       <h3 className="text-xl font-bold">내일 - {dateLong}</h3>
