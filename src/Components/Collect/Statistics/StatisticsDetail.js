@@ -26,7 +26,10 @@ function StatisticsDetail(props) {
       setAmount(camount);
       setVat(cvat);
     } else {
-      if (props.statistics.taxBillStatus === "Y") {
+      if (
+        props.statistics.payType === "CO" &&
+        props.statistics.taxBillStatus === "Y"
+      ) {
         const camount = Math.round(cost / 1.1);
         const cvat = cost - camount;
         setPayment(cost);
