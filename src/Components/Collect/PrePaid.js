@@ -3,9 +3,9 @@ import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
 import InputPrePaid from "./PrePaid/InputPrePaid";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { clearUser } from "../../Reducer/userSlice";
 import PrepaidList from "./PrePaid/PrepaidList";
+import axiosInstance from "../../Api/axiosInstance";
 
 function PrePaid() {
   const stickyRef = useRef(null);
@@ -63,7 +63,7 @@ function PrePaid() {
       companyCode: cCode,
       transactionType: tType,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/prepay/list", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -93,7 +93,7 @@ function PrePaid() {
       searchKeyword: word,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/prepay/complist", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -123,7 +123,7 @@ function PrePaid() {
   }, [inputOn]);
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })

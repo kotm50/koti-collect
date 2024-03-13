@@ -6,11 +6,10 @@ import { FaSearch } from "react-icons/fa";
 
 import queryString from "query-string";
 
-import axios from "axios";
-
 import Pagenate from "../Layout/Pagenate";
 import ComList from "./ComList";
 import { clearUser } from "../../Reducer/userSlice";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Company() {
   const navi = useNavigate();
@@ -51,7 +50,7 @@ function Company() {
   const manager2Ref = useRef();
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -66,6 +65,11 @@ function Company() {
   };
 
   useEffect(() => {
+    initializer();
+    //eslint-disable-next-line
+  }, [thisLocation]);
+
+  const initializer = async () => {
     setTitle("고객사 리스트");
     setTotalPage(1);
     setPagenate([]);
@@ -76,16 +80,15 @@ function Company() {
       setInputChannelList([]);
       setSelectGubun(gubun);
       setInputGubun(gubun);
-      getChannelList(gubun, "B");
+      await getChannelList(gubun, "B");
     } else {
       setInputChannelList([]);
       setSelectGubun("");
       setInputGubun("");
     }
-    getCategory();
-    getCompanyList(page, keyword, gubun, channel);
-    //eslint-disable-next-line
-  }, [thisLocation]);
+    await getCategory();
+    await getCompanyList(page, keyword, gubun, channel);
+  };
 
   const getChannelList = async (category, type) => {
     if (type === "B") {
@@ -96,7 +99,7 @@ function Company() {
       category: category,
       useYn: "Y",
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -123,7 +126,7 @@ function Company() {
       category: "GU",
       useYn: "Y",
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -200,7 +203,7 @@ function Company() {
         manager1: inputManager1,
         manager2: inputMananger2,
       };
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/add/company", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -268,7 +271,7 @@ function Company() {
     if (c !== "") {
       comp.channel = c;
     }
-    await axios
+    await axiosInstance
       .post(
         "/api/v1/comp/list",
         { paging, comp },

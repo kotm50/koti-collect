@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../../Reducer/userSlice";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function InputCard(props) {
   const navi = useNavigate();
@@ -24,7 +24,7 @@ function InputCard(props) {
   const [corporation, setCorporation] = useState("");
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -223,7 +223,7 @@ function InputCard(props) {
       data.cardCode = cardCode.trim();
     }
     if (cardCode === "") {
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/add/card", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -254,7 +254,7 @@ function InputCard(props) {
           console.log(e);
         });
     } else {
-      await axios
+      await axiosInstance
         .patch("/api/v1/comp/upt/card", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -318,7 +318,7 @@ function InputCard(props) {
       return false;
     }
     const data = { cardCode: cardCode };
-    await axios
+    await axiosInstance
       .delete("/api/v1/comp/del/card", {
         headers: { Authorization: user.accessToken },
         data: data,

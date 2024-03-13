@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { /*useLocation,*/ useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import InputCompanyList from "./InputCompanyList";
-import axios from "axios";
 import { clearUser } from "../../../Reducer/userSlice";
 import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import PastMemoList from "./PastMemoList";
+import axiosInstance from "../../../Api/axiosInstance";
 function InputCharge(props) {
   const navi = useNavigate();
   //const thisLocation = useLocation();
@@ -123,7 +123,7 @@ function InputCharge(props) {
     const data = {
       commCode: cCode,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/ad/data", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -174,7 +174,7 @@ function InputCharge(props) {
   */
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -193,7 +193,7 @@ function InputCharge(props) {
       category: "DU",
       useYn: "Y",
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -364,7 +364,7 @@ function InputCharge(props) {
       const data = {
         commCode: commCode,
       };
-      await axios
+      await axiosInstance
         .delete("/api/v1/comp/del/ad", {
           headers: { Authorization: user.accessToken },
           data: data,
@@ -536,7 +536,7 @@ function InputCharge(props) {
           return false;
         }
       }
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -598,7 +598,7 @@ function InputCharge(props) {
   const dupchk = async data => {
     console.log(data);
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         "/api/v1/comp/commission/dupchk",
         data,
         {

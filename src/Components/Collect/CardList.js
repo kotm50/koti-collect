@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import InputCompanyList from "./Card/InputCompanyList";
 import InputCard from "./Card/InputCard";
-import axios from "axios";
 import { clearUser } from "../../Reducer/userSlice";
 
 import sorry from "../../Asset/sorry.png";
 import Cards from "./Card/Cards";
+import axiosInstance from "../../Api/axiosInstance";
 
 function CardList() {
   const navi = useNavigate();
@@ -37,7 +37,7 @@ function CardList() {
     }
   }, [edit]);
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -91,7 +91,7 @@ function CardList() {
     let data = {
       companyCode: c === "" ? null : c,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/card/list", data, {
         headers: { Authorization: user.accessToken },
       })

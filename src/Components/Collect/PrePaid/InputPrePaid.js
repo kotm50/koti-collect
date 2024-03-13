@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import InputCompanyList from "./InputCompanyList";
-import axios from "axios";
+
 import { clearUser } from "../../../Reducer/userSlice";
 import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import dayjs from "dayjs";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function InputPrePaid(props) {
   const navi = useNavigate();
@@ -59,13 +60,40 @@ function InputPrePaid(props) {
     //eslint-disable-next-line
   }, [companyCode]);
 
+  useEffect(() => {
+    if (props.prepayCode) {
+      getPrepaid(props.prepayCode);
+    } else {
+      setSearchKeyword("");
+      setCompanyName("");
+      setCompanyCode("");
+      setCompanyListOn(false);
+
+      setTax("N");
+      setTaxDate("");
+      setTransactionType("");
+
+      setPayType("");
+      setPaidDate("");
+      setPayerName("");
+      setCost("0");
+      setRealCost("");
+      setCardCode("");
+      setCardList([]);
+      setBigo("");
+      setResNo("");
+      setAuthNo("");
+    }
+    //eslint-disable-next-line
+  }, [props.prepayCode]);
+
   const getCardList = async cCode => {
     setCardList([]);
     const data = {
       companyCode: cCode,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/card/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -94,7 +122,7 @@ function InputPrePaid(props) {
   };
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -208,7 +236,7 @@ function InputPrePaid(props) {
         data.authNo = authNo;
         data.installment = installment;
       }
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/add/prepay", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -279,33 +307,6 @@ function InputPrePaid(props) {
   };
 
   useEffect(() => {
-    if (props.prepayCode) {
-      getPrepaid(props.prepayCode);
-    } else {
-      setSearchKeyword("");
-      setCompanyName("");
-      setCompanyCode("");
-      setCompanyListOn(false);
-
-      setTax("N");
-      setTaxDate("");
-      setTransactionType("");
-
-      setPayType("");
-      setPaidDate("");
-      setPayerName("");
-      setCost("0");
-      setRealCost("");
-      setCardCode("");
-      setCardList([]);
-      setBigo("");
-      setResNo("");
-      setAuthNo("");
-    }
-    //eslint-disable-next-line
-  }, [props.prepayCode]);
-
-  useEffect(() => {
     if (props.companyCode !== null && props.companyName !== null) {
       setCompanyCode(props.companyCode);
       setCompanyName(props.companyName);
@@ -320,7 +321,7 @@ function InputPrePaid(props) {
       prepayCode: ppCode,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/prepay/detail", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -409,7 +410,7 @@ function InputPrePaid(props) {
       const data = {
         prepayCode: props.prepayCode,
       };
-      await axios
+      await axiosInstance
         .delete("/api/v1/comp/del/prepay", {
           headers: { Authorization: user.accessToken },
           data: data,
@@ -479,7 +480,7 @@ function InputPrePaid(props) {
         data.authNo = authNo;
         data.installment = installment;
       }
-      await axios
+      await axiosInstance
         .patch("/api/v1/comp/upt/prepay", data, {
           headers: { Authorization: user.accessToken },
         })

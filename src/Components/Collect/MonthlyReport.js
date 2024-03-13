@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
+
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
 import ReportA from "./Monthly/ReportA";
 import ReportB from "./Monthly/ReportB";
 import MonthButton from "./Monthly/MonthButton";
+import axiosInstance from "../../Api/axiosInstance";
 
 function MonthlyReport() {
   const navi = useNavigate();
@@ -25,25 +26,29 @@ function MonthlyReport() {
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
   const [month, setMonth] = useState(dayjs(new Date()).format("MM"));
   useEffect(() => {
+    initializer();
+    //eslint-disable-next-line
+  }, [thisLocation, tabMenu, year, month]);
+
+  const initializer = async () => {
     setTitle("월간보고");
     if (tabMenu === 0) {
-      getMonthlyReport(year, month);
+      await getMonthlyReport(year, month);
       setWeekList([]);
       setCompNmList([]);
       setCompSumList([]);
       setGubunList([]);
     } else {
       setListA([]);
-      getMonthlyStatisticReport(year, month);
+      await getMonthlyStatisticReport(year, month);
     }
-    //eslint-disable-next-line
-  }, [thisLocation, tabMenu, year, month]);
+  };
   const getMonthlyReport = async (year, month) => {
     const data = {
       searchYear: year,
       searchMonth: month,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/month/pay/list", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -62,7 +67,7 @@ function MonthlyReport() {
       searchYear: year,
       searchMonth: month,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/month/statistics", data, {
         headers: { Authorization: user.accessToken },
       })

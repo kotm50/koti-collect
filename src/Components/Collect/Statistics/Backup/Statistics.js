@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import sorry from "../../../Asset/sorry.png";
 import StatisticsDetail from "./StatisticsDetail";
@@ -8,6 +7,7 @@ import StatisticsDetail from "./StatisticsDetail";
 import dayjs from "dayjs";
 import Calendar from "react-calendar";
 import { FaCalendarAlt } from "react-icons/fa";
+import axiosInstance from "../../../../Api/axiosInstance";
 
 function Statistics(props) {
   const navi = useNavigate();
@@ -84,7 +84,7 @@ function Statistics(props) {
       searchStartDate: startKeyword === "" ? null : startKeyword,
       searchEndDate: endKeyword === "" ? null : endKeyword,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -184,7 +184,7 @@ function Statistics(props) {
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })

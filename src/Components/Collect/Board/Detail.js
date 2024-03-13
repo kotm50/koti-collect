@@ -5,10 +5,10 @@ import { clearUser } from "../../../Reducer/userSlice";
 
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 
-import axios from "axios";
 import dompurify from "dompurify";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
+import axiosInstance from "../../../Api/axiosInstance";
 
 function Detail() {
   const sanitizer = dompurify.sanitize;
@@ -28,7 +28,7 @@ function Detail() {
   const [prevTitle, setPrevTitle] = useState("");
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -54,7 +54,7 @@ function Detail() {
       boardId: bid,
       postId: pid,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/board/admin/post/data", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -108,7 +108,7 @@ function Detail() {
       postId: pid,
     };
     if (delYn === "N") {
-      await axios
+      await axiosInstance
         .patch("/api/v1/board/admin/del/y/post", data, {
           headers: { Authorization: user.accessToken },
         })
@@ -131,7 +131,7 @@ function Detail() {
       if (!confirm) {
         return false;
       }
-      await axios
+      await axiosInstance
         .delete("/api/v1/board/admin/delete/post", {
           data: data,
           headers: { Authorization: user.accessToken },
@@ -155,7 +155,7 @@ function Detail() {
       boardId: bid,
       postId: pid,
     };
-    await axios
+    await axiosInstance
       .patch("/api/v1/board/admin/recv/post", data, {
         headers: { Authorization: user.accessToken },
       })

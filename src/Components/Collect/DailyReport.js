@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
+
 import TodayReport from "./DailyReport/TodayReport";
 import TomorrowReport from "./DailyReport/TomorrowReport";
 import MemoModal from "../Layout/MemoModal";
@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { FaCalendarAlt } from "react-icons/fa";
 
 import domtoimage from "dom-to-image";
+import axiosInstance from "../../Api/axiosInstance";
 
 function DailyReport() {
   const navi = useNavigate();
@@ -79,10 +80,13 @@ function DailyReport() {
   }, [calendarDate1]);
 
   useEffect(() => {
-    getTodayReport();
-    getTomorrowReport();
+    initializer();
     //eslint-disable-next-line
   }, [date, date1]);
+  const initializer = async () => {
+    await getTodayReport();
+    await getTomorrowReport();
+  };
 
   const getTodayReport = async () => {
     let data = null;
@@ -95,7 +99,7 @@ function DailyReport() {
         paidDate: dayjs(new Date()).format("YYYY-MM-DD"),
       };
     }
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/today/pay/list", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -121,8 +125,7 @@ function DailyReport() {
         nextUnpaidDate: null,
       };
     }
-    console.log(data);
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/sched/unpaid", data, {
         headers: { Authorization: user.accessToken },
       })

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import sorry from "../../../Asset/sorry.png";
 import YearMonthDetail from "./YearMonthDetail";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function YearMonth(props) {
   const navi = useNavigate();
@@ -18,21 +18,21 @@ function YearMonth(props) {
   };
 
   useEffect(() => {
+    initializer();
+    //eslint-disable-next-line
+  }, [props.year, props.month]);
+
+  const initializer = async () => {
     if (props.year !== "") {
       setYear(props.year);
       setMonth("");
       getYearMonthList(props.year, null, null, payType);
     }
-    //eslint-disable-next-line
-  }, [props.year]);
-
-  useEffect(() => {
     if (props.month !== "") {
       setMonth(props.month);
       getYearMonthList(props.year, props.month, null, payType);
     }
-    //eslint-disable-next-line
-  }, [props.month]);
+  };
 
   useEffect(() => {
     setPayTitle(getPayTitle(payType));
@@ -66,7 +66,7 @@ function YearMonth(props) {
       searchYear: year,
       searchMonth: month === "" ? null : month,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })

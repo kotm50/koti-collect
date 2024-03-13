@@ -1,5 +1,5 @@
-import axios from "axios";
 import React from "react";
+import axiosInstance from "../../Api/axiosInstance";
 
 function ChnList(props) {
   const deleteIt = async () => {
@@ -18,7 +18,7 @@ function ChnList(props) {
         commId: props.com.commId,
       };
       if (props.com.useYn === "Y") {
-        await axios
+        await axiosInstance
           .patch("/api/v1/comp/usen/comm", data, {
             headers: { Authorization: props.accessToken },
           })
@@ -35,7 +35,7 @@ function ChnList(props) {
             console.log(e);
           });
       } else if (props.com.useYn === "N") {
-        await axios
+        await axiosInstance
           .delete("/api/v1/comp/del/comm", {
             headers: { Authorization: props.accessToken },
             data: data,
@@ -67,7 +67,7 @@ function ChnList(props) {
       const data = {
         commId: props.com.commId,
       };
-      await axios
+      await axiosInstance
         .patch("/api/v1/comp/usey/comm", data, {
           headers: { Authorization: props.accessToken },
         })

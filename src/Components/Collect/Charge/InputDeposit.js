@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import { clearUser } from "../../../Reducer/userSlice";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function InputDeposit(props) {
   const navi = useNavigate();
@@ -121,7 +121,7 @@ function InputDeposit(props) {
     const data = {
       commCode: cCode,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/ad/data", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -140,7 +140,7 @@ function InputDeposit(props) {
       payCode: pCode,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/detail/pay", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -179,7 +179,7 @@ function InputDeposit(props) {
   };
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -293,7 +293,7 @@ function InputDeposit(props) {
         data.authNo = null;
         data.prepayType = prePayType;
       }
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/add/pay", data, {
           headers: { Authorization: props.user.accessToken },
         })
@@ -356,7 +356,7 @@ function InputDeposit(props) {
         data.authNo = null;
         data.prepayType = prePayType;
       }
-      await axios
+      await axiosInstance
         .patch("/api/v1/comp/upt/pay", data, {
           headers: { Authorization: props.user.accessToken },
         })
@@ -469,7 +469,7 @@ function InputDeposit(props) {
       companyCode: cCode,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/card/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -528,7 +528,7 @@ function InputDeposit(props) {
       const data = {
         payCode: payCode,
       };
-      await axios
+      await axiosInstance
         .delete("/api/v1/comp/del/pay", {
           headers: { Authorization: props.user.accessToken },
           data: data,
@@ -570,7 +570,7 @@ function InputDeposit(props) {
       companyCode: companyCode,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/prepay/balance", data, {
         headers: { Authorization: props.user.accessToken },
       })

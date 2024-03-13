@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
 import NewAccount from "./Readonly/NewAccount";
-import axios from "axios";
 import Logs from "./Readonly/Logs";
+import axiosInstance from "../../Api/axiosInstance";
 
 function ReadOnly() {
   const user = useSelector(state => state.user);
@@ -20,7 +20,7 @@ function ReadOnly() {
 
   const getAccountList = async () => {
     setAccountList([]);
-    await axios
+    await axiosInstance
       .post("/api/v1/user/get/role/readonly/list", null, {
         headers: { Authorization: user.accessToken },
       })

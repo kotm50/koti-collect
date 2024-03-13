@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from "react";
 import ComEdit from "./ComEdit";
+import axiosInstance from "../../Api/axiosInstance";
 
 function ComList(props) {
   const [edit, setEdit] = useState(false);
@@ -13,7 +13,7 @@ function ComList(props) {
       const data = {
         companyCode: props.com.companyCode,
       };
-      await axios
+      await axiosInstance
         .delete("/api/v1/comp/del/company", {
           data: data,
           headers: { Authorization: props.user.accessToken },

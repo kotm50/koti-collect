@@ -22,7 +22,7 @@ const userSlice = createSlice({
       state.admin = false;
     },
     getNewToken: (state, action) => {
-      return { ...state, accessToken: action.payload.accessToken };
+      state.accessToken = action.payload.accessToken;
     },
   },
 });

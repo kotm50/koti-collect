@@ -4,7 +4,7 @@ import InputCharge from "./Charge/InputCharge";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import CommissionList from "./Charge/CommissionList";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance";
 import { clearUser } from "../../Reducer/userSlice";
 import MonthButton from "./Charge/MonthButton";
 import InputDeposit from "./Charge/InputDeposit";
@@ -75,13 +75,17 @@ function UnReceive() {
   }, [thisLocation]);
 
   useEffect(() => {
-    getFeeList(month, year, searchKeyword);
-    getTodayList();
+    initializer();
     //eslint-disable-next-line
   }, [isUnpaid, month, year, searchKeyword]);
 
+  const initializer = async () => {
+    await getFeeList(month, year, searchKeyword);
+    await getTodayList();
+  };
+
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -134,7 +138,7 @@ function UnReceive() {
     }
 
     reqData = { paging, commission };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/ad", reqData, {
         headers: { Authorization: user.accessToken },
       })
@@ -168,7 +172,8 @@ function UnReceive() {
 
   const getTodayList = async () => {
     setTodayList([]);
-    await axios
+
+    await axiosInstance
       .post("/api/v1/comp/today/pay/info/list", null, {
         headers: { Authorization: user.accessToken },
       })

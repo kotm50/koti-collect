@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function NewAccount(props) {
   const user = useSelector(state => state.user);
@@ -9,7 +9,7 @@ function NewAccount(props) {
   const [userName, setUserName] = useState("");
   const submit = async () => {
     const data = { userId: userId, userPwd: userPwd, userName: userName };
-    await axios
+    await axiosInstance
       .post("/api/v1/user/add/role/readonly", data, {
         headers: { Authorization: user.accessToken },
       })

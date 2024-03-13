@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import axiosInstance from "../../../Api/axiosInstance";
 
 import sorry from "../../../Asset/sorry.png";
 import StatisticsDetail from "./StatisticsDetail";
@@ -81,11 +82,11 @@ function Statistics(props) {
   const searchIt = async () => {
     setStatisticsList([]);
     const data = {
-      searchKeyword: props.searchKeyword === "" ? null : props.searchKeyword,
+      searchKeyword: searchKeyword === "" ? null : searchKeyword,
       searchStartDate: startKeyword === "" ? null : startKeyword,
       searchEndDate: endKeyword === "" ? null : endKeyword,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -185,7 +186,7 @@ function Statistics(props) {
       searchMonth: month === "" ? null : month,
       searchDay: day === "" ? null : day,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })

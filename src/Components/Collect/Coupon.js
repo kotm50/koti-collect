@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import axios from "axios";
 import CouponDetail from "./Coupon/CouponDetail";
 import GenerateCoupon from "./Coupon/GenerateCoupon";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Coupon() {
   const navi = useNavigate();
@@ -31,7 +31,7 @@ function Coupon() {
     const data = {
       couponStatus: couponStat,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/cpn/list", data, {
         headers: { Authorization: user.accessToken },
       })

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
@@ -7,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import sorry from "../../Asset/sorry.png";
 import ChnList from "./ChnList";
 import { clearUser } from "../../Reducer/userSlice";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Channel() {
   const navi = useNavigate();
@@ -22,11 +22,15 @@ function Channel() {
   const [commList, setCommList] = useState([]);
   const [loadFail, setLoadFail] = useState(false);
   useEffect(() => {
-    setTitle("듀얼/채널 관리");
-    getCategory();
-    getCommList("", "Y");
+    initializer();
     //eslint-disable-next-line
   }, []);
+
+  const initializer = async () => {
+    setTitle("듀얼/채널 관리");
+    await getCategory();
+    await getCommList("", "Y");
+  };
 
   //구분 셀렉박스 핸들링
   const handleCategorySelect = e => {
@@ -43,7 +47,7 @@ function Channel() {
     if (c !== "") {
       data.category = c;
     }
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -59,7 +63,7 @@ function Channel() {
   };
 
   const getCategory = async () => {
-    await axios
+    await axiosInstance
       .get("/api/v1/comp/get/code", {
         headers: { Authorization: user.accessToken },
       })
@@ -74,7 +78,7 @@ function Channel() {
   };
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -98,7 +102,7 @@ function Channel() {
         value: channelCode,
         description: description,
       };
-      await axios
+      await axiosInstance
         .post("/api/v1/comp/add/common", data, {
           headers: { Authorization: user.accessToken },
         })

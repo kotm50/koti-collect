@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { MdClose } from "react-icons/md";
 
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
 import PastMemo from "./PastMemo";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function PastMemoList(props) {
   const navi = useNavigate();
@@ -25,7 +25,7 @@ function PastMemoList(props) {
     if (props.commCode !== "") {
       data.commCode = props.commCode;
     }
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/memo", data, {
         headers: { Authorization: user.accessToken },
       })

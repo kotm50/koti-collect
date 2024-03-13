@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance";
 
 function ComEdit(props) {
   const [selectGubun, setSelectGubun] = useState("");
@@ -39,7 +39,7 @@ function ComEdit(props) {
       category: category,
       useYn: "Y",
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -58,7 +58,7 @@ function ComEdit(props) {
       category: "GU",
       useYn: "Y",
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/comlist", data, {
         headers: { Authorization: props.user.accessToken },
       })
@@ -158,7 +158,7 @@ function ComEdit(props) {
         manager2: inputMananger2,
       };
 
-      await axios
+      await axiosInstance
         .patch("/api/v1/comp/upt/company", data, {
           headers: { Authorization: props.user.accessToken },
         })

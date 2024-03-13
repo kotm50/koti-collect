@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance";
 import MonthlySales from "./YearTotal/MonthlySales";
 
 function YearTotal() {
@@ -239,7 +239,7 @@ function YearTotal() {
     const data = {
       searchYear: year,
     };
-    axios
+    await axiosInstance
       .post("/api/v1/comp/year/total/list", data, {
         headers: { Authorization: user.accessToken },
       })

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import MonthButton from "./Statistics/MonthButton";
 import List from "./Gifticon/List";
 import MemoModal from "../Layout/MemoModal";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Gifticon() {
   const navi = useNavigate();
@@ -58,7 +58,7 @@ function Gifticon() {
       searchStartDate: start === "" ? null : start,
       searchEndDate: end === "" ? null : end,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/commcare/status", data, {
         headers: { Authorization: user.accessToken },
       })

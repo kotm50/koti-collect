@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import dayjs from "dayjs";
 
 import sorry from "../../../Asset/sorry.png";
 import DailyDetail from "./DailyDetail";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function Daily(props) {
   const navi = useNavigate();
@@ -71,7 +71,7 @@ function Daily(props) {
       searchMonth: month,
       searchDay: day,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })

@@ -5,8 +5,7 @@ import { clearUser } from "../../../Reducer/userSlice";
 
 import ReactQuill from "react-quill";
 import { modulesB, formats } from "../../Layout/QuillModule";
-
-import axios from "axios";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function Write() {
   const navi = useNavigate();
@@ -31,7 +30,7 @@ function Write() {
       postId: pid,
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/board/admin/post/data", data, {
         headers: { Authorization: user.accessToken },
       })
@@ -65,7 +64,7 @@ function Write() {
   };
 
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -92,7 +91,7 @@ function Write() {
       data.postId = pid;
     }
 
-    await axios
+    await axiosInstance
       .post("/api/v1/board/admin/write/post", data, {
         headers: { Authorization: user.accessToken },
       })

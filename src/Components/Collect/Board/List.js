@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -9,6 +8,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
 import Pagenate from "../../Layout/Pagenate";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function List() {
   dayjs.locale("ko");
@@ -57,7 +57,7 @@ function List() {
     if (searchKeyword) {
       data.searchKeyword = searchKeyword;
     }
-    await axios
+    await axiosInstance
       .post("/api/v1/board/admin/post/list", data, {
         headers: { Authorization: user.accessToken },
       })

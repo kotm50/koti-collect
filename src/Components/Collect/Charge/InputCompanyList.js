@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { MdClose } from "react-icons/md";
-
-import axios from "axios";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function InputCompanyList(props) {
   const [companyList, setCompanyList] = useState([]);
@@ -24,7 +23,7 @@ function InputCompanyList(props) {
     const data = {
       searchKeyword: c,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/search/list", data, {
         headers: {
           Authorization: user.accessToken,

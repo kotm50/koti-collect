@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
-import axios from "axios";
 import Menu from "../Layout/Menu";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Board() {
   const [title, setTitle] = useState("회의록");
@@ -14,7 +14,7 @@ function Board() {
   const dispatch = useDispatch();
   const navi = useNavigate();
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })

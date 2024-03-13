@@ -3,7 +3,7 @@ import "dayjs/locale/ko"; // 한국어 로케일 import
 import CommisionMemo from "./CommisionMemo";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function Deposit(props) {
   const navi = useNavigate();
@@ -12,7 +12,7 @@ function Deposit(props) {
     const data = {
       commCode: commCode,
     };
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/get/pay/list", data, {
         headers: { Authorization: props.user.accessToken },
       })

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
-import axios from "axios";
 import Menu from "../Layout/Menu";
+
+import dayjs from "dayjs";
+import axiosInstance from "../../Api/axiosInstance";
 
 function Collect() {
   const [title, setTitle] = useState("코리아티엠 수금전산 페이지.");
@@ -13,8 +15,9 @@ function Collect() {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
+  const thisLocation = useLocation();
   const logout = async () => {
-    await axios
+    await axiosInstance
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
@@ -26,6 +29,11 @@ function Collect() {
         console.log(e);
       });
   };
+
+  useEffect(() => {
+    console.log(dayjs(new Date()).format("hh:mm:ss"), "|", user.accessToken);
+    //eslint-disable-next-line
+  }, [thisLocation]);
   return (
     <>
       <div

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 //import CouponResult from "./CouponResult";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../Api/axiosInstance";
 
 function GenerateCoupon(props) {
   const navi = useNavigate();
@@ -19,7 +19,7 @@ function GenerateCoupon(props) {
       discountAmount: Number(discount),
     };
 
-    await axios
+    await axiosInstance
       .post("/api/v1/comp/add/random/cpn", data, {
         headers: { Authorization: user.accessToken },
       })
