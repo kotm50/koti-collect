@@ -1,4 +1,3 @@
-import { Routes, Route } from "react-router-dom";
 import Collect from "./Components/Collect/Collect";
 import CollectMain from "./Components/Collect/Main";
 import CollectIndex from "./Components/CollectIndex";
@@ -22,7 +21,54 @@ import Detail from "./Components/Collect/Board/Detail";
 import Coupon from "./Components/Collect/Coupon";
 import ReadOnly from "./Components/Collect/ReadOnly";
 
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import axios from "axios";
+import { getNewToken } from "./Reducer/userSlice";
+
+// 커스텀 훅 정의
+function useAuthTokenUpdater() {
+  const [isTokenUpdated, setTokenUpdated] = useState(false);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+
+  useEffect(() => {
+    console.log(user.accessToken);
+    const fetchToken = async () => {
+      try {
+        const response = await axios.post("/api/v1/user/get/point", null, {
+          headers: { Authorization: user.accessToken },
+        });
+        const newToken = response.headers.authorization;
+        if (user.accessToken !== newToken) {
+          dispatch(
+            getNewToken({
+              accessToken: newToken,
+            })
+          ); // 토큰 갱신
+        }
+        setTokenUpdated(true); // 토큰 갱신 완료 상태 설정
+      } catch (error) {
+        console.error("Token fetch error:", error);
+        setTokenUpdated(true); // 에러가 발생해도 상태를 설정해 UI가 렌더링되도록
+      }
+    };
+    setTokenUpdated(false); // 토큰 갱신 시작 전 상태 초기화
+    fetchToken();
+  }, [location, user, dispatch]);
+
+  return isTokenUpdated; // 상태 반환
+}
+
 function App() {
+  const isTokenUpdated = useAuthTokenUpdater();
+  if (!isTokenUpdated) {
+    // 토큰 갱신 중이면 로딩 인디케이터나 다른 UI 표시
+    return <div>잠시만 기다려 주세요..</div>;
+  }
   return (
     <>
       <Routes>
