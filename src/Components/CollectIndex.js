@@ -1,17 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import axios from "axios";
 import { loginUser } from "../Reducer/userSlice";
 
 function CollectIndex() {
+  const user = useSelector(state => state.user);
   const inputPwdRef = useRef();
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    if (user.accessToken !== "") {
+      navi("/collect");
+    }
+    //eslint-disable-next-line
+  }, []);
 
   const login = async () => {
     const data = {
@@ -22,9 +30,9 @@ function CollectIndex() {
       .post("/api/v1/user/login", data)
       .then(async res => {
         const token = res.headers.authorization;
-
+        const refresh = res.data.user.refreshToken;
         if (res.data.code === "C000") {
-          chkAdmin(token, res.data.user);
+          chkAdmin(token, res.data.user, refresh);
         } else {
           setErrMsg(res.data.message);
           setPwd("");
@@ -39,7 +47,7 @@ function CollectIndex() {
       });
   };
 
-  const chkAdmin = async (token, user) => {
+  const chkAdmin = async (token, user, refresh) => {
     await axios
       .post("/api/v1/user/rolechk", null, {
         headers: { Authorization: token },
@@ -54,6 +62,7 @@ function CollectIndex() {
               lastLogin: new Date(),
               point: user.point,
               admin: true,
+              refreshToken: refresh,
             })
           );
           navi("/collect");
@@ -66,6 +75,7 @@ function CollectIndex() {
               lastLogin: new Date(),
               point: user.point,
               admin: false,
+              refreshToken: refresh,
             })
           );
           navi("/collect");

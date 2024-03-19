@@ -59,7 +59,6 @@ function Detail() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
@@ -113,7 +112,6 @@ function Detail() {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           if (res.data.code === "E999" || res.data.code === "E403") {
             logout();
             return false;
@@ -137,7 +135,6 @@ function Detail() {
           headers: { Authorization: user.accessToken },
         })
         .then(res => {
-          console.log(res);
           if (res.data.code === "E999" || res.data.code === "E403") {
             logout();
             return false;
@@ -160,7 +157,6 @@ function Detail() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;

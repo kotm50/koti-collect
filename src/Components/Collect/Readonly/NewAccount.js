@@ -14,7 +14,6 @@ function NewAccount(props) {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         alert(res.data.message);
         if (res.data.code === "C000") {
           props.getAccountList();

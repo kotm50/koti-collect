@@ -78,7 +78,6 @@ function Statistics(props) {
 
   const searchIt = async () => {
     setStatisticsList([]);
-    console.log(props.searchKeyword, startKeyword, endKeyword);
     const data = {
       searchKeyword: props.searchKeyword === "" ? null : props.searchKeyword,
       searchStartDate: startKeyword === "" ? null : startKeyword,

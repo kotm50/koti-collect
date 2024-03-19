@@ -80,14 +80,14 @@ function Company() {
       setInputChannelList([]);
       setSelectGubun(gubun);
       setInputGubun(gubun);
-      await getChannelList(gubun, "B");
+      getChannelList(gubun, "B");
     } else {
       setInputChannelList([]);
       setSelectGubun("");
       setInputGubun("");
     }
-    await getCategory();
-    await getCompanyList(page, keyword, gubun, channel);
+    getCategory();
+    getCompanyList(page, keyword, gubun, channel);
   };
 
   const getChannelList = async (category, type) => {
@@ -135,7 +135,6 @@ function Company() {
           logout();
           return false;
         }
-        console.log(res.data.commList);
         setCategoryList(res.data.commList);
       })
       .catch(e => console.log(e));

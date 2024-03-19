@@ -20,15 +20,18 @@ import Write from "./Components/Collect/Board/Write";
 import Detail from "./Components/Collect/Board/Detail";
 import Coupon from "./Components/Collect/Coupon";
 import ReadOnly from "./Components/Collect/ReadOnly";
-
+/*
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+
 import axios from "axios";
 import { getNewToken } from "./Reducer/userSlice";
-
+*/
+import { Routes, Route } from "react-router-dom";
 // 커스텀 훅 정의
+
+/*
 function useAuthTokenUpdater() {
   const [isTokenUpdated, setTokenUpdated] = useState(false);
   const location = useLocation();
@@ -36,7 +39,6 @@ function useAuthTokenUpdater() {
   const user = useSelector(state => state.user);
 
   useEffect(() => {
-    console.log(user.accessToken);
     const fetchToken = async () => {
       try {
         const response = await axios.post("/api/v1/user/get/point", null, {
@@ -62,13 +64,16 @@ function useAuthTokenUpdater() {
 
   return isTokenUpdated; // 상태 반환
 }
+*/
 
 function App() {
-  const isTokenUpdated = useAuthTokenUpdater();
+  //const isTokenUpdated = useAuthTokenUpdater();
+  /*
   if (!isTokenUpdated) {
     // 토큰 갱신 중이면 로딩 인디케이터나 다른 UI 표시
     return <div>잠시만 기다려 주세요..</div>;
   }
+  */
   return (
     <>
       <Routes>

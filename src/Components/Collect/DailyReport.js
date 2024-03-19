@@ -84,8 +84,8 @@ function DailyReport() {
     //eslint-disable-next-line
   }, [date, date1]);
   const initializer = async () => {
-    await getTodayReport();
-    await getTomorrowReport();
+    getTodayReport();
+    getTomorrowReport();
   };
 
   const getTodayReport = async () => {
@@ -104,7 +104,6 @@ function DailyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("오늘", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
@@ -130,7 +129,6 @@ function DailyReport() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log("내일", res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;

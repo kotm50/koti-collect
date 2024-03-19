@@ -14,7 +14,6 @@ function Readonly() {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         alert(res.data.message);
       })
       .catch(e => console.log(e));

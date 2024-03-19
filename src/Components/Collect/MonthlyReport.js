@@ -33,14 +33,14 @@ function MonthlyReport() {
   const initializer = async () => {
     setTitle("월간보고");
     if (tabMenu === 0) {
-      await getMonthlyReport(year, month);
+      getMonthlyReport(year, month);
       setWeekList([]);
       setCompNmList([]);
       setCompSumList([]);
       setGubunList([]);
     } else {
       setListA([]);
-      await getMonthlyStatisticReport(year, month);
+      getMonthlyStatisticReport(year, month);
     }
   };
   const getMonthlyReport = async (year, month) => {
@@ -87,7 +87,6 @@ function MonthlyReport() {
           card = card + doc.cardPayment;
           bill = bill + doc.billPayment;
         });
-        console.log(res.data);
         setWeekList(res.data.weekList);
         setCompNmList(res.data.compNmList);
         setCompSumList(res.data.compSumList);

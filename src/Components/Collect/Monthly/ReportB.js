@@ -117,7 +117,6 @@ function ReportB(props) {
       list.push(object);
     });
     total = cashPayment + billPayment + cardPayment;
-    console.log("방식별", list);
     setCompSumTotal({
       cashPayment: cashPayment,
       billPayment: billPayment,
@@ -152,7 +151,6 @@ function ReportB(props) {
       list.push(object);
     });
     total = paidAd + paidComm + paidIntvCare + paidCommCare + prepayment;
-    console.log("사별", list);
     setCompNmTotal({
       paidAd: paidAd,
       paidComm: paidComm,

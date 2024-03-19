@@ -557,8 +557,6 @@ function YearTotal() {
             listF.push(object);
           }
         });
-        console.log("교보", totalE, listE);
-        console.log("미래", totalF, listF);
       })
       .catch(e => console.log(e));
   };

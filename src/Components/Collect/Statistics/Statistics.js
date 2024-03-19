@@ -195,7 +195,6 @@ function Statistics(props) {
           navi("/");
           return false;
         }
-        console.log(res);
         //await getTotal(res.data.statisticsList);
         setDeposit(res.data.totalPaymentP || 0);
         setWithdraw(res.data.totalPaymentD || 0);

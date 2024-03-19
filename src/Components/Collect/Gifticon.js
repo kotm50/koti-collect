@@ -63,7 +63,6 @@ function Gifticon() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;

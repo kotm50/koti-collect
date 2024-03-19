@@ -29,7 +29,6 @@ function ReadOnly() {
           navi("/");
           return false;
         }
-        console.log(res);
         setAccountList(res.data.userList || []);
       })
       .catch(e => console.log(e));

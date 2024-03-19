@@ -62,7 +62,6 @@ function UnReceive() {
 
   const resetCharge = async () => {
     const code = commCode;
-    console.log("리셋전", commCode);
     setCommCode(null);
     setTimeout(() => {
       setCommCode(code);
@@ -80,8 +79,8 @@ function UnReceive() {
   }, [isUnpaid, month, year, searchKeyword]);
 
   const initializer = async () => {
-    await getFeeList(month, year, searchKeyword);
-    await getTodayList();
+    getFeeList(month, year, searchKeyword);
+    getTodayList();
   };
 
   const logout = async () => {
@@ -143,16 +142,7 @@ function UnReceive() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        if (res.data.code === "E999") {
-          logout();
-          return false;
-        }
-        if (res.data.code === "E403") {
-          return alert(res.data.message);
-        }
         let unPaid = res.data.commission;
-        console.log(unPaid);
-        console.log(res.data.pay);
         if (
           unPaid.unpaidAd === 0 &&
           unPaid.unpaidComm === 0 &&
@@ -178,10 +168,6 @@ function UnReceive() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        if (res.data.code === "E999") {
-          logout();
-          return false;
-        }
         if (res.data.code === "E403") {
           return alert(res.data.message);
         }

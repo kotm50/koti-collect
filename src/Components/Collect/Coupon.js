@@ -40,7 +40,6 @@ function Coupon() {
           navi("/");
           return false;
         }
-        console.log(res);
         const compCpnList = res.data.compCpnList;
         setCouponList(compCpnList);
       })

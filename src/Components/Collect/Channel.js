@@ -28,8 +28,8 @@ function Channel() {
 
   const initializer = async () => {
     setTitle("듀얼/채널 관리");
-    await getCategory();
-    await getCommList("", "Y");
+    getCategory();
+    getCommList("", "Y");
   };
 
   //구분 셀렉박스 핸들링

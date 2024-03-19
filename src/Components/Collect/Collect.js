@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 import Menu from "../Layout/Menu";
 
-import dayjs from "dayjs";
 import axiosInstance from "../../Api/axiosInstance";
 
 function Collect() {
@@ -15,7 +14,6 @@ function Collect() {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
-  const thisLocation = useLocation();
   const logout = async () => {
     await axiosInstance
       .post("/api/v1/user/logout", null, {
@@ -30,10 +28,6 @@ function Collect() {
       });
   };
 
-  useEffect(() => {
-    console.log(dayjs(new Date()).format("hh:mm:ss"), "|", user.accessToken);
-    //eslint-disable-next-line
-  }, [thisLocation]);
   return (
     <>
       <div

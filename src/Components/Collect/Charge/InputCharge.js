@@ -526,7 +526,6 @@ function InputCharge(props) {
         data.paymentDueDate = paymentDueDate;
       }
       const isdup = await dupchk(data);
-      console.log(isdup);
       if (isdup === "오류 발생") {
         return false;
       }
@@ -596,7 +595,6 @@ function InputCharge(props) {
   };
 
   const dupchk = async data => {
-    console.log(data);
     try {
       const response = await axiosInstance.post(
         "/api/v1/comp/commission/dupchk",
