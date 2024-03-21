@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { forceLogout } from "../Components/LogoutUtil";
 
 // 비동기 액션 생성
 export const refreshAccessToken = createAsyncThunk(
@@ -55,6 +56,7 @@ const userSlice = createSlice({
         if (action.payload === "E999") {
           // E999 오류 발생 시 clearUser 실행
           userSlice.caseReducers.clearUser(state);
+          forceLogout();
         }
       });
   },
