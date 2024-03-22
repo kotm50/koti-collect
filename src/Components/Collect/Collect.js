@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
@@ -6,7 +6,8 @@ import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 import Menu from "../Layout/Menu";
 
-import axiosInstance from "../../Api/axiosInstance";
+import axios from "axios";
+import dayjs from "dayjs";
 
 function Collect() {
   const [title, setTitle] = useState("코리아티엠 수금전산 페이지.");
@@ -15,11 +16,12 @@ function Collect() {
   const dispatch = useDispatch();
   const navi = useNavigate();
   const logout = async () => {
-    await axiosInstance
+    await axios
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
+        console.log(res);
         dispatch(clearUser());
         navi("/");
       })
@@ -27,6 +29,16 @@ function Collect() {
         console.log(e);
       });
   };
+
+  useEffect(() => {
+    const date = new Date();
+    console.log(dayjs(date).format("hh:mm:ss"), " | ", user.accessToken);
+    if (user.accessToken === "") {
+      alert("세션만료, 다시 로그인 해주세요");
+      navi("/");
+    }
+    //eslint-disable-next-line
+  }, [user.accessToken]);
 
   return (
     <>

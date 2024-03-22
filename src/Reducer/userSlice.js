@@ -1,27 +1,36 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { forceLogout } from "../Components/LogoutUtil";
 
 // 비동기 액션 생성
 export const refreshAccessToken = createAsyncThunk(
   "user/refreshAccessToken",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { getState }) => {
     const { user } = getState();
     try {
+      if (!user.accessToken) {
+        return alert("멈춰!!");
+      }
+      if (!user.refreshToken) {
+        return alert("멈춰!");
+      }
       const response = await axios.post("/api/v1/common/reissu/token", {
         resolveToken: user.accessToken,
         refreshToken: user.refreshToken,
       });
-      if (response.data.code === "E999") {
-        // 오류 코드 E999 처리
-        return rejectWithValue("E999");
+      console.log("재발급API", response.data);
+      if (response.data.code === "C000") {
+        // 정상적으로 새 토큰을 받았을 때
+        return response.headers.authorization; // 새 accessToken 반환
+      } else {
+        console.log(response.headers);
+        return response.headers.authorization;
       }
-      return response.headers.authorization; // 새 accessToken 반환
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      console.log(error);
     }
   }
 );
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -46,6 +55,12 @@ const userSlice = createSlice({
       state.admin = false;
       state.refreshToken = "";
     },
+    refreshPoint: (state, action) => {
+      state.point = action.payload.point;
+    },
+    buyGift: (state, action) => {
+      state.point = action.payload.point;
+    },
   },
   extraReducers: builder => {
     builder
@@ -56,11 +71,14 @@ const userSlice = createSlice({
         if (action.payload === "E999") {
           // E999 오류 발생 시 clearUser 실행
           userSlice.caseReducers.clearUser(state);
-          forceLogout();
+        } else {
+          // 기타 오류 코드 처리
+          console.log("Error:", action.payload);
         }
       });
   },
 });
 
-export const { loginUser, clearUser } = userSlice.actions;
+export const { loginUser, clearUser, refreshPoint, buyGift } =
+  userSlice.actions;
 export default userSlice.reducer;
