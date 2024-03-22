@@ -46,7 +46,6 @@ let refreshTokenPromise = null;
 
 axiosInstance.interceptors.response.use(
   async response => {
-    console.log(response.data);
     if (response.data.code === "E401") {
       const originalRequest = response.config;
       if (!isRefreshing && !refreshTokenPromise) {
@@ -56,7 +55,6 @@ axiosInstance.interceptors.response.use(
           .dispatch(refreshAccessToken())
           .unwrap()
           .then(newAccessToken => {
-            console.log(newAccessToken);
             if (newAccessToken) {
               axiosInstance.defaults.headers.common["Authorization"] =
                 newAccessToken;
