@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../Reducer/userSlice";
@@ -11,12 +11,10 @@ import axios from "axios";
 function Collect() {
   const [title, setTitle] = useState("코리아티엠 수금전산 페이지.");
   const [open, setOpen] = useState(true);
-  const [isLogout, setIsLogout] = useState(false);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
   const logout = async () => {
-    setIsLogout(true);
     await axios
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
@@ -29,17 +27,6 @@ function Collect() {
         console.log(e);
       });
   };
-
-  useEffect(() => {
-    if (user.accessToken === "") {
-      if (!isLogout) {
-        alert("세션만료, 다시 로그인 해주세요");
-      }
-      setIsLogout(false);
-      navi("/");
-    }
-    //eslint-disable-next-line
-  }, [user.accessToken]);
 
   return (
     <>
