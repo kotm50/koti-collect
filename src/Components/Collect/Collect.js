@@ -7,21 +7,21 @@ import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import Menu from "../Layout/Menu";
 
 import axios from "axios";
-import dayjs from "dayjs";
 
 function Collect() {
   const [title, setTitle] = useState("코리아티엠 수금전산 페이지.");
   const [open, setOpen] = useState(true);
+  const [isLogout, setIsLogout] = useState(false);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
   const logout = async () => {
+    setIsLogout(true);
     await axios
       .post("/api/v1/user/logout", null, {
         headers: { Authorization: user.accessToken },
       })
       .then(res => {
-        console.log(res);
         dispatch(clearUser());
         navi("/");
       })
@@ -31,10 +31,11 @@ function Collect() {
   };
 
   useEffect(() => {
-    const date = new Date();
-    console.log(dayjs(date).format("hh:mm:ss"), " | ", user.accessToken);
     if (user.accessToken === "") {
-      alert("세션만료, 다시 로그인 해주세요");
+      if (!isLogout) {
+        alert("세션만료, 다시 로그인 해주세요");
+      }
+      setIsLogout(false);
       navi("/");
     }
     //eslint-disable-next-line
