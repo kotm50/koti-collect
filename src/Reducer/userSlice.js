@@ -7,6 +7,8 @@ export const refreshAccessToken = createAsyncThunk(
   async (_, { getState }) => {
     const { user } = getState();
     try {
+      //console.log("1", user.accessToken);
+      //console.log("2", user.refreshToken);
       if (!user.accessToken) {
         return alert("accErr : 로그인을 다시 진행해 주세요");
       }

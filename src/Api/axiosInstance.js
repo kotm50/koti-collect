@@ -19,7 +19,7 @@ const processQueue = (error, token = null) => {
     }
   }
 };
-
+/*
 axiosInstance.interceptors.request.use(
   config => {
     // API URL 출력
@@ -40,6 +40,7 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+*/
 
 //eslint-disable-next-line
 let refreshTokenPromise = null;
@@ -91,12 +92,14 @@ axiosInstance.interceptors.response.use(
       // 에러 응답 처리
       store.dispatch(clearUser()); // 동일한 함수 실행
       window.location.href = "/"; // 메인 화면으로 이동
-      return alert(response.data.message);
+      alert(response.data.message);
+      return Promise.reject(); // 다른 핸들러에게 에러 전달
     } else if (response.data.code === "E999") {
       // 에러 응답 처리
       store.dispatch(clearUser()); // 동일한 함수 실행
       window.location.href = "/"; // 메인 화면으로 이동
-      return alert(response.data.message);
+      alert(response.data.message);
+      return Promise.reject(); // 다른 핸들러에게 에러 전달
     }
     return response;
   },
