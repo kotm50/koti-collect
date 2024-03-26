@@ -26,6 +26,7 @@ function CollectIndex() {
     await axios
       .post("/api/v1/user/login", data)
       .then(async res => {
+        console.log(res);
         const token = res.headers.authorization;
         const refresh = res.data.user.refreshToken;
         if (res.data.code === "C000") {
@@ -59,6 +60,7 @@ function CollectIndex() {
               lastLogin: new Date(),
               point: user.point,
               admin: true,
+              manager: false,
               refreshToken: refresh,
             })
           );
@@ -72,6 +74,21 @@ function CollectIndex() {
               lastLogin: new Date(),
               point: user.point,
               admin: false,
+              manager: false,
+              refreshToken: refresh,
+            })
+          );
+          navi("/collect");
+        } else if (res.data.code === "A400") {
+          dispatch(
+            loginUser({
+              userId: user.userId,
+              userName: user.userName,
+              accessToken: token,
+              lastLogin: new Date(),
+              point: user.point,
+              admin: false,
+              manager: true,
               refreshToken: refresh,
             })
           );

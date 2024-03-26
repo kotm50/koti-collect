@@ -42,6 +42,7 @@ const userSlice = createSlice({
     accessToken: "",
     refreshToken: "",
     admin: false,
+    manager: false,
   },
   reducers: {
     loginUser: (state, action) => {
@@ -49,6 +50,7 @@ const userSlice = createSlice({
       state.userName = action.payload.userName;
       state.accessToken = action.payload.accessToken;
       state.admin = action.payload.admin;
+      state.manager = action.payload.manager;
       state.refreshToken = action.payload.refreshToken;
     },
     clearUser: state => {
@@ -56,6 +58,7 @@ const userSlice = createSlice({
       state.userName = "";
       state.accessToken = "";
       state.admin = false;
+      state.manager = false;
       state.refreshToken = "";
     },
     refreshPoint: (state, action) => {
