@@ -81,30 +81,25 @@ function Menu(props) {
               기프티콘 충전현황
             </Link>
           </div>
-          {props.user.admin && (
-            <>
-              <div className={`p-3 font-bold`}>고객사 관리</div>
-              <div
-                className={`bg-gray-100 flex flex-col justify-start divide-y border-y`}
-              >
-                <Link
-                  to="/collect/company"
-                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
-                >
-                  고객사 리스트
-                </Link>
-                <Link
-                  to="/collect/channel"
-                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
-                >
-                  듀얼/채널 관리
-                </Link>
-              </div>
-            </>
-          )}
+          <div className={`p-3 font-bold`}>고객사 관리</div>
+          <div
+            className={`bg-gray-100 flex flex-col justify-start divide-y border-y`}
+          >
+            <Link
+              to="/collect/company"
+              className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+            >
+              고객사 리스트
+            </Link>
+            <Link
+              to="/collect/channel"
+              className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+            >
+              듀얼/채널 관리
+            </Link>
+          </div>
         </>
       )}
-
       <div className={`p-3 font-bold`}>게시판</div>
       <div
         className={`bg-gray-100 flex flex-col justify-start divide-y border-y`}
