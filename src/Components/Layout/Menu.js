@@ -111,33 +111,35 @@ function Menu(props) {
           회의록 게시판
         </Link>
       </div>
-      {!props.user.manager && (
-        <>
-          {props.user.admin && (
-            <>
-              <div className={`p-3 font-bold`}>관리</div>
-              <div
-                className={`bg-gray-100 flex flex-col justify-start divide-y border-y ${
-                  !props.user.admin && "hidden"
-                }`}
-              >
-                <Link
-                  to="/collect/coupon"
-                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+      <div className="hidden">
+        {!props.user.manager && (
+          <>
+            {props.user.admin && (
+              <>
+                <div className={`p-3 font-bold`}>관리</div>
+                <div
+                  className={`bg-gray-100 flex flex-col justify-start divide-y border-y ${
+                    !props.user.admin && "hidden"
+                  }`}
                 >
-                  쿠폰 관리
-                </Link>
-                <Link
-                  to="/collect/readonly"
-                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
-                >
-                  읽기전용 계정관리
-                </Link>
-              </div>
-            </>
-          )}
-        </>
-      )}
+                  <Link
+                    to="/collect/coupon"
+                    className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+                  >
+                    쿠폰 관리
+                  </Link>
+                  <Link
+                    to="/collect/readonly"
+                    className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+                  >
+                    읽기전용 계정관리
+                  </Link>
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

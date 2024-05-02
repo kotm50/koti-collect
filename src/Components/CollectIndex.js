@@ -82,20 +82,6 @@ function CollectIndex() {
             })
           );
           navi("/collect");
-        } else if (res.data.code === "A400") {
-          dispatch(
-            loginUser({
-              userId: user.userId,
-              userName: user.userName,
-              accessToken: token,
-              lastLogin: new Date(),
-              point: user.point,
-              admin: false,
-              manager: true,
-              refreshToken: refresh,
-            })
-          );
-          navi("/collect");
         } else {
           setErrMsg("잘못된 계정을 입력하셨습니다. 관리자에게 문의하세요");
           return false;
