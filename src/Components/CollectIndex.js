@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import axios from "axios";
-import { clearUser, loginUser } from "../Reducer/userSlice";
+import { loginUser } from "../Reducer/userSlice";
 
 function CollectIndex() {
+  const user = useSelector(state => state.user);
   const inputPwdRef = useRef();
   const dispatch = useDispatch();
   const navi = useNavigate();
@@ -14,7 +15,9 @@ function CollectIndex() {
   const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
-    dispatch(clearUser());
+    if (user.accessToken) {
+      navi("/collect");
+    }
     //eslint-disable-next-line
   }, []);
 
