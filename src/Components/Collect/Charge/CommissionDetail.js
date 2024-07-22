@@ -24,6 +24,11 @@ function CommissionDetail(props) {
   }, [props.isActive]);
 
   useEffect(() => {
+    // 상위 컴포넌트로부터 받은 isActive prop에 따라 detailOn 상태를 설정
+    setDetailOn(false);
+  }, [props.commissionList]);
+
+  useEffect(() => {
     if (
       props.comm.paymentDueDate !== null &&
       props.comm.paymentDueDate !== undefined &&

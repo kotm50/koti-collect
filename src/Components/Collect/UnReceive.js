@@ -32,6 +32,7 @@ function UnReceive() {
   const [keyword, setKeyword] = useState("");
 
   const [feeList, setFeeList] = useState([]);
+  const [sortedList, setSortedList] = useState([]);
 
   const [commCode, setCommCode] = useState(null);
   const [payCode, setPayCode] = useState(null);
@@ -46,6 +47,11 @@ function UnReceive() {
 
   const [todayOn, setTodayOn] = useState(false);
   const [todayList, setTodayList] = useState([]);
+
+  const [sortA, setSortA] = useState("");
+  const [sortB, setSortB] = useState("");
+
+  const [sorting, setSorting] = useState(false);
 
   const handleSearch = e => {
     if (e.key === "Enter") {
@@ -179,6 +185,34 @@ function UnReceive() {
   const handleUnpaidChk = e => {
     setIsUnpaid(e.target.value);
   };
+
+  const sortIt = txt => {
+    if (sortA !== txt) {
+      setSortA(txt);
+      setSortB("asc");
+    } else if (sortB === "asc") {
+      setSortB("desc");
+    } else {
+      setSortA("");
+      setSortB("");
+    }
+  };
+
+  useEffect(() => {
+    setSorting(true);
+    if (sortA === "") {
+      setSortedList([]);
+    } else {
+      const sortedList = [...feeList].sort((a, b) => {
+        if (a[sortA] < b[sortA]) return sortB === "desc" ? 1 : -1;
+        if (a[sortA] > b[sortA]) return sortB === "desc" ? -1 : 1;
+        return 0;
+      });
+      setSortedList(sortedList);
+    }
+    setSorting(false);
+    //eslint-disable-next-line
+  }, [sortA, sortB]);
 
   return (
     <div className="mx-4" data={title}>
@@ -466,6 +500,11 @@ function UnReceive() {
           loading={loaded}
           setInputOn={setInputOn}
           setTestNum={setTestNum}
+          sortIt={sortIt}
+          sortA={sortA}
+          sortB={sortB}
+          sortedList={sortedList}
+          sorting={sorting}
         />
       </div>
       <button
