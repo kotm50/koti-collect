@@ -235,6 +235,7 @@ function YearTotal() {
   };
 
   const getTotal = async year => {
+    console.log(year);
     await resetIt();
     const data = {
       searchYear: year,
