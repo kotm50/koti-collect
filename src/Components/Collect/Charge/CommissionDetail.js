@@ -90,6 +90,7 @@ function CommissionDetail(props) {
       <tr
         className={`text-center hover:cursor-pointer ${color}`}
         title="수정하려면 클릭하세요"
+        id={props.comm.companyCode}
       >
         <td
           className={`p-1 border ${detailOn ? "bg-blue-100 font-bold" : ""}`}
