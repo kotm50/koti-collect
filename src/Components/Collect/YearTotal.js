@@ -235,7 +235,6 @@ function YearTotal() {
   };
 
   const getTotal = async year => {
-    console.log(year);
     await resetIt();
     const data = {
       searchYear: year,
@@ -245,7 +244,6 @@ function YearTotal() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
