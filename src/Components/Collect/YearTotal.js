@@ -248,9 +248,9 @@ function YearTotal() {
           navi("/");
           return false;
         }
-        const list = res.data.revSummaryList;
-        const listB = [];
-        const listC = [];
+        let list = res.data.revSummaryList ? res.data.revSummaryList : [];
+        let listB = [];
+        let listC = [];
 
         let jan = [];
         let feb = [];
