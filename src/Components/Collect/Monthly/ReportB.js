@@ -290,15 +290,15 @@ function ReportB(props) {
             <div className="bg-green-200 text-center py-1 border-b border-l border-black font-black">
               비율
             </div>
-            <div className="bg-white text-center py-1 border-black border-t">
+            <div className="bg-white text-center py-1 border-black">
               카드(몬)
             </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
+            <div className="bg-white text-center py-1 border-l border-black">
               {props.statistics.moCardPayment
                 ? props.statistics.moCardPayment.toLocaleString()
                 : 0}
             </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
+            <div className="bg-white text-center py-1 border-l border-black">
               {props.statistics.moCardRatio
                 ? props.statistics.moCardRatio
                 : "0"}
