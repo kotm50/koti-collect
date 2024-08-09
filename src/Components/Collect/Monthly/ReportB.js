@@ -304,12 +304,12 @@ function ReportB(props) {
             <div className="hidden bg-white text-center py-1 border-black border-t">
               카드 총합
             </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
+            <div className="hidden bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.cardPayment
                 ? props.statistics.cardPayment.toLocaleString()
                 : 0}
             </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
+            <div className="hidden bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.cardRatio ? props.statistics.cardRatio : "0"}%
             </div>
             <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
