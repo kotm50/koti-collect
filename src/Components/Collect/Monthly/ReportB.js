@@ -260,7 +260,7 @@ function ReportB(props) {
               {props.statistics.billRatio ? props.statistics.billRatio : "0"}%
             </div>
             <div className="bg-white text-center py-1 border-black border-t">
-              카드 합계
+              카드
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.cardPayment
