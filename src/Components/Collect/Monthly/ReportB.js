@@ -226,7 +226,7 @@ function ReportB(props) {
         compSumList={props.compSumList}
         compSumTotal={compSumTotal}
       />
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-3 gap-x-4">
         <div className="bg-white p-4 rounded-lg drop-shadow">
           <h3 className="text-lg mb-2 font-bold">결제방식별 결제 비율</h3>
           <div className="grid grid-cols-3 border border-black">
@@ -258,6 +258,37 @@ function ReportB(props) {
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.billRatio ? props.statistics.billRatio : "0"}%
+            </div>
+            <div className="bg-white text-center py-1 border-black border-t">
+              카드 합계
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.cardPayment
+                ? props.statistics.cardPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.cardRatio ? props.statistics.cardRatio : "0"}%
+            </div>
+            <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
+              합계
+            </div>
+            <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
+              {statisticsTotal ? statisticsTotal.toLocaleString() : 0}
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-lg drop-shadow">
+          <h3 className="text-lg mb-2 font-bold">카드종류별 결제 비율</h3>
+          <div className="grid grid-cols-3 border border-black">
+            <div className="bg-green-200 text-center py-1 border-b border-black font-black">
+              구분
+            </div>
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black font-black">
+              금액
+            </div>
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black font-black">
+              비율
             </div>
             <div className="bg-white text-center py-1 border-black border-t">
               카드(몬)
@@ -301,22 +332,13 @@ function ReportB(props) {
                 : "0"}
               %
             </div>
-            <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
+            <div className="bg-green-200 text-center py-1 border-black border-t font-bold font-black">
               카드 합계
             </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
+            <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
               {props.statistics.cardPayment
                 ? props.statistics.cardPayment.toLocaleString()
                 : 0}
-            </div>
-            <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.cardRatio ? props.statistics.cardRatio : "0"}%
-            </div>
-            <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
-              합계
-            </div>
-            <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
-              {statisticsTotal ? statisticsTotal.toLocaleString() : 0}
             </div>
           </div>
         </div>
