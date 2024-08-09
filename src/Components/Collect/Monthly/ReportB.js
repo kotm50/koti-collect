@@ -260,7 +260,49 @@ function ReportB(props) {
               {props.statistics.billRatio ? props.statistics.billRatio : "0"}%
             </div>
             <div className="bg-white text-center py-1 border-black border-t">
-              카드
+              카드(몬)
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.moCardPayment
+                ? props.statistics.moCardPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.moCardRatio
+                ? props.statistics.moCardRatio
+                : "0"}
+              %
+            </div>
+            <div className="bg-white text-center py-1 border-black border-t">
+              카드(천국)
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.heCardPayment
+                ? props.statistics.heCardPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.heCardRatio
+                ? props.statistics.heCardRatio
+                : "0"}
+              %
+            </div>
+            <div className="bg-white text-center py-1 border-black border-t">
+              카드(PG)
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.pgCardPayment
+                ? props.statistics.pgCardPayment.toLocaleString()
+                : 0}
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.pgCardRatio
+                ? props.statistics.pgCardRatio
+                : "0"}
+              %
+            </div>
+            <div className="hidden bg-white text-center py-1 border-black border-t">
+              카드 총합
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.cardPayment
