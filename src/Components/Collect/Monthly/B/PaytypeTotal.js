@@ -75,10 +75,10 @@ function PaytypeTotal(props) {
           {props.compSumTotal.cashPayment.toLocaleString()}
         </div>
         <div className="bg-white text-center py-1 border-l border-black border-t">
-          {props.compSumTotal.billPayment.toLocaleString()}
+          {props.compSumTotal.cardPayment.toLocaleString()}
         </div>
         <div className="bg-white text-center py-1 border-l border-black border-t">
-          {props.compSumTotal.cardPayment.toLocaleString()}
+          {props.compSumTotal.billPayment.toLocaleString()}
         </div>
         <div className="bg-white text-center py-1 border-l border-black border-t font-bold">
           {props.compSumTotal.total.toLocaleString()}
