@@ -9,6 +9,7 @@ import StatisticsDetail from "./StatisticsDetail";
 import dayjs from "dayjs";
 import Calendar from "react-calendar";
 import { FaCalendarAlt } from "react-icons/fa";
+import axios from "axios";
 
 function Statistics(props) {
   const navi = useNavigate();
@@ -86,7 +87,7 @@ function Statistics(props) {
       searchStartDate: startKeyword === "" ? null : startKeyword,
       searchEndDate: endKeyword === "" ? null : endKeyword,
     };
-    await axiosInstance
+    await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
