@@ -91,10 +91,13 @@ function Statistics(props) {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
+        console.log(res);
+        /*
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
+          */
         //await getTotal(res.data.statisticsList);
         setDeposit(res.data.totalPaymentP || 0);
         setWithdraw(res.data.totalPaymentD || 0);
