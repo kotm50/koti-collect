@@ -96,7 +96,8 @@ function Statistics(props) {
     const end =
       endKeyword !== "" ? endKeyword : dayjs(new Date()).format("YYYY-MM-DD");
     const start = startKeyword !== "" ? startKeyword : getStart(end);
-
+    setCalendarDate1(new Date(start));
+    setCalendarDate2(new Date(end));
     const data = {
       searchKeyword: searchKeyword === "" ? null : searchKeyword,
       searchStartDate: start,
