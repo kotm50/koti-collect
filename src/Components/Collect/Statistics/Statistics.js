@@ -102,7 +102,6 @@ function Statistics(props) {
       searchStartDate: start,
       searchEndDate: end,
     };
-    console.log(data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
