@@ -82,23 +82,36 @@ function Statistics(props) {
 
   const searchIt = async () => {
     setStatisticsList([]);
+
+    if (startKeyword !== "") {
+      const s = new Date(startKeyword);
+      const e = endKeyword !== "" ? new Date(endKeyword) : new Date();
+      const timeDiff = Math.abs(e - s);
+      const dayDiff = timeDiff / (1000 * 3600 * 24);
+      if (dayDiff > 180) {
+        return alert("검색기간은 최대 180일입니다. 날짜를 다시 설정하세요");
+      }
+    }
+
+    const end =
+      endKeyword !== "" ? endKeyword : dayjs(new Date()).format("YYYY-MM-DD");
+    const start = startKeyword !== "" ? startKeyword : getStart(end);
+
     const data = {
       searchKeyword: searchKeyword === "" ? null : searchKeyword,
-      searchStartDate: startKeyword === "" ? null : startKeyword,
-      searchEndDate: endKeyword === "" ? null : endKeyword,
+      searchStartDate: start,
+      searchEndDate: end,
     };
+    console.log(data);
     await axios
       .post("/api/v1/comp/paytype/list", data, {
         headers: { Authorization: props.user.accessToken },
       })
       .then(async res => {
-        console.log(res);
-        /*
         if (res.data.code === "E999" || res.data.code === "E403") {
           navi("/");
           return false;
         }
-          */
         //await getTotal(res.data.statisticsList);
         setDeposit(res.data.totalPaymentP || 0);
         setWithdraw(res.data.totalPaymentD || 0);
@@ -106,6 +119,20 @@ function Statistics(props) {
         await setStatisticsList(res.data.statisticsList || []);
       })
       .catch(e => console.log(e));
+  };
+
+  const getStart = date => {
+    const selectedDate = new Date(date);
+    // 180일을 밀리초로 변환하여 날짜를 계산합니다.
+    selectedDate.setDate(selectedDate.getDate() - 180);
+
+    // 결과 날짜를 'YYYY-MM-DD' 형식으로 변환합니다.
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(selectedDate.getDate()).padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
   };
 
   const reset = () => {
