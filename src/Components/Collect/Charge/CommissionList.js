@@ -12,6 +12,7 @@ function CommissionList(props) {
     if (props.feeList.length === 0) {
       setIdNum(null);
     }
+    setCommissionList([]);
     if (props.sortedList.length > 0) {
       setCommissionList(props.sortedList);
     } else {

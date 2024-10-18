@@ -48,6 +48,37 @@ function CollectIndex() {
       });
   };
 
+  /*
+//ky 예시코드
+const login = async () => {
+  const data = {
+    userId: id,
+    userPwd: pwd,
+  };
+
+  try {
+    const res = await ky.post("/api/v1/user/login", { json: data }).json();
+    console.log(res);
+
+    const token = res.headers.authorization;
+    const refresh = res.user.refreshToken;
+
+    if (res.code === "C000") {
+      chkAdmin(token, res.user, refresh);
+    } else {
+      setErrMsg(res.message);
+      setPwd("");
+      if (res.code === "E003") {
+        inputPwdRef.current.focus();
+      }
+    }
+  } catch (e) {
+    setPwd("");
+    console.log(e);
+  }
+};
+  */
+
   const chkAdmin = async (token, user, refresh) => {
     await axios
       .post("/api/v1/user/rolechk", null, {
