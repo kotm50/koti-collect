@@ -206,7 +206,8 @@ function UnReceive() {
       const sortedList = [...feeList].sort((a, b) => {
         const valA = a[sortA];
         const valB = b[sortA];
-
+        console.log(valA);
+        console.log(valB);
         // 값이 null인 경우 무조건 뒤로 보냄
         if (valA === null) return 1;
         if (valB === null) return -1;
