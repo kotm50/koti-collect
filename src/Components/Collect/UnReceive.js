@@ -209,8 +209,8 @@ function UnReceive() {
         console.log(valA);
         console.log(valB);
         // 값이 null인 경우 무조건 뒤로 보냄
-        if (valA === null) return 1;
-        if (valB === null) return -1;
+        if (!valA) return 1;
+        if (!valB) return -1;
 
         // 값이 null이 아닌 경우 기존 정렬 로직 수행
         if (valA < valB) return sortB === "desc" ? 1 : -1;
