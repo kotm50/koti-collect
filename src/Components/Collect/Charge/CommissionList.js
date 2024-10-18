@@ -14,6 +14,7 @@ function CommissionList(props) {
     }
     setCommissionList([]);
     if (props.sortedList.length > 0) {
+      console.log("정렬", props.sortedList);
       setCommissionList(props.sortedList);
     } else {
       setCommissionList(props.feeList);

@@ -148,6 +148,7 @@ function UnReceive() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
+        console.log(res);
         let unPaid = res.data.commission;
         if (
           unPaid.unpaidAd === 0 &&
