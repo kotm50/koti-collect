@@ -148,7 +148,6 @@ function UnReceive() {
         headers: { Authorization: user.accessToken },
       })
       .then(async res => {
-        console.log(res);
         let unPaid = res.data.commission;
         if (
           unPaid.unpaidAd === 0 &&
@@ -205,8 +204,16 @@ function UnReceive() {
       setSortedList([]);
     } else {
       const sortedList = [...feeList].sort((a, b) => {
-        if (a[sortA] < b[sortA]) return sortB === "desc" ? 1 : -1;
-        if (a[sortA] > b[sortA]) return sortB === "desc" ? -1 : 1;
+        const valA = a[sortA];
+        const valB = b[sortA];
+
+        // 값이 null인 경우 무조건 뒤로 보냄
+        if (valA === null) return 1;
+        if (valB === null) return -1;
+
+        // 값이 null이 아닌 경우 기존 정렬 로직 수행
+        if (valA < valB) return sortB === "desc" ? 1 : -1;
+        if (valA > valB) return sortB === "desc" ? -1 : 1;
         return 0;
       });
       setSortedList(sortedList);
