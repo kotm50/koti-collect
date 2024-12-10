@@ -92,6 +92,7 @@ function Gifticon() {
             <option value="">연도 선택</option>
             <option value="2023">2023년</option>
             <option value="2024">2024년</option>
+            <option value="2025">2025년</option>
           </select>
         </div>
         <div className="flex justify-start gap-x-3">
