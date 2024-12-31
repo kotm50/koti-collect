@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MonthButton from "./Statistics/MonthButton";
@@ -7,13 +7,15 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // css import
 
 import dayjs from "dayjs";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaFileExcel } from "react-icons/fa";
 import Statistics from "./Statistics/Statistics";
 import MemoModal from "../Layout/MemoModal";
+import { exportTableToExcel } from "../../Api/capture";
 
 function StatisticsList() {
   const user = useSelector(state => state.user);
   const thisLocation = useLocation();
+  const captureRef = useRef();
 
   const [title, setTitle] = useOutletContext();
   const [year, setYear] = useState(dayjs(new Date()).format("YYYY"));
@@ -142,7 +144,24 @@ function StatisticsList() {
         setDate={setDate}
         setCalendarOn={setCalendarOn}
         searchOn={searchOn}
+        captureRef={captureRef}
       />
+
+      <button
+        className={`fixed transition-all duration-300 right-[60px] bottom-0 w-[48px] h-[48px] bg-green-600 hover:bg-green-700 text-white border flex justify-center items-center`}
+        onClick={() =>
+          exportTableToExcel(
+            "xlsx",
+            captureRef,
+            `기간별 ${searchOn ? "상세" : "기본"}조회${dayjs(new Date()).format(
+              "YYMMDD_HHssmm"
+            )}`
+          )
+        }
+        style={{ zIndex: "999999" }}
+      >
+        <FaFileExcel size={32} />
+      </button>
       {modalOn && <MemoModal memo={memo} setModalOn={setModalOn} />}
     </div>
   );

@@ -368,7 +368,7 @@ function Statistics(props) {
       >
         <div className="h-[640px] overflow-y-auto relative">
           {statisticsList.length > 0 ? (
-            <table className="w-full">
+            <table className="w-full" ref={props.captureRef}>
               <thead className="sticky top-0 bg-white">
                 <tr>
                   <td colSpan="14" className="border border-white">
