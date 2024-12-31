@@ -530,7 +530,7 @@ function UnReceive() {
       </button>
 
       <button
-        className={`fixed transition-all duration-300 right-[100px] ${
+        className={`fixed transition-all duration-300 right-[120px] ${
           !todayOn ? "bottom-0" : "bottom-[320px]"
         } w-[48px] h-[48px] bg-green-600 hover:bg-green-700 text-white border flex justify-center items-center`}
         onClick={() =>
