@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
 import InputCharge from "./Charge/InputCharge";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { FaCaretDown, FaCaretUp, FaFileExcel } from "react-icons/fa";
 import CommissionList from "./Charge/CommissionList";
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../../Api/axiosInstance";
@@ -13,7 +13,10 @@ import "dayjs/locale/ko"; // 한국어 로케일 import
 import MemoModal from "../Layout/MemoModal";
 import TodayPayList from "./Charge/TodayPayList";
 
+import { exportTableToExcel } from "../../Api/capture";
+
 function UnReceive() {
+  const captureRef = useRef();
   const stickyRef = useRef(null);
   const navi = useNavigate();
   const thisLocation = useLocation();
@@ -513,6 +516,7 @@ function UnReceive() {
           sortB={sortB}
           sortedList={sortedList}
           sorting={sorting}
+          captureRef={captureRef}
         />
       </div>
       <button
@@ -523,6 +527,22 @@ function UnReceive() {
         style={{ zIndex: "999999" }}
       >
         {!todayOn ? <FaCaretUp size={32} /> : <FaCaretDown size={32} />}
+      </button>
+
+      <button
+        className={`fixed transition-all duration-300 right-[100px] ${
+          !todayOn ? "bottom-0" : "bottom-[320px]"
+        } w-[48px] h-[48px] bg-green-600 hover:bg-green-700 text-white border flex justify-center items-center`}
+        onClick={() =>
+          exportTableToExcel(
+            "xlsx",
+            captureRef,
+            `수수료관리_${dayjs(new Date()).format("YYMMDD_HHssmm")}`
+          )
+        }
+        style={{ zIndex: "999999" }}
+      >
+        <FaFileExcel size={32} />
       </button>
       <div
         className={`transition-all duration-300 fixed bottom-0 right-2 ${

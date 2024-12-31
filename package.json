@@ -29,7 +29,8 @@
     "react-scripts": "5.0.1",
     "recharts": "^2.10.3",
     "redux-persist": "^6.0.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "scripts": {
     "start": "set PORT=3003 && react-app-rewired start",

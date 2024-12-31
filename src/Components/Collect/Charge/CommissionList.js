@@ -27,7 +27,11 @@ function CommissionList(props) {
       ) : (
         <>
           {commissionList.length > 0 ? (
-            <table id="mainTable" className="w-full mb-[50px]">
+            <table
+              id="mainTable"
+              className="w-full mb-[50px]"
+              ref={props.captureRef}
+            >
               <thead className="sticky top-0 left-0 z-30">
                 <tr className="text-white bg-blue-500 text-center">
                   <td

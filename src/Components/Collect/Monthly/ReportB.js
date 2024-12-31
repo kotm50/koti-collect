@@ -312,6 +312,15 @@ function ReportB(props) {
                 ? props.statistics.heCardPayment.toLocaleString()
                 : 0}
             </div>
+
+            <div className="bg-white text-center py-1 border-black border-t">
+              카드(펄스맥)
+            </div>
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.heCardPayment
+                ? props.statistics.heCardPayment.toLocaleString()
+                : 0}
+            </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
               {props.statistics.heCardRatio
                 ? props.statistics.heCardRatio

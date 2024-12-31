@@ -556,7 +556,12 @@ function InputDeposit(props) {
   useEffect(() => {
     if (payType === "CA" || payType === "CO") {
       setIsTax(1);
-    } else if (payType === "PG" || payType === "MO" || payType === "HE") {
+    } else if (
+      payType === "PG" ||
+      payType === "MO" ||
+      payType === "HE" ||
+      payType === "PE"
+    ) {
       setIsTax(2);
     } else if (payType === "PR") {
       setIsTax(3);
@@ -643,6 +648,7 @@ function InputDeposit(props) {
               <option value="PG">PG카드</option>
               <option value="MO">몬카드</option>
               <option value="HE">천국카드</option>
+              <option value="PE">펄스맥</option>
               <option value="PR">
                 선입금
                 {prePaidTotal > 0 &&

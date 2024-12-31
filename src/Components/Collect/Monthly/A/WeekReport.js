@@ -26,6 +26,8 @@ function WeekReport(props) {
       return "카드(몬)";
     } else if (payType === "HE") {
       return "카드(천국)";
+    } else if (payType === "PE") {
+      return "카드(펄맥)";
     } else if (payType === "PR") {
       return "선입금";
     } else {
