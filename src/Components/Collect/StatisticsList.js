@@ -27,6 +27,7 @@ function StatisticsList() {
   const [modalOn, setModalOn] = useState(false);
 
   const [searchOn, setSearchOn] = useState(false);
+  const [captureNow, setCaptureNow] = useState(false);
 
   useEffect(() => {
     setTitle("기간 별 조회");
@@ -145,19 +146,22 @@ function StatisticsList() {
         setCalendarOn={setCalendarOn}
         searchOn={searchOn}
         captureRef={captureRef}
+        captureNow={captureNow}
       />
 
       <button
         className={`fixed transition-all duration-300 right-[60px] bottom-0 w-[48px] h-[48px] bg-green-600 hover:bg-green-700 text-white border flex justify-center items-center`}
-        onClick={() =>
-          exportTableToExcel(
+        onClick={async () => {
+          setCaptureNow(true);
+          await exportTableToExcel(
             "xlsx",
             captureRef,
             `기간별 ${searchOn ? "상세" : "기본"}조회_${dayjs(
               new Date()
             ).format("YYMMDD_HHssmm")}`
-          )
-        }
+          );
+          setCaptureNow(false);
+        }}
         style={{ zIndex: "999999" }}
       >
         <FaFileExcel size={32} />

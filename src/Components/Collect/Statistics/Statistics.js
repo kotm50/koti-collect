@@ -370,46 +370,48 @@ function Statistics(props) {
           {statisticsList.length > 0 ? (
             <table className="w-full" ref={props.captureRef}>
               <thead className="sticky top-0 bg-white">
-                <tr>
-                  <td colSpan="14" className="border border-white">
-                    <div className="flex justify-between py-2 pr-2">
-                      <h3 className="font-bold text-xl">
-                        {payTitle} 결제 내역 | 조회기간 : {year}년{" "}
-                        {month !== "" ? month + "월 " : null}
-                        {day !== "" ? day + "일 " : null}
-                      </h3>
-                      {totalCost !== 0 ? (
-                        <span className="text-xl font-medium">
-                          수금 합계 :{" "}
-                          <span className="text-green-600 font-bold">
-                            {deposit.toLocaleString()}
+                {!props.captureNow && (
+                  <tr>
+                    <td colSpan="14" className="border border-white">
+                      <div className="flex justify-between py-2 pr-2">
+                        <h3 className="font-bold text-xl">
+                          {payTitle} 결제 내역 | 조회기간 : {year}년{" "}
+                          {month !== "" ? month + "월 " : null}
+                          {day !== "" ? day + "일 " : null}
+                        </h3>
+                        {totalCost !== 0 ? (
+                          <span className="text-xl font-medium">
+                            수금 합계 :{" "}
+                            <span className="text-green-600 font-bold">
+                              {deposit.toLocaleString()}
+                            </span>
+                            원 | 환급 합계 :{" "}
+                            <span className="text-rose-600 font-bold">
+                              {withdraw.toLocaleString()}
+                            </span>
+                            원 | 총 합계 :{" "}
+                            <span className="text-stone-900 font-bold">
+                              {totalCost.toLocaleString()}
+                            </span>
+                            원
                           </span>
-                          원 | 환급 합계 :{" "}
-                          <span className="text-rose-600 font-bold">
-                            {withdraw.toLocaleString()}
-                          </span>
-                          원 | 총 합계 :{" "}
-                          <span className="text-stone-900 font-bold">
-                            {totalCost.toLocaleString()}
-                          </span>
-                          원
-                        </span>
-                      ) : null}
-                      <select
-                        className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-[144px] rounded"
-                        value={payType}
-                        onChange={handlePayType}
-                      >
-                        <option value="">결제방식 선택</option>
-                        <option value="CA">개인</option>
-                        <option value="CO">법인</option>
-                        <option value="MO">몬카드</option>
-                        <option value="HE">천국카드</option>
-                        <option value="PG">PG카드</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
+                        ) : null}
+                        <select
+                          className="px-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-[144px] rounded"
+                          value={payType}
+                          onChange={handlePayType}
+                        >
+                          <option value="">결제방식 선택</option>
+                          <option value="CA">개인</option>
+                          <option value="CO">법인</option>
+                          <option value="MO">몬카드</option>
+                          <option value="HE">천국카드</option>
+                          <option value="PG">PG카드</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                )}
                 <tr className="bg-green-600 text-white text-center">
                   <td className="border p-2">구분</td>
                   <td className="border p-2">날짜</td>
