@@ -153,9 +153,9 @@ function StatisticsList() {
           exportTableToExcel(
             "xlsx",
             captureRef,
-            `기간별 ${searchOn ? "상세" : "기본"}조회${dayjs(new Date()).format(
-              "YYMMDD_HHssmm"
-            )}`
+            `기간별 ${searchOn ? "상세" : "기본"}조회_${dayjs(
+              new Date()
+            ).format("YYMMDD_HHssmm")}`
           )
         }
         style={{ zIndex: "999999" }}
