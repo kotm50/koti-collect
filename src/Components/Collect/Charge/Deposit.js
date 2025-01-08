@@ -115,6 +115,8 @@ function Deposit(props) {
                   ? "알바몬카드"
                   : pay.payType === "HE"
                   ? "천국카드"
+                  : pay.payType === "PE"
+                  ? "펄스맥"
                   : pay.payType === "PR"
                   ? "선입금"
                   : "오류"}

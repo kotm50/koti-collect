@@ -53,6 +53,8 @@ function StatisticsDetail(props) {
         color = "bg-yellow-100";
       } else if (props.statistics.payType === "HE") {
         color = "bg-orange-100";
+      } else if (props.statistics.payType === "PE") {
+        color = "bg-lime-100";
       } else {
         color = "";
       }
@@ -74,6 +76,8 @@ function StatisticsDetail(props) {
       return "카드(몬)";
     } else if (props.statistics.payType === "HE") {
       return "카드(천국)";
+    } else if (props.statistics.payType === "PE") {
+      return "카드(펄)";
     } else if (props.statistics.payType === "PR") {
       return "선입금";
     } else {

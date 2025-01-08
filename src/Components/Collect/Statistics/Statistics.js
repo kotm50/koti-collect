@@ -196,6 +196,8 @@ function Statistics(props) {
       return "카드(천국)";
     } else if (payType === "PR") {
       return "선입금";
+    } else if (payType === "PE") {
+      return "펄스맥";
     } else {
       return "전체";
     }
@@ -406,6 +408,7 @@ function Statistics(props) {
                         <option value="MO">몬카드</option>
                         <option value="HE">천국카드</option>
                         <option value="PG">PG카드</option>
+                        <option value="PE">펄스맥카드</option>
                       </select>
                     </div>
                   </td>
@@ -482,6 +485,7 @@ function Statistics(props) {
                   <option value="PG">PG카드</option>
                   <option value="MO">몬카드</option>
                   <option value="HE">천국카드</option>
+                  <option value="PE">펄스맥카드</option>
                 </select>
               </div>
               <div className="text-2xl text-bold text-center h-fit p-4">

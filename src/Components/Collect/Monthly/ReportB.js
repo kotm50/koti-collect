@@ -241,65 +241,81 @@ function ReportB(props) {
             </div>
             <div className="bg-white text-center py-1 border-black">현금</div>
             <div className="bg-white text-center py-1 border-l border-black">
-              {props.statistics.cashPayment
+              {props.statistics.cashPayment &&
+              !isNaN(props.statistics.cashPayment)
                 ? props.statistics.cashPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black">
-              {props.statistics.cashRatio ? props.statistics.cashRatio : "0"}%
+              {props.statistics.cashRatio && !isNaN(props.statistics.cashRatio)
+                ? props.statistics.cashRatio
+                : "0"}
+              %
             </div>
             <div className="bg-white text-center py-1 border-black border-t">
               법인
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.billPayment
+              {props.statistics.billPayment &&
+              !isNaN(props.statistics.billPayment)
                 ? props.statistics.billPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.billRatio ? props.statistics.billRatio : "0"}%
+              {props.statistics.billRatio && !isNaN(props.statistics.billRatio)
+                ? props.statistics.billRatio
+                : "0"}
+              %
             </div>
             <div className="bg-white text-center py-1 border-black border-t">
               카드
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.cardPayment
+              {props.statistics.cardPayment &&
+              !isNaN(props.statistics.cardPayment)
                 ? props.statistics.cardPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.cardRatio ? props.statistics.cardRatio : "0"}%
+              {props.statistics.cardRatio && !isNaN(props.statistics.cardRatio)
+                ? props.statistics.cardRatio
+                : "0"}
+              %
             </div>
             <div className="bg-green-200 text-center py-1 border-black border-t font-bold">
               합계
             </div>
             <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
-              {statisticsTotal ? statisticsTotal.toLocaleString() : 0}
+              {statisticsTotal && !isNaN(statisticsTotal)
+                ? statisticsTotal.toLocaleString()
+                : 0}
             </div>
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg drop-shadow">
           <h3 className="text-lg mb-2 font-bold">카드종류별 결제 비율</h3>
           <div className="grid grid-cols-3 border border-black">
-            <div className="bg-green-200 text-center py-1 border-b border-black font-black">
+            <div className="bg-green-200 text-center py-1 border-b border-black text-black">
               구분
             </div>
-            <div className="bg-green-200 text-center py-1 border-b border-l border-black font-black">
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black text-black">
               금액
             </div>
-            <div className="bg-green-200 text-center py-1 border-b border-l border-black font-black">
+            <div className="bg-green-200 text-center py-1 border-b border-l border-black text-black">
               비율
             </div>
             <div className="bg-white text-center py-1 border-black">
               카드(몬)
             </div>
             <div className="bg-white text-center py-1 border-l border-black">
-              {props.statistics.moCardPayment
+              {props.statistics.moCardPayment &&
+              !isNaN(props.statistics.moCardPayment)
                 ? props.statistics.moCardPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black">
-              {props.statistics.moCardRatio
+              {props.statistics.moCardRatio &&
+              !isNaN(props.statistics.moCardRatio)
                 ? props.statistics.moCardRatio
                 : "0"}
               %
@@ -308,22 +324,31 @@ function ReportB(props) {
               카드(천국)
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.heCardPayment
+              {props.statistics.heCardPayment &&
+              !isNaN(props.statistics.heCardPayment)
                 ? props.statistics.heCardPayment.toLocaleString()
                 : 0}
             </div>
-
+            <div className="bg-white text-center py-1 border-l border-black border-t">
+              {props.statistics.heCardRatio &&
+              !isNaN(props.statistics.heCardRatio)
+                ? props.statistics.heCardRatio
+                : "0"}
+              %
+            </div>
             <div className="bg-white text-center py-1 border-black border-t">
               카드(펄스맥)
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.heCardPayment
-                ? props.statistics.heCardPayment.toLocaleString()
+              {props.statistics.peCardPayment &&
+              !isNaN(props.statistics.peCardPayment)
+                ? props.statistics.peCardPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.heCardRatio
-                ? props.statistics.heCardRatio
+              {props.statistics.peCardRatio &&
+              !isNaN(props.statistics.peCardRatio)
+                ? props.statistics.peCardRatio
                 : "0"}
               %
             </div>
@@ -331,21 +356,24 @@ function ReportB(props) {
               카드(PG)
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.pgCardPayment
+              {props.statistics.pgCardPayment &&
+              !isNaN(props.statistics.pgCardPayment)
                 ? props.statistics.pgCardPayment.toLocaleString()
                 : 0}
             </div>
             <div className="bg-white text-center py-1 border-l border-black border-t">
-              {props.statistics.pgCardRatio
+              {props.statistics.pgCardRatio &&
+              !isNaN(props.statistics.pgCardRatio)
                 ? props.statistics.pgCardRatio
                 : "0"}
               %
             </div>
-            <div className="bg-green-200 text-center py-1 border-black border-t font-bold font-black">
+            <div className="bg-green-200 text-center py-1 border-black border-t font-bold text-black">
               카드 합계
             </div>
             <div className="col-span-2 bg-white text-center py-1 border-l border-black border-t font-bold">
-              {props.statistics.cardPayment
+              {props.statistics.cardPayment &&
+              !isNaN(props.statistics.cardPayment)
                 ? props.statistics.cardPayment.toLocaleString()
                 : 0}
             </div>

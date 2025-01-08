@@ -116,7 +116,12 @@ function InputPrePaid(props) {
 
   const handlePayType = e => {
     setPayType(e.target.value);
-    if (payType === "PG" || payType === "MO" || payType === "HE") {
+    if (
+      payType === "PG" ||
+      payType === "MO" ||
+      payType === "HE" ||
+      payType === "PE"
+    ) {
       getCardList(companyCode);
     }
   };
@@ -298,7 +303,12 @@ function InputPrePaid(props) {
         return "입금자명을 입력하세요";
       }
     }
-    if (payType === "PG" || payType === "MO" || payType === "HE") {
+    if (
+      payType === "PG" ||
+      payType === "MO" ||
+      payType === "HE" ||
+      payType === "PE"
+    ) {
       if (cardCode === "") {
         return "결제 카드를 선택하세요";
       }
@@ -611,6 +621,7 @@ function InputPrePaid(props) {
               <option value="PG">PG카드</option>
               <option value="MO">몬카드</option>
               <option value="HE">천국카드</option>
+              <option value="PE">펄스맥카드</option>
             </select>
           </div>
         </div>

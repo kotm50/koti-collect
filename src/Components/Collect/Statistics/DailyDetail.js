@@ -20,7 +20,8 @@ function DailyDetail(props) {
     if (
       props.daily.payType === "PG" ||
       props.daily.payType === "MO" ||
-      props.daily.payType === "HE"
+      props.daily.payType === "HE" ||
+      props.daily.payType === "PE"
     ) {
       const camount = Math.round(cost / 1.1);
       const cvat = cost - camount;
@@ -53,6 +54,8 @@ function DailyDetail(props) {
       return "카드(몬)";
     } else if (payType === "HE") {
       return "카드(천국)";
+    } else if (payType === "PE") {
+      return "카드(펄)";
     } else if (payType === "PR") {
       return "선입금";
     } else {

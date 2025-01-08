@@ -21,6 +21,8 @@ function CompanyPrepaidDetail(props) {
       result = "알바몬카드";
     } else if (props.pay.payType === "HE") {
       result = "알바천국카드";
+    } else if (props.pay.payType === "PE") {
+      result = "펄스맥카드";
     } else {
       result = "";
     }

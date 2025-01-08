@@ -43,6 +43,7 @@ function ListDetail(props) {
       props.gifticon.payType === "PG" ||
       props.gifticon.payType === "MO" ||
       props.gifticon.payType === "HE" ||
+      props.gifticon.payType === "PE" ||
       props.gifticon.prepayType === "CD"
     ) {
       const camount = Math.round(cost / 1.1);

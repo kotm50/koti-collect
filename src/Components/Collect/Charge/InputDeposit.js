@@ -284,7 +284,12 @@ function InputDeposit(props) {
         data.cardCode = null;
         data.resNo = null;
         data.authNo = null;
-      } else if (payType === "PG" || payType === "MO" || payType === "HE") {
+      } else if (
+        payType === "PG" ||
+        payType === "MO" ||
+        payType === "HE" ||
+        payType === "PE"
+      ) {
         data.payerName = null;
       } else if (payType === "PR") {
         data.payerName = null;
@@ -347,7 +352,12 @@ function InputDeposit(props) {
         data.cardCode = null;
         data.resNo = null;
         data.authNo = null;
-      } else if (payType === "PG" || payType === "MO" || payType === "HE") {
+      } else if (
+        payType === "PG" ||
+        payType === "MO" ||
+        payType === "HE" ||
+        payType === "PE"
+      ) {
         data.payerName = null;
       } else if (payType === "PR") {
         data.payerName = null;
@@ -424,7 +434,12 @@ function InputDeposit(props) {
         return "입금자명을 입력하세요";
       }
     }
-    if (payType === "PG" || payType === "MO" || payType === "HE") {
+    if (
+      payType === "PG" ||
+      payType === "MO" ||
+      payType === "HE" ||
+      payType === "PE"
+    ) {
       if (cardCode === "") {
         return "결제 카드를 선택하세요";
       }
@@ -447,7 +462,12 @@ function InputDeposit(props) {
   }, [companyCode]);
 
   useEffect(() => {
-    if (payType === "PG" || payType === "MO" || payType === "HE") {
+    if (
+      payType === "PG" ||
+      payType === "MO" ||
+      payType === "HE" ||
+      payType === "PE"
+    ) {
       getCardList(companyCode);
     } else {
       if (payType === "PR") {
@@ -933,7 +953,10 @@ function InputDeposit(props) {
             value={bigo}
             onChange={setBigo}
             className={`p-0 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 top-0 left-0 w-full bg-white h-full ${
-              payType === "PG" || payType === "MO" || payType === "HE"
+              payType === "PG" ||
+              payType === "MO" ||
+              payType === "HE" ||
+              payType === "PE"
                 ? ""
                 : "quillCustom"
             }`}

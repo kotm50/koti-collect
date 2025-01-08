@@ -51,6 +51,8 @@ function TodayReport(props) {
       color = "bg-yellow-100";
     } else if (payType === "HE") {
       color = "bg-orange-100";
+    } else if (payType === "PE") {
+      color = "bg-lime-100";
     } else {
       color = "";
     }
