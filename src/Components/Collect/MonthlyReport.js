@@ -48,6 +48,7 @@ function MonthlyReport() {
       searchYear: year,
       searchMonth: month,
     };
+    console.log(data);
     await axiosInstance
       .post("/api/v1/comp/month/pay/list", data, {
         headers: { Authorization: user.accessToken },
