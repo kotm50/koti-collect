@@ -511,6 +511,7 @@ function Company() {
                 {companyList.map((com, idx) => (
                   <tr
                     className={`${idx % 2 === 0 ? "bg-blue-50" : "bg-gray-50"}`}
+                    data={com.companyCode}
                     key={idx}
                   >
                     <ComList
