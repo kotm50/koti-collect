@@ -24,6 +24,7 @@ function Deposit(props) {
         if (res.data.code === "E403") {
           return alert(res.data.message);
         }
+        console.log(res.data);
         setPayList(res.data.payList);
       })
       .catch(e => console.log(e));
