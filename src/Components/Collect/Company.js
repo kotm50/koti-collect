@@ -404,7 +404,7 @@ function Company() {
           channel: "채널",
           manager1: "담당자1",
           manager2: "담당자2",
-          resDate: "등록일",
+          regDate: "등록일",
           uptDate: "수정일",
         };
 
