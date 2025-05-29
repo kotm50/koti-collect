@@ -254,6 +254,7 @@ function Company() {
   };
 
   const getCompanyList = async (p, k, g, c) => {
+    console.log("getCompanyList", p, k, g, c);
     setCompanyList([]);
     const paging = {
       page: p,
