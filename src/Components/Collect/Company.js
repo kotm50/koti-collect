@@ -286,7 +286,6 @@ function Company() {
           return false;
         }
         if (res.data.code === "C000") {
-          console.log(res.data.totalPages);
           const totalP = res.data.totalPages;
           setTotalPage(res.data.totalPages);
           const pagenate = generatePaginationArray(p, totalP);
@@ -296,6 +295,7 @@ function Company() {
           setErrMsg(res.data.message);
           return false;
         }
+        console.log(res.data.compList);
         setCompanyList(res.data.compList ?? [{ compId: "없음" }]);
       })
       .catch(e => {
