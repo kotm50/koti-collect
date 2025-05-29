@@ -11,9 +11,9 @@ import ComList from "./ComList";
 import { clearUser } from "../../Reducer/userSlice";
 import axiosInstance from "../../Api/axiosInstance";
 
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import axios from "axios";
+//import * as XLSX from "xlsx";
+//import { saveAs } from "file-saver";
+//import axios from "axios";
 
 function Company() {
   const navi = useNavigate();
