@@ -281,6 +281,7 @@ function Company() {
         }
       )
       .then(async res => {
+        console.log(res.data);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
@@ -295,7 +296,7 @@ function Company() {
           setErrMsg(res.data.message);
           return false;
         }
-        console.log(res.data.compList);
+
         setCompanyList(res.data.compList ?? [{ compId: "없음" }]);
       })
       .catch(e => {
