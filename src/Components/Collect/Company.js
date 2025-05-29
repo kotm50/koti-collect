@@ -286,6 +286,7 @@ function Company() {
           return false;
         }
         if (res.data.code === "C000") {
+          console.log(res.data.totalPages);
           const totalP = res.data.totalPages;
           setTotalPage(res.data.totalPages);
           const pagenate = generatePaginationArray(p, totalP);
@@ -340,22 +341,49 @@ function Company() {
     }
   };
 
+  const saveExcel = async type => {
+    const data = {};
+    if (type === "this") {
+      data.page = page;
+      data.size = 20;
+    } else if (type === "all") {
+      data.page = 1;
+      data.size = 1000000; // 전체 페이지를 가져오기 위해 큰 숫자로 설정
+    }
+  };
+
   return (
     <div className="mx-4" data={title}>
-      <div className="flex flex-row justify-start mb-2 gap-x-1">
-        <input
-          value={searchKeyword}
-          className="border border-gray-300 p-2 w-80 block rounded font-neo"
-          placeholder="지점명/담당자명 으로 검색"
-          onChange={e => setSearchKeyword(e.currentTarget.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <button
-          className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
-          onClick={() => searchIt()}
-        >
-          <FaSearch />
-        </button>
+      <div className="flex justify-between">
+        <div className="flex flex-row justify-start mb-2 gap-x-1">
+          <input
+            value={searchKeyword}
+            className="border border-gray-300 p-2 w-80 block rounded font-neo"
+            placeholder="지점명/담당자명 으로 검색"
+            onChange={e => setSearchKeyword(e.currentTarget.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button
+            className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
+            onClick={() => searchIt()}
+          >
+            <FaSearch />
+          </button>
+        </div>
+        <div className="flex flex-row justify-start mb-2 gap-x-1">
+          <button
+            className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
+            onClick={() => saveExcel("this")}
+          >
+            현재페이지저장
+          </button>
+          <button
+            className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
+            onClick={() => saveExcel("all")}
+          >
+            전체고객사저장
+          </button>
+        </div>
       </div>
       <div className="grid grid-cols-1 text-center">
         <table>
