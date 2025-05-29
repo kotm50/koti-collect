@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -257,7 +257,6 @@ function Company() {
   };
 
   const getCompanyList = async (p, k, g, c) => {
-    console.log("getCompanyList", p, k, g, c);
     setCompanyList([]);
     const paging = {
       page: p,
@@ -274,7 +273,6 @@ function Company() {
     if (c !== "") {
       comp.channel = c;
     }
-    console.log(paging, comp);
     await axiosInstance
       .post(
         "/api/v1/comp/list",
@@ -286,7 +284,6 @@ function Company() {
         }
       )
       .then(async res => {
-        console.log(res.data);
         if (res.data.code === "E999" || res.data.code === "E403") {
           logout();
           return false;
@@ -356,6 +353,30 @@ function Company() {
       data.page = 1;
       data.size = 1000000; // 전체 페이지를 가져오기 위해 큰 숫자로 설정
     }
+    const comp = {};
+    await axiosInstance
+      .post(
+        "/api/v1/comp/list",
+        { data, comp },
+        {
+          headers: {
+            Authorization: user.accessToken,
+          },
+        }
+      )
+      .then(async res => {
+        console.log(res.data);
+        if (res.data.code === "E999" || res.data.code === "E403") {
+          logout();
+          return false;
+        }
+        console.log(res.data, "엑셀저장");
+        setCompanyList(res.data.compList ?? [{ compId: "없음" }]);
+      })
+      .catch(e => {
+        console.log(e);
+        return false;
+      });
   };
 
   return (
