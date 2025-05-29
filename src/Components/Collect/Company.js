@@ -11,8 +11,8 @@ import ComList from "./ComList";
 import { clearUser } from "../../Reducer/userSlice";
 import axiosInstance from "../../Api/axiosInstance";
 
-//import * as XLSX from "xlsx";
-//import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 //import axios from "axios";
 
 function Company() {
@@ -380,8 +380,53 @@ function Company() {
           logout();
           return false;
         }
-        const list = res.data.compList ?? [{ compId: "없음" }];
-        console.log(list);
+        const compList = res.data.compList ?? [{ compId: "없음" }];
+
+        // ✅ 1. 선택할 키
+        const allowedKeys = [
+          "gubun",
+          "companyName",
+          "companyBranch",
+          "channel",
+          "manager1",
+          "manager2",
+          "uptDate",
+        ];
+
+        // ✅ 2. 한글 키 매핑
+        const keyMap = {
+          gubun: "구분",
+          companyName: "고객사명",
+          companyBranch: "지점명",
+          channel: "채널",
+          manager1: "담당자1",
+          manager2: "담당자2",
+          uptDate: "수정일",
+        };
+
+        // ✅ 3. 키 필터 및 이름 변경
+        const processedData = compList.map(row => {
+          const newRow = {};
+          allowedKeys.forEach(key => {
+            newRow[keyMap[key]] = row[key];
+          });
+          return newRow;
+        });
+
+        // ✅ 4. 엑셀로 저장
+        const worksheet = XLSX.utils.json_to_sheet(processedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+        const excelBuffer = XLSX.write(workbook, {
+          bookType: "xlsx",
+          type: "array",
+        });
+        const blob = new Blob([excelBuffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(blob, "고객사목록.xlsx");
       })
       .catch(e => {
         console.log(e);
