@@ -13,6 +13,7 @@ import axiosInstance from "../../Api/axiosInstance";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import axios from "axios";
 
 function Company() {
   const navi = useNavigate();
@@ -357,7 +358,7 @@ function Company() {
     const comp = {};
 
     try {
-      const res = await axiosInstance.post(
+      const res = await axios.post(
         "/api/v1/comp/list",
         { data, comp },
         {
