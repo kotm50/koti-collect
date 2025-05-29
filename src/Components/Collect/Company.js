@@ -13,6 +13,8 @@ import axiosInstance from "../../Api/axiosInstance";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+
+import dayjs from "dayjs";
 //import axios from "axios";
 
 function Company() {
@@ -426,7 +428,12 @@ function Company() {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
-        saveAs(blob, "고객사목록.xlsx");
+        saveAs(
+          blob,
+          `${type === "all" && "전체 "}고객사목록_${dayjs().format(
+            "YYMMDDhhmmss"
+          )}.xlsx`
+        );
       })
       .catch(e => {
         console.log(e);
