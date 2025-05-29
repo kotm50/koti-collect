@@ -65,6 +65,7 @@ function Company() {
   };
 
   useEffect(() => {
+    console.log("뭔데", thisLocation);
     initializer();
     //eslint-disable-next-line
   }, [thisLocation]);
@@ -87,7 +88,9 @@ function Company() {
       setInputGubun("");
     }
     getCategory();
+    console.log("초기화", page, keyword, gubun, channel);
     getCompanyList(page, keyword, gubun, channel);
+    console.log("초기화 완료", page, keyword, gubun, channel);
   };
 
   const getChannelList = async (category, type) => {
