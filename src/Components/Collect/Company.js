@@ -345,20 +345,30 @@ function Company() {
     }
   };
 
-  const saveExcel = async type => {
-    const data = {};
+  const saveExcel = async (type, p, k, g, c) => {
+    const paging = {};
     if (type === "this") {
-      data.page = page;
-      data.size = 20;
+      paging.page = p;
+      paging.size = 20;
     } else if (type === "all") {
-      data.page = 1;
-      data.size = 1000000; // 전체 페이지를 가져오기 위해 큰 숫자로 설정
+      paging.page = 1;
+      paging.size = 1000000; // 전체 페이지를 가져오기 위해 큰 숫자로 설정
     }
     const comp = {};
+
+    if (k !== "") {
+      paging.searchKeyword = k;
+    }
+    if (g !== "") {
+      comp.gubun = g;
+    }
+    if (c !== "") {
+      comp.channel = c;
+    }
     await axiosInstance
       .post(
         "/api/v1/comp/list",
-        { data, comp },
+        { paging, comp },
         {
           headers: {
             Authorization: user.accessToken,
@@ -400,13 +410,13 @@ function Company() {
         <div className="flex flex-row justify-start mb-2 gap-x-1">
           <button
             className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
-            onClick={() => saveExcel("this")}
+            onClick={() => saveExcel("this", page, keyword, gubun, channel)}
           >
             현재페이지저장
           </button>
           <button
             className="py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded transition-all duration-300"
-            onClick={() => saveExcel("all")}
+            onClick={() => saveExcel("all", page, keyword, gubun, channel)}
           >
             전체고객사저장
           </button>
