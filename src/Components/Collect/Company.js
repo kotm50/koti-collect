@@ -366,11 +366,7 @@ function Company() {
           },
         }
       );
-
-      if (res.data.code === "E999" || res.data.code === "E403") {
-        logout();
-        return;
-      }
+      alert(res.data.code);
 
       const compList = res.data.compList ?? [];
 
