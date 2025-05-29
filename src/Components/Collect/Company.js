@@ -270,6 +270,7 @@ function Company() {
     if (c !== "") {
       comp.channel = c;
     }
+    console.log(paging, comp);
     await axiosInstance
       .post(
         "/api/v1/comp/list",
