@@ -430,7 +430,7 @@ function Company() {
 
         saveAs(
           blob,
-          `${type === "all" && "전체 "}고객사목록_${dayjs().format(
+          `${type === "all" ? "전체 " : ""}고객사목록_${dayjs().format(
             "YYMMDDhhmmss"
           )}.xlsx`
         );
