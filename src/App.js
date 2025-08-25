@@ -20,6 +20,8 @@ import Write from "./Components/Collect/Board/Write";
 import Detail from "./Components/Collect/Board/Detail";
 import Coupon from "./Components/Collect/Coupon";
 import ReadOnly from "./Components/Collect/ReadOnly";
+
+import { useSelector } from "react-redux";
 /*
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -74,6 +76,9 @@ function App() {
     return <div>잠시만 기다려 주세요..</div>;
   }
   */
+
+  const user = useSelector(state => state.user);
+  console.log(user);
   return (
     <>
       <Routes>
