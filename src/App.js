@@ -12,6 +12,7 @@ import ToTop from "./Components/Layout/ToTop";
 import StatisticsList from "./Components/Collect/StatisticsList";
 import Gifticon from "./Components/Collect/Gifticon";
 import YearTotal from "./Components/Collect/YearTotal";
+import YearTotal2 from "./Components/Collect/YearTotal2";
 import DailyReport from "./Components/Collect/DailyReport";
 import MonthlyReport from "./Components/Collect/MonthlyReport";
 import Board from "./Components/Collect/Board";
@@ -94,6 +95,7 @@ function App() {
           <Route path="company" element={<Company />} />
           <Route path="channel" element={<Channel />} />
           <Route path="yeartotal" element={<YearTotal />} />
+          <Route path="yeartotal2" element={<YearTotal2 />} />
           <Route path="dailyreport" element={<DailyReport />} />
           <Route path="monthlyreport" element={<MonthlyReport />} />
           <Route path="coupon" element={<Coupon />} />
