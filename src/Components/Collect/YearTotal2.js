@@ -1091,9 +1091,9 @@ function YearTotal2() {
                   colSpan="5"
                   className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
                 ></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black"></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black"></th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-b-0 border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-t border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-t border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border-t border-r border-black"></th>
                 {/* 12개월 헤더 */}
                 <th
                   colSpan="4"
@@ -1177,13 +1177,13 @@ function YearTotal2() {
                 >
                   {year}년 고객사별 총정리
                 </th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black">
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-r border-black">
                   횟수
                 </th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black">
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-r border-black">
                   총 매출
                 </th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border- border-b-0 border-black">
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border-r border-black">
                   매출 비중
                 </th>
                 {/* 12개월 합계 */}
@@ -1268,9 +1268,9 @@ function YearTotal2() {
                   colSpan="5"
                   className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
                 ></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-b border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-b border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border-b border-r border-black"></th>
                 {/* 1월 세부 헤더 */}
                 <th className="align-middle text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
                   광고비
