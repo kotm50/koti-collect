@@ -297,49 +297,6 @@ function YearTotal2() {
       right: { style: "thin", color: { argb: "FF000000" } },
     };
 
-    // 첫 번째 행: 제목 및 헤더 (HTML thead 구조와 최대한 동일하게 구성)
-    const row1 = worksheet.addRow([]);
-
-    // 제목 (colSpan 5, rowSpan 3) → A1:E3
-    row1.getCell(1).value = `${year}년 고객사별 총정리`;
-    worksheet.mergeCells(1, 1, 3, 5);
-    setCellStyle(row1.getCell(1), {
-      fill: "FF000000", // 검정
-      font: { bold: true, size: 16, color: { argb: "FFFFFFFF" } },
-      alignment: { vertical: "middle", horizontal: "center" },
-      border: thinBorder,
-    });
-
-    // 횟수 (rowSpan 3) → F1:F3
-    row1.getCell(6).value = "횟수";
-    worksheet.mergeCells(1, 6, 3, 6);
-    setCellStyle(row1.getCell(6), {
-      fill: "FFFDE047", // 노란색
-      font: { bold: true, color: { argb: "FF000000" } },
-      alignment: { vertical: "middle", horizontal: "center" },
-      border: thinBorder,
-    });
-
-    // 총 매출 (rowSpan 3, 단일 컬럼) → G1:G3
-    row1.getCell(7).value = "총 매출";
-    worksheet.mergeCells(1, 7, 3, 7);
-    setCellStyle(row1.getCell(7), {
-      fill: "FFFDE047", // 노란색
-      font: { bold: true, color: { argb: "FF000000" } },
-      alignment: { vertical: "middle", horizontal: "center" },
-      border: thinBorder,
-    });
-
-    // 매출 비중 (rowSpan 3) → H1:H3 (HTML과 동일하게 바로 오른쪽 컬럼에 위치)
-    row1.getCell(8).value = "매출\n비중";
-    worksheet.mergeCells(1, 8, 3, 8);
-    setCellStyle(row1.getCell(8), {
-      fill: "FFCA8A04", // 진한 노란색
-      font: { bold: true, color: { argb: "FF000000" } },
-      alignment: { vertical: "middle", horizontal: "center", wrapText: true },
-      border: thinBorder,
-    });
-
     // 12개월 헤더 (각 colSpan 4)
     const months = [
       "1월",
@@ -369,9 +326,35 @@ function YearTotal2() {
       "FF166534", // 초록
       "FF1E40AF", // 파랑
     ];
-    // 월 헤더: I열(9번 컬럼)부터 시작, 각 4컬럼(colSpan=4)
+
+    // ===============================
+    // 1행: 월 헤더 행 (HTML 첫 번째 thead 행과 대응)
+    // ===============================
+    const row1 = worksheet.addRow([]);
+
+    // 1행 A1~E1: 왼쪽 블록(검정 배경, 텍스트 없음)
+    worksheet.mergeCells(1, 1, 1, 5);
+    setCellStyle(row1.getCell(1), {
+      fill: "FF000000",
+      font: { bold: true, size: 14, color: { argb: "FFFFFFFF" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 1행 F1~H1: 횟수/총 매출/매출 비중 영역(배경만, 텍스트 없음)
+    ["FFFDE047", "FFFDE047", "FFCA8A04"].forEach((color, idx) => {
+      const col = 6 + idx;
+      setCellStyle(row1.getCell(col), {
+        fill: color,
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+    });
+
+    // 1행 I열부터: 월 이름, 각 4칸 병합 (colSpan=4)
     months.forEach((month, idx) => {
-      const startCol = 9 + idx * 4;
+      const startCol = 9 + idx * 4; // I열부터 시작
       row1.getCell(startCol).value = month;
       worksheet.mergeCells(1, startCol, 1, startCol + 3);
       setCellStyle(row1.getCell(startCol), {
@@ -382,8 +365,47 @@ function YearTotal2() {
       });
     });
 
-    // 두 번째 행: 월별 합계
+    // ===============================
+    // 2행: 월별 합계 행 (HTML 두 번째 thead 행과 대응)
+    // ===============================
     const row2 = worksheet.addRow([]);
+
+    // 2행 A2~E2: 제목 (colSpan 5)
+    row2.getCell(1).value = `${year}년 고객사별 총정리`;
+    worksheet.mergeCells(2, 1, 2, 5);
+    setCellStyle(row2.getCell(1), {
+      fill: "FF000000", // 검정
+      font: { bold: true, size: 16, color: { argb: "FFFFFFFF" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 2행 F2: 횟수, G2: 총 매출, H2: 매출 비중
+    row2.getCell(6).value = "횟수";
+    setCellStyle(row2.getCell(6), {
+      fill: "FFFDE047",
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    row2.getCell(7).value = "총 매출";
+    setCellStyle(row2.getCell(7), {
+      fill: "FFFDE047",
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    row2.getCell(8).value = "매출 비중";
+    setCellStyle(row2.getCell(8), {
+      fill: "FFCA8A04",
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 2행 I열부터: 월별 합계 (각 4칸 병합, colSpan=4)
     const monthTotals = [
       janTotal.total,
       febTotal.total,
@@ -401,6 +423,7 @@ function YearTotal2() {
     monthTotals.forEach((total, idx) => {
       const startCol = 9 + idx * 4;
       row2.getCell(startCol).value = total.toLocaleString();
+      // ← 여기서 4칸 병합: I2:L2, M2:P2, ...
       worksheet.mergeCells(2, startCol, 2, startCol + 3);
       setCellStyle(row2.getCell(startCol), {
         fill: "FFFFFFFF", // 흰색
@@ -410,8 +433,32 @@ function YearTotal2() {
       });
     });
 
-    // 세 번째 행: 월별 세부 헤더
+    // ===============================
+    // 3행: 월별 세부 헤더 (광고비/위촉비/케어/선입금)
+    // ===============================
     const row3 = worksheet.addRow([]);
+
+    // 3행 A3~H3: 왼쪽 블록(색만 주고 텍스트 없음)
+    // A3~E3: 검정, F3~G3: 노랑, H3: 진한 노랑
+    worksheet.mergeCells(3, 1, 3, 5);
+    setCellStyle(row3.getCell(1), {
+      fill: "FF000000",
+      font: { bold: true, color: { argb: "FFFFFFFF" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    ["FFFDE047", "FFFDE047", "FFCA8A04"].forEach((color, idx) => {
+      const col = 6 + idx;
+      setCellStyle(row3.getCell(col), {
+        fill: color,
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+    });
+
+    // 3행 I열부터: 월별 세부 헤더
     const detailHeaders = ["광고비", "위촉비", "케어", "선입금"];
     months.forEach((month, monthIdx) => {
       const startCol = 9 + monthIdx * 4;
@@ -1042,31 +1089,11 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  rowSpan="3"
                   className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
-                >
-                  {year}년 고객사별 총정리
-                </th>
-                <th
-                  rowSpan="3"
-                  className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"
-                >
-                  횟수
-                </th>
-                <th
-                  rowSpan="3"
-                  className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"
-                >
-                  총 매출
-                </th>
-                <th
-                  rowSpan="3"
-                  className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black"
-                >
-                  매출
-                  <br />
-                  비중
-                </th>
+                ></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black"></th>
                 {/* 12개월 헤더 */}
                 <th
                   colSpan="4"
@@ -1143,6 +1170,22 @@ function YearTotal2() {
               </tr>
               {/* 두 번째 헤더 행: 월별 합계 */}
               <tr>
+                {/* 왼쪽 고정 컬럼 헤더 */}
+                <th
+                  colSpan="5"
+                  className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                >
+                  {year}년 고객사별 총정리
+                </th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black">
+                  횟수
+                </th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black">
+                  총 매출
+                </th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black">
+                  매출 비중
+                </th>
                 {/* 12개월 합계 */}
                 <th
                   colSpan="4"
@@ -1220,6 +1263,14 @@ function YearTotal2() {
 
               {/* 세 번째 헤더 행: 월별 세부 항목 헤더 */}
               <tr>
+                {/* 왼쪽 고정 컬럼 헤더 */}
+                <th
+                  colSpan="5"
+                  className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                ></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black"></th>
                 {/* 1월 세부 헤더 */}
                 <th className="align-middle text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
                   광고비
