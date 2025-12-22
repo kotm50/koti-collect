@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import axiosInstance from "../Api/axiosInstance";
+import axiosInstance from "../../Api/axiosInstance";
 import MonthlySales2 from "./YearTotal/MonthlySales2";
 
 function YearTotal2() {
