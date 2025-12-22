@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import axiosInstance from "../../Api/axiosInstance";
 import MonthlySales2 from "./YearTotal/MonthlySales2";
 
@@ -249,32 +249,97 @@ function YearTotal2() {
     return { ad: 0, comm: 0, care: 0, prepay: 0 };
   };
 
-  // 엑셀 파일로 다운로드하는 함수
-  const exportToExcel = () => {
+  // 엑셀 파일로 다운로드하는 함수 (ExcelJS 사용)
+  const exportToExcel = async () => {
     if (!year || totalList.length === 0) {
       alert("데이터가 없습니다.");
       return;
     }
 
     // 워크북 생성
-    const wb = XLSX.utils.book_new();
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(`${year}년 총정리`);
 
-    // 데이터 배열 생성
-    const data = [];
+    // 헬퍼 함수: 셀 스타일 설정
+    const setCellStyle = (cell, options) => {
+      const { fill, font, alignment, border, numFmt } = options;
 
-    // 첫 번째 행: 제목 행
-    // 구조: [제목(7병합), 횟수, 총매출(2병합), 매출비중, 1월(4병합), 2월(4병합), ...]
-    const titleRow = [];
-    titleRow[0] = `${year}년 고객사별 총정리`;
-    // colSpan 7이므로 인덱스 1~6은 빈 값 (병합 표시용)
-    for (let i = 1; i < 7; i++) {
-      titleRow[i] = "";
-    }
-    titleRow[7] = "횟수";
-    titleRow[8] = "총 매출";
-    titleRow[9] = ""; // 총 매출 colSpan 2
-    titleRow[10] = "매출\n비중";
-    // 12개월 헤더 (각 월은 4개 컬럼)
+      if (fill) {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: fill },
+        };
+      }
+
+      if (font) {
+        cell.font = font;
+      }
+
+      if (alignment) {
+        cell.alignment = alignment;
+      }
+
+      if (border) {
+        cell.border = border;
+      }
+
+      if (numFmt) {
+        cell.numFmt = numFmt;
+      }
+    };
+
+    // 테두리 스타일 정의
+    const thinBorder = {
+      top: { style: "thin", color: { argb: "FF000000" } },
+      left: { style: "thin", color: { argb: "FF000000" } },
+      bottom: { style: "thin", color: { argb: "FF000000" } },
+      right: { style: "thin", color: { argb: "FF000000" } },
+    };
+
+    // 첫 번째 행: 제목 및 헤더
+    const row1 = worksheet.addRow([]);
+    // 제목 (colSpan 5, rowSpan 3)
+    row1.getCell(1).value = `${year}년 고객사별 총정리`;
+    worksheet.mergeCells(1, 1, 3, 5);
+    setCellStyle(row1.getCell(1), {
+      fill: "FF000000", // 검정
+      font: { bold: true, size: 16, color: { argb: "FFFFFFFF" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 횟수 (rowSpan 3)
+    row1.getCell(6).value = "횟수";
+    worksheet.mergeCells(1, 6, 3, 6);
+    setCellStyle(row1.getCell(6), {
+      fill: "FFFDE047", // 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 총 매출 (colSpan 2, rowSpan 3)
+    row1.getCell(7).value = "총 매출";
+    worksheet.mergeCells(1, 7, 3, 8);
+    setCellStyle(row1.getCell(7), {
+      fill: "FFFDE047", // 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 매출 비중 (rowSpan 3)
+    row1.getCell(9).value = "매출\n비중";
+    worksheet.mergeCells(1, 9, 3, 9);
+    setCellStyle(row1.getCell(9), {
+      fill: "FFCA8A04", // 진한 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center", wrapText: true },
+      border: thinBorder,
+    });
+
+    // 12개월 헤더 (각 colSpan 4)
     const months = [
       "1월",
       "2월",
@@ -289,30 +354,34 @@ function YearTotal2() {
       "11월",
       "12월",
     ];
+    const monthColors = [
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+      "FF166534", // 초록
+      "FF1E40AF", // 파랑
+    ];
     months.forEach((month, idx) => {
-      const startCol = 11 + idx * 4;
-      titleRow[startCol] = month;
-      titleRow[startCol + 1] = ""; // 병합 표시용
-      titleRow[startCol + 2] = ""; // 병합 표시용
-      titleRow[startCol + 3] = ""; // 병합 표시용
+      const startCol = 10 + idx * 4;
+      row1.getCell(startCol).value = month;
+      worksheet.mergeCells(1, startCol, 1, startCol + 3);
+      setCellStyle(row1.getCell(startCol), {
+        fill: monthColors[idx],
+        font: { bold: true, size: 12, color: { argb: "FFFFFFFF" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
     });
-    data.push(titleRow);
 
-    // 두 번째 행: 컬럼명 및 월별 합계
-    // 구조: [채널, 보험사(2병합), 지점(2병합), 담당1, 담당2, 횟수, 총매출(2병합), 매출비중, 월별합계들...]
-    const headerRow = [];
-    headerRow[0] = "채널";
-    headerRow[1] = "보험사";
-    headerRow[2] = ""; // 보험사 colSpan 2
-    headerRow[3] = "지점";
-    headerRow[4] = ""; // 지점 colSpan 2
-    headerRow[5] = "담당1";
-    headerRow[6] = "담당2";
-    headerRow[7] = countTotal;
-    headerRow[8] = costTotal.toLocaleString();
-    headerRow[9] = ""; // 총 매출 colSpan 2
-    headerRow[10] = "100%";
-    // 12개월 합계 (각 월은 4개 컬럼이지만 합계는 첫 번째 컬럼에만 표시)
+    // 두 번째 행: 월별 합계
+    const row2 = worksheet.addRow([]);
     const monthTotals = [
       janTotal.total,
       febTotal.total,
@@ -328,37 +397,94 @@ function YearTotal2() {
       decTotal.total,
     ];
     monthTotals.forEach((total, idx) => {
-      const startCol = 11 + idx * 4;
-      headerRow[startCol] = total.toLocaleString();
-      headerRow[startCol + 1] = "";
-      headerRow[startCol + 2] = "";
-      headerRow[startCol + 3] = "";
-    });
-    data.push(headerRow);
-
-    // 세 번째 행: 월별 세부 헤더 (광고비, 위촉비, 케어, 선입금)
-    const detailHeaderRow = [];
-    // 왼쪽 11개 컬럼은 빈 값
-    for (let i = 0; i < 11; i++) {
-      detailHeaderRow[i] = "";
-    }
-    // 각 월별로 4개 헤더
-    const detailHeaders = ["광고비", "위촉비", "케어", "선입금"];
-    for (let month = 0; month < 12; month++) {
-      const startCol = 11 + month * 4;
-      detailHeaders.forEach((header, idx) => {
-        detailHeaderRow[startCol + idx] = header;
+      const startCol = 10 + idx * 4;
+      row2.getCell(startCol).value = total.toLocaleString();
+      worksheet.mergeCells(2, startCol, 2, startCol + 3);
+      setCellStyle(row2.getCell(startCol), {
+        fill: "FFFFFFFF", // 흰색
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
       });
-    }
-    data.push(detailHeaderRow);
+    });
 
-    // 네 번째 행: 월별 합계 데이터 (광고비, 위촉비, 케어, 선입금 합계)
-    const totalDataRow = [];
-    // 왼쪽 11개 컬럼은 빈 값
-    for (let i = 0; i < 11; i++) {
-      totalDataRow[i] = "";
-    }
-    // 각 월별 합계 데이터
+    // 세 번째 행: 월별 세부 헤더
+    const row3 = worksheet.addRow([]);
+    const detailHeaders = ["광고비", "위촉비", "케어", "선입금"];
+    months.forEach((month, monthIdx) => {
+      const startCol = 10 + monthIdx * 4;
+      detailHeaders.forEach((header, headerIdx) => {
+        row3.getCell(startCol + headerIdx).value = header;
+        setCellStyle(row3.getCell(startCol + headerIdx), {
+          fill: monthColors[monthIdx],
+          font: { bold: true, color: { argb: "FFFFFFFF" } },
+          alignment: { vertical: "middle", horizontal: "center" },
+          border: thinBorder,
+        });
+      });
+    });
+
+    // 네 번째 행: 컬럼명 및 월별 합계 데이터
+    const row4 = worksheet.addRow([]);
+    // 왼쪽 고정 컬럼
+    row4.getCell(1).value = "채널";
+    setCellStyle(row4.getCell(1), {
+      fill: "FFF3F4F6", // 회색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(2).value = "보험사";
+    setCellStyle(row4.getCell(2), {
+      fill: "FFF3F4F6", // 회색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(3).value = "지점";
+    setCellStyle(row4.getCell(3), {
+      fill: "FFF3F4F6", // 회색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(4).value = "담당1";
+    setCellStyle(row4.getCell(4), {
+      fill: "FFF3F4F6", // 회색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(5).value = "담당2";
+    setCellStyle(row4.getCell(5), {
+      fill: "FFFEF3C7", // 연한 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(6).value = countTotal;
+    setCellStyle(row4.getCell(6), {
+      fill: "FFFDE68A", // 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(7).value = costTotal.toLocaleString();
+    setCellStyle(row4.getCell(7), {
+      fill: "FFFDE68A", // 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+    row4.getCell(9).value = "100%";
+    setCellStyle(row4.getCell(9), {
+      fill: "FFFDE68A", // 노란색
+      font: { bold: true, color: { argb: "FF000000" } },
+      alignment: { vertical: "middle", horizontal: "center" },
+      border: thinBorder,
+    });
+
+    // 월별 합계 데이터
     const allMonthTotals = [
       janTotal,
       febTotal,
@@ -373,30 +499,93 @@ function YearTotal2() {
       novTotal,
       decTotal,
     ];
-    allMonthTotals.forEach(monthTotal => {
-      totalDataRow.push(monthTotal.ad.toLocaleString());
-      totalDataRow.push(monthTotal.comm.toLocaleString());
-      totalDataRow.push(monthTotal.care.toLocaleString());
-      totalDataRow.push(monthTotal.prepay.toLocaleString());
+    allMonthTotals.forEach((monthTotal, monthIdx) => {
+      const startCol = 10 + monthIdx * 4;
+      row4.getCell(startCol).value = monthTotal.ad.toLocaleString();
+      setCellStyle(row4.getCell(startCol), {
+        fill: "FFFFFFFF", // 흰색
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      row4.getCell(startCol + 1).value = monthTotal.comm.toLocaleString();
+      setCellStyle(row4.getCell(startCol + 1), {
+        fill: "FFFFFFFF", // 흰색
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      row4.getCell(startCol + 2).value = monthTotal.care.toLocaleString();
+      setCellStyle(row4.getCell(startCol + 2), {
+        fill: "FFFFFFFF", // 흰색
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      row4.getCell(startCol + 3).value = monthTotal.prepay.toLocaleString();
+      setCellStyle(row4.getCell(startCol + 3), {
+        fill: "FFFFFFFF", // 흰색
+        font: { bold: true, color: { argb: "FF000000" } },
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
     });
-    data.push(totalDataRow);
 
     // 데이터 행들
     totalList.forEach(total => {
-      const row = [];
-      row[0] = total.channel || "";
-      row[1] = total.companyName || "";
-      row[2] = ""; // 보험사 colSpan 2
-      row[3] = total.companyBranch || "";
-      row[4] = ""; // 지점 colSpan 2
-      row[5] = total.manager1 || "";
-      row[6] = total.manager2 || "";
-      row[7] = total.counter + 1;
-      row[8] = total.costTotal.toLocaleString();
-      row[9] = ""; // 총 매출 colSpan 2
-      row[10] = getPercentage(total.costTotal, costTotal);
+      const dataRow = worksheet.addRow([]);
 
-      // 12개월 데이터 (각 월별로 광고비, 위촉비, 케어, 선입금)
+      // 왼쪽 고정 컬럼 데이터
+      dataRow.getCell(1).value = total.channel || "";
+      setCellStyle(dataRow.getCell(1), {
+        fill: "FFF3F4F6", // 회색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(2).value = total.companyName || "";
+      setCellStyle(dataRow.getCell(2), {
+        fill: "FFF3F4F6", // 회색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(3).value = total.companyBranch || "";
+      setCellStyle(dataRow.getCell(3), {
+        fill: "FFF3F4F6", // 회색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(4).value = total.manager1 || "";
+      setCellStyle(dataRow.getCell(4), {
+        fill: "FFF3F4F6", // 회색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(5).value = total.manager2 || "";
+      setCellStyle(dataRow.getCell(5), {
+        fill: "FFFEF3C7", // 연한 노란색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(6).value = total.counter + 1;
+      setCellStyle(dataRow.getCell(6), {
+        fill: "FFFDE68A", // 노란색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(7).value = total.costTotal.toLocaleString();
+      setCellStyle(dataRow.getCell(7), {
+        fill: "FFFDE68A", // 노란색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+      dataRow.getCell(9).value = getPercentage(total.costTotal, costTotal);
+      setCellStyle(dataRow.getCell(9), {
+        fill: "FFFDE68A", // 노란색
+        alignment: { vertical: "middle", horizontal: "center" },
+        border: thinBorder,
+      });
+
+      // 12개월 데이터
       const monthArrays = [
         jan,
         feb,
@@ -411,75 +600,74 @@ function YearTotal2() {
         nov,
         dec,
       ];
-      monthArrays.forEach(monthArray => {
+      monthArrays.forEach((monthArray, monthIdx) => {
         const monthData = getMonthlyData(monthArray, total.companyCode);
-        row.push(monthData.ad.toLocaleString());
-        row.push(monthData.comm.toLocaleString());
-        row.push(monthData.care.toLocaleString());
-        row.push(monthData.prepay.toLocaleString());
+        const startCol = 10 + monthIdx * 4;
+        dataRow.getCell(startCol).value = monthData.ad.toLocaleString();
+        setCellStyle(dataRow.getCell(startCol), {
+          fill: "FFFFFFFF", // 흰색
+          alignment: { vertical: "middle", horizontal: "center" },
+          border: thinBorder,
+        });
+        dataRow.getCell(startCol + 1).value = monthData.comm.toLocaleString();
+        setCellStyle(dataRow.getCell(startCol + 1), {
+          fill: "FFFFFFFF", // 흰색
+          alignment: { vertical: "middle", horizontal: "center" },
+          border: thinBorder,
+        });
+        dataRow.getCell(startCol + 2).value = monthData.care.toLocaleString();
+        setCellStyle(dataRow.getCell(startCol + 2), {
+          fill: "FFFFFFFF", // 흰색
+          alignment: { vertical: "middle", horizontal: "center" },
+          border: thinBorder,
+        });
+        dataRow.getCell(startCol + 3).value = monthData.prepay.toLocaleString();
+        setCellStyle(dataRow.getCell(startCol + 3), {
+          fill: "FFFFFFFF", // 흰색
+          alignment: { vertical: "middle", horizontal: "center" },
+          border: thinBorder,
+        });
       });
-
-      data.push(row);
     });
 
-    // 워크시트 생성
-    const ws = XLSX.utils.aoa_to_sheet(data);
-
-    // 병합 설정
-    const merges = [];
-    // 첫 번째 행 병합
-    merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }); // 제목 (0-6)
-    merges.push({ s: { r: 0, c: 8 }, e: { r: 0, c: 9 } }); // 총 매출 (8-9)
-    // 12개월 헤더 병합
-    for (let i = 0; i < 12; i++) {
-      merges.push({
-        s: { r: 0, c: 11 + i * 4 },
-        e: { r: 0, c: 14 + i * 4 },
-      });
-    }
-    // 두 번째 행 병합
-    merges.push({ s: { r: 1, c: 1 }, e: { r: 1, c: 2 } }); // 보험사 (1-2)
-    merges.push({ s: { r: 1, c: 3 }, e: { r: 1, c: 4 } }); // 지점 (3-4)
-    merges.push({ s: { r: 1, c: 8 }, e: { r: 1, c: 9 } }); // 총 매출 (8-9)
-    // 월별 합계 병합 (두 번째 행의 각 월 합계)
-    for (let i = 0; i < 12; i++) {
-      merges.push({
-        s: { r: 1, c: 11 + i * 4 },
-        e: { r: 1, c: 14 + i * 4 },
-      });
-    }
-    ws["!merges"] = merges;
-
     // 컬럼 너비 설정
-    const colWidths = [
-      { wch: 10 }, // 채널
-      { wch: 15 }, // 보험사
-      { wch: 5 }, // 보험사 병합
-      { wch: 15 }, // 지점
-      { wch: 5 }, // 지점 병합
-      { wch: 10 }, // 담당1
-      { wch: 10 }, // 담당2
-      { wch: 8 }, // 횟수
-      { wch: 15 }, // 총 매출
-      { wch: 5 }, // 총 매출 병합
-      { wch: 10 }, // 매출 비중
+    worksheet.columns = [
+      { width: 10 }, // 채널
+      { width: 15 }, // 보험사
+      { width: 15 }, // 지점
+      { width: 10 }, // 담당1
+      { width: 10 }, // 담당2
+      { width: 8 }, // 횟수
+      { width: 15 }, // 총 매출
+      { width: 5 }, // 빈 컬럼
+      { width: 10 }, // 매출 비중
+      { width: 5 }, // 빈 컬럼
     ];
     // 12개월 * 4개 컬럼 (광고비, 위촉비, 케어, 선입금)
     for (let i = 0; i < 48; i++) {
-      colWidths.push({ wch: 12 });
+      worksheet.columns.push({ width: 12 });
     }
-    ws["!cols"] = colWidths;
 
-    // 워크북에 워크시트 추가
-    XLSX.utils.book_append_sheet(wb, ws, `${year}년 총정리`);
+    // 행 높이 설정
+    worksheet.getRow(1).height = 30;
+    worksheet.getRow(2).height = 30;
+    worksheet.getRow(3).height = 30;
+    worksheet.getRow(4).height = 30;
 
-    // 파일명 생성
+    // 파일명 생성 및 다운로드
     const fileName = `${year}년_고객사별_총정리_${dayjs().format(
       "YYYYMMDD_HHmmss"
     )}.xlsx`;
-
-    // 파일 다운로드
-    XLSX.writeFile(wb, fileName);
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    window.URL.revokeObjectURL(url);
   };
 
   const getTotal = async year => {
