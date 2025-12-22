@@ -20,16 +20,16 @@ function MonthlySales2(props) {
 
   return (
     <>
-      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+      <td className="align-middle text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
         {ad.toLocaleString()}
       </td>
-      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+      <td className="align-middle text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
         {comm.toLocaleString()}
       </td>
-      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+      <td className="align-middle text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
         {care.toLocaleString()}
       </td>
-      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black">
+      <td className="align-middle text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black">
         {prepay.toLocaleString()}
       </td>
     </>
