@@ -1542,7 +1542,6 @@ function YearTotal2() {
                         {total.channel}
                       </td>
                       <td
-                        colSpan="2"
                         className={`sticky left-[70px] z-30 text-center bg-gray-100 border ${
                           idx === 0 && "border-t-0"
                         } ${
@@ -1552,7 +1551,6 @@ function YearTotal2() {
                         {total.companyName}
                       </td>
                       <td
-                        colSpan="2"
                         className={`sticky left-[210px] z-30 text-center bg-gray-100 border ${
                           idx === 0 && "border-t-0"
                         } ${
@@ -1589,7 +1587,6 @@ function YearTotal2() {
                         {total.counter + 1}
                       </td>
                       <td
-                        colSpan="2"
                         className={`sticky left-[550px] z-30 text-center bg-yellow-200 border ${
                           idx === 0 && "border-t-0"
                         } ${
