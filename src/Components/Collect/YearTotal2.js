@@ -1274,16 +1274,10 @@ function YearTotal2() {
                 <th className="sticky left-0 z-40 h-[30px] text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   채널
                 </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[70px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
-                >
+                <th className="sticky left-[70px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   보험사
                 </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[210px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
-                >
+                <th className="sticky left-[210px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   지점
                 </th>
                 <th className="sticky left-[350px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
@@ -1295,10 +1289,7 @@ function YearTotal2() {
                 <th className="sticky left-[490px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
                   {countTotal}
                 </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[550px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black"
-                >
+                <th className="sticky left-[550px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
                   {costTotal.toLocaleString()}
                 </th>
                 <th className="sticky left-[670px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
