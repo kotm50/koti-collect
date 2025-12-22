@@ -846,146 +846,186 @@ function YearTotal2() {
               <tr>
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
-                  colSpan="7"
+                  colSpan="5"
+                  rowSpan="3"
                   className="sticky left-0 z-40 text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
                 >
                   {year}년 고객사별 총정리
                 </th>
-                <th className="text-center bg-yellow-300 text-black font-bold border border-r border-black">
+                <th
+                  rowSpan="3"
+                  className="text-center bg-yellow-300 text-black font-bold border border-r border-black"
+                >
                   횟수
                 </th>
                 <th
                   colSpan="2"
+                  rowSpan="3"
                   className="text-center bg-yellow-300 text-black font-bold border border-r border-black"
                 >
                   총 매출
                 </th>
-                <th className="text-center bg-yellow-600 text-black font-bold border border-r border-black">
+                <th
+                  rowSpan="3"
+                  className="text-center bg-yellow-600 text-black font-bold border border-r border-black"
+                >
                   매출
                   <br />
                   비중
                 </th>
                 {/* 12개월 헤더 */}
-                <th className="text-center bg-green-800 text-white h-[90px] font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white h-[90px] font-bold border border-l-0 border-black"
+                >
                   1월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   2월
                 </th>
-                <th className="text-center bg-green-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white font-bold border border-l-0 border-black"
+                >
                   3월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   4월
                 </th>
-                <th className="text-center bg-green-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white font-bold border border-l-0 border-black"
+                >
                   5월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   6월
                 </th>
-                <th className="text-center bg-green-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white font-bold border border-l-0 border-black"
+                >
                   7월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   8월
                 </th>
-                <th className="text-center bg-green-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white font-bold border border-l-0 border-black"
+                >
                   9월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   10월
                 </th>
-                <th className="text-center bg-green-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-green-800 text-white font-bold border border-l-0 border-black"
+                >
                   11월
                 </th>
-                <th className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-blue-800 text-white font-bold border border-l-0 border-black"
+                >
                   12월
                 </th>
               </tr>
-
-              {/* 두 번째 헤더 행: 컬럼명 및 월별 합계 */}
+              {/* 두 번째 헤더 행: 월별 합계 */}
               <tr>
-                {/* 왼쪽 고정 컬럼 서브헤더 */}
-                <th className="sticky left-0 z-40 h-[30px] text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
-                  채널
-                </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[70px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
-                >
-                  보험사
-                </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[210px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
-                >
-                  지점
-                </th>
-                <th className="sticky left-[350px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
-                  담당1
-                </th>
-                <th className="sticky left-[420px] z-40 text-center bg-yellow-100 font-bold border border-r border-t-0 border-black">
-                  담당2
-                </th>
-                <th className="sticky left-[490px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
-                  {countTotal}
-                </th>
-                <th
-                  colSpan="2"
-                  className="sticky left-[550px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black"
-                >
-                  {costTotal.toLocaleString()}
-                </th>
-                <th className="sticky left-[670px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
-                  100%
-                </th>
                 {/* 12개월 합계 */}
-                <th className="text-center bg-white text-black h-[30px] font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black h-[30px] font-bold border border-t-0 border-l-0 border-black"
+                >
                   {janTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {febTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {marTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {aprTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {mayTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {junTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {julTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {augTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {sepTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {octTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {novTotal.total.toLocaleString()}
                 </th>
-                <th className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black">
+                <th
+                  colSpan="4"
+                  className="text-center bg-white text-black font-bold border border-t-0 border-l-0 border-black"
+                >
                   {decTotal.total.toLocaleString()}
                 </th>
               </tr>
 
               {/* 세 번째 헤더 행: 월별 세부 항목 헤더 */}
               <tr>
-                {/* 왼쪽 고정 컬럼은 빈 셀 */}
-                <th
-                  colSpan="11"
-                  className="sticky left-0 z-40 bg-black border border-r border-t-0 border-black"
-                ></th>
                 {/* 1월 세부 헤더 */}
                 <th
                   colSpan="4"
@@ -1228,13 +1268,42 @@ function YearTotal2() {
                 </th>
               </tr>
 
-              {/* 네 번째 헤더 행: 월별 합계 데이터 */}
+              {/* 두 번째 헤더 행: 컬럼명 및 월별 합계 */}
               <tr>
-                {/* 왼쪽 고정 컬럼은 빈 셀 */}
+                {/* 왼쪽 고정 컬럼 서브헤더 */}
+                <th className="sticky left-0 z-40 h-[30px] text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                  채널
+                </th>
                 <th
-                  colSpan="11"
-                  className="sticky left-0 z-40 bg-black border border-r border-t-0 border-black"
-                ></th>
+                  colSpan="2"
+                  className="sticky left-[70px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
+                >
+                  보험사
+                </th>
+                <th
+                  colSpan="2"
+                  className="sticky left-[210px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black"
+                >
+                  지점
+                </th>
+                <th className="sticky left-[350px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                  담당1
+                </th>
+                <th className="sticky left-[420px] z-40 text-center bg-yellow-100 font-bold border border-r border-t-0 border-black">
+                  담당2
+                </th>
+                <th className="sticky left-[490px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
+                  {countTotal}
+                </th>
+                <th
+                  colSpan="2"
+                  className="sticky left-[550px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black"
+                >
+                  {costTotal.toLocaleString()}
+                </th>
+                <th className="sticky left-[670px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
+                  100%
+                </th>
                 {/* 1월 합계 데이터 */}
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
                   <table className="w-full h-full border-collapse">
