@@ -71,6 +71,12 @@ function Menu(props) {
                 >
                   고객사별 월별종합
                 </Link>
+                <Link
+                  to="/collect/yeartotal2"
+                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+                >
+                  고객사별 월별종합(테이블)
+                </Link>
               </>
             )}
 

@@ -1089,11 +1089,11 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-y border-r border-black"
                 ></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-t border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-t border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border-t border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-t border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-t border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-t border-r border-black"></th>
                 {/* 12개월 헤더 */}
                 <th
                   colSpan="4"
@@ -1173,7 +1173,7 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-y border-r border-black"
                 >
                   {year}년 고객사별 총정리
                 </th>
@@ -1266,11 +1266,11 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-y border-r border-black"
                 ></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-b border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border-b border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border-b border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-b border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-b border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-b border-r border-black"></th>
                 {/* 1월 세부 헤더 */}
                 <th className="align-middle text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
                   광고비
