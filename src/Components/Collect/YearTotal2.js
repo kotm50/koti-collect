@@ -262,19 +262,19 @@ function YearTotal2() {
     // 데이터 배열 생성
     const data = [];
 
-    // 첫 번째 행: 제목 (병합 필요)
+    // 첫 번째 행: 제목 행
+    // 구조: [제목(7병합), 횟수, 총매출(2병합), 매출비중, 1월(4병합), 2월(4병합), ...]
     const titleRow = [];
     titleRow[0] = `${year}년 고객사별 총정리`;
-    // 나머지 셀은 빈 값으로 채움 (병합은 엑셀에서 수동으로 처리)
-    for (let i = 1; i < 11; i++) {
+    // colSpan 7이므로 인덱스 1~6은 빈 값 (병합 표시용)
+    for (let i = 1; i < 7; i++) {
       titleRow[i] = "";
     }
-    titleRow[10] = "횟수";
-    titleRow[11] = "";
-    titleRow[12] = "총 매출";
-    titleRow[13] = "";
-    titleRow[14] = "매출\n비중";
-    // 12개월 헤더
+    titleRow[7] = "횟수";
+    titleRow[8] = "총 매출";
+    titleRow[9] = ""; // 총 매출 colSpan 2
+    titleRow[10] = "매출\n비중";
+    // 12개월 헤더 (각 월은 4개 컬럼)
     const months = [
       "1월",
       "2월",
@@ -290,27 +290,29 @@ function YearTotal2() {
       "12월",
     ];
     months.forEach((month, idx) => {
-      titleRow[15 + idx * 4] = month;
-      titleRow[16 + idx * 4] = "";
-      titleRow[17 + idx * 4] = "";
-      titleRow[18 + idx * 4] = "";
+      const startCol = 11 + idx * 4;
+      titleRow[startCol] = month;
+      titleRow[startCol + 1] = ""; // 병합 표시용
+      titleRow[startCol + 2] = ""; // 병합 표시용
+      titleRow[startCol + 3] = ""; // 병합 표시용
     });
     data.push(titleRow);
 
-    // 두 번째 행: 컬럼명 및 합계
+    // 두 번째 행: 컬럼명 및 월별 합계
+    // 구조: [채널, 보험사(2병합), 지점(2병합), 담당1, 담당2, 횟수, 총매출(2병합), 매출비중, 월별합계들...]
     const headerRow = [];
     headerRow[0] = "채널";
     headerRow[1] = "보험사";
-    headerRow[2] = "";
+    headerRow[2] = ""; // 보험사 colSpan 2
     headerRow[3] = "지점";
-    headerRow[4] = "";
+    headerRow[4] = ""; // 지점 colSpan 2
     headerRow[5] = "담당1";
     headerRow[6] = "담당2";
     headerRow[7] = countTotal;
     headerRow[8] = costTotal.toLocaleString();
-    headerRow[9] = "";
+    headerRow[9] = ""; // 총 매출 colSpan 2
     headerRow[10] = "100%";
-    // 12개월 합계
+    // 12개월 합계 (각 월은 4개 컬럼이지만 합계는 첫 번째 컬럼에만 표시)
     const monthTotals = [
       janTotal.total,
       febTotal.total,
@@ -326,31 +328,37 @@ function YearTotal2() {
       decTotal.total,
     ];
     monthTotals.forEach((total, idx) => {
-      headerRow[11 + idx * 4] = total.toLocaleString();
-      headerRow[12 + idx * 4] = "";
-      headerRow[13 + idx * 4] = "";
-      headerRow[14 + idx * 4] = "";
+      const startCol = 11 + idx * 4;
+      headerRow[startCol] = total.toLocaleString();
+      headerRow[startCol + 1] = "";
+      headerRow[startCol + 2] = "";
+      headerRow[startCol + 3] = "";
     });
     data.push(headerRow);
 
-    // 세 번째 행: 월별 세부 헤더
+    // 세 번째 행: 월별 세부 헤더 (광고비, 위촉비, 케어, 선입금)
     const detailHeaderRow = [];
+    // 왼쪽 11개 컬럼은 빈 값
     for (let i = 0; i < 11; i++) {
       detailHeaderRow[i] = "";
     }
+    // 각 월별로 4개 헤더
     const detailHeaders = ["광고비", "위촉비", "케어", "선입금"];
     for (let month = 0; month < 12; month++) {
+      const startCol = 11 + month * 4;
       detailHeaders.forEach((header, idx) => {
-        detailHeaderRow[11 + month * 4 + idx] = header;
+        detailHeaderRow[startCol + idx] = header;
       });
     }
     data.push(detailHeaderRow);
 
-    // 네 번째 행: 월별 합계 데이터
+    // 네 번째 행: 월별 합계 데이터 (광고비, 위촉비, 케어, 선입금 합계)
     const totalDataRow = [];
+    // 왼쪽 11개 컬럼은 빈 값
     for (let i = 0; i < 11; i++) {
       totalDataRow[i] = "";
     }
+    // 각 월별 합계 데이터
     const allMonthTotals = [
       janTotal,
       febTotal,
@@ -378,17 +386,17 @@ function YearTotal2() {
       const row = [];
       row[0] = total.channel || "";
       row[1] = total.companyName || "";
-      row[2] = "";
+      row[2] = ""; // 보험사 colSpan 2
       row[3] = total.companyBranch || "";
-      row[4] = "";
+      row[4] = ""; // 지점 colSpan 2
       row[5] = total.manager1 || "";
       row[6] = total.manager2 || "";
       row[7] = total.counter + 1;
       row[8] = total.costTotal.toLocaleString();
-      row[9] = "";
+      row[9] = ""; // 총 매출 colSpan 2
       row[10] = getPercentage(total.costTotal, costTotal);
 
-      // 12개월 데이터
+      // 12개월 데이터 (각 월별로 광고비, 위촉비, 케어, 선입금)
       const monthArrays = [
         jan,
         feb,
@@ -417,18 +425,43 @@ function YearTotal2() {
     // 워크시트 생성
     const ws = XLSX.utils.aoa_to_sheet(data);
 
+    // 병합 설정
+    const merges = [];
+    // 첫 번째 행 병합
+    merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }); // 제목 (0-6)
+    merges.push({ s: { r: 0, c: 8 }, e: { r: 0, c: 9 } }); // 총 매출 (8-9)
+    // 12개월 헤더 병합
+    for (let i = 0; i < 12; i++) {
+      merges.push({
+        s: { r: 0, c: 11 + i * 4 },
+        e: { r: 0, c: 14 + i * 4 },
+      });
+    }
+    // 두 번째 행 병합
+    merges.push({ s: { r: 1, c: 1 }, e: { r: 1, c: 2 } }); // 보험사 (1-2)
+    merges.push({ s: { r: 1, c: 3 }, e: { r: 1, c: 4 } }); // 지점 (3-4)
+    merges.push({ s: { r: 1, c: 8 }, e: { r: 1, c: 9 } }); // 총 매출 (8-9)
+    // 월별 합계 병합 (두 번째 행의 각 월 합계)
+    for (let i = 0; i < 12; i++) {
+      merges.push({
+        s: { r: 1, c: 11 + i * 4 },
+        e: { r: 1, c: 14 + i * 4 },
+      });
+    }
+    ws["!merges"] = merges;
+
     // 컬럼 너비 설정
     const colWidths = [
       { wch: 10 }, // 채널
       { wch: 15 }, // 보험사
-      { wch: 5 },
+      { wch: 5 }, // 보험사 병합
       { wch: 15 }, // 지점
-      { wch: 5 },
+      { wch: 5 }, // 지점 병합
       { wch: 10 }, // 담당1
       { wch: 10 }, // 담당2
       { wch: 8 }, // 횟수
       { wch: 15 }, // 총 매출
-      { wch: 5 },
+      { wch: 5 }, // 총 매출 병합
       { wch: 10 }, // 매출 비중
     ];
     // 12개월 * 4개 컬럼 (광고비, 위촉비, 케어, 선입금)
