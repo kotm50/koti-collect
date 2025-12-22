@@ -1028,7 +1028,7 @@ function YearTotal2() {
       {/* 테이블 컨테이너 */}
       <div className="relative max-h-[700px] h-fit overflow-auto">
         <div className="inline-block min-w-full">
-          <table className="border-collapse">
+          <table className="w-[5350px] border-collapse">
             <thead className="sticky top-0 z-50">
               {/* 첫 번째 헤더 행: 제목 및 합계 행 */}
               <tr>
@@ -1036,7 +1036,7 @@ function YearTotal2() {
                 <th
                   colSpan="5"
                   rowSpan="3"
-                  className="sticky left-0 z-40 text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                  className="text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
                 >
                   {year}년 고객사별 총정리
                 </th>
@@ -1457,30 +1457,30 @@ function YearTotal2() {
               </tr>
 
               {/* 두 번째 헤더 행: 컬럼명 및 월별 합계 */}
-              <tr>
+              <tr className="sticky left-0 z-40">
                 {/* 왼쪽 고정 컬럼 서브헤더 */}
-                <th className="sticky left-0 z-40 h-[30px] text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                <th className="h-[30px] text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   채널
                 </th>
-                <th className="sticky left-[70px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   보험사
                 </th>
-                <th className="sticky left-[210px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   지점
                 </th>
-                <th className="sticky left-[350px] z-40 text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-gray-100 font-bold border border-r border-t-0 border-black">
                   담당1
                 </th>
-                <th className="sticky left-[420px] z-40 text-center bg-yellow-100 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-yellow-100 font-bold border border-r border-t-0 border-black">
                   담당2
                 </th>
-                <th className="sticky left-[490px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
                   {countTotal}
                 </th>
-                <th className="sticky left-[550px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
                   {costTotal.toLocaleString()}
                 </th>
-                <th className="sticky left-[670px] z-40 text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
+                <th className="text-center bg-yellow-200 font-bold border border-r border-t-0 border-black">
                   100%
                 </th>
                 {/* 1월 합계 데이터 */}
@@ -1718,10 +1718,10 @@ function YearTotal2() {
             <tbody>
               {totalList.length > 0
                 ? totalList.map((total, idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} className="sticky left-0 z-30">
                       {/* 왼쪽 고정 컬럼 데이터 */}
                       <td
-                        className={`sticky left-0 z-30 h-[30px] text-center bg-gray-100 border ${
+                        className={`h-[30px] text-center bg-gray-100 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1730,7 +1730,7 @@ function YearTotal2() {
                         {total.channel}
                       </td>
                       <td
-                        className={`sticky left-[70px] z-30 text-center bg-gray-100 border ${
+                        className={`text-center bg-gray-100 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1739,7 +1739,7 @@ function YearTotal2() {
                         {total.companyName}
                       </td>
                       <td
-                        className={`sticky left-[210px] z-30 text-center bg-gray-100 border ${
+                        className={`text-center bg-gray-100 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1748,7 +1748,7 @@ function YearTotal2() {
                         {total.companyBranch}
                       </td>
                       <td
-                        className={`sticky left-[350px] z-30 text-center bg-gray-100 border truncate overflow-hidden ${
+                        className={`text-center bg-gray-100 border truncate overflow-hidden ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1757,7 +1757,7 @@ function YearTotal2() {
                         {total.manager1}
                       </td>
                       <td
-                        className={`sticky left-[420px] z-30 text-center bg-yellow-100 border truncate overflow-hidden ${
+                        className={`text-center bg-yellow-100 border truncate overflow-hidden ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1766,7 +1766,7 @@ function YearTotal2() {
                         {total.manager2}
                       </td>
                       <td
-                        className={`sticky left-[490px] z-30 text-center bg-yellow-200 border ${
+                        className={`text-center bg-yellow-200 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1775,7 +1775,7 @@ function YearTotal2() {
                         {total.counter + 1}
                       </td>
                       <td
-                        className={`sticky left-[550px] z-30 text-center bg-yellow-200 border ${
+                        className={`text-center bg-yellow-200 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
@@ -1784,7 +1784,7 @@ function YearTotal2() {
                         {total.costTotal.toLocaleString()}
                       </td>
                       <td
-                        className={`sticky left-[670px] z-30 text-center bg-yellow-200 border ${
+                        className={`text-center bg-yellow-200 border ${
                           idx === 0 && "border-t-0"
                         } ${
                           idx !== totalList.length - 1 && "border-b-0"
