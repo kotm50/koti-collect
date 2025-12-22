@@ -1028,7 +1028,7 @@ function YearTotal2() {
       {/* 테이블 컨테이너 */}
       <div className="relative max-h-[700px] h-fit overflow-auto">
         <div className="inline-block min-w-full">
-          <table className="w-[5350px] border-collapse">
+          <table className="border-collapse">
             <thead className="sticky top-0 z-50">
               {/* 첫 번째 헤더 행: 제목 및 합계 행 */}
               <tr>
