@@ -631,22 +631,26 @@ function YearTotal2() {
     });
 
     // 컬럼 너비 설정
-    worksheet.columns = [
-      { width: 10 }, // 채널
-      { width: 15 }, // 보험사
-      { width: 15 }, // 지점
-      { width: 10 }, // 담당1
-      { width: 10 }, // 담당2
-      { width: 8 }, // 횟수
-      { width: 15 }, // 총 매출
-      { width: 5 }, // 빈 컬럼
-      { width: 10 }, // 매출 비중
-      { width: 5 }, // 빈 컬럼
+    const columnWidths = [
+      10, // 채널
+      15, // 보험사
+      15, // 지점
+      10, // 담당1
+      10, // 담당2
+      8, // 횟수
+      15, // 총 매출
+      5, // 빈 컬럼
+      10, // 매출 비중
+      5, // 빈 컬럼
     ];
     // 12개월 * 4개 컬럼 (광고비, 위촉비, 케어, 선입금)
     for (let i = 0; i < 48; i++) {
-      worksheet.columns.push({ width: 12 });
+      columnWidths.push(12);
     }
+    // 각 컬럼 너비 설정
+    columnWidths.forEach((width, index) => {
+      worksheet.getColumn(index + 1).width = width;
+    });
 
     // 행 높이 설정
     worksheet.getRow(1).height = 30;
