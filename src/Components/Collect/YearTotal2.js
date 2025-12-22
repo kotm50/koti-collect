@@ -1089,15 +1089,15 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
                 ></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black"></th>
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black"></th>
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-b-0 border-black"></th>
                 {/* 12개월 헤더 */}
                 <th
                   colSpan="4"
-                  className="align-middle text-center bg-green-800 text-white h-[90px] font-bold border border-l-0 border-black"
+                  className="align-middle text-center bg-green-800 text-white h-[30px] font-bold border border-l-0 border-black"
                 >
                   1월
                 </th>
@@ -1173,17 +1173,17 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
                 >
                   {year}년 고객사별 총정리
                 </th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black">
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black">
                   횟수
                 </th>
-                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black">
+                <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-b-0 border-black">
                   총 매출
                 </th>
-                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border-r border-black">
+                <th className="align-middle text-center bg-yellow-600 text-black font-bold border border- border-b-0 border-black">
                   매출 비중
                 </th>
                 {/* 12개월 합계 */}
@@ -1266,7 +1266,7 @@ function YearTotal2() {
                 {/* 왼쪽 고정 컬럼 헤더 */}
                 <th
                   colSpan="5"
-                  className="align-middle text-center text-white h-[90px] bg-black text-xl font-bold border border-r border-black"
+                  className="align-middle text-center text-white h-[30px] bg-black text-xl font-bold border border-r border-black"
                 ></th>
                 <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
                 <th className="align-middle text-center bg-yellow-300 text-black font-bold border border-r border-black"></th>
