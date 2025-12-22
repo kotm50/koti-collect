@@ -19,16 +19,20 @@ function MonthlySales2(props) {
   }, []);
 
   return (
-    <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black">
-      <table className="w-full h-full border-collapse">
-        <tr>
-          <td className="text-center border-r border-black">{ad.toLocaleString()}</td>
-          <td className="text-center border-r border-black">{comm.toLocaleString()}</td>
-          <td className="text-center border-r border-black">{care.toLocaleString()}</td>
-          <td className="text-center">{prepay.toLocaleString()}</td>
-        </tr>
-      </table>
-    </td>
+    <>
+      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+        {ad.toLocaleString()}
+      </td>
+      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+        {comm.toLocaleString()}
+      </td>
+      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black border-r">
+        {care.toLocaleString()}
+      </td>
+      <td className="text-center h-[30px] bg-white text-black border border-t-0 border-l-0 border-black">
+        {prepay.toLocaleString()}
+      </td>
+    </>
   );
 }
 

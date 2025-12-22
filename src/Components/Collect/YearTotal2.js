@@ -1051,7 +1051,6 @@ function YearTotal2() {
                   횟수
                 </th>
                 <th
-                  colSpan="2"
                   rowSpan="3"
                   className="text-center bg-yellow-300 text-black font-bold border border-r border-black"
                 >
@@ -1219,244 +1218,160 @@ function YearTotal2() {
               {/* 세 번째 헤더 행: 월별 세부 항목 헤더 */}
               <tr>
                 {/* 1월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 2월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 3월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 4월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 5월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 6월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 7월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 8월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 9월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 10월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 11월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-green-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-green-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
                 {/* 12월 세부 헤더 */}
-                <th
-                  colSpan="4"
-                  className="text-center h-[30px] bg-blue-800 text-white border border-t-0 border-l-0 border-black"
-                >
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <th className="text-center font-bold border-r border-black">
-                        광고비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        위촉비
-                      </th>
-                      <th className="text-center font-bold border-r border-black">
-                        케어
-                      </th>
-                      <th className="text-center font-bold">선입금</th>
-                    </tr>
-                  </table>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  광고비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  위촉비
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black border-r">
+                  케어
+                </th>
+                <th className="text-center h-[30px] bg-blue-800 text-white font-bold border border-t-0 border-l-0 border-black">
+                  선입금
                 </th>
               </tr>
 
@@ -1488,232 +1403,160 @@ function YearTotal2() {
                   100%
                 </th>
                 {/* 1월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {janTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {janTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {janTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {janTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {janTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {janTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {janTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {janTotal.prepay.toLocaleString()}
                 </td>
                 {/* 2월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {febTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {febTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {febTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {febTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {febTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {febTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {febTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {febTotal.prepay.toLocaleString()}
                 </td>
                 {/* 3월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {marTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {marTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {marTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {marTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {marTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {marTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {marTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {marTotal.prepay.toLocaleString()}
                 </td>
                 {/* 4월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {aprTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {aprTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {aprTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {aprTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {aprTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {aprTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {aprTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {aprTotal.prepay.toLocaleString()}
                 </td>
                 {/* 5월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {mayTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {mayTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {mayTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {mayTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {mayTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {mayTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {mayTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {mayTotal.prepay.toLocaleString()}
                 </td>
                 {/* 6월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {junTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {junTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {junTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {junTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {junTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {junTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {junTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {junTotal.prepay.toLocaleString()}
                 </td>
                 {/* 7월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {julTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {julTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {julTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {julTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {julTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {julTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {julTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {julTotal.prepay.toLocaleString()}
                 </td>
                 {/* 8월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {augTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {augTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {augTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {augTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {augTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {augTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {augTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {augTotal.prepay.toLocaleString()}
                 </td>
                 {/* 9월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {sepTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {sepTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {sepTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {sepTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {sepTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {sepTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {sepTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {sepTotal.prepay.toLocaleString()}
                 </td>
                 {/* 10월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {octTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {octTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {octTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {octTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {octTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {octTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {octTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {octTotal.prepay.toLocaleString()}
                 </td>
                 {/* 11월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {novTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {novTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {novTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {novTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {novTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {novTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold">
-                        {novTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {novTotal.prepay.toLocaleString()}
                 </td>
                 {/* 12월 합계 데이터 */}
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {decTotal.ad.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {decTotal.comm.toLocaleString()}
+                </td>
+                <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black border-r">
+                  {decTotal.care.toLocaleString()}
+                </td>
                 <td className="text-center h-[30px] bg-white text-black font-bold border border-t-0 border-l-0 border-black">
-                  <table className="w-full h-full border-collapse">
-                    <tr>
-                      <td className="text-center font-bold border-r border-black">
-                        {decTotal.ad.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {decTotal.comm.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {decTotal.care.toLocaleString()}
-                      </td>
-                      <td className="text-center font-bold border-r border-black">
-                        {decTotal.prepay.toLocaleString()}
-                      </td>
-                    </tr>
-                  </table>
+                  {decTotal.prepay.toLocaleString()}
                 </td>
               </tr>
             </thead>
