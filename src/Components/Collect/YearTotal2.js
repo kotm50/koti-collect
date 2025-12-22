@@ -297,9 +297,10 @@ function YearTotal2() {
       right: { style: "thin", color: { argb: "FF000000" } },
     };
 
-    // 첫 번째 행: 제목 및 헤더
+    // 첫 번째 행: 제목 및 헤더 (HTML thead 구조와 최대한 동일하게 구성)
     const row1 = worksheet.addRow([]);
-    // 제목 (colSpan 5, rowSpan 3)
+
+    // 제목 (colSpan 5, rowSpan 3) → A1:E3
     row1.getCell(1).value = `${year}년 고객사별 총정리`;
     worksheet.mergeCells(1, 1, 3, 5);
     setCellStyle(row1.getCell(1), {
@@ -309,7 +310,7 @@ function YearTotal2() {
       border: thinBorder,
     });
 
-    // 횟수 (rowSpan 3)
+    // 횟수 (rowSpan 3) → F1:F3
     row1.getCell(6).value = "횟수";
     worksheet.mergeCells(1, 6, 3, 6);
     setCellStyle(row1.getCell(6), {
@@ -319,9 +320,9 @@ function YearTotal2() {
       border: thinBorder,
     });
 
-    // 총 매출 (colSpan 2, rowSpan 3)
+    // 총 매출 (rowSpan 3, 단일 컬럼) → G1:G3
     row1.getCell(7).value = "총 매출";
-    worksheet.mergeCells(1, 7, 3, 8);
+    worksheet.mergeCells(1, 7, 3, 7);
     setCellStyle(row1.getCell(7), {
       fill: "FFFDE047", // 노란색
       font: { bold: true, color: { argb: "FF000000" } },
@@ -329,10 +330,10 @@ function YearTotal2() {
       border: thinBorder,
     });
 
-    // 매출 비중 (rowSpan 3)
-    row1.getCell(9).value = "매출\n비중";
-    worksheet.mergeCells(1, 9, 3, 9);
-    setCellStyle(row1.getCell(9), {
+    // 매출 비중 (rowSpan 3) → H1:H3 (HTML과 동일하게 바로 오른쪽 컬럼에 위치)
+    row1.getCell(8).value = "매출\n비중";
+    worksheet.mergeCells(1, 8, 3, 8);
+    setCellStyle(row1.getCell(8), {
       fill: "FFCA8A04", // 진한 노란색
       font: { bold: true, color: { argb: "FF000000" } },
       alignment: { vertical: "middle", horizontal: "center", wrapText: true },
@@ -368,8 +369,9 @@ function YearTotal2() {
       "FF166534", // 초록
       "FF1E40AF", // 파랑
     ];
+    // 월 헤더: I열(9번 컬럼)부터 시작, 각 4컬럼(colSpan=4)
     months.forEach((month, idx) => {
-      const startCol = 10 + idx * 4;
+      const startCol = 9 + idx * 4;
       row1.getCell(startCol).value = month;
       worksheet.mergeCells(1, startCol, 1, startCol + 3);
       setCellStyle(row1.getCell(startCol), {
@@ -397,7 +399,7 @@ function YearTotal2() {
       decTotal.total,
     ];
     monthTotals.forEach((total, idx) => {
-      const startCol = 10 + idx * 4;
+      const startCol = 9 + idx * 4;
       row2.getCell(startCol).value = total.toLocaleString();
       worksheet.mergeCells(2, startCol, 2, startCol + 3);
       setCellStyle(row2.getCell(startCol), {
@@ -412,7 +414,7 @@ function YearTotal2() {
     const row3 = worksheet.addRow([]);
     const detailHeaders = ["광고비", "위촉비", "케어", "선입금"];
     months.forEach((month, monthIdx) => {
-      const startCol = 10 + monthIdx * 4;
+      const startCol = 9 + monthIdx * 4;
       detailHeaders.forEach((header, headerIdx) => {
         row3.getCell(startCol + headerIdx).value = header;
         setCellStyle(row3.getCell(startCol + headerIdx), {
@@ -476,8 +478,9 @@ function YearTotal2() {
       alignment: { vertical: "middle", horizontal: "center" },
       border: thinBorder,
     });
-    row4.getCell(9).value = "100%";
-    setCellStyle(row4.getCell(9), {
+    // 매출 비중 %는 H열(8번 컬럼)에 위치
+    row4.getCell(8).value = "100%";
+    setCellStyle(row4.getCell(8), {
       fill: "FFFDE68A", // 노란색
       font: { bold: true, color: { argb: "FF000000" } },
       alignment: { vertical: "middle", horizontal: "center" },
@@ -500,7 +503,7 @@ function YearTotal2() {
       decTotal,
     ];
     allMonthTotals.forEach((monthTotal, monthIdx) => {
-      const startCol = 10 + monthIdx * 4;
+      const startCol = 9 + monthIdx * 4;
       row4.getCell(startCol).value = monthTotal.ad.toLocaleString();
       setCellStyle(row4.getCell(startCol), {
         fill: "FFFFFFFF", // 흰색
@@ -578,8 +581,9 @@ function YearTotal2() {
         alignment: { vertical: "middle", horizontal: "center" },
         border: thinBorder,
       });
-      dataRow.getCell(9).value = getPercentage(total.costTotal, costTotal);
-      setCellStyle(dataRow.getCell(9), {
+      // 매출 비중은 8번 컬럼(H열)에 위치
+      dataRow.getCell(8).value = getPercentage(total.costTotal, costTotal);
+      setCellStyle(dataRow.getCell(8), {
         fill: "FFFDE68A", // 노란색
         alignment: { vertical: "middle", horizontal: "center" },
         border: thinBorder,
@@ -602,7 +606,7 @@ function YearTotal2() {
       ];
       monthArrays.forEach((monthArray, monthIdx) => {
         const monthData = getMonthlyData(monthArray, total.companyCode);
-        const startCol = 10 + monthIdx * 4;
+        const startCol = 9 + monthIdx * 4;
         dataRow.getCell(startCol).value = monthData.ad.toLocaleString();
         setCellStyle(dataRow.getCell(startCol), {
           fill: "FFFFFFFF", // 흰색
@@ -631,19 +635,18 @@ function YearTotal2() {
     });
 
     // 컬럼 너비 설정
+    // 1~8열: 채널, 보험사, 지점, 담당1, 담당2, 횟수, 총 매출, 매출 비중
     const columnWidths = [
-      10, // 채널
-      15, // 보험사
-      15, // 지점
-      10, // 담당1
-      10, // 담당2
-      8, // 횟수
-      15, // 총 매출
-      5, // 빈 컬럼
-      10, // 매출 비중
-      5, // 빈 컬럼
+      10, // 1: 채널
+      15, // 2: 보험사
+      15, // 3: 지점
+      10, // 4: 담당1
+      10, // 5: 담당2
+      8, // 6: 횟수
+      15, // 7: 총 매출
+      10, // 8: 매출 비중
     ];
-    // 12개월 * 4개 컬럼 (광고비, 위촉비, 케어, 선입금)
+    // 12개월 * 4개 컬럼 (광고비, 위촉비, 케어, 선입금) → 9열부터 56열까지
     for (let i = 0; i < 48; i++) {
       columnWidths.push(12);
     }
