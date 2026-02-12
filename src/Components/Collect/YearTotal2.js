@@ -1184,7 +1184,9 @@ function YearTotal2() {
                   총 매출
                 </th>
                 <th className="align-middle text-center bg-yellow-600 text-black font-bold border-r border-black">
-                  매출 비중
+                  매출
+                  <br />
+                  비중
                 </th>
                 {/* 12개월 합계 */}
                 <th

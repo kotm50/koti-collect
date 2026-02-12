@@ -601,7 +601,7 @@ function InputCharge(props) {
         data,
         {
           headers: { Authorization: user.accessToken },
-        }
+        },
       );
       if (response.data.code === "E999") {
         logout();
@@ -693,7 +693,7 @@ function InputCharge(props) {
     <div className="flex flex-col justify-between h-[480px] text-sm">
       <div className="grid grid-cols-2 gap-y-2 gap-x-3">
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
             고객사 지점명<span className="text-rose-500">*</span>
           </div>
           <div className="w-full relative">
@@ -720,7 +720,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">광고 번호</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            광고 번호
+          </div>
           <div className="w-full relative">
             <input
               type="text"
@@ -733,7 +735,7 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
             채용 시작일<span className="text-rose-500 hidden">*</span>
           </div>
           <div className="w-full relative">
@@ -747,7 +749,7 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
             채용 종료일<span className="text-rose-500 hidden">*</span>
           </div>
           <div className="w-full relative">
@@ -761,7 +763,7 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
             <label htmlFor="exp">진행기간</label>
           </div>
           <div className="w-full grid grid-cols-11 gap-0">
@@ -801,7 +803,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">입금 예정일</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            입금 예정일
+          </div>
           <div className="w-full relative">
             <input
               type="date"
@@ -813,7 +817,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">광고비 미수금</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            광고비 미수금
+          </div>
           <div className="w-full relative">
             <input
               type="text"
@@ -841,7 +847,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">면접케어 미수금</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            면접케어 미수금
+          </div>
           <div className="w-full relative">
             <input
               type="text"
@@ -869,7 +877,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">위촉케어 미수금</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            위촉케어 미수금
+          </div>
           <div className="w-full relative">
             <input
               type="text"
@@ -897,7 +907,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">위촉비 미수금</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            위촉비 미수금
+          </div>
           <div className="w-full relative">
             <input
               type="text"
@@ -925,7 +937,9 @@ function InputCharge(props) {
           </div>
         </div>
         <div className="flex justify-start gap-2">
-          <div className="py-1 w-[128px]">세금계산서</div>
+          <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+            세금계산서
+          </div>
           <div className="w-full relative">
             <select
               className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
@@ -940,7 +954,9 @@ function InputCharge(props) {
         </div>
         {tax === "Y" ? (
           <div className="flex justify-start gap-2">
-            <div className="py-1 w-[128px]">발행일</div>
+            <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
+              발행일
+            </div>
             <div className="w-full relative">
               <input
                 type="date"
@@ -959,7 +975,7 @@ function InputCharge(props) {
           }`}
         >
           <div className="flex justify-start gap-2">
-            <div className="py-1 w-[128px]">
+            <div className="py-1 w-[128px] whitespace-nowrap overflow-hidden text-ellipsis">
               듀얼 타입{dualEtcOn && <span className="text-rose-500">*</span>}
             </div>
             <div className="w-full relative">
