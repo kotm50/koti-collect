@@ -71,6 +71,20 @@ function MenuExplain() {
                     바로가기
                   </Link>
                 </div>
+                <div className="p-2 flex flex-row justify-between bg-gray-100">
+                  <div className="text-blue-800 font-medium">
+                    월별 보고(테이블)
+                  </div>
+                  <div className="font-normal">
+                    월별 결제내역을 엑셀형 표로 보고 다운로드합니다
+                  </div>
+                  <Link
+                    to="/collect/monthlyreport2"
+                    className="text-blue-800 font-medium hover:text-rose-500"
+                  >
+                    바로가기
+                  </Link>
+                </div>
               </div>
             </>
           )}

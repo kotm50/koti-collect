@@ -15,6 +15,7 @@ import YearTotal from "./Components/Collect/YearTotal";
 import YearTotal2 from "./Components/Collect/YearTotal2";
 import DailyReport from "./Components/Collect/DailyReport";
 import MonthlyReport from "./Components/Collect/MonthlyReport";
+import MonthlyReport2 from "./Components/Collect/MonthlyReport2";
 import Board from "./Components/Collect/Board";
 import List from "./Components/Collect/Board/List";
 import Write from "./Components/Collect/Board/Write";
@@ -98,6 +99,7 @@ function App() {
           <Route path="yeartotal2" element={<YearTotal2 />} />
           <Route path="dailyreport" element={<DailyReport />} />
           <Route path="monthlyreport" element={<MonthlyReport />} />
+          <Route path="monthlyreport2" element={<MonthlyReport2 />} />
           <Route path="coupon" element={<Coupon />} />
           <Route path="readonly" element={<ReadOnly />} />
         </Route>

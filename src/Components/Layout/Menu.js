@@ -49,6 +49,12 @@ function Menu(props) {
                 >
                   월별 보고
                 </Link>
+                <Link
+                  to="/collect/monthlyreport2"
+                  className={`px-3 py-2 text-sm hover:bg-gray-200 hover:text-rose-500 transition-all duration-300`}
+                >
+                  월별 보고(테이블)
+                </Link>
               </div>
             </>
           )}
