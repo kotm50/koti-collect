@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import PastMemoList from "./PastMemoList";
+import axios from "axios";
 import axiosInstance from "../../../Api/axiosInstance";
 function InputCharge(props) {
   const navi = useNavigate();
@@ -539,7 +540,7 @@ function InputCharge(props) {
         .post("/api/v1/comp/ist/ad", data, {
           headers: { Authorization: user.accessToken },
         })
-        .then(res => {
+        .then(async res => {
           if (res.data.code === "E999") {
             logout();
             return false;
@@ -549,7 +550,20 @@ function InputCharge(props) {
           }
           alert(res.data.message);
           if (res.data.code === "C000") {
-            console.log(res.data);
+            // 광고 번호가 입력된 경우에만 외부 수수료 API를 조회한다.
+            // axiosInstance는 오류 시 로그아웃 처리가 있어, 외부 API는 axios로 호출한다.
+            const hasAdNum = adNumber !== "";
+            if (hasAdNum) {
+              try {
+                const commissionRes = await axios.post(
+                  "https://adimg.ikoreatm.com/api/billing/company-commission",
+                  { com_name_alias: adNumber },
+                );
+                console.log(commissionRes.data);
+              } catch (error) {
+                console.log(error);
+              }
+            }
             setSearchKeyword("");
             setCompanyName("");
             setCompanyCode("");
