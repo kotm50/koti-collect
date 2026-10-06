@@ -549,6 +549,7 @@ function InputCharge(props) {
           }
           alert(res.data.message);
           if (res.data.code === "C000") {
+            console.log(res.data);
             setSearchKeyword("");
             setCompanyName("");
             setCompanyCode("");
