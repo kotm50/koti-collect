@@ -15,7 +15,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 import dayjs from "dayjs";
-//import axios from "axios";
+import axios from "axios";
 
 function Company() {
   const navi = useNavigate();
@@ -48,12 +48,15 @@ function Company() {
   const [inputChannel, setInputChannel] = useState("");
   const [inputManager1, setInputManager1] = useState("");
   const [inputMananger2, setInputManager2] = useState("");
+  // 고유번호. 여러 개면 콤마로 구분해 alias_list로 전송한다.
+  const [inputAliasList, setInputAliasList] = useState("");
   const gubunRef = useRef();
   const nameRef = useRef();
   const branchRef = useRef();
   const channelRef = useRef();
   const manager1Ref = useRef();
   const manager2Ref = useRef();
+  const aliasRef = useRef();
 
   const logout = async () => {
     await axiosInstance
@@ -200,31 +203,37 @@ function Company() {
     if (test !== "완료") {
       return alert(test);
     } else {
+      // 고객사 등록은 청구 서버로 보낸다.
+      // axiosInstance는 응답 오류 시 로그아웃 처리가 있어, 외부 API는 axios로 호출한다.
       const data = {
         gubun: inputGubun,
-        companyName: inputCompanyName,
-        companyBranch: inputCompanyBranch,
+        company_name: inputCompanyName,
+        company_branch: inputCompanyBranch,
         channel: inputChannel,
-        manager1: inputManager1,
-        manager2: inputMananger2,
+        manager_1: inputManager1,
+        manager_2: inputMananger2,
+        // 화면에는 연락처 입력이 없어 빈 값으로 맞춘다.
+        com_contact: "",
+        alias_list: inputAliasList,
       };
-      await axiosInstance
-        .post("/api/v1/comp/add/company", data, {
-          headers: { Authorization: user.accessToken },
-        })
-        .then(res => {
-          if (res.data.code === "C000") {
-            alert("등록되었습니다");
-            setInputGubun("");
-            setInputCompanyName("");
-            setInputCompanyBranch("");
-            setInputChannel("");
-            setInputManager1("");
-            setInputManager2("");
-          }
-          getCompanyList(page, keyword, gubun, channel);
-        })
-        .catch(e => console.log(e));
+      try {
+        await axios.post(
+          "https://adimg.ikoreatm.com/api/billing/company-info",
+          data
+        );
+        alert("등록되었습니다");
+        setInputGubun("");
+        setInputCompanyName("");
+        setInputCompanyBranch("");
+        setInputChannel("");
+        setInputManager1("");
+        setInputManager2("");
+        setInputAliasList("");
+        getCompanyList(page, keyword, gubun, channel);
+      } catch (e) {
+        console.log(e);
+        alert(e.response?.data?.message || "등록에 실패했습니다");
+      }
     }
   };
 
@@ -528,6 +537,7 @@ function Company() {
               <td className="py-2">지점</td>
               <td className="py-2">담당자1</td>
               <td className="py-2">담당자2</td>
+              <td className="py-2">고유번호</td>
               <td className="py-2">수정/삭제</td>
             </tr>
           </thead>
@@ -615,6 +625,16 @@ function Company() {
                   />
                 </td>
                 <td className="p-1">
+                  <input
+                    type="text"
+                    ref={aliasRef}
+                    value={inputAliasList}
+                    className="p-1 border bg-white focus:border-gray-500 min-w-[220px]"
+                    placeholder="(여러개일경우 컬럼(,)으로 구분)"
+                    onChange={e => setInputAliasList(e.currentTarget.value)}
+                  />
+                </td>
+                <td className="p-1">
                   <button
                     className="text-white bg-green-600 py-1 px-2 block min-w-[200px] w-full"
                     onClick={e => inputCompany()}
@@ -649,7 +669,7 @@ function Company() {
               </>
             ) : (
               <tr>
-                <td colSpan={8} className="text-xl text-center font-bold">
+                <td colSpan={10} className="text-xl text-center font-bold">
                   {errMsg}
                 </td>
               </tr>

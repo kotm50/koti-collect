@@ -1,5 +1,9 @@
 import { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import axiosInstance from "../../Api/axiosInstance";
+
+// 목록 API는 camelCase(aliasList), 청구 API는 snake_case(alias_list)를 쓸 수 있다.
+const getAliasList = com => com?.aliasList ?? com?.alias_list ?? "";
 
 function ComEdit(props) {
   const [selectGubun, setSelectGubun] = useState("");
@@ -8,6 +12,7 @@ function ComEdit(props) {
   const [selectChannel, setSelectChannel] = useState("");
   const [inputManager1, setInputManager1] = useState("");
   const [inputMananger2, setInputManager2] = useState("");
+  const [inputAliasList, setInputAliasList] = useState("");
 
   const [categoryList, setCategoryList] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -18,12 +23,14 @@ function ComEdit(props) {
   const channelRef = useRef();
   const manager1Ref = useRef();
   const manager2Ref = useRef();
+  const aliasRef = useRef();
   useEffect(() => {
     getCategory();
     setInputCompanyName(props.com.companyName);
     setInputCompanyBranch(props.com.companyBranch);
     setInputManager1(props.com.manager1);
     setInputManager2(props.com.manager2);
+    setInputAliasList(getAliasList(props.com));
     //eslint-disable-next-line
   }, [props.com]);
 
@@ -108,8 +115,15 @@ function ComEdit(props) {
       }
     }
     if (e.target === manager2Ref.current) {
-      if (e.key === "ArrowLeft") {
+      if (e.key === "ArrowRight") {
+        aliasRef.current.focus();
+      } else if (e.key === "ArrowLeft") {
         manager1Ref.current.focus();
+      }
+    }
+    if (e.target === aliasRef.current) {
+      if (e.key === "ArrowLeft") {
+        manager2Ref.current.focus();
       }
     }
   };
@@ -121,6 +135,7 @@ function ComEdit(props) {
     setSelectChannel(props.com.channel);
     setInputManager1(props.com.manager1);
     setInputManager2(props.com.manager2);
+    setInputAliasList(getAliasList(props.com));
     props.setEdit(false);
   };
 
@@ -142,31 +157,50 @@ function ComEdit(props) {
     if (!editIt) {
       return false;
     } else {
+      // 바뀐 항목과 company_code만 청구 수정 API로 보낸다.
+      const originalAlias = getAliasList(props.com);
       const data = {
-        companyCode: props.com.companyCode,
-        gubun: selectGubun,
-        companyName: inputCompanyName,
-        companyBranch: inputCompanyBranch,
-        channel: selectChannel,
-        manager1: inputManager1,
-        manager2: inputMananger2,
+        company_code: props.com.companyCode,
       };
+      if (selectGubun !== props.com.gubun) {
+        data.gubun = selectGubun;
+      }
+      if (inputCompanyName !== props.com.companyName) {
+        data.company_name = inputCompanyName;
+      }
+      if (inputCompanyBranch !== props.com.companyBranch) {
+        data.company_branch = inputCompanyBranch;
+      }
+      if (selectChannel !== props.com.channel) {
+        data.channel = selectChannel;
+      }
+      if (inputManager1 !== props.com.manager1) {
+        data.manager_1 = inputManager1;
+      }
+      if (inputMananger2 !== props.com.manager2) {
+        data.manager_2 = inputMananger2;
+      }
+      if (inputAliasList !== originalAlias) {
+        data.alias_list = inputAliasList;
+      }
 
-      await axiosInstance
-        .patch("/api/v1/comp/upt/company", data, {
-          headers: { Authorization: props.user.accessToken },
-        })
-        .then(res => {
-          alert("수정하였습니다");
-          cancelEdit();
-          props.getCompanyList(
-            props.page,
-            props.keyword,
-            props.gubun,
-            props.channel
-          );
-        })
-        .catch(e => console.log(e));
+      try {
+        await axios.post(
+          "https://adimg.ikoreatm.com/api/billing/company-info/update",
+          data
+        );
+        alert("수정하였습니다");
+        cancelEdit();
+        props.getCompanyList(
+          props.page,
+          props.keyword,
+          props.gubun,
+          props.channel
+        );
+      } catch (e) {
+        console.log(e);
+        alert(e.response?.data?.message || "수정에 실패했습니다");
+      }
     }
   };
   const inputTest = async () => {
@@ -176,7 +210,8 @@ function ComEdit(props) {
       inputCompanyBranch === props.com.companyBranch &&
       selectChannel === props.com.channel &&
       inputManager1 === props.com.manager1 &&
-      inputMananger2 === props.com.manager2
+      inputMananger2 === props.com.manager2 &&
+      inputAliasList === getAliasList(props.com)
     ) {
       return "수정 된 데이터가 없습니다";
     }
@@ -298,6 +333,17 @@ function ComEdit(props) {
           className="p-1 border bg-white focus:border-gray-500 text-sm"
           placeholder="담당자 2 입력"
           onChange={e => setInputManager2(e.currentTarget.value)}
+          onKeyDown={inputKeyDown}
+        />
+      </td>
+      <td className="p-1 bg-indigo-100">
+        <input
+          type="text"
+          ref={aliasRef}
+          value={inputAliasList}
+          className="p-1 border bg-white focus:border-gray-500 text-sm min-w-[220px]"
+          placeholder="(여러개일경우 컬럼(,)으로 구분)"
+          onChange={e => setInputAliasList(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
         />
       </td>

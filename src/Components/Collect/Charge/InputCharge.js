@@ -232,6 +232,15 @@ function InputCharge(props) {
 
   const handleNumber = e => {
     const id = e.target.id;
+
+    // 광고 번호는 금액과 달리 사용자가 입력한 쉼표를 유지한다.
+    // 숫자(0-9)와 쉼표(,) 외 문자는 입력 즉시 제거한다.
+    if (id === "adNum") {
+      const adValue = e.target.value.replace(/[^0-9,]/g, "");
+      setAdNumber(adValue);
+      return;
+    }
+
     // 숫자와 쉼표를 제외한 모든 문자 제거
     const numericValue = e.target.value.replace(/[^0-9]/g, "");
 
@@ -741,10 +750,11 @@ function InputCharge(props) {
           <div className="w-full relative">
             <input
               type="text"
+              inputMode="text"
               className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
               id="adNum"
               value={adNumber}
-              placeholder="광고 번호를 입력하세요(숫자만)"
+              placeholder="광고 번호를 입력하세요(숫자, 쉼표만). 고유번호가 여러개일때는 쉼표로 구분해주세요."
               onChange={handleNumber}
             />
           </div>
