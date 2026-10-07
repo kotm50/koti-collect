@@ -8,7 +8,6 @@ import queryString from "query-string";
 
 import Pagenate from "../Layout/Pagenate";
 import ComList from "./ComList";
-import { getAliasList } from "./ComEdit";
 import { clearUser } from "../../Reducer/userSlice";
 import axiosInstance from "../../Api/axiosInstance";
 
@@ -17,6 +16,38 @@ import { saveAs } from "file-saver";
 
 import dayjs from "dayjs";
 import axios from "axios";
+
+const BILLING_COMPANY_INFO_URL =
+  "https://adimg.ikoreatm.com/api/billing/company-info";
+
+// 빌링 응답은 snake_case다. 테이블과 수정 화면은 기존 camelCase 필드를 읽는다.
+const toCompanyRow = row => ({
+  ...row,
+  companyCode: row.company_code ?? "",
+  companyName: row.company_name ?? "",
+  companyBranch: row.company_branch ?? "",
+  manager1: row.manager_1 ?? "",
+  manager2: row.manager_2 ?? "",
+  alias_list: row.alias_list ?? "",
+  gubun: row.gubun ?? "",
+  channel: row.channel ?? "",
+  regDate: row.reg_date ?? "",
+  uptDate: row.upt_date ?? "",
+});
+
+// 검색어가 있으면 검색 API, 없으면 목록 API. size는 1~200.
+const fetchCompanyInfoPage = async ({ page, size, keyword }) => {
+  const trimmed = keyword ? String(keyword).trim() : "";
+  const params = { page, size };
+  const url = trimmed
+    ? `${BILLING_COMPANY_INFO_URL}/search`
+    : `${BILLING_COMPANY_INFO_URL}/list`;
+  if (trimmed) {
+    params.keyword = trimmed;
+  }
+  const res = await axios.get(url, { params });
+  return res.data;
+};
 
 function Company() {
   const navi = useNavigate();
@@ -269,83 +300,36 @@ function Company() {
     navi(domain);
   };
 
-  // 고객사 목록에는 alias_list가 없을 수 있어, 청구 API 값을 company_code로 붙인다.
-  const attachAliasList = async compList => {
-    const list = Array.isArray(compList) ? compList : [];
-    let billingByCode = new Map();
+  const getCompanyList = async (p, k) => {
+    setCompanyList([]);
+    setErrMsg("");
     try {
-      const billingRes = await axios.get(
-        "https://adimg.ikoreatm.com/api/billing/company-info"
-      );
-      const rows = billingRes.data?.data || [];
-      billingByCode = new Map(
-        rows
-          .filter(row => row?.company_code && row.alias_list != null && row.alias_list !== "")
-          .map(row => [row.company_code, row.alias_list])
-      );
+      // 검색어가 있으면 /search, 없으면 /list. 페이지 크기는 기존과 같이 20.
+      const data = await fetchCompanyInfoPage({
+        page: Number(p) || 1,
+        size: 20,
+        keyword: k,
+      });
+      if (!data?.success) {
+        setErrMsg(data?.message || "목록을 불러오지 못했습니다");
+        setTotalPage(0);
+        setPagenate([]);
+        return false;
+      }
+      const totalP = Number(data.totalPage) || 0;
+      setTotalPage(totalP);
+      setPagenate(generatePaginationArray(p, totalP));
+      const rows = Array.isArray(data.data) ? data.data.map(toCompanyRow) : [];
+      if (rows.length === 0) {
+        setErrMsg("조회된 고객사가 없습니다");
+        return false;
+      }
+      setCompanyList(rows);
     } catch (e) {
       console.log(e);
+      setErrMsg(e.response?.data?.message || "목록을 불러오지 못했습니다");
+      return false;
     }
-    return list.map(com => {
-      const aliasFromBilling = billingByCode.get(com.companyCode);
-      const alias_list = getAliasList({
-        ...com,
-        alias_list: aliasFromBilling ?? com.alias_list,
-      });
-      return { ...com, alias_list };
-    });
-  };
-
-  const getCompanyList = async (p, k, g, c) => {
-    setCompanyList([]);
-    const paging = {
-      page: p,
-      size: 20,
-    };
-    let comp = {};
-
-    if (k !== "") {
-      paging.searchKeyword = k;
-    }
-    if (g !== "") {
-      comp.gubun = g;
-    }
-    if (c !== "") {
-      comp.channel = c;
-    }
-    await axiosInstance
-      .post(
-        "/api/v1/comp/list",
-        { paging, comp },
-        {
-          headers: {
-            Authorization: user.accessToken,
-          },
-        }
-      )
-      .then(async res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          logout();
-          return false;
-        }
-        if (res.data.code === "C000") {
-          const totalP = res.data.totalPages;
-          setTotalPage(res.data.totalPages);
-          const pagenate = generatePaginationArray(p, totalP);
-          setPagenate(pagenate);
-        }
-        if (res.data.compList.length === 0) {
-          setErrMsg(res.data.message);
-          return false;
-        }
-
-        const compList = await attachAliasList(res.data.compList);
-        setCompanyList(compList ?? [{ compId: "없음" }]);
-      })
-      .catch(e => {
-        console.log(e);
-        return false;
-      });
 
     function generatePaginationArray(currentPage, totalPage) {
       let paginationArray = [];
@@ -385,100 +369,100 @@ function Company() {
     }
   };
 
-  const saveExcel = async (type, p, k, g, c) => {
-    const paging = {};
-    if (type === "this") {
-      paging.page = p;
-      paging.size = 20;
-    } else if (type === "all") {
-      paging.page = 1;
-      paging.size = 1000000; // 전체 페이지를 가져오기 위해 큰 숫자로 설정
-    }
-    const comp = {};
-
-    if (k !== "") {
-      paging.searchKeyword = k;
-    }
-    if (g !== "") {
-      comp.gubun = g;
-    }
-    if (c !== "") {
-      comp.channel = c;
-    }
-    await axiosInstance
-      .post(
-        "/api/v1/comp/list",
-        { paging, comp },
-        {
-          headers: {
-            Authorization: user.accessToken,
-          },
-        }
-      )
-      .then(async res => {
-        if (res.data.code === "E999" || res.data.code === "E403") {
-          logout();
+  const saveExcel = async (type, p, k) => {
+    try {
+      let compList = [];
+      if (type === "this") {
+        const data = await fetchCompanyInfoPage({
+          page: Number(p) || 1,
+          size: 20,
+          keyword: k,
+        });
+        if (!data?.success) {
+          alert(data?.message || "목록을 불러오지 못했습니다");
           return false;
         }
-        const compList = res.data.compList ?? [{ compId: "없음" }];
-
-        // ✅ 1. 선택할 키
-        const allowedKeys = [
-          "gubun",
-          "companyName",
-          "companyBranch",
-          "channel",
-          "manager1",
-          "manager2",
-          "regDate",
-          "uptDate",
-        ];
-
-        // ✅ 2. 한글 키 매핑
-        const keyMap = {
-          gubun: "구분",
-          companyName: "고객사명",
-          companyBranch: "지점명",
-          channel: "채널",
-          manager1: "담당자1",
-          manager2: "담당자2",
-          regDate: "등록일",
-          uptDate: "수정일",
-        };
-
-        // ✅ 3. 키 필터 및 이름 변경
-        const processedData = compList.map(row => {
-          const newRow = {};
-          allowedKeys.forEach(key => {
-            newRow[keyMap[key]] = row[key];
+        compList = (data.data || []).map(toCompanyRow);
+      } else {
+        // 목록 API의 size 상한은 200이라 페이지를 나눠 전체를 모은다.
+        const pageSize = 200;
+        let pageNo = 1;
+        let totalPageCount = 1;
+        do {
+          const data = await fetchCompanyInfoPage({
+            page: pageNo,
+            size: pageSize,
+            keyword: k,
           });
-          return newRow;
-        });
-
-        // ✅ 4. 엑셀로 저장
-        const worksheet = XLSX.utils.json_to_sheet(processedData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-        const excelBuffer = XLSX.write(workbook, {
-          bookType: "xlsx",
-          type: "array",
-        });
-        const blob = new Blob([excelBuffer], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-
-        saveAs(
-          blob,
-          `${type === "all" ? "전체 " : ""}고객사목록_${dayjs().format(
-            "YYMMDDhhmmss"
-          )}.xlsx`
-        );
-      })
-      .catch(e => {
-        console.log(e);
+          if (!data?.success) {
+            alert(data?.message || "목록을 불러오지 못했습니다");
+            return false;
+          }
+          totalPageCount = Number(data.totalPage) || 0;
+          compList = compList.concat((data.data || []).map(toCompanyRow));
+          pageNo += 1;
+        } while (pageNo <= totalPageCount);
+      }
+      if (compList.length === 0) {
+        alert("조회된 고객사가 없습니다");
         return false;
+      }
+
+      const allowedKeys = [
+        "gubun",
+        "companyName",
+        "companyBranch",
+        "channel",
+        "manager1",
+        "manager2",
+        "alias_list",
+        "regDate",
+        "uptDate",
+      ];
+
+      const keyMap = {
+        gubun: "구분",
+        companyName: "고객사명",
+        companyBranch: "지점명",
+        channel: "채널",
+        manager1: "담당자1",
+        manager2: "담당자2",
+        alias_list: "고유번호",
+        regDate: "등록일",
+        uptDate: "수정일",
+      };
+
+      const processedData = compList.map(row => {
+        const newRow = {};
+        allowedKeys.forEach(key => {
+          newRow[keyMap[key]] = row[key];
+        });
+        return newRow;
       });
+
+      const worksheet = XLSX.utils.json_to_sheet(processedData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      saveAs(
+        blob,
+        `${type === "all" ? "전체 " : ""}고객사목록_${dayjs().format(
+          "YYMMDDhhmmss"
+        )}.xlsx`
+      );
+    } catch (e) {
+      console.log(e);
+      alert(e.response?.data?.message || "엑셀 저장에 실패했습니다");
+      return false;
+    }
   };
 
   return (
@@ -488,7 +472,7 @@ function Company() {
           <input
             value={searchKeyword}
             className="border border-gray-300 p-2 w-80 block rounded font-neo"
-            placeholder="지점명/담당자명 으로 검색"
+            placeholder="고객사/지점/담당자/고유번호 검색"
             onChange={e => setSearchKeyword(e.currentTarget.value)}
             onKeyDown={handleKeyDown}
           />
@@ -514,15 +498,27 @@ function Company() {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 text-center">
-        <table>
+      <div className="w-full min-w-0 text-center">
+        <table className="w-full table-fixed [&_td]:overflow-hidden [&_input]:max-w-full [&_select]:max-w-full">
+          <colgroup>
+            <col className="w-[4%]" />
+            <col className="w-[4%]" />
+            <col className="w-[7%]" />
+            <col className="w-[11%]" />
+            <col className="w-[10%]" />
+            <col className="w-[14%]" />
+            <col className="w-[8%]" />
+            <col className="w-[8%]" />
+            <col className="w-[20%]" />
+            <col className="w-[14%]" />
+          </colgroup>
           <thead>
             <tr className="bg-blue-400 text-white">
               <td className="py-2">신규</td>
               <td className="py-2">번호</td>
-              <td className="p-1 w-28">
+              <td className="p-1">
                 <select
-                  className="p-1 bg-blue-600 font-medium w-full min-w-[100px]"
+                  className="p-1 bg-blue-600 font-medium w-full min-w-0"
                   onChange={handleGubunSelect}
                   value={selectGubun}
                 >
@@ -540,7 +536,7 @@ function Company() {
               </td>
               <td className="p-1">
                 <select
-                  className="p-1 bg-blue-600 font-medium"
+                  className="p-1 bg-blue-600 font-medium w-full min-w-0"
                   onChange={handleChannelSelect}
                   value={selectChannel}
                 >
@@ -575,9 +571,9 @@ function Company() {
               <tr className="bg-green-100">
                 <td className="p-2 truncate">신규</td>
                 <td className="p-2 truncate">입력</td>
-                <td className="p-1 w-28">
+                <td className="p-1">
                   <select
-                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-[100px]"
+                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-0"
                     ref={gubunRef}
                     onChange={handleInputGubunSelect}
                     value={inputGubun}
@@ -596,7 +592,7 @@ function Company() {
                 </td>
                 <td className="p-1">
                   <select
-                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+                    className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-0"
                     ref={channelRef}
                     onChange={handleInputChannelSelect}
                     value={inputChannel}
@@ -618,7 +614,7 @@ function Company() {
                     type="text"
                     ref={nameRef}
                     value={inputCompanyName}
-                    className="p-1 border bg-white focus:border-gray-500"
+                    className="p-1 border bg-white focus:border-gray-500 w-full min-w-0"
                     placeholder="고객사명 입력"
                     onChange={e => setInputCompanyName(e.currentTarget.value)}
                   />
@@ -628,7 +624,7 @@ function Company() {
                     type="text"
                     ref={branchRef}
                     value={inputCompanyBranch}
-                    className="p-1 border bg-white focus:border-gray-500"
+                    className="p-1 border bg-white focus:border-gray-500 w-full min-w-0"
                     placeholder="지점명 입력"
                     onChange={e => setInputCompanyBranch(e.currentTarget.value)}
                   />
@@ -638,7 +634,7 @@ function Company() {
                     type="text"
                     ref={manager1Ref}
                     value={inputManager1}
-                    className="p-1 border bg-white focus:border-gray-500"
+                    className="p-1 border bg-white focus:border-gray-500 w-full min-w-0"
                     placeholder="담당자 1 입력"
                     onChange={e => setInputManager1(e.currentTarget.value)}
                   />
@@ -648,7 +644,7 @@ function Company() {
                     type="text"
                     ref={manager2Ref}
                     value={inputMananger2}
-                    className="p-1 border bg-white focus:border-gray-500"
+                    className="p-1 border bg-white focus:border-gray-500 w-full min-w-0"
                     placeholder="담당자 2 입력"
                     onChange={e => setInputManager2(e.currentTarget.value)}
                   />
@@ -658,14 +654,14 @@ function Company() {
                     type="text"
                     ref={aliasRef}
                     value={inputAliasList}
-                    className="p-1 border bg-white focus:border-gray-500 min-w-[220px]"
+                    className="p-1 border bg-white focus:border-gray-500 w-full min-w-0"
                     placeholder="(여러개일경우 컬럼(,)으로 구분)"
                     onChange={e => setInputAliasList(e.currentTarget.value)}
                   />
                 </td>
                 <td className="p-1">
                   <button
-                    className="text-white bg-green-600 py-1 px-2 block min-w-[200px] w-full"
+                    className="text-white bg-green-600 py-1 px-2 block w-full"
                     onClick={e => inputCompany()}
                   >
                     등록

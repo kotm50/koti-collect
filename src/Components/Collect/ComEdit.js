@@ -326,11 +326,11 @@ function ComEdit(props) {
   };
   return (
     <>
-      <td className="p-2 font-bold bg-indigo-100 w-8"></td>
+      <td className="p-2 font-bold bg-indigo-100"></td>
       <td className="p-2 font-bold bg-indigo-100">{props.num}</td>
       <td className="p-1 bg-indigo-100">
         <select
-          className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+          className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-0 max-w-full"
           ref={gubunRef}
           onChange={handleGubunSelect}
           value={selectGubun}
@@ -351,7 +351,7 @@ function ComEdit(props) {
       <td className="p-1 bg-indigo-100">
         <select
           ref={channelRef}
-          className="p-1 border bg-white focus:border-gray-500 uppercase w-full"
+          className="p-1 border bg-white focus:border-gray-500 uppercase w-full min-w-0 max-w-full"
           onChange={handleChannelSelect}
           value={selectChannel}
           onKeyDown={inputKeyDown}
@@ -374,7 +374,7 @@ function ComEdit(props) {
           type="text"
           ref={nameRef}
           value={inputCompanyName}
-          className="p-1 border bg-white focus:border-gray-500 text-sm"
+          className="p-1 border bg-white focus:border-gray-500 text-sm w-full min-w-0"
           placeholder="고객사명 입력"
           onChange={e => setInputCompanyName(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
@@ -385,7 +385,7 @@ function ComEdit(props) {
           type="text"
           ref={branchRef}
           value={inputCompanyBranch}
-          className="p-1 border bg-white focus:border-gray-500 text-sm"
+          className="p-1 border bg-white focus:border-gray-500 text-sm w-full min-w-0"
           placeholder="지점명 입력"
           onChange={e => setInputCompanyBranch(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
@@ -396,7 +396,7 @@ function ComEdit(props) {
           type="text"
           ref={manager1Ref}
           value={inputManager1}
-          className="p-1 border bg-white focus:border-gray-500 text-sm"
+          className="p-1 border bg-white focus:border-gray-500 text-sm w-full min-w-0"
           placeholder="담당자 1 입력"
           onChange={e => setInputManager1(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
@@ -407,7 +407,7 @@ function ComEdit(props) {
           type="text"
           ref={manager2Ref}
           value={inputMananger2}
-          className="p-1 border bg-white focus:border-gray-500 text-sm"
+          className="p-1 border bg-white focus:border-gray-500 text-sm w-full min-w-0"
           placeholder="담당자 2 입력"
           onChange={e => setInputManager2(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
@@ -418,25 +418,27 @@ function ComEdit(props) {
           type="text"
           ref={aliasRef}
           value={inputAliasList}
-          className="p-1 border bg-white focus:border-gray-500 text-sm min-w-[220px]"
+          className="p-1 border bg-white focus:border-gray-500 text-sm w-full min-w-0"
           placeholder="(여러개일경우 컬럼(,)으로 구분)"
           onChange={e => setInputAliasList(e.currentTarget.value)}
           onKeyDown={inputKeyDown}
         />
       </td>
-      <td className="p-1 grid grid-cols-2 gap-x-[10px] bg-indigo-100">
-        <button
-          className="bg-green-500 text-white p-1 min-w-[95px] w-full"
-          onClick={e => editCompany()}
-        >
-          적용
-        </button>
-        <button
-          className="bg-gray-500 text-white p-1 min-w-[95px] w-full"
-          onClick={e => cancelEdit()}
-        >
-          취소
-        </button>
+      <td className="p-1 bg-indigo-100">
+        <div className="flex gap-1">
+          <button
+            className="flex-1 bg-green-500 text-white py-1 px-1"
+            onClick={e => editCompany()}
+          >
+            적용
+          </button>
+          <button
+            className="flex-1 bg-gray-500 text-white py-1 px-1"
+            onClick={e => cancelEdit()}
+          >
+            취소
+          </button>
+        </div>
       </td>
     </>
   );
