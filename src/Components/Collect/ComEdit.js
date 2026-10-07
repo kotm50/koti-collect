@@ -2,8 +2,85 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import axiosInstance from "../../Api/axiosInstance";
 
-// 목록 API는 camelCase(aliasList), 청구 API는 snake_case(alias_list)를 쓸 수 있다.
-const getAliasList = com => com?.aliasList ?? com?.alias_list ?? "";
+// alias_list가 배열·객체로 오면 화면에는 콤마 문자열로 보여 준다.
+const aliasItemToText = item => {
+  if (item == null || item === "") return "";
+  if (typeof item === "string" || typeof item === "number") return String(item);
+  if (typeof item !== "object") return "";
+  const keys = [
+    "alias",
+    "alias_list",
+    "aliasList",
+    "alias_code",
+    "aliasCode",
+    "com_name_alias",
+    "comNameAlias",
+    "alias_no",
+    "aliasNo",
+  ];
+  for (const key of keys) {
+    const value = item[key];
+    if (value != null && value !== "" && typeof value !== "object") {
+      return String(value);
+    }
+  }
+  const aliasKey = Object.keys(item).find(key => /alias/i.test(key));
+  if (
+    aliasKey &&
+    item[aliasKey] != null &&
+    item[aliasKey] !== "" &&
+    typeof item[aliasKey] !== "object"
+  ) {
+    return String(item[aliasKey]);
+  }
+  return "";
+};
+
+export const formatAliasList = value => {
+  if (value == null || value === "") return "";
+  if (typeof value === "number") return String(value);
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (
+      (trimmed.startsWith("[") && trimmed.endsWith("]")) ||
+      (trimmed.startsWith("{") && trimmed.endsWith("}"))
+    ) {
+      try {
+        return formatAliasList(JSON.parse(trimmed));
+      } catch (e) {
+        return value;
+      }
+    }
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value.map(aliasItemToText).filter(Boolean).join(", ");
+  }
+  if (typeof value === "object") {
+    const nested = value.alias_list ?? value.aliasList;
+    if (nested != null && nested !== value) return formatAliasList(nested);
+    return aliasItemToText(value);
+  }
+  return "";
+};
+
+const hasAliasValue = value => {
+  if (value == null || value === "") return false;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object") return Object.keys(value).length > 0;
+  return true;
+};
+
+// 청구 API 필드명 alias_list를 우선해서 읽는다.
+export const getAliasList = com => {
+  if (!com) return "";
+  const raw = hasAliasValue(com.alias_list)
+    ? com.alias_list
+    : hasAliasValue(com.aliasList)
+      ? com.aliasList
+      : "";
+  return formatAliasList(raw);
+};
 
 function ComEdit(props) {
   const [selectGubun, setSelectGubun] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ComEdit from "./ComEdit";
+import ComEdit, { getAliasList } from "./ComEdit";
 import axiosInstance from "../../Api/axiosInstance";
 
 function ComList(props) {
@@ -50,9 +50,7 @@ function ComList(props) {
           <td className="p-2">{props.com.companyBranch}</td>
           <td className="p-2">{props.com.manager1}</td>
           <td className="p-2">{props.com.manager2}</td>
-          <td className="p-2">
-            {props.com.aliasList || props.com.alias_list || ""}
-          </td>
+          <td className="p-2">{getAliasList(props.com)}</td>
           <td className="p-1 grid grid-cols-2 gap-x-[10px]">
             <button
               className="bg-blue-500 text-white p-1 min-w-[95px] w-full"

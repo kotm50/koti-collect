@@ -8,6 +8,7 @@ import queryString from "query-string";
 
 import Pagenate from "../Layout/Pagenate";
 import ComList from "./ComList";
+import { getAliasList } from "./ComEdit";
 import { clearUser } from "../../Reducer/userSlice";
 import axiosInstance from "../../Api/axiosInstance";
 
@@ -268,6 +269,33 @@ function Company() {
     navi(domain);
   };
 
+  // 고객사 목록에는 alias_list가 없을 수 있어, 청구 API 값을 company_code로 붙인다.
+  const attachAliasList = async compList => {
+    const list = Array.isArray(compList) ? compList : [];
+    let billingByCode = new Map();
+    try {
+      const billingRes = await axios.get(
+        "https://adimg.ikoreatm.com/api/billing/company-info"
+      );
+      const rows = billingRes.data?.data || [];
+      billingByCode = new Map(
+        rows
+          .filter(row => row?.company_code && row.alias_list != null && row.alias_list !== "")
+          .map(row => [row.company_code, row.alias_list])
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    return list.map(com => {
+      const aliasFromBilling = billingByCode.get(com.companyCode);
+      const alias_list = getAliasList({
+        ...com,
+        alias_list: aliasFromBilling ?? com.alias_list,
+      });
+      return { ...com, alias_list };
+    });
+  };
+
   const getCompanyList = async (p, k, g, c) => {
     setCompanyList([]);
     const paging = {
@@ -311,7 +339,8 @@ function Company() {
           return false;
         }
 
-        setCompanyList(res.data.compList ?? [{ compId: "없음" }]);
+        const compList = await attachAliasList(res.data.compList);
+        setCompanyList(compList ?? [{ compId: "없음" }]);
       })
       .catch(e => {
         console.log(e);
