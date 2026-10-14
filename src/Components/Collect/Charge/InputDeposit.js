@@ -7,10 +7,6 @@ import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import { clearUser } from "../../../Reducer/userSlice";
 import axiosInstance from "../../../Api/axiosInstance";
-import axios from "axios";
-
-// 입금 기록 API. axiosInstance는 오류 시 로그아웃하므로 이 도메인은 axios로 호출한다.
-const INTERVIEW_RECORD_URL = "https://adimg.ikoreatm.com/api/interview-record";
 
 function InputDeposit(props) {
   const navi = useNavigate();
@@ -56,25 +52,6 @@ function InputDeposit(props) {
   const [prePaidCash, setPrePaidCash] = useState(0);
   const [prePaidCorp, setPrePaidCorp] = useState(0);
 
-  // 위케 고객사(숫자 별칭). 위촉케어 결제액이 있을 때 수금 저장 전 필수다.
-  const [wikeAlias, setWikeAlias] = useState("");
-  // 목록에서 고른 면접비코드. 비어 있으면 생성 요청에서 ir_code를 뺀다.
-  const [selectedIrCode, setSelectedIrCode] = useState("");
-  // 항목을 골랐거나, 결과 없음에서 '새로 추가하기'를 눌렀으면 true.
-  const [wikeResolved, setWikeResolved] = useState(false);
-  const [wikeSearchOpen, setWikeSearchOpen] = useState(false);
-  const [wikeSearchLoading, setWikeSearchLoading] = useState(false);
-  const [wikeSearchList, setWikeSearchList] = useState([]);
-
-  // 위케 고객사 입력과 검색에서 고른 면접비코드를 비운다.
-  const resetWikeCustomer = () => {
-    setWikeAlias("");
-    setSelectedIrCode("");
-    setWikeResolved(false);
-    setWikeSearchOpen(false);
-    setWikeSearchList([]);
-  };
-
   useEffect(() => {
     setCommCode(null);
     setCardCode("");
@@ -100,7 +77,6 @@ function InputDeposit(props) {
     setPrePaidCorp(0);
     setPayCode(null);
     setInstallment("N");
-    resetWikeCustomer();
     if (props.commCode !== null) {
       setCommCode(props.commCode);
       getCompanyCode(props.commCode);
@@ -111,7 +87,6 @@ function InputDeposit(props) {
   useEffect(() => {
     if (props.payCode !== null) {
       setPayCode(props.payCode);
-      resetWikeCustomer();
       getPayed(props.payCode);
     } else {
       setInstallment("N");
@@ -138,7 +113,6 @@ function InputDeposit(props) {
       setPrePaidCash(0);
       setPrePaidCorp(0);
       setPayCode(null);
-      resetWikeCustomer();
     }
     //eslint-disable-next-line
   }, [props.payCode]);
@@ -242,7 +216,6 @@ function InputDeposit(props) {
     setBigo("");
     setInstallment("N");
     setPayCode(null);
-    resetWikeCustomer();
     props.setPayCode(null);
   };
 
@@ -339,11 +312,6 @@ function InputDeposit(props) {
           }
           alert(res.data.message);
           if (res.data.code === "C000") {
-            // 수금 저장이 끝난 뒤에만 위케 입금 기록을 만든다.
-            // 위촉케어 결제액이 있을 때만 호출하고, 실패해도 이미 저장된 수금은 유지한다.
-            if (Number(realPaidCommCare) > 0) {
-              await saveInterviewRecord();
-            }
             setBigo("");
             props.resetCharge();
             props.getFeeList(props.month, props.year, props.searchKeyword);
@@ -449,90 +417,6 @@ function InputDeposit(props) {
     setBigo("");
     setInstallment("N");
     setPayCode(null);
-    resetWikeCustomer();
-  };
-
-  // 위촉케어 결제액이 0보다 큰 신규 수금인지. 수정은 입금 기록을 다시 만들지 않는다.
-  const needsWikeCustomer = () => !payCode && Number(realPaidCommCare) > 0;
-
-  // 오늘 날짜. 브라우저 로컬 기준 YYYY-MM-DD.
-  const getToday = () => {
-    const now = new Date();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    return `${now.getFullYear()}-${month}-${day}`;
-  };
-
-  // 별칭은 숫자만, 최대 10자. 값이 바뀌면 이전 검색 선택은 무효다.
-  const handleWikeAlias = e => {
-    const numericValue = e.target.value.replace(/[^0-9]/g, "").slice(0, 10);
-    setWikeAlias(numericValue);
-    setSelectedIrCode("");
-    setWikeResolved(false);
-  };
-
-  // 목록 API. com_name_alias는 별칭 하나와 정확히 일치하는 행만 돌려준다.
-  const searchWikeCustomer = async () => {
-    if (wikeAlias === "") {
-      alert("위케 고객사를 입력하세요");
-      return;
-    }
-    setWikeSearchLoading(true);
-    try {
-      const res = await axios.get(`${INTERVIEW_RECORD_URL}/list`, {
-        params: {
-          com_name_alias: wikeAlias,
-          size: 100,
-        },
-      });
-      const list = Array.isArray(res.data?.data) ? res.data.data : [];
-      setWikeSearchList(list);
-      setWikeSearchOpen(true);
-    } catch (error) {
-      console.log(error);
-      alert(
-        error.response?.data?.message ||
-          "위케 고객사 검색 중 오류가 발생했습니다"
-      );
-    } finally {
-      setWikeSearchLoading(false);
-    }
-  };
-
-  // 검색 행의 ir_code를 저장하고 모달을 닫는다.
-  const selectWikeRecord = item => {
-    setSelectedIrCode(item?.ir_code || "");
-    setWikeResolved(true);
-    setWikeSearchOpen(false);
-  };
-
-  // 결과가 없을 때. ir_code 없이 새로 등록하므로 선택값은 비운다.
-  const addNewWikeCustomer = () => {
-    setSelectedIrCode("");
-    setWikeResolved(true);
-    setWikeSearchOpen(false);
-  };
-
-  // 생성 API. '새로 추가하기'이거나 선택한 코드가 없으면 ir_code를 보내지 않는다.
-  const saveInterviewRecord = async () => {
-    const body = {
-      com_name_alias: wikeAlias,
-      inc_cash: Number(realPaidCommCare),
-      inc_date: getToday(),
-    };
-    if (selectedIrCode) {
-      body.ir_code = selectedIrCode;
-    }
-    try {
-      const res = await axios.post(INTERVIEW_RECORD_URL, body);
-      alert(res.data?.message || "입금 기록이 등록되었습니다.");
-    } catch (error) {
-      console.log(error);
-      alert(
-        error.response?.data?.message ||
-          "위케 입금 기록 등록 중 오류가 발생했습니다. 수금 입력은 저장되었습니다."
-      );
-    }
   };
 
   const tester = () => {
@@ -563,15 +447,6 @@ function InputDeposit(props) {
     if (payType === "PR") {
       if (prePayType === "") {
         return "선입금 결제 방식을 선택하세요";
-      }
-    }
-    // 백엔드는 위케 고객사를 검사하지 않는다. 위촉케어 금액이 있으면 화면에서만 막는다.
-    if (needsWikeCustomer()) {
-      if (wikeAlias === "") {
-        return "위케 고객사를 입력하세요";
-      }
-      if (!wikeResolved) {
-        return "위케 고객사를 검색해 주세요. 결과가 없으면 새로 추가하기를 눌러 주세요";
       }
     }
     return "완료";
@@ -740,7 +615,7 @@ function InputDeposit(props) {
       });
   };
   return (
-    <div className="flex flex-col justify-between min-h-[540px] text-sm">
+    <div className="flex flex-col justify-between h-[480px] text-sm">
       <div
         className="grid grid-cols-2 gap-y-2 gap-x-3"
         data-realpaid1={realPaidAd}
@@ -1027,50 +902,6 @@ function InputDeposit(props) {
             )}
           </div>
         </div>
-        <div className="col-span-2 flex justify-start gap-2 items-start">
-          <div className="py-1 w-[128px]">
-            위케 고객사
-            {needsWikeCustomer() && <span className="text-rose-500">*</span>}
-          </div>
-          <div className="w-full">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                inputMode="numeric"
-                className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
-                id="wikeAlias"
-                value={wikeAlias}
-                maxLength={10}
-                placeholder="고객사 별칭을 입력하세요(숫자만)"
-                onChange={handleWikeAlias}
-                onKeyDown={e => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    searchWikeCustomer();
-                  }
-                }}
-              />
-              <button
-                type="button"
-                className="shrink-0 px-3 bg-teal-500 hover:bg-teal-700 text-white rounded disabled:bg-teal-300"
-                onClick={searchWikeCustomer}
-                disabled={wikeSearchLoading}
-              >
-                {wikeSearchLoading ? "검색중" : "검색"}
-              </button>
-            </div>
-            {selectedIrCode && (
-              <div className="text-xs text-teal-700 mt-1">
-                선택된 면접비코드: {selectedIrCode}
-              </div>
-            )}
-            {wikeResolved && !selectedIrCode && (
-              <div className="text-xs text-gray-500 mt-1">
-                검색 결과가 없어 신규로 등록됩니다
-              </div>
-            )}
-          </div>
-        </div>
         {isTax === 0 && (
           <div className="col-span-2 text-center py-2">
             할부개월수(카드결제시)를 확인하려면 결제방식을 선택하세요
@@ -1164,67 +995,6 @@ function InputDeposit(props) {
           )}
         </div>
       </div>
-      {wikeSearchOpen && (
-        <>
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-3 px-4 w-[min(640px,calc(100vw-32px))] max-h-[70vh] overflow-hidden bg-white rounded-lg drop-shadow-xl modalWrap flex flex-col gap-3">
-            <h3 className="text-lg font-bold">위케 고객사 검색</h3>
-            <p className="text-sm text-gray-600">
-              별칭 {wikeAlias} 검색 결과 {wikeSearchList.length}건
-            </p>
-            {wikeSearchList.length > 0 ? (
-              <div className="min-h-0 flex-1 overflow-y-auto flex flex-col gap-2 pr-1">
-                {wikeSearchList.map(item => (
-                  <button
-                    type="button"
-                    key={`${item.id}-${item.ir_code}`}
-                    className="w-full text-left border border-gray-200 hover:border-teal-500 hover:bg-teal-50 rounded p-2"
-                    onClick={() => selectWikeRecord(item)}
-                  >
-                    <div className="font-bold">{item.ir_code || "-"}</div>
-                    <div>
-                      {(Array.isArray(item.company_name)
-                        ? item.company_name.filter(Boolean).join(", ")
-                        : "") || "-"}
-                    </div>
-                    <div className="text-gray-500 text-xs mt-1">
-                      별칭{" "}
-                      {Array.isArray(item.com_name_alias)
-                        ? item.com_name_alias.join(", ")
-                        : "-"}
-                      {" · "}
-                      {item.inc_date || "-"}
-                      {" · "}
-                      {Number(item.inc_cash || 0).toLocaleString()}원
-                    </div>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="py-6 text-center text-gray-600">
-                <p className="mb-3">검색 결과가 없습니다.</p>
-                <button
-                  type="button"
-                  className="px-3 py-2 bg-teal-500 hover:bg-teal-700 text-white rounded"
-                  onClick={addNewWikeCustomer}
-                >
-                  새로 추가하기
-                </button>
-              </div>
-            )}
-            <button
-              type="button"
-              className="bg-gray-500 hover:bg-gray-700 text-white p-2 rounded-lg"
-              onClick={() => setWikeSearchOpen(false)}
-            >
-              창닫기
-            </button>
-          </div>
-          <div
-            className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen overflow-hidden modalBg bg-black bg-opacity-50"
-            onClick={() => setWikeSearchOpen(false)}
-          />
-        </>
-      )}
     </div>
   );
 }
