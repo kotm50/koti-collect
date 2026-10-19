@@ -566,7 +566,10 @@ function InputCharge(props) {
               try {
                 const commissionRes = await axios.post(
                   "https://adimg.ikoreatm.com/api/billing/company-commission",
-                  { com_name_alias: adNumber },
+                  {
+                    com_name_alias: adNumber,
+                    company_code: companyCode,
+                  },
                 );
                 console.log(commissionRes.data);
               } catch (error) {
