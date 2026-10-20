@@ -2,6 +2,26 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import axiosInstance from "../../Api/axiosInstance";
 
+const FORM_BILL_SYNC_BY_ALIAS_URL =
+  "https://adimg.ikoreatm.com/api/form-bill-sync/by-alias";
+
+// 고유번호는 "0310, 1843"처럼 콤마로 여러 개일 수 있다.
+// 동기화 API는 별칭 하나와 회사코드를 한 번에 받으므로, 비어 있지 않은 별칭마다 요청한다.
+const syncFormBillByAlias = async (aliasList, companyCode) => {
+  const code = companyCode ? String(companyCode).trim() : "";
+  if (!code) return;
+  const aliases = String(aliasList || "")
+    .split(",")
+    .map(alias => alias.trim())
+    .filter(Boolean);
+  for (const comNameAlias of aliases) {
+    await axios.post(FORM_BILL_SYNC_BY_ALIAS_URL, {
+      com_name_alias: comNameAlias,
+      company_code: code,
+    });
+  }
+};
+
 // alias_list가 배열·객체로 오면 화면에는 콤마 문자열로 보여 준다.
 const aliasItemToText = item => {
   if (item == null || item === "") return "";
@@ -262,10 +282,24 @@ function ComEdit(props) {
       }
 
       try {
-        await axios.post(
+        const res = await axios.post(
           "https://adimg.ikoreatm.com/api/billing/company-info/update",
           data
         );
+        // 수정 응답의 company_code를 우선 쓰고, 없으면 화면의 회사코드를 쓴다.
+        const companyCode =
+          res.data?.data?.company_code ||
+          res.data?.company_code ||
+          props.com.companyCode;
+        try {
+          await syncFormBillByAlias(inputAliasList, companyCode);
+        } catch (syncError) {
+          console.log(syncError);
+          alert(
+            syncError.response?.data?.message ||
+              "수정은 되었지만 청구서 동기화에 실패했습니다"
+          );
+        }
         alert("수정하였습니다");
         cancelEdit();
         props.getCompanyList(

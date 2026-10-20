@@ -19,6 +19,25 @@ import axios from "axios";
 
 const BILLING_COMPANY_INFO_URL =
   "https://adimg.ikoreatm.com/api/billing/company-info";
+const FORM_BILL_SYNC_BY_ALIAS_URL =
+  "https://adimg.ikoreatm.com/api/form-bill-sync/by-alias";
+
+// 고유번호는 "0310, 1843"처럼 콤마로 여러 개일 수 있다.
+// 동기화 API는 별칭 하나와 회사코드를 한 번에 받으므로, 비어 있지 않은 별칭마다 요청한다.
+const syncFormBillByAlias = async (aliasList, companyCode) => {
+  const code = companyCode ? String(companyCode).trim() : "";
+  if (!code) return;
+  const aliases = String(aliasList || "")
+    .split(",")
+    .map(alias => alias.trim())
+    .filter(Boolean);
+  for (const comNameAlias of aliases) {
+    await axios.post(FORM_BILL_SYNC_BY_ALIAS_URL, {
+      com_name_alias: comNameAlias,
+      company_code: code,
+    });
+  }
+};
 
 // 빌링 응답은 snake_case다. 테이블과 수정 화면은 기존 camelCase 필드를 읽는다.
 const toCompanyRow = row => ({
@@ -249,10 +268,22 @@ function Company() {
         alias_list: inputAliasList,
       };
       try {
-        await axios.post(
+        const res = await axios.post(
           "https://adimg.ikoreatm.com/api/billing/company-info",
           data
         );
+        // 등록 응답의 company_code로 청구서를 동기화한다. 실패해도 등록 자체는 유지한다.
+        const companyCode =
+          res.data?.data?.company_code || res.data?.company_code;
+        try {
+          await syncFormBillByAlias(inputAliasList, companyCode);
+        } catch (syncError) {
+          console.log(syncError);
+          alert(
+            syncError.response?.data?.message ||
+              "등록은 되었지만 청구서 동기화에 실패했습니다"
+          );
+        }
         alert("등록되었습니다");
         setInputGubun("");
         setInputCompanyName("");
