@@ -7,6 +7,37 @@ import { modules } from "../../Layout/QuillModule";
 import "react-quill/dist/quill.snow.css";
 import { clearUser } from "../../../Reducer/userSlice";
 import axiosInstance from "../../../Api/axiosInstance";
+import axios from "axios";
+
+const FORM_BILL_SYNC_BY_ALIAS_URL =
+  "https://adimg.ikoreatm.com/api/form-bill-sync/by-alias";
+
+// 광고 번호는 "0310, 1843"처럼 콤마로 여러 개일 수 있다.
+// 동기화 API는 별칭 하나와 회사코드를 한 번에 받으므로, 비어 있지 않은 번호마다 요청한다.
+const syncFormBillByAlias = async (aliasList, companyCode) => {
+  const code = companyCode ? String(companyCode).trim() : "";
+  const aliases = String(aliasList || "")
+    .split(",")
+    .map(alias => alias.trim())
+    .filter(Boolean);
+  if (aliases.length === 0) return;
+  if (!code) {
+    const error = new Error("회사코드 없음");
+    error.response = {
+      data: {
+        message:
+          "광고 번호는 입력되었지만 회사코드를 찾지 못해 청구서 동기화를 하지 못했습니다",
+      },
+    };
+    throw error;
+  }
+  for (const comNameAlias of aliases) {
+    await axios.post(FORM_BILL_SYNC_BY_ALIAS_URL, {
+      com_name_alias: comNameAlias,
+      company_code: code,
+    });
+  }
+};
 
 function InputDeposit(props) {
   const navi = useNavigate();
@@ -23,6 +54,8 @@ function InputDeposit(props) {
 
   const [resNo, setResNo] = useState("");
   const [authNo, setAuthNo] = useState("");
+  // 청구서 동기화에만 쓰는 광고 번호. 비어 있으면 동기화 요청을 보내지 않는다.
+  const [adNumber, setAdNumber] = useState("");
 
   const [payerName, setPayerName] = useState("");
   const [paidAd, setPaidAd] = useState("0");
@@ -68,6 +101,7 @@ function InputDeposit(props) {
     setPaidDate("");
     setResNo("");
     setAuthNo("");
+    setAdNumber("");
     setPayerName("");
     setBigo("");
 
@@ -87,6 +121,7 @@ function InputDeposit(props) {
   useEffect(() => {
     if (props.payCode !== null) {
       setPayCode(props.payCode);
+      setAdNumber("");
       getPayed(props.payCode);
     } else {
       setInstallment("N");
@@ -105,6 +140,7 @@ function InputDeposit(props) {
       setPaidDate("");
       setResNo("");
       setAuthNo("");
+      setAdNumber("");
       setPayerName("");
       setBigo("");
 
@@ -212,6 +248,7 @@ function InputDeposit(props) {
     setPaidDate("");
     setResNo("");
     setAuthNo("");
+    setAdNumber("");
     setPayerName("");
     setBigo("");
     setInstallment("N");
@@ -312,6 +349,7 @@ function InputDeposit(props) {
           }
           alert(res.data.message);
           if (res.data.code === "C000") {
+            await syncBillIfAlias("입력");
             setBigo("");
             props.resetCharge();
             props.getFeeList(props.month, props.year, props.searchKeyword);
@@ -380,6 +418,7 @@ function InputDeposit(props) {
           }
           alert(res.data.message);
           if (res.data.code === "C000") {
+            await syncBillIfAlias("수정");
             setBigo("");
             props.resetCharge();
             props.setCommCode(null);
@@ -413,10 +452,25 @@ function InputDeposit(props) {
     setPaidDate("");
     setResNo("");
     setAuthNo("");
+    setAdNumber("");
     setPayerName("");
     setBigo("");
     setInstallment("N");
     setPayCode(null);
+  };
+
+  // 광고 번호가 있을 때만 청구서를 동기화한다. 저장 자체는 동기화 실패와 무관하게 유지한다.
+  const syncBillIfAlias = async kind => {
+    if (String(adNumber || "").trim() === "") return;
+    try {
+      await syncFormBillByAlias(adNumber, companyCode);
+    } catch (syncError) {
+      console.log(syncError);
+      alert(
+        syncError.response?.data?.message ||
+          `${kind}은 되었지만 청구서 동기화에 실패했습니다`
+      );
+    }
   };
 
   const tester = () => {
@@ -510,6 +564,13 @@ function InputDeposit(props) {
 
   const handleNumber = e => {
     const id = e.target.id;
+    // 광고 번호는 금액과 달리 사용자가 입력한 쉼표를 유지한다.
+    // 숫자(0-9)와 쉼표(,) 외 문자는 입력 즉시 제거한다.
+    if (id === "adNum") {
+      const adValue = e.target.value.replace(/[^0-9,]/g, "");
+      setAdNumber(adValue);
+      return;
+    }
     // 숫자와 쉼표를 제외한 모든 문자 제거
     const numericValue = e.target.value.replace(/[^0-9]/g, "");
 
@@ -615,7 +676,7 @@ function InputDeposit(props) {
       });
   };
   return (
-    <div className="flex flex-col justify-between h-[480px] text-sm">
+    <div className="flex flex-col justify-between h-[520px] text-sm">
       <div
         className="grid grid-cols-2 gap-y-2 gap-x-3"
         data-realpaid1={realPaidAd}
@@ -944,6 +1005,20 @@ function InputDeposit(props) {
             선입금에서 차감됩니다
           </div>
         )}
+        <div className="col-span-2 flex justify-start gap-2">
+          <div className="py-1 shrink-0">광고 번호(com_name_alias)</div>
+          <div className="w-full relative">
+            <input
+              type="text"
+              inputMode="text"
+              className="p-1 border border-gray-300 hover:border-gray-500 focus:bg-gray-50 focus:border-gray-600 w-full"
+              id="adNum"
+              value={adNumber}
+              placeholder="광고 번호를 입력하세요. 여러 개면 쉼표(,)로 구분. 비우면 동기화하지 않습니다"
+              onChange={handleNumber}
+            />
+          </div>
+        </div>
       </div>
       <div>
         <div className="w-full py-1">
