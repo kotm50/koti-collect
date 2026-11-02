@@ -13,7 +13,54 @@ import dayjs from "dayjs";
 import { FaCalendarAlt } from "react-icons/fa";
 
 import domtoimage from "dom-to-image";
+import axios from "axios";
 import axiosInstance from "../../Api/axiosInstance";
+
+const LATEST_HIRE_URL =
+  "https://adimg.ikoreatm.com/api/billing/company-commission/latest-hire";
+
+// 수금 예정 행에 hire_start_date, hire_end_date 키 자체가 없으면 최근 채용기간을 조회한다.
+// null로 내려온 행은 이미 키가 있으므로 다시 조회하지 않는다.
+const lacksHireDateKeys = item =>
+  item != null &&
+  typeof item === "object" &&
+  !Object.prototype.hasOwnProperty.call(item, "hire_start_date") &&
+  !Object.prototype.hasOwnProperty.call(item, "hire_end_date");
+
+const fillLatestHireDates = async list => {
+  // index는 목록 배열 순서다. 응답이 같은 index로 돌아오면 그 행에 날짜를 붙인다.
+  const payload = [];
+  list.forEach((item, index) => {
+    if (!lacksHireDateKeys(item)) return;
+    const companyCode = item.company_code ?? item.companyCode;
+    const code = companyCode == null ? "" : String(companyCode).trim();
+    if (code === "" || code.length > 40) return;
+    payload.push({ index, company_code: code });
+  });
+  if (payload.length === 0) return list;
+
+  const filled = list.map(item => ({ ...item }));
+  // 가이드상 한 요청은 500건 이하다.
+  for (let start = 0; start < payload.length; start += 500) {
+    const chunk = payload.slice(start, start + 500);
+    try {
+      const res = await axios.post(LATEST_HIRE_URL, chunk);
+      const rows = Array.isArray(res.data?.data) ? res.data.data : [];
+      rows.forEach(row => {
+        const index = row?.index;
+        if (!Number.isInteger(index) || filled[index] == null) return;
+        filled[index] = {
+          ...filled[index],
+          hire_start_date: row.hire_start_date ?? null,
+          hire_end_date: row.hire_end_date ?? null,
+        };
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  return filled;
+};
 
 function DailyReport() {
   const navi = useNavigate();
@@ -135,8 +182,9 @@ function DailyReport() {
           return false;
         }
         if (res.data.commissionList) {
-          setTomorrow(res.data.commissionList);
-          console.log(res.data.commissionList);
+          const list = await fillLatestHireDates(res.data.commissionList);
+          setTomorrow(list);
+          console.log(list);
         }
         if (res.data.commission) {
           setTomorrowTotal(res.data.commission);

@@ -54,8 +54,8 @@ function TomorowReport(props) {
               <td className="border p-1">채널</td>
               <td className="border p-1">고객사</td>
               <td className="border p-1">지점</td>
-              <td className="border p-1">시작</td>
-              <td className="border p-1">종료</td>
+              <td className="border p-1">시작일</td>
+              <td className="border p-1">종료일</td>
               <td className="border p-1">광고비</td>
               <td className="border p-1">위촉비</td>
               <td className="border p-1">면접케어</td>
