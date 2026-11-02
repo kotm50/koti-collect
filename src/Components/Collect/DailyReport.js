@@ -136,6 +136,7 @@ function DailyReport() {
         }
         if (res.data.commissionList) {
           setTomorrow(res.data.commissionList);
+          console.log(res.data.commissionList);
         }
         if (res.data.commission) {
           setTomorrowTotal(res.data.commission);
