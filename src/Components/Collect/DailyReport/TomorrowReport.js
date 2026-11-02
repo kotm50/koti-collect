@@ -3,6 +3,19 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko"; //한국어
 import sorry from "../../../Asset/sorry.png";
 
+// 채용 시작·종료. 응답은 hire_start_date / hire_end_date 이고, 기존 목록처럼 camelCase로 올 수도 있다.
+const formatHireDate = value => {
+  if (value == null || value === "") return "";
+  const parsed = dayjs(value);
+  return parsed.isValid() ? parsed.format("YY-MM-DD") : "";
+};
+
+const getHireStart = item =>
+  formatHireDate(item?.hire_start_date ?? item?.hireStartDate);
+
+const getHireEnd = item =>
+  formatHireDate(item?.hire_end_date ?? item?.hireEndDate);
+
 function TomorowReport(props) {
   dayjs.locale("ko");
   const [date, setDate] = useState("");
@@ -41,6 +54,8 @@ function TomorowReport(props) {
               <td className="border p-1">채널</td>
               <td className="border p-1">고객사</td>
               <td className="border p-1">지점</td>
+              <td className="border p-1">시작</td>
+              <td className="border p-1">종료</td>
               <td className="border p-1">광고비</td>
               <td className="border p-1">위촉비</td>
               <td className="border p-1">면접케어</td>
@@ -53,6 +68,8 @@ function TomorowReport(props) {
                 <td className="border p-1">{item.channel}</td>
                 <td className="border p-1">{item.companyName}</td>
                 <td className="border p-1">{item.companyBranch}</td>
+                <td className="border p-1">{getHireStart(item)}</td>
+                <td className="border p-1">{getHireEnd(item)}</td>
                 <td className="border p-1">{item.unpaidAd.toLocaleString()}</td>
                 <td className="border p-1">
                   {item.unpaidComm.toLocaleString()}
@@ -66,7 +83,7 @@ function TomorowReport(props) {
               </tr>
             ))}
             <tr className="bg-blue-600 text-white text-center">
-              <td className="border p-1" colSpan="3" rowSpan="2">
+              <td className="border p-1" colSpan="5" rowSpan="2">
                 {date} 수금 예정금액
               </td>
               <td className="border p-1 font-bold">
